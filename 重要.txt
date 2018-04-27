@@ -1,0 +1,43 @@
+ng build -bh /jsxt/ -d https://www.zhanglitong.com/jsxt/ --prod
+
+ng build -bh /html/ -d https://tp.zhanglitong.com/html/ --prod
+
+ng serve --port 0 --open --aot
+
+
+
+3134192776
+5201314.szj
+
+2434136278
+123456789.00
+
+
+设置用户名 邮箱
+git config user.name "John Doe"    
+
+git config user.email johndoe@example.com
+
+创建一个空的本地仓库.
+git init  
+
+关联项目
+git clone 【url】
+
+
+将项目的所有文件添加到缓存中
+git add .  
+
+
+提交
+git commit -m "添加项目"
+
+上传
+git push origin master    //提交
+
+
+拉取
+
+git pull origin master
+
+
