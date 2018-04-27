@@ -1,0 +1,1132 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+	<title>预订页面</title>
+	<!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_rts01uhg6kmrhpvi.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="../js/myjs.js"></script>
+	<style>
+		header{
+			height: 3rem;
+		}
+		.head{
+			position: fixed;
+			top:0;
+			display: flex;
+			display: -webkit-flex;
+			width: 100%;
+			background-color: #4fc08d;
+			box-shadow: 0 2px 4px 0 rgba(0, 17, 33, 0.1);
+			height: 3rem;
+			z-index: 1;
+		}
+		.head div{
+			text-align: center;
+			line-height: 3rem;
+			overflow: hidden;
+		}
+		.h-C{
+			color: #fff;
+			font-size: 1.125rem;
+			width: 60%;
+		}
+		.h-L,.h-R{
+			width: 20%;
+		}
+		.iconfont{
+			font-size: 1rem;
+			display: inline-block;
+		}
+		.icon-home,
+		.icon-bd,
+		.icon-hy,
+		.icon-gwc,
+		.icon-my{
+			margin-top: .625rem;
+			display: block;
+		}
+		.icon-home,
+		.icon-my,
+		.icon-gwc{
+			font-size: 1.375rem;
+		}
+		.icon-bd{
+			font-size: 1.5625rem;
+		}
+		.icon-hy{
+			font-size: 1.5rem;
+		}
+		.h-bgimg{
+			background: url("../img/bg .png") no-repeat 50%;
+			height: 11.125rem;
+			background-size: cover;
+		}
+		.h-L-a{
+			display: block;
+			line-height: 3rem;
+			height: 3rem;
+		}
+		.icon-return{
+			font-size: 1rem;
+			color: #fff;
+		}
+		.h-R-a{
+			display: block;
+			line-height: 3rem;
+			color: #fff;
+			font-size: .875rem;
+		}
+
+		html,body,div,p,form,label,ul,li,dl,dt,dd,ol,img,button,b,em,strong,small,h1,h2,h3,h4,h5,h6{margin:0;padding:0;border:0;list-style:none;font-style:normal;}
+		body{font-family:SimHei,'Helvetica Neue',Arial,'Droid Sans',sans-serif;font-size:14px;color:#333;padding: 0;min-width: 300px; max-width: 640px; margin: 0 auto;}
+		a, a.link{color:#666;text-decoration:none;font-weight:500;}
+		a, a.link:hover{color:#666;}
+		h1,h2,h3,h4,h5,h6{font-weight: normal;}
+
+		.indent-nav {
+			display: flex;
+			display: -webkit-flex;
+			background-color: #fff;
+			padding:0 1.25rem;
+			box-shadow: 0 .125rem .25rem 0 rgba(51, 51, 51, 0.1);
+			border-bottom:1px solid #d3d3d3;
+		}
+		.indent-nav div {
+			flex: 1;
+			-webkit-flex: 1;
+			height: 2.375rem;
+			text-align: center;
+		}
+		.indent-nav .on {
+			border-bottom: .125rem solid #3d95e5;
+			color: #3d95e5;
+		}
+		.indent-a {
+			color: #666;
+			font-size: 1rem;
+			display: inline-block;
+			height: 2.375rem;
+			line-height: 2.375rem;
+			padding: 0 .625rem;
+		}
+
+		.left-menu::-webkit-scrollbar {width: 0px;}
+		.main{overflow:hidden;margin:0 0 43px;}
+		.left-menu{width:24%;float:left;position:relative;overflow-y:scroll;padding-right:5px;}
+		.left-menu ul li{background:#eee;height:44px;line-height:44px;width:100%;text-align:center;font-size:14px;padding:3px 0;color:#777;border-bottom:1px solid #d3d3d3;}
+		.left-menu ul li.active{color:#333 !important;background-color:#fff;}
+		.right-con{display:none;width:76%;float:left;overflow-y:scroll;background:#fff;position:relative;}
+		.con .con-active{display:block;}
+		.right-con li{position:relative;height:90px;padding:5px 0;}
+		.right-con li .menu-img{position:absolute;border-radius:3px;width:78px;height:78px;cursor:pointer;}
+		.right-con li .menu-img img{height:100%;width:100%;vertical-align:middle;border:0;border-radius:4px;}
+		.right-con li .menu-txt{margin:0 0 0 88px;height:78px;}
+		.right-con li .menu-txt h3{font-size:14px;margin-bottom:10px;margin-top:8px;}
+		.right-con li .menu-txt p{font-style:normal;line-height:20px;font-size:13px;vertical-align:bottom;}
+		.right-con li .menu-txt p.list2 b{font-size:16px;color:#f00;}
+		.right-con li .btn{background-color:transparent;position:absolute;top:58px; right:10px;cursor:pointer;padding:3px;}
+		.right-con li .add{top:58px; right:10px;}
+		.right-con li .reduce{top:58px; right:50px;}
+		.right-con li .btn button.minus{margin-right:-10px;display:none;}
+		.right-con li .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
+		.right-con li .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;padding:5px 11px;height:12px;}
+		.right-con li .btn button.minus strong{background:url(img/down.png) no-repeat;background-size:22px 22px;}
+		.right-con li .btn i{display:inline-block;color:#4fc08d;text-align:center;font-style:16px;vertical-align:top;}
+		.right-con li .btn button.add{margin-left:-10px;}
+		.right-con li .btn button.add strong{background:url(img/up.png) no-repeat;background-size:22px 22px;}
+		.right-con li .btn .price{display:none;}
+		.footer{display:block;height:45px;position:fixed;width:100%;z-index:3;bottom:0;background:#eee;line-height:45px;font-size:15px;}
+		.footer .left{float:left;margin-left:15px;}
+		.footer .right{float:right;width:85px;}
+		.footer .right .disable{background:#4fc08d;}
+		.footer .xhlbtn{display:block;text-align:center;line-height:45px;background-color:#F03C03;color:#fff;font-size:16px;}
+	</style>
+	<style>
+		.btn a{
+			color:#fff;
+			border-radius:12px;
+		}
+		.bk{
+			position:fixed;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			background: rgba(0,0,0,.5);
+			z-index:100;
+		}
+		.menu-wrap{
+			width: 220px;
+			background: #fff;
+			border-radius: 5px;
+			position: absolute;
+			top: 150px;
+			margin-left: -110px;
+			z-index: 4;
+			left: 50%;
+		}
+		.menu-title{
+			text-align: center;
+			font-size:14px;
+			height:40px;
+			line-height:40px;
+			position: relative;
+			padding:0 24px;
+			margin-bottom:6px;
+		}
+		.menu-title .close-bk{
+			position: absolute;
+			top:0;
+			right: 12px;
+			font-size: 15px;
+			color: #333;
+		}
+		.menu-cont{
+			/*padding:0 10px 10px 10px;*/
+		}
+		.menu-list{
+			position: relative;
+			overflow: hidden;
+			padding:0 24px;
+		}
+		.menu-list ul{
+			overflow: hidden;
+			font-size: 1rem;
+			width:100%;
+			color:#666;
+		}
+		.menu-list ul li{
+			display:inline-block;
+			text-align:center;
+			font-size:12px;
+			width:30%;
+			padding:4px 0;
+		}
+		.menu-bottom{
+			overflow: hidden;
+			padding:0 24px;
+			height:40px;
+			line-height:40px;
+		}
+		.menu-bottom .goods-money{
+			color: #db2222;
+			font-size:18px;
+		}
+		.menu-bottom .addCar-btn{
+			display:inline-block;
+			float:right;
+			color:#fff;
+			background:#4fc08d;
+			margin-top: 10px;
+			height: 22px;
+			line-height: 22px;
+			padding: 0 5px;
+			border-radius: 15px;
+			font-size:12px;
+		}
+		.footer .left .cartN span{
+			font-size:18px;
+			color:#f31717;
+		}
+		.car-mask{
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,.3);
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		.car-list{
+			position:absolute;
+			bottom:45px;
+			background:#fff;
+			width: 100%;
+		}
+		.car-list-head{
+			border-bottom:1px solid #eee;
+			font-size:14px;
+			margin-left:18px;
+			height: 24px;
+			line-height: 24px;
+		}
+		.car-list-head span{
+			border-left: 3px solid #4fc08d;
+			padding-left: 5px;
+		}
+		.car-list-content{
+			/*padding-top:10px;*/
+			border-bottom:1px solid #d3d3d3;
+		}
+		.car-list-item{
+			position:relative;
+			font-size:14px;
+		}
+		.car-list-left{
+			position:absolute;
+			top:0;
+			left:95px;
+			display: inline-block;
+			height:60px;
+		}
+		.car-list-left p{
+			line-height:16px;
+		}
+		.car-list-left p:nth-of-type(2){
+			color:#999;
+		}
+		.car-list-right{
+			position:absolute;
+			top:0;
+			right:23px;
+			display: inline-block;
+			line-height:16px;
+			text-align:right;
+		}
+		.car-list-right span:nth-of-type(2){
+			margin:0 15px;
+		}
+		.footer .mark{
+			position:absolute;
+			left:25px;
+			bottom:30px;
+			display:inline-block;
+			width:15px;
+			height:15px;
+			background:red;
+			border-radius:50%;
+		}
+		.footer .mark a{
+			position: absolute;
+			top: -10px;
+			left: 4px;
+			color: #fff;
+		}
+		.normal{
+			color: #666;
+			border:1px solid #666;
+		}
+		.active1{
+			color: #4fc08d;
+			border:1px solid #4fc08d;
+		}
+		.goodsNum{
+			position: fixed;
+			left: 38px;
+			bottom: 32px;
+			z-index: 10;
+			background: red;
+			border-radius: 50%;
+			color: #fff;
+			width:15px;
+			height:15px;
+			text-align:center;
+		}
+		.menu-num{
+			position: absolute;
+			top: 61px;
+			right: 33px;
+			width: 32px;
+			text-align: center;
+			font-size: 14px;
+		}
+	</style>
+	<!--新添加-->
+	<style>
+		nav{
+			position:relative;
+			width:100%;
+			height:2.1875rem;
+			font-size:.875rem;
+			background:#fff;
+			border-bottom:1px solid #eee;
+		}
+		nav p{
+			position:absolute;
+			width:33.333%;
+			height:2.1875rem;
+			line-height:2.1875rem;
+			text-align:center;
+			font-size:.9375rem;
+		}
+		nav p:nth-child(1){
+			top:0;
+			left:0;
+		}
+		nav p:nth-child(2){
+			top:0;
+			left:33.333%;
+		}
+		nav p:nth-child(3){
+			top:0;
+			left:66.666%;
+		}
+		nav p .icon-youhui,nav p .icon-huo,nav p .icon-te{
+			font-size:12px;
+			margin-right: 2px;
+		}
+		nav p .icon-youhui{
+			color:#ffe931;
+		}
+		nav p .icon-huo{
+			color:#f31717;
+		}
+		nav p .icon-te{
+			color:#3d95e5;
+		}
+		.moreBtn{
+			position:fixed;
+			bottom: 70px;
+			right: 25px;
+			background:#fff;
+			width:34px;
+			height:34px;
+			line-height:34px;
+			border-radius:50%;
+			color:#4fc08d;
+			border:1px solid #b9a8a8;
+			text-align:center;
+		}
+		.moreBtn>i{
+			font-size: 28px;
+			line-height: 34px;
+		}
+		.spanCar{
+			display:inline-block;
+			height:34px;
+			line-height:34px;
+			width:34px;
+			background:#fff;
+			text-align:center;
+			border-radius:50%;
+		}
+		.carImg{
+			width:60px;
+			height:60px;
+			margin:16px 0 7px 18px;
+		}
+		.carImg img{
+			width:100%;
+			height:100%;
+			border-radius:5px;
+		}
+		.spec{
+			font-size:12px;
+			color:#666;
+			height:25px;
+			line-height:25px;
+		}
+		.num-box{
+			position:absolute;
+			top:62px;
+			right:40px;
+		}
+		.navGreen{
+			color:#4fc08d;
+		}
+	</style>
+	<!--购物车列表-->
+	<style type="text/css">
+		.menuCart{
+			position: fixed;
+			bottom: 45px;
+			width: 100%;
+			max-height: 350px;
+			overflow-y: auto;
+			display: none;
+		}
+		.menuCart-bg{
+			position: fixed;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			background: rgba(0,0,0,.3);
+			z-index: 1;
+		}
+		.menuCart-list{
+			position: relative;
+			z-index: 2;
+			background: #fff;
+		}
+
+	</style>
+</head>
+<header>
+	<div class="head">
+		<div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+		<div class="h-C">菜谱</div>
+		<div class="h-R" style="color:#fff;" onclick="window.location.href = '/mall/lotterywap.php'">抽奖</div>
+	</div>
+</header>
+<body>
+<section>
+	<nav>
+		<p><i class="iconfont icon-youhui"></i><span>今日优惠</span></p>
+		<p><i class="iconfont icon-huo"></i><span>店长推荐</span></p>
+		<p><i class="iconfont icon-te"></i><span>特色热卖</span></p>
+	</nav>
+	<div class="main" id="main">
+		<div class="left-menu">
+			<ul id="left-ul"></ul>
+		</div>
+		<div class="con">
+			<div class="right-con con-active"><ul id="right-ul"></ul></div>
+		</div>
+
+		<div class="footer">
+			<div class="left">
+				<p id="cartN" class="cartN">
+					<span class="spanCar" style="margin:5px 5px 0 0;">
+						<i class="iconfont icon-gouwuche open-bk" onclick="openBk()" style="font-size:22px;color:#3d95e5"></i>
+					</span>
+					<span style="letter-spacing:2px;font-size:12px;">¥</span><span id="totalpriceshow">0</span>
+				</p>
+			</div>
+			<div class="right">
+				<span id="btnselect" class="xhlbtn disable" onclick="addDish(this)">请点菜</span>
+			</div>
+		</div>
+		<!--购物车列表信息-->
+		<div class="menuCart">
+			<div class="menuCart-bg" onclick="openBk()"></div>
+			<div class="menuCart-list"></div>
+		</div>
+	</div>
+	<div class="goodsNum">0</div>
+	<div class="moreBtn" onclick="moreBtn()"><i class="iconfont icon-candan01"></i></div>
+</section>
+<form id="formMent" action="/member/nonuser_pay.php?action=payfor_order" method="post" onsubmit="return formDate()" style="height: 0;overflow: hidden;">
+	<input type="hidden" name="rid">
+	<input type="hidden" name="commonid">
+	<input type="hidden" name="reserve_type">
+	<input type="submit" id="tijiao" value="提交" style="opacity: 0;">
+</form>
+<script type="text/javascript" src="/mobile/js/layer.js"></script>
+<script type="text/javascript">
+    var objAttr = "",
+        objAttrSub = "",
+        getNumObj = [],
+        obj = strUrl(),
+        rid = obj.rid,
+        commonid = obj.commonid,
+        reserve_type = obj.reserve_type,
+        changeValue = "",
+        orderId = "";
+
+    /*渲染left分类*/
+    function leftMenu(data){
+        var menu = "", isClass = "";
+        for(var i=0;i<data.length;i++){
+            i == 0 ? isClass = "active" : isClass = "";
+            menu += '<li class="'+isClass+'" onclick="leftActive(this,'+data[i].typeid+','+rid+')" data-typeid=\''+data[i].typeid+'\'>'+data[i].typename+'</li>\n';
+        }
+        return menu;
+    }
+
+    //渲染右边分类
+    function rightMenu(data, rid){
+        var menu = "";
+        for(var i=0;i<data.length;i++){
+            if(!data[i].num){
+                data[i].num = 0;
+            }else{
+                if(data[i].num == 0){
+                    data[i].num = 0;
+                }else{
+                    data[i].num--;
+                }
+            }
+            if(getNumObj.length != 0){
+                for(var j=0;j<getNumObj.length;j++){
+                    if(getNumObj[j].is_spec == 0 && getNumObj[j].itemid == data[i].itemid){
+                        data[i].num = getNumObj[j].num;
+                    }
+                }
+            }
+            menu += '<li data-id="'+rid+'">\n';
+            menu +=	'<div class="menu-img">\n';
+            menu +=	'<img src="'+data[i].thumb+'" width="55" height="55">\n';
+            menu +=	'</div>\n';
+            menu +=	'<div class="menu-txt">\n';
+            menu +=	'<h4 style="margin:5px 0 10px 0;">'+data[i].title+'</h4>\n';
+            menu +=	'<p class="list1" style="color:#4fc08d;margin-bottom:6px;">月销：'+data[i].amount+'</p>\n';
+            menu +=	'<p class="list2">\n';
+            menu +=	'<b id="price" style="color:#f31717;">￥'+data[i].price+'</b>\n';
+            if(data[i].spec_attr.length > 0){
+                menu +=	'<div class="btn">\n';
+                menu +=	'<a style="background-color:#4fc08d;padding:5px 10px;font-size:12px;" class="choose-spec" onclick="openBox(\''+data[i].itemid+'\')">选规格</a>\n';
+                menu +=	'</div>\n';
+            }else{
+                menu +=	'<div class="btn add" onclick="getCartMenu(this,'+data[i].itemid+')">\n';
+                menu +=	'<a class="join-car" href="javascript:;">\n';
+                menu +=	'<i class="iconfont icon-jia" style="font-size:22px;color:#4fc08d;"></i>\n';
+                menu +=	'</a>\n';
+                menu +=	'</div>\n';
+                menu +=	'<div class="menu-num">'+data[i].num+'</div>\n';
+                if(data[i].num > 0){
+                    menu +=	'<div class="btn add" style="right: 62px;" onclick="reductNum(this,'+data[i].itemid+')">\n';
+                }else{
+                    menu +=	'<div class="btn add" style="right: 62px;">\n';
+                }
+
+
+                menu +=	'<a class="join-car" href="javascript:;">\n';
+                menu +=	'<i class="iconfont icon-jian" style="font-size:22px;color:#4fc08d;"></i>\n';
+                menu +=	'</a>\n';
+                menu +=	'</div>\n';
+            }
+
+            menu +=	'</p>\n';
+            menu +=	'</div>\n';
+            menu +=	'</li>\n';
+        }
+        return menu;
+    }
+
+    //渲染购物车列表信息
+    function menuCart(data){
+        var str = "", num = 0, i = "";
+        str += '<div class="car-list-head"><span>已选商品</span></div>\n';
+        if(data !== undefined){
+            for(i in data.cuisines){
+                str += '<div class="car-list-content">\n';
+                str += '<div class="car-list-item">\n';
+                str += '<div class="carImg">\n';
+                str += '<img src="'+data.cuisines[i].thumb+'" alt="购物车图片">\n';
+                str += '</div>\n';
+                str += '<div class="car-list-left">\n';
+                str += '<p>'+data.cuisines[i].title+'</p>\n';
+                if(data.cuisines[i].is_spec == 0){
+                    str += '<p class="menuSpec">规格：无</p>\n';
+                }else{
+                    var specAttr = "";
+                    for(var j=0;j<data.cuisines[i].spec_attr.length;j++){
+                        specAttr += ","+data.cuisines[i].spec_attr[j].cont[j].name;
+                    }
+                    specAttr = specAttr.slice(1);
+                    str += '<p class="menuSpec">规格：'+specAttr+'</p>\n';
+                }
+                str += '<span style="display:inline-block;margin-top:10px;color:#d72626;letter-spacing:1px;">¥'+data.cuisines[i].total_price+'</span>\n';
+                str += '</div>\n';
+                str += '<div class="car-list-right">\n';
+                str += '<a class="delete-goods" onclick="deleteGoods('+data.cuisines[i].placeid+')">\n';
+                str += '<i class="iconfont icon-icon_delete" style="font-size:20px;color:#4fc08d;"></i>\n';
+                str += '</a>\n';
+                str += '<span class="amount" style="display:block;margin-top:23px;letter-spacing:2px;">x'+data.cuisines[i].num+'份</span>\n';
+                str += '</div>\n';
+                str += '</div>\n';
+                str += '</div>';
+            }
+            $(".goodsNum").html(numCart(data.cuisines));
+            $("#totalpriceshow").html(data.detial_price);
+
+        }
+        return str;
+    }
+
+    //渲染多属性弹窗
+    function specBox(d){
+        var str = "",money = 0;
+        for(var i=0;i<objAttr.length;i++){
+            if(objAttr[i].itemid == d){
+                objAttrSub = objAttr[i];
+                str += '<div id="attrBox" class="attrBox">\n';
+                str += '<div class="menuCart-bg" style="z-index: 3" onclick="closeBox()"></div>\n';
+                str += '<div class="menu-wrap">\n';
+                str += '<div class="menu-title">\n';
+                str += '<h6 style="font-size:16px;border-bottom:1px solid #eee;">'+objAttr[i].title+'</h6>\n';
+                str += '<a href="javascript:;" class="close-bk" onclick="closeBox()">\n';
+                str += '<i class="iconfont icon-guanbi" style="font-size:22px;color:#999;"></i>\n';
+                str += '</a>\n';
+                str += '</div>\n';
+                str += '<div class="menu-cont">\n';
+                str += '<div class="menu-list">\n';
+                for(var j=0;j<objAttr[i].spec_attr.length;j++){
+                    str += '<h6 class="spec" id="spec0">'+objAttr[i].spec_attr[j].title+':</h6>\n';
+                    str += '<ul class="spec-ul spec0">\n';
+                    for(var k=0;k<objAttr[i].spec_attr[j].cont.length;k++){
+                        if(objAttr[i].spec_attr[j].cont[k].status){
+                            str += '<li class="spec-li normal active1" onclick="acountMoney('+objAttr[i].spec_attr[j].cont[k].money+','+d+','+k+','+j+')">'+objAttr[i].spec_attr[j].cont[k].name+'</li>\n';
+                            money += parseFloat(objAttr[i].spec_attr[j].cont[k].money);
+                        }else{
+                            str += '<li class="spec-li normal" onclick="acountMoney('+objAttr[i].spec_attr[j].cont[k].money+','+d+','+k+','+j+')">'+objAttr[i].spec_attr[j].cont[k].name+'</li>\n';
+                        }
+
+                    }
+                    str += '</ul>\n';
+                }
+                str += '</div>\n';
+                str += '<div class="menu-bottom">\n';
+                str += '<span style="font-size:12px;color:#db2222;">¥</span><span class="goods-money">'+money+'</span>\n';
+                str += '<a href="javascript:;" class="addCar-btn" onclick="specAttribute('+d+')">加入菜单\n';
+//                str += '<i class="iconfont icon-jia" style="font-size:22px;color:#4fc08d;"></i>\n';
+                str += '</a>\n';
+                str += '</div>\n';
+                str += '</div>\n';
+                str += '</div>\n';
+                str += '</div>';
+            }
+        }
+        return str;
+    }
+
+
+
+
+
+
+    //查看购物车信息
+    function openBk(){
+        var m = $(".menuCart");
+        if(m.hasClass("open")){
+            m.hide().removeClass("open");
+        }else{
+            m.addClass("open").show();
+        }
+    }
+
+
+
+    //统计购物车数量
+    function numCart(num){
+        var n = 0;
+        for(var i in num){
+            n += num[i].num;
+        }
+        return n;
+    }
+
+    //选择多规格属性
+    function specAttribute(cuisineId){
+        var arr = [];
+        for(var i=0;i<objAttrSub.spec_attr.length;i++){
+            for(var j=0;j<objAttrSub.spec_attr[i].cont.length;j++){
+                if(objAttrSub.spec_attr[i].cont[j].status){
+                    arr.push(j+1);
+                }
+            }
+        }
+        $.ajax({
+            url: "/mobile/ajax_reserve2.php?for_ajax=add_shoppingcart",
+            type: "PSOT",
+            data: JSON.stringify({"action":"add_shoppingcart","rid":rid,"cuisine_id":cuisineId,"num":1,"cash":"0","spec_attr":arr,"is_spec":1}),
+            dataType: "JSON",
+            success: function(d){
+                //console.log(d);
+                closeBox();
+                getCart();
+
+            },
+            error: function(){
+                alert("网络延时，请稍后！");
+            }
+        });
+    }
+
+
+
+    //关闭多属性窗口
+    function closeBox(){
+        var box = $("#attrBox");
+        box.remove();
+    }
+
+    //多属性点击多规格属性
+    function openBox(d){
+		$("body").append(specBox(d));
+    }
+
+    //计算价钱
+    function acountMoney(m, d, index, j){
+        for(var i=0;i<objAttr.length;i++){
+            if(objAttr[i].itemid == d){
+                objAttrSub = objAttr[i];
+                for(var k=0;k<objAttr[i].spec_attr[j].cont.length;k++){
+                    objAttr[i].spec_attr[j].cont[k].status = false;
+                    if(k == index){
+                        objAttr[i].spec_attr[j].cont[k].status = true;
+                    }
+                }
+            }
+        }
+        $("#attrBox").remove();
+        $("body").append(specBox(d));
+    }
+
+    //购物车删除商品
+    function deleteGoods(index){
+        $.ajax({
+            url: "/mobile/ajax_reserve2.php?for_ajax=del_shoppingcart_cuisine",
+            type: "POST",
+            data: JSON.stringify({"rid":rid,"num":1,"placeid":index,"waiter_code":""}),
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    if(d.data.cuisines instanceof Array){
+                        getNumObj = d.data.cuisines;
+                    }else{
+                        var arr = [];
+                        for(var i in d.data.cuisines){
+                            arr.push(d.data.cuisines[i]);
+                        }
+                        getNumObj = arr;
+                    }
+                    $("#right-ul").html(rightMenu(objAttr, strUrl().rid));
+                    $(".menuCart-list").html(menuCart(d.data));
+                    //getCart();
+                }
+            }
+        });
+    }
+
+    //从后台获取右边边分类
+    function getMenuRight(id, rid, callBack){
+        $.ajax({
+            url:"../ajax_reserve2.php?for_ajax=cuisine",
+            type:"POST",
+            data: JSON.stringify({rid:rid,cuisine_catid:id}),
+            dataType:"json",
+            success:function(d){
+                if(d.code == 200){
+                    objAttr = d.data.restaurant;
+                    $("#right-ul").html(rightMenu(d.data.restaurant, rid));
+                    if(typeof callBack === "function"){
+                        callBack(menuList);
+                    }
+                }
+            },
+            error: function(d){
+                alert("获取菜单失败,请重新刷新页面再试");
+            }
+        });
+    }
+
+    //从后台获取左边分类
+    function getMenuLeft(callBack, rid){
+        $.ajax({
+            url:"../ajax_reserve2.php",
+            type:"GET",
+            data: {for_ajax:"cuisinecate",rid:rid},
+            dataType:"json",
+            async:false,
+            success:function(d){
+                if(d.code == 200){
+                    var menuList = leftMenu(d.data);
+                    if(typeof callBack === "function"){
+                        callBack(menuList);
+                    }
+                }
+            },
+            error: function(d){
+                alert("获取菜单失败,请重新刷新页面再试");
+            }
+        });
+    }
+
+    //添加商品更新购物车信息
+    function getCartMenu(self, id){
+        $.ajax({
+            url: "/mobile/ajax_reserve2.php?for_ajax=add_shoppingcart",
+            type: "POST",
+            data: JSON.stringify({"action":"add_shoppingcart","rid":rid,"cuisine_id":id,"num":1,"cash":0.1,"is_spec":0,"waiter_code":""}),
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    if(d.data.cuisines instanceof Array){
+                        getNumObj = d.data.cuisines;
+					}else{
+                        var arr = [];
+                        //arr.push(d.data.cuisines);
+                        console.log(d.data.cuisines);
+                        for(var i in d.data.cuisines){
+                            arr.push(d.data.cuisines[i]);
+						}
+                        console.log(arr);
+                        getNumObj = arr;
+                        // var arr = new Array(d.data.cuisines);
+                        // console.log(arr);
+                        // d.data.cuisines = [];
+                        // d.data.cuisines.push(arr);
+                        // console.log(d.data.cuisines);
+					}
+
+                    $("#right-ul").html(rightMenu(objAttr, rid));
+                    $(".menuCart-list").html(menuCart(d.data));
+                }else if(d.code == 100){
+                    $("body").append(loginStr());
+                }
+            }
+        });
+    }
+
+    //获取购物车信息
+    function getCart(callBack){
+        $.ajax({
+            url: "/mobile/ajax_reserve2.php?for_ajax=get_shoppingcart",
+            type: "POST",
+            data: JSON.stringify({"rid":rid,"waiter_code":""}),
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    if(d.state == 1){
+                        if(d.data.cuisines instanceof Array){
+                            getNumObj = d.data.cuisines;
+						}else{
+                            var arr = [];
+                            console.log(d.data.cuisines);
+                            for(var i in d.data.cuisines){
+                                arr.push(d.data.cuisines[i]);
+                            }
+                            console.log(arr);
+                            getNumObj = arr;
+						}
+                    }
+                    $(".menuCart-list").html(menuCart(d.data));
+                }
+                if(typeof callBack === "function"){
+                    callBack();
+                }
+            },
+            error: function(){}
+        });
+
+    }
+
+    //点击左侧显示菜市
+    function leftActive(s, id){
+        if(!$(s).hasClass('active')){
+            $(s).addClass("active").siblings().removeClass("active");
+            getMenuRight(id, rid);
+            console.log(objAttr);
+            $("#right-ul").html(rightMenu(objAttr, rid));
+        }
+    }
+
+    //减去数量
+    function reductNum(self,itemId){
+        $.ajax({
+            url: "/mobile/ajax_reserve2.php?for_ajax=del_shoppingcart_cuisine",
+            type: "POST",
+            data: JSON.stringify({"rid":strUrl().rid,"num":1,"itemid":itemId}),
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                if(d.code == 200){
+                    if(d.data.cuisines instanceof Array){
+                        getNumObj = d.data.cuisines;
+					}else{
+                        var arr = [];
+                        for(var i in d.data.cuisines){
+                            arr.push(d.data.cuisines[i]);
+                        }
+                        getNumObj = arr;
+					}
+                    $("#right-ul").html(rightMenu(objAttr, strUrl().rid));
+                    $(".menuCart-list").html(menuCart(d.data));
+                }
+            }
+        });
+    }
+
+
+    function formDate(){
+        $("#tijiao").click();
+	}
+    //下单成功
+    function addDish(s){
+
+        var obj = {};
+        var fm = $("#formMent");
+        var menu = getNumObj;
+        var number = $(".goodsNum").html();
+        $("input[name='rid']").val(rid);
+        $("input[name='commonid']").val(commonid);
+        $("input[name='reserve_type']").val(reserve_type);
+        if(isWeiXin()){
+            fm.append('<input type="hidden" name="bank" value="weixin">');
+        }else{
+            fm.append('<input type="hidden" name="bank" value="alipay">');
+        }
+        obj.is_spec = 0;
+        console.log(menu);
+        for(var i=0;i<menu.length;i++){
+            if(menu[i].is_spec == 1){
+                for(var j=0;j<menu[i].spec_attr_old.length;j++){
+                    fm.append('<input type="hidden" name="cuisine_data['+i+'][spec_attr]['+j+']" value="'+menu[i].spec_attr_old[j]+'">');
+				}
+			}
+            fm.append('<input type="hidden" name="cuisine_data['+i+'][is_spec]" value="'+menu[i].is_spec+'">');
+            fm.append('<input type="hidden" name="cuisine_data['+i+'][itemid]" value="'+menu[i].itemid+'">');
+            fm.append('<input type="hidden" name="cuisine_data['+i+'][num]" value="'+menu[i].num+'">');
+        }
+        formDate();
+
+
+        // if(number != 0){
+			// layer.open({
+			// 	content: '订单正在提交，请稍后',
+			// 	time: 2 //3秒后自动关闭
+			// });
+			// setTimeout(function(){
+        //
+        //
+			// 	$.ajax({
+			// 		url:"/member/nonuser_pay.php?action=payfor_order",
+			// 		type:"POST",
+			// 		dataType:"json",
+			// 		data:JSON.stringify({rid:rid,commonid:commonid,reserve_type:reserve_type,cuisine_data:getNumObj}),
+			// 		success:function(data){
+			// 			console.log(data);
+			// 			if(data.code == 200){
+			// 				setCookie("desks",obj.commonid,0.2/24,"/");
+			// 				window.location.href =  data.url;
+			// 			}else if(data.code == -444){
+			// 				if(data.username == getCookie('cpk_username')){
+        //
+			// 				}else{
+			// 					alert(data.d);
+			// 				}
+			// 			}
+			// 		},
+			// 		error: function(){
+			// 			alert("网络延时，请稍后!");
+			// 		}
+			// 	});
+			// },1000);
+        // }else{
+			// alert("请点菜！");
+        // }
+    }
+
+    $(document).ready(function(){
+        roomNum();
+        getMenuLeft(function(list){
+            $("#left-ul").html(list);
+            getMenuRight($("#left-ul li").eq(0).attr("data-typeid"), rid);
+        },rid);
+        getCart(function(){
+            $("#right-ul").html(rightMenu(objAttr, strUrl().rid));
+        });
+    });
+
+    $(".goodsNum").on("DOMNodeInserted",function(){
+        var number = $(".goodsNum").html();
+        if(number == 0){
+            $("#btnselect").html("请点菜");
+
+        }else{
+            if(changeValue == -400){
+                $("#btnselect").html("确认加菜");
+                $("#btnselect").attr("data-n",2);
+            }else{
+                $("#btnselect").html("确认下单");
+                $("#btnselect").attr("data-n",1);
+            }
+
+        }
+    });
+
+    //显示房间名
+    function roomNum(){
+        $.ajax({
+            url: "/mobile/go_to_desk.php",
+            type: "POST",
+            data: {type:obj.reserve_type,commomid:obj.commonid},
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    videoId = d.data.video_id;
+                    $(".h-C").html(d.data[0]);
+                    $("title").html(d.data[1]);
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后!");
+            }
+        });
+    }
+
+    /*点击更多(重复的代码)*/
+    function moreBtn(){
+        var url=window.location.search;
+        var cutUrl = url.slice(1);
+        addMenu(["厨房直播","美食视频","我的订单","叫服务员"],function(a){
+            var menuUl = $(".bg-menu-ul").children("li");
+            for(var i=0;i<a.length;i++){
+                switch (i){
+                    case 0:
+                        menuUl.eq(0).click(function(){
+                            window.location.href = "../Video/video.html";
+                        });
+                        break;
+                    case 1:
+                        menuUl.eq(1).click(function(){
+                            if(videoId != null){
+                                window.location.href = "../Video/videoDetail.html?moduleid=14&itemid=" + videoId;
+                            }else{
+                                alert("此商家暂无美食视频！");
+                            }
+                        });
+                        break;
+                    case 2:
+                        menuUl.eq(2).click(function(){
+                            window.location.href = "/mobile/newdemo/ROrderList.html";
+                        });
+                        break;
+                    case 3:
+                        menuUl.eq(3).click(function(){
+                            $.get("../call_small_two.php?"+cutUrl,function(data){
+                                alert(data.data);
+                            },"json")
+                        });
+                        break;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
+</script>
+
+<style type="text/css">
+	.loginBox{
+		position: absolute;
+		z-index: 4;
+		width: 70%;
+		left: 50%;
+		margin-left: -35%;
+		background-color: #fff;
+		top: 10%;
+		padding: 5%;
+	}
+	.loginBox-input{
+		width: 100%;
+		height: 26px;
+		font-size: 14px;
+		padding: 0 10px;
+	}
+	.loginBox-code{
+		width: 35%;
+		margin-left: 5%;
+		float: right;
+		height: 26px;
+		line-height: 26px;
+		border: 1px solid #999;
+		text-align: center;
+	}
+	.loginBox-btn{
+		width: 100%;
+		border: 0 none;
+		background-color: #4fc08d;
+		height: 30px;
+		line-height: 30px;
+		color: #fff;
+	}
+</style>
+
+</body>
+</html>

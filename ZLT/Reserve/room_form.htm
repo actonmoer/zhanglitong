@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}包房</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+	{template "room_head","mobile"}
+	<style>
+		.file {
+			position: relative;
+			display: inline-block;
+			border-radius: 4px;
+			overflow: hidden;
+			color: #1E88C7;
+			text-decoration: none;
+			text-indent: 0;
+			line-height: 20px;
+			width:56px;
+		}
+		.file input {
+			position: absolute;
+			right: 0;
+			top: 0;
+			opacity: 0;
+		}
+		.showFileName{
+			position:absolute;
+			top:8px;
+			left:0;
+			white-space: nowrap;
+			display: inline-block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width:40%;
+		}
+		.showLi span{
+			margin-left:110px;
+		}
+	</style>
+</head>
+<body>
+	<div class="headBox">
+		<div class="head-bar-back">
+			<a href="javascript:window.history.back();">
+				<i class="iconfont icon-left"></i>
+			</a>
+		</div>
+		<div class="head-bar-title">{$title}包房</div>
+		<div class="head-bar-right"><a onclick="$('#ds_form').submit();"><span>保存</span></a></div>
+	</div>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<form action="?act={$act}" id="ds_form" method="post" enctype="multipart/form-data">
+			<div class="showList showForm">
+				<?php if(!empty($_GET["roomid"])){?>
+				<input type="hidden" name="roomid" value="{$item['id']}">
+				<?php }?>
+				
+				<div class="showLi">
+					<b>包房名</b>
+					<span><input type="text" value="{$item['room_name']}" name="room_name"></span>
+				</div>
+				<div class="showLi">
+					<b>容纳人数</b>
+					<span><input type="text" value="{$item['people_count']}" name="people_count"></span>
+				</div>
+				<div style="display:none;" class="showLi">
+					<b>预定金额</b>
+					<span><input type="text" value="{$item['reserve_price']}" name="reserve_price"></span>
+				</div>
+				<!-- <div class="showLi" style="border-bottom:10px solid #eee;">
+					<b>服务员</b>
+					<span><input placeholder="请输入绑定平台的手机号，以英文逗号隔开" type="text" value="{$res}" name="waiters"></span>
+				</div> -->
+				<div class="showLi">
+					<b>使用中</b>
+					<span style="text-align: left;">
+					    <input type="radio" style="height:22px;" name="is_use" value="1" <?php if($item['is_use']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" style="height:22px;" name="is_use" value="0" <?php if(!$item['is_use']) echo 'checked';?>/> 否
+					</span>
+				</div>
+				<div class="showLi">
+					<b>是否开台</b>
+					<span style="text-align: left;">
+					    <input type="radio" style="height:22px;" name="lock_qrcode" value="1" <?php if($item['lock_qrcode']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" style="height:22px;" name="lock_qrcode" value="0" <?php if(!$item['lock_qrcode']) echo 'checked';?>/> 否
+					</span>
+				</div>
+				<div class="showLi" style="border-bottom:10px solid #eee;">
+					<b>服务员：</b>					
+					<span><input type="text" value="{$res}" name="waiters" style="text-align: left;"></span>
+				</div>
+				<div class="showLi">
+					<b>赠送物品</b>
+					<span><input type="text" value="{$item['give_good']}" name="give_good"></span>
+				</div>
+				
+				
+				<div class="showLi">
+					<b>房间设施</b>
+					<span><input type="text" value="{$item['facilities']}" name="facilities"></span>
+				</div>
+				
+				<div class="showLi">
+					<b>退款规则</b>
+					<span><input type="text" value="{$item['refund_rule']}" name="refund_rule"></span>
+				</div>
+				
+				
+				 <?php if(!empty($_GET["roomid"])){?>
+				<div class="showLi">
+					<b>二维码地址</b>
+					<span><input type="text" value="{$url}" readonly="false" style="text-align:left;"></span>
+				</div>
+				
+		
+				<div class="showLi" style="position:relative;">
+					<b>二维码</b>
+					<span class="file a-upload" style="margin-left:80%;">选择文件<input type="file" name="qr_code"></span>
+					<span class="showFileName"></span>
+					<input type="hidden" name="old_qr_code" value="{$item['qrcode']}">
+					<?php if(!empty($item['qrcode'])){?>
+					<span><img src="{$item['qrcode']}"/ width="50%" height="auto"></span>
+					<?php }?>
+					<!--<span style="position:absolute;display:inline-block;color:#3d95e5;top:9px;right:0;border:none;">选择文件</span>-->
+				</div>
+				<?php }?>
+				
+				<div class="showLi" style="position:relative;">
+					<b>幻灯1</b>
+					<span class="showFileName" style="text-align: left;"></span>
+					<span class="file a-upload" style="margin-left:80%;">选择文件
+						<input type="file" name="thumb_banner">
+					</span>
+					<input type="hidden" name="old_thumb_banner" value="{$item['thumb_banner']}">
+					<?php if(!empty($item['thumb_banner'])){?>
+					<span style="text-align:left;width:80px;height:80px;"><img style="width:100%;height:100%;" src="{$item['thumb_banner']}"/ width="50%" height="auto"></span>
+					<?php }?>
+					<!--<span style="position:absolute;display:inline-block;color:#3d95e5;top:9px;right:0;border:none;">选择文件</span>-->
+				</div>
+				
+				
+				
+				<div class="showLi" style="position:relative;">
+					<b>幻灯2</b>
+					<span class="showFileName" style="text-align: left;"></span>
+					<span class="file a-upload" style="margin-left:80%;">选择文件
+						<input type="file" name="thumb_banner2">
+					</span>
+					<input type="hidden" name="old_thumb_banner2" value="{$item['thumb_banner2']}">
+					<?php if(!empty($item['thumb_banner'])){?>
+					<span style="text-align:left;width:80px;height:80px;"><img style="width:100%;height:100%;" src="{$item['thumb_banner2']}"/ width="50%" height="auto"></span>
+					<?php }?>
+					<!--<span style="position:absolute;display:inline-block;color:#3d95e5;top:9px;right:0;border:none;">选择文件</span>-->
+				</div>
+
+				<div class="showLi" style="position:relative;">
+					<b>幻灯3</b>
+					<span class="showFileName" style="text-align: left;"></span>
+					<span class="file a-upload" style="margin-left:80%;">选择文件
+						<input type="file" name="thumb_banner3">
+					</span>
+					<input type="hidden" name="old_thumb_banner3" value="{$item['thumb_banner3']}">
+					<?php if(!empty($item['thumb_banner'])){?>
+					<span style="text-align:left;width:80px;height:80px;"><img style="width:100%;height:100%;" src="{$item['thumb_banner3']}"/ width="50%" height="auto"></span>
+					<?php }?>
+					<!--<span style="position:absolute;display:inline-block;color:#3d95e5;top:9px;right:0;border:none;">选择文件</span>-->
+				</div>
+				
+				
+				<div class="showLi">
+					<b>最低消费</b>
+					<span><input type="text" value="{$item['min_consumption']}" name="min_consumption"></span>
+				</div>
+				<div class="showLi">
+					<b>说明</b>
+					<span><input type="text" value="{$item['info']}" name="info" style="text-align:left;"></span>
+				</div>
+				<?php if(!empty($_GET["roomid"])){?>
+					<?php if(is_have_auth("包房删除")){?>
+					 <div class="showLi">
+						<b></b>
+						<span style="border:none;text-align:right;"><a style="color:#ec7171" href="?act=room_del&roomid={$item['id']}">删除</a></span>
+					</div>
+					<?php }?>
+				<?php }?>
+			</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="footBox"></div>
+	<script>
+		 $(".a-upload").on("change","input[type='file']",function(){
+		     var filePath=$(this).val();
+		     if(filePath != ""){
+		         var arr=filePath.split('\\');
+		         var fileName=arr[arr.length-1];
+		         $(this).parent("span").siblings(".showFileName").html(fileName);
+		     }else{
+		         alert("请选择你需要上传的文件！");
+		         return false
+		     }
+		 })
+       /* $(".a-upload").on("change","input[type='file']",function(){
+            var filePath=$(this).val();
+            if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1){
+                $(".fileerrorTip").html("").hide();
+                var arr=filePath.split('\\');
+                var fileName=arr[arr.length-1];
+                $(this).parent("span").siblings(".showFileName").html(fileName);
+            }else{
+//                $(".showFileName").html("");
+//                $(".fileerrorTip").html("您未上传文件，或者您上传文件类型有误！").show();
+				alert("您未上传文件，或者您上传文件类型有误!");
+                return false
+            }
+        })*/
+	</script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="static/takeout/css/admin/index.css">
+	<link rel="stylesheet" href="static/takeout/css/admin/swiper-3.3.1.min.css">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+	<script src="static/takeout/js/jquery-1.7.2.min.js"></script>
+	<script src="static/takeout/js/admin/swiper-3.3.1.min.js"></script>
+	<script src="static/takeout/js/admin/index.js"></script>
+	<script type="text/javascript">
+	  function del_confirm(cid,oid)
+	  {
+	  var r=confirm("是否删除该菜式?");
+	  if (r==true)
+	  {
+		 location.href="?act=cuisines_del&cid="+cid+"&oid="+oid;
+	  }
+     
+	  }
+	</script>
+	<style>
+		.showLi b{
+			color:#666;
+		}
+		.showList{
+			padding:10px 20px 4px;
+		}
+		.showLi{
+			font-size:14px;
+			color:#666;
+			height:30px;
+			line-height:30px;
+		}
+		.showLi span{
+			text-align:right;
+		}
+		.showLi b{
+			width:75px;
+		}
+		a.pdLi{
+			font-size:14px;
+			color:#666;
+			background:#fff;
+			padding:10px 0 20px 20px;
+			letter-spacing: 1px;
+		}
+		a.pdLi div span{
+			float:right;
+			margin-right:14px;
+		}
+		a.pdLi div{
+			padding-left:15px;
+			height: 24px;
+			line-height: 24px;
+		}
+		.top{
+			display:inline-block;
+			background:#fff;
+			width:100%;
+			height: 30px;
+			line-height: 30px;
+		}
+		.catsBox{
+			border-bottom:none;
+		}
+		.bottomBody .footBox{
+			background-color:#3d95e5;
+		}
+	</style>
+</head>
+<body class="bottomBody">
+	<div class="headBox" style="background:#3d95e5">
+		<div class="head-bar-back">
+			<a href="javascript:window.history.back();">
+				<i class="iconfont icon-left" style="padding-left:20px;font-size:16px;color:#fff;"></i>
+			</a>
+
+			<!--<a href="reserve_home.php?act=order_list">
+				<i class="iconfont icon-left" style="padding-left:20px;font-size:16px;color:#fff;"></i>
+			</a>-->
+		</div>
+		<div class="head-bar-title" style="font-weight:normal;color:#fff;">订单详情</div>
+		 <?php if(is_have_auth("修改订单价格")){?>
+			<?php if(in_array($orders['status'],[1,2,3,5])){	?>
+			<div class="head-bar-right">
+				<a href="reserve_home.php?act=order_form&oid={$orders['id']}"><span style="color:#fff;font-size:16px;">修改</span></a>
+			</div>
+			<?php }  ?>
+		<?php }?>
+	</div>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top:0;letter-spacing:1px;">
+			<div class="showList" style="border-bottom:10px solid #eee">
+				<div class="catsToolFixed">
+					<i class="orderst orderst_2">{$orders['order_info']}</i><!-- 1待支付 2已支付 3订单已取消 -->
+				</div>
+				<div class="showLi">
+					<b>订单号：</b>
+					<span id="item">{$orders['order_id']}</span>
+				</div>
+				<div class="showLi">
+					<b>下单用户：</b>
+					<span>{$uname}</span>
+				</div>
+				{if $orders['discount']<1}
+				<div class="showLi">
+					<b>打折：</b>
+					<span id="item">{$orders['discount']}</span>
+				</div>
+				{/if}
+				<div class="showLi">
+					<b>总价：</b>
+					<span style="color: #e53d3d;">￥{$order_price}</span>
+				</div>
+
+				<!--<?php
+					if($orders['is_go_order']=="1"){
+				?>
+					<div class="showLi">
+						<b>预定金额：</b>
+						<span style="color: #e53d3d;">￥ {$orders["cash"]}</span>
+					</div>
+				<?php
+					}
+				?>
+
+				<div class="showLi">
+					<b>联系方式：</b>
+					<span>{$orders["mobile"]}</span>
+				</div>
+				<div class="showLi">
+					<b>人数：</b>
+					<span>{$orders["persons"]}</span>
+				</div>
+				<div class="showLi">
+					<b>到场时间：</b>
+					<span>{$orders["arrive_time"]}</span>
+				</div>
+				{if $orders['remark']}
+				<div class="showLi">
+					<b>备注：</b>
+					<span>{$orders[remark]}</span>
+				</div>
+				{/if}
+				<div class="showLi">
+					<b>订单状态：</b>
+					<span>{$orders["status_text"]}</span>
+				</div>
+				<div class="showLi">
+					<b>下单时间：</b>
+					<span>{$orders["addtime"]}</span>
+				</div>
+				{if $orders["status"]==5}
+				<div class="showLi">
+					<b>退款理由</b>
+					<span>{$orders[refund_reason]}</span>
+				</div>
+				
+				{/if}
+				{if $orders["price_remark"]!=''}
+				<div class="showLi">
+					<b>改价说明：</b>
+					<span>{$orders[price_remark]}</span>
+				</div>
+				
+				{/if}
+				{if count($invoice)>0}
+				<div class="showLi">
+					<b>发票说明：</b>
+				</div>
+					<?php 
+					  foreach($invoice as $k=>$v){
+					       if($k=='invoice_company'){
+						       echo "<div class='showLi'><b>单位名称：</b><span>$v</span></div>";
+						   }
+					       if($k=='invoice_acount'){
+						       
+							   echo "<div class='showLi'><b>纳税人码：</b><span>$v</span></div>";
+						   }
+						   if($k=='invoice_num'){
+							   echo "<div class='showLi'><b>银行账号:</b><span>$v</span></div>";
+						   }
+						   if($k=='invoice_address'){
+						       echo "<div class='showLi'><b>地址:</b><span>$v</span></div>";
+						   }
+						    if($k=='invoice_phone'){
+						       echo "<div class='showLi'><b>电话:</b><span>$v</span></div>";
+						   }
+						   
+						   if($k=='invoice_person'){
+						       echo "<div class='showLi'><b>个人名称:</b><span>$v</span></div>";
+						   }
+				      	}
+					?>
+					{/if}	
+			
+			<span class="top" style="padding:0;border-bottom:none;font-size:14px;">预定餐桌：
+				{loop $desks $r}
+				<div class="pdLi" style="float:right;">
+					&lt;!&ndash;<span>{$r['desk']}</span>&nbsp;{$r['desk_id']}&ndash;&gt;
+					<span>{$r['desk']}</span>
+					{if $r['is_use']==1}
+					    <span style="color:red">当前使用中</span>
+					{/if}
+					{if $r['is_use']==0}
+					    <span style="color:green">当前空闲中</span>
+					{/if}
+
+				</div>
+			{/loop}
+			</span>
+				<?php
+					if($orders['is_go_order']=="1"){
+				?>
+				<div class="showLi">
+					<b>预定金额：</b>
+					<span style="color: #e53d3d;">￥ {$orders["cash"]}</span>
+				</div>
+				<?php
+					}
+				?>
+
+				<div class="showLi">
+					<b>联系方式：</b>
+					<span>{$orders["mobile"]}</span>
+				</div>
+				<div class="showLi">
+					<b>人数：</b>
+					<span>{$orders["persons"]}</span>
+				</div>
+				<div class="showLi">
+					<b>到场时间：</b>
+					<span>{$orders["arrive_time"]}</span>
+				</div>
+				{if $orders['remark']}
+				<div class="showLi">
+					<b>备注：</b>
+					<span>{$orders[remark]}</span>
+				</div>
+				{/if}
+				<div class="showLi">
+					<b>订单状态：</b>
+					<span>{$orders["status_text"]}</span>
+				</div>
+				<div class="showLi">
+					<b>下单时间：</b>
+					<span>{$orders["addtime"]}</span>
+				</div>
+				{if $orders["status"]==5}
+				<div class="showLi">
+					<b>退款理由</b>
+					<span>{$orders[refund_reason]}</span>
+				</div>
+
+				{/if}
+				{if $orders["price_remark"]!=''}
+				<div class="showLi">
+					<b>改价说明：</b>
+					<span>{$orders[price_remark]}</span>
+				</div>
+
+				{/if}
+				{if count($invoice)>0}
+				<div class="showLi">
+					<b>发票说明：</b>
+				</div>
+				<?php
+					  foreach($invoice as $k=>$v){
+				if($k=='invoice_company'){
+				echo "<div class='showLi'><b>单位名称：</b><span>$v</span></div>";
+				}
+				if($k=='invoice_acount'){
+
+				echo "<div class='showLi'><b>纳税人码：</b><span>$v</span></div>";
+				}
+				if($k=='invoice_num'){
+				echo "<div class='showLi'><b>银行账号:</b><span>$v</span></div>";
+				}
+				if($k=='invoice_address'){
+				echo "<div class='showLi'><b>地址:</b><span>$v</span></div>";
+				}
+				if($k=='invoice_phone'){
+				echo "<div class='showLi'><b>电话:</b><span>$v</span></div>";
+				}
+
+				if($k=='invoice_person'){
+				echo "<div class='showLi'><b>个人名称:</b><span>$v</span></div>";
+				}
+				}
+				?>
+				{/if}
+
+				<span class="top" style="padding:0;border-bottom:none;font-size:14px;">预定餐桌：
+				{loop $desks $r}
+				<div class="pdLi" style="float:right;">
+					&lt;!&ndash;<span>{$r['desk']}</span>&nbsp;{$r['desk_id']}&ndash;&gt;
+					<span>{$r['desk']}</span>
+					{if $r['is_use']==1}
+					    <span style="color:red">当前使用中</span>
+					{/if}
+					{if $r['is_use']==0}
+					    <span style="color:green">当前空闲中</span>
+					{/if}
+
+				</div>
+			{/loop}
+			</span>
+			<span class="top" style="padding:0;border-bottom:none;font-size:14px;">预定包房：
+				{loop $rooms $r}
+				<div class="pdLi" style="float:right;">
+					<span>{$r['room_name']}</span>
+                    {if $r['is_use']==1}
+					    <span style="color:#e53d3d;float:right;margin-right:7px;">当前使用中</span>
+					{/if}
+					{if $r['is_use']==0}
+					    <span style="color:#57a3e8;float:right;margin-right:7px;">当前空闲中</span>
+					{/if}
+				</div>
+			{/loop}
+			</span>
+			
+			</div>-->
+		</div>
+
+
+			<span class="top" style="padding:0;border-bottom:1px solid #eee;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;菜式详细：
+			{if !empty($waiter_code)}
+			   	{if $orders[status]==2 || $orders[status]==3}
+			<a href="{$CFG['url']}mobile/newdemo/demo.html?waiter_code={$waiter_code}&rid={$rid}&order_id={$orderids[1]}" style="color:#57a3e8;margin-right:7px;">点击加菜</a>
+			    {/if}
+			{/if}
+			
+			</span>
+			
+			{loop $cuisines $r}
+				<a class="pdLi"
+	           <?php if(is_have_auth("修改订单菜式")){?>
+				   href="?act=order_cuisine_info&cuisineid={$r['id']}"  
+			   <?php }else{?>
+				   href="javascript:void(0);"  
+			   <?php }?>>
+					<span style="">{$r['title']}</span><span style="float:right;margin-right:13px;">{$r['add_title']}X {$r['num']}</span>
+					<div>单价:<span style="color: #e53d3d;">￥{$r['singel_price']}</span> </div>
+					<div>小计:<span style="color: #e53d3d;">￥{$r['detial_cash']}</span> </div>
+					{if $r['presented_num']>0}
+						<div>赠送:<span>{$r['presented_num']}</span></div>
+					{/if}
+			        <div>时间:<span>{date("Y-m-d H:i:s", $r['addtime'])}</span></div>
+			        <div>状态:<span >{$r['status_text']}</span></div>
+
+					{if $r['status']<3 && $orders['status']<4}
+				    <div style="position:relative;border-bottom:1px solid #eee;"><a style="position:absolute;top:-10px;right:20px;color:#e53d3d;" href="javascript:del_confirm({$r['id']},{$_GET['oid']});">删除菜式</a></div>
+					{/if}
+					
+					{if $r['is_special_price']==1}
+					<div>改价理由:{$r['reason']}</div>
+					{/if}
+				</a>
+			{/loop}
+			
+			</div>
+	
+		</div>
+	
+
+	<div class="footBox">
+	  
+	{if  $orders["status"]== 2}
+		<a style="color:#fff;" class="three takeorder" href="?act=channge_order_status&type=begin&oid={$orders[id]}">客人已到</a>
+	{/if}
+	{if  $orders["status"]== 3}
+	  <?php if($orders["is_checkout"]>0){?>
+	    	   <a style="color:#fff;" class="three takeorder" href="#">等到客户确认结账</a>
+	  <?php }else{?>	   
+		  <?php if(is_have_auth("订单结账")){?>
+				   <a style="width:50%;color:#fff;" class="three" href="?act=channge_order_status&type=close&oid={$orders[id]}">结账</a>
+		           <a style="width:50%;color:#fff;" class="three" id="cash" href="#">已用现金结账</a>
+		  <?php }?>	
+	  <?php }?>	
+	{/if}
+	{if  $orders["status"]==5}
+	<?php if(is_have_auth("订单退款")){?>
+		<a style="display:inline-block;width:50%;color:#fff;" id="agree" class="three" href="?act=channge_order_status&type=refunds_ok&oid={$orders[id]}">同意</a>
+		<a style="display:inline-block;width:50%;color:#fff;" id="refuse" class="three" href="?act=channge_order_status&type=refunds_no&oid={$orders[id]}">拒绝</a>
+	 <?php }?>	
+	{/if}
+	</div>
+	<script>
+        var item = $("#item").text().substr(19,11);
+        $("#item").html(item);
+	</script>
+	<script type="text/javascript">
+        $('#cash').click(function(){
+            var r = confirm('是否用现金结账！')
+            if(r == true){
+                location.href = 'https://www.zhanglitong.com/mobile/reserve_cash.php?action=cash&oid={$orders[id]}';
+            }else{
+				return;
+            }
+        })
+
+    /*
+	function  accept_orders() {
+		$.ajax({
+			data:{"for_ajax":"takeout_accept_orders","order_id":"<?php echo $_GET['order_id'] ?>"},
+			url:"for_ajax_restaurant.php",
+			type:'post',
+			dataType:"json",
+			success:function(data){
+				if (data.success) {
+					alert('接单成功');window.location.reload();
+				}else{
+					alert(data.message);
+				}
+
+			},error:function(){
+				alert('网络繁忙');
+				}
+			});
+	}
+
+	function  begin_delivery() {
+		$.ajax({
+			data:{"for_ajax":"takeout_begin_delivery","order_id":"<?php echo $_GET['order_id'] ?>"},
+			url:"for_ajax_restaurant.php",
+			type:'post',
+			dataType:"json",
+			success:function(data){
+				if (data.success) {
+				   alert(data.sendmsg);
+					//alert('开始配送');window.location.reload();
+
+				}else{
+					alert(data.message);
+				}
+
+			},error:function(){
+				alert('网络繁忙');
+				}
+			});
+	}
+
+	function  refunds_might() {
+		$.ajax({
+			data:{"for_ajax":"takeout_refunds_might","order_id":"<?php echo $_GET['order_id'] ?>"},
+			url:"for_ajax_restaurant.php",
+			type:'post',
+			dataType:"json",
+			success:function(data){
+				if (data.success) {
+					alert('拒绝成功');window.location.reload();
+				}else{
+					alert(data.message);
+				}
+
+			},error:function(){
+				alert('网络繁忙');
+				}
+			});
+	}
+
+	function  refunds_may() {
+		$.ajax({
+			data:{"for_ajax":"takeout_refunds_may","order_id":"<?php echo $_GET['order_id'] ?>"},
+			url:"for_ajax_restaurant.php",
+			type:'post',
+			dataType:"json",
+			success:function(data){
+				if (data.success) {
+					alert('退款成功');window.location.reload();
+
+				}else{
+					alert(data.message);
+				}
+
+			},error:function(){
+				alert('网络繁忙');
+				}
+			});
+	}*/
+	</script>
+</body>
+</html>

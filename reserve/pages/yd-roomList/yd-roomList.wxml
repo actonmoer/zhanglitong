@@ -1,0 +1,123 @@
+<view class='yd-img'>
+  <image src='{{roomList.thumb}}'></image>
+</view>
+<!--中间内容显示  -->
+<view class='yd-container'>
+  <view class='yd-name'>{{roomList.company}}</view>
+
+  <stars innertext='{{roomList.score}}'></stars>
+
+  <view></view>
+  <view class='yd-tag clearfix'>
+    <view class='yd-shop-video' catchtap='linkVideo'>美食视屏</view>
+    <view class='yd-shop-picture' bindtap='Environmental' wx:if='{{!noPicture}}'>餐厅环境</view>
+    <view class='yd-menu' bindtap='openMenu'>菜谱</view>
+  </view>
+
+  <view class='yd-type clearfix'>
+    <view class='yd-type-item' wx:if='{{roomList.is_wifi == 1}}'>
+      <image src='http://www.zhanglitong.com/smallprogram/img/wifi.png'></image>
+      <view>WIFI</view>
+    </view>
+    <view class='yd-type-item' wx:if='{{roomList.is_park == 1}}'>
+      <image src='http://www.zhanglitong.com/smallprogram/img/park.png'></image>
+      <view>停车场</view>
+    </view>
+    <view class='yd-type-item' wx:if='{{roomList.is_swipe == 1}}'>
+      <image src='http://www.zhanglitong.com/smallprogram/img/cark.png'></image>
+      <view>刷卡消费</view>
+    </view>
+  </view>
+
+  <view class='yd-time'>营业时间：{{roomList.servicetime}}</view>
+
+</view>
+
+<view class='yd-address-a'>
+  <view class='yd-address' catchtap='navigation'>
+    <view class='yd-navigation'>
+      <image src='/images/navigation.png' />
+    </view>
+    <text>地址：{{roomList.address}}</text>
+  </view>
+  <view class='yd-phone' catchtap='callShop'>
+    <image src="/images/phone.png" />
+  </view> 
+</view>
+
+<view class='clearfix yd-select-time-v'>
+  <view class='yd-select-time'>
+    <view>请选择到店日期</view>
+    <picker mode="multiSelector" value="{{dateYindex}}" range="{{dateArrY}}" bindchange="bindIndexChange" bindcolumnchange="bindYearChange">
+      <view class="picker">
+        {{dateArrY[0][dateYindex[0]]}}{{dateArrY[1][dateYindex[1]]}}{{dateArrY[2][dateYindex[2]]}} {{dateArrY[3][dateYindex[3]]}}{{dateArrY[4][dateYindex[4]]}}
+      </view>
+    </picker>
+  </view>
+</view>
+<view class='clearfix yd-select-time-v'></view>
+<!-- 房间和桌子 -->
+<view>
+  <view class='yd-select-type'>
+    <view class='{{isShow == 0 ? "active" : ""}}' data-num='0' bindtap='showType'>房间</view>
+    <view class='{{isShow == 1 ? "active" : ""}}' data-num='1' bindtap='showType'>大厅</view>
+  </view>
+  <view class='yd-room-list'>
+    <view wx:if='{{isShow == 0}}' data-num='0'>
+      <view class='yd-room-item' wx:for='{{roomDesk.room}}' wx:for-item="rd" wx:key='room_name'>
+        <view class='yd-room-a' bindtap='showBox' data-id='{{rd.id}}' data-isuse='{{rd.is_use}}' data-type='roomid' data-name='{{rd.room_name}}'>
+          <view class='yd-room-name'>{{rd.room_name}}</view>
+          <text class='yd-room-tips'>最高消费{{rd.min_consumption}} | 可坐{{rd.people_count}}人</text>
+          <view class='yd-room-btn {{rd.is_use == 1 ? "active" : ""}}'>预定</view>
+        </view>
+      </view>
+      <view wx:if='{{roomDesk.room.length == 0}}'>
+        <empty></empty>
+      </view>
+    </view>
+    <view wx:if='{{isShow == 1}}' data-num='1'>
+      <view class='yd-room-item' wx:for='{{roomDesk.desk}}' wx:for-item="rd" wx:key='desk'>
+        <view class='yd-room-a' bindtap='showBox' data-id='{{rd.id}}' data-isuse='{{rd.is_use}}' data-type='deskid' data-name='{{rd.desk}}'>
+          <view class='yd-room-name'>{{rd.desk}}</view>
+          <text class='yd-room-tips'>最高消费0 | 可坐{{rd.hold}}人</text>
+          <view class='yd-room-btn {{rd.is_use == 1 ? "active" : ""}}'>预定</view>
+        </view>
+      </view>
+      <!-- 空状态 -->
+      <view wx:if='{{roomDesk.desk.length == 0}}'>
+        <empty></empty>
+      </view>
+    </view>
+  </view>
+</view>
+<view style='height:120rpx;background: #f1f1f1;'></view>
+
+<!-- 导航 -->
+<view class='navs'>
+  <view class='nav-item' catchtap='toHome'>
+    <view class='nav-img'>
+      <image src='/images/home-normal.png'></image>
+    </view>
+    <text>首页</text>
+  </view>
+  <view class='nav-item' catchtap='toRecharge'>
+    <view class='nav-img'>
+      <image src='/images/recharge-normal.jpg'></image>
+    </view>
+    <text>优惠</text>
+  </view>
+  <view class='nav-item' catchtap='toOrder'>
+    <view class='nav-img'>
+      <image src='/images/order-normal.png'></image>
+    </view>
+    <text>订单</text>
+  </view>
+  <view class='nav-item' catchtap='toMy'>
+    <view class='nav-img'>
+      <image src='/images/my-normal.png'></image>
+    </view>
+    <text>我的</text>
+  </view>
+</view>
+
+<boxmsg set-data='{{roomMsg}}' bind:myevent='myevent' set-rid='{{rid}}' set-commonid='{{deskid}}' set-type='{{roomType}}' set-time='{{time}}' set-name='{{deskname}}' set-company='{{roomList.company}}' wx:if='{{isShowBox}}'></boxmsg>

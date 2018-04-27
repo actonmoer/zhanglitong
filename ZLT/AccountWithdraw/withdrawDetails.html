@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提现记录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_6ej3pm25ln154s4i.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/withdraw.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">提现记录</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div class="recharge-details details clearb"></div>
+</section>
+<script>
+    $(function(){
+        var obj = strUrl(window.location.search);
+        var itemid = obj.itemid;
+        isLogin();
+        $.ajax({
+            url:"../../member/newcash.php",
+            type:"post",
+            dataType:"json",
+            data:{action:"record_detail",itemid:itemid},
+            success:function(data){
+                console.log(data);
+                var d = data.data;
+                if(data.code == 200){
+                    $(".recharge-details").append(rechargeDetail(d.amount,d.status,d.itemid,mtime(d.addtime),mtime(d.edittime),d.bank,d.money));
+                    if(d.status == 0){
+                        $(".status").html("处理中").addClass("orange");
+                        $(".amount").prepend("-");
+                    }else if( d.status == 3){
+                        $(".status").html("提现成功").addClass("green");
+                        $(".amount").prepend("-");
+                    }else{
+                        $(".status").html("提现失败").addClass("gray");
+                        $(".amount").prepend("+");
+                    }
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后!");
+            }
+        })
+    });
+    function rechargeDetail(amount,status,itemid,addtime,edittime,bank,money){
+        var detail = '<div>'+
+        '<p><span>提现金额</span><span class="amount">'+amount+'</span></p>'+
+        '<p><span class="status">'+status+'</span><span></span></p>'+
+        '</div>'+
+        '<div class="clearb">'+
+            '<p><span>交易编号</span><span>'+itemid+'</span></p>'+
+            '<p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型</span><span>提现</span></p>'+
+        '<p><span>申请时间</span><span>'+addtime+'</span></p>'+
+        '<p><span>到账时间</span><span>'+edittime+'</span></p>'+
+        '<p><span>到账账户</span><span>'+bank+'</span></p>'+
+        '<p><span>账户余额</span><span>￥'+money+'</span></p>'+
+        '</div>';
+        return detail;
+    };
+</script>
+</body>
+</html>

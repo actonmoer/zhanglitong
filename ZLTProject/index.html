@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通智慧城市</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="掌里通智慧城市">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileColor" content="#007AFF">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/stylecopy.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        window.onload=function(){
+            getLocation();
+        };
+        function getLocation(){
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(showPostion);  //showPostion是getCurrentPosition返回来的数据（obj）;
+            }else{
+                alert("获取定位失败,请检查测浏览器是否开启地理位置权限");
+            }
+        }
+        function showPostion(position){
+            var url="http://api.map.baidu.com/cloudrgc/v1?location="+position.coords.latitude+","+position.coords.longitude+"&geotable_id=135675&coord_type=bd09ll&ak=kTOqql2p7jN9fV1KL1Q8OCMkvvoVjXhj";
+            position.coords.latitude;   //纬度
+            position.coords.longitude;  //经度
+            $.get(url,function(data){
+                console.log(data);
+                if(data.status == 0){
+                    $("#area").html(data.address_component.district);
+                }
+            },"jsonp");
+        }
+    </script>
+</head>
+<body style="background-color: #ddd;">
+<!--头部-->
+<header>
+    <div style="display: flex;width: 100%;position: fixed;top: 0;z-index: 99;background-color: #0093dd;">
+        <div class="h-left">
+            <a href="javascript:;" id="area" onclick="getLocation()">广州</a>
+        </div>
+        <div class="h-center">掌里通智慧城市</div>
+        <div class="h-right" id="hRight">
+            <!--<img src="img/sm.png" style="margin: 0 auto;width: 24px;height: 24px;display: block;margin-top: 13px;" alt="扫码">-->
+        </div>
+    </div>
+</header>
+<!--banner图-->
+<figure>
+    <div class="banner">
+        <ul class="b-ul">
+            <li><a href="javascript:;"><img src="img/1.jpg" alt="广告图"></a></li>
+        </ul>
+    </div>
+</figure>
+<section style="padding-bottom: 48px;">
+    <!--便民服务-->
+    <div style="padding: 15px 0;background-color: #fff;">
+        <div>
+            <ul class="index-item">
+                <li>
+                    <a href="https://common.diditaxi.com.cn/general/webEntry?channel=1262#/" class="index-img" style="display: block;background-position: -166px 0;"></a>
+                    <p>滴滴出行</p>
+                </li>
+                <li>
+                    <a href="http://m.ctrip.com/webapp/hotel/searchlist/23.397235/113.21866/?allianceid=28437&sid=466138&ouid=&sourceid=&utm_medium=&utm_campaign=&utm_source=&isctrip=&from=timeline&isappinstalled=1" class="index-img" style="display: block;background-position: -204px 0;"></a>
+                    <p>携程酒店</p>
+                </li>
+                <li>
+                    <a href="http://www.zhanglitong.com/mobile/index.php?moduleid=16&itemid=7604&homepage=1" class="index-img" style="display: block;background-position: -241px 0;"></a>
+                    <p>会员专享</p>
+                </li>
+                <li>
+                    <a href="http://wx.weather.com.cn/mweather/101280101.shtml#1" class="index-img" style="display: block;background-position: -278px 0;"></a>
+                    <p>天气预报</p>
+                </li>
+                <li>
+                    <a href="http://touch.dujia.qunar.com/around.qunar?area=around&limit=0,10" class="index-img" style="display: block;background-position: -315px 0;"></a>
+                    <p>周边游</p>
+                </li>
+            </ul>
+        </div>
+        <div style="margin-top: 19px;">
+            <ul class="index-item">
+                <li>
+                    <a href="http://www.zhanglitong.com/mobile/bianmin.php" class="index-img" style="display: block;background-position: -352px 0;"></a>
+                    <p>查询工具</p>
+                </li>
+                <li>
+                    <a href="http://www.zhanglitong.com/mobile/takeout.php" class="index-img" style="display: block;background-position: -389px 0;"></a>
+                    <p>配送服务</p>
+                </li>
+                <li>
+                    <a href="http://www.zhanglitong.com/mall/lotterywap.php" class="index-img" style="display: block;background-position: -426px 0;"></a>
+                    <p>天天抽奖</p>
+                </li>
+                <li>
+                    <a href="http://m.kuaidi100.com/" class="index-img" style="display: block;background-position: -463px 0;"></a>
+                    <p>快递查询</p>
+                </li>
+                <li>
+                    <a href="http://uc.wy.guahao.com/" class="index-img" style="display: block;background-position: -500px 0;"></a>
+                    <p>挂号</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--广告提示-->
+    <div class="tips">
+        <div class="h-tips">热烈祝贺掌里通智慧城市启动上线</div>
+        <div class="h-tips-p"><a href="javascript:;" class="label h-tips-more">更多</a></div>
+    </div>
+    <!--菜单分类-->
+    <nav class="navList" style="background-color: #fff;border-top:1px solid #ddd;">
+        <ul class="ulnav clearfix">
+            <li><a href="javascript:;">实体</a></li>
+            <li><a href="javascript:;">实体</a></li>
+            <li><a href="javascript:;">实体</a></li>
+            <li><a href="javascript:;">实体</a></li>
+            <li><a href="javascript:;">实体</a></li>
+            <li><a href="javascript:;">实体</a></li>
+            <li><a href="javascript:;">实体</a></li>
+            <li><a href="javascript:;">实体</a></li>
+        </ul>
+    </nav>
+    <!--生活配送菜单分类-->
+    <div>
+        <p style="padding: 0 10px;">生活配送 <span class="caret1"></span></p>
+        <nav class="navList-live" style="background-color: #fff;">
+            <ul class="ulnav-l navDistribution clearfix">
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!--生活预定菜单分类-->
+    <div>
+        <p style="padding: 0 10px;">生活预定 <span class="caret1"></span></p>
+        <div style="background-color: #fff;padding-bottom: .2rem;">
+            <nav class="navList-live">
+                <ul class="ulnav-l clearfix">
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                    <li><a href="javascript:;">实体</a></li>
+                </ul>
+            </nav>
+            <nav class="navList-live navListSecond">
+                <ul class="ulnav-s clearfix">
+                    <li style="background-color: #76c5f0;"><a href="javascript:;">工厂</a></li>
+                    <li style="background-color: #f19abd;"><a href="javascript:;">工厂</a></li>
+                    <li style="background-color: #fffcc7;"><a href="javascript:;">工厂</a></li>
+                    <li style="background-color: #ba8fba;"><a href="javascript:;">工厂</a></li>
+                    <li style="background-color: #dededc;"><a href="javascript:;">工厂</a></li>
+                    <li style="background-color: #b8dc7c;"><a href="javascript:;">工厂</a></li>
+                    <li style="background-color: #7ac49f;"><a href="javascript:;">工厂</a></li>
+                    <li style="background-color: #f6c491;"><a href="javascript:;">工厂</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!--兼职工作菜单分类-->
+    <div>
+        <p style="padding: 0 10px;">兼职工作 <span class="caret1"></span></p>
+        <nav class="navList-live" style="background-color: #fff;">
+            <ul class="ulnav-l clearfix">
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!--商务服务菜单分类-->
+    <div>
+        <p style="padding: 0 10px;">商务服务 <span class="caret1"></span></p>
+        <nav class="navList-live" style="background-color: #fff;">
+            <ul class="ulnav-l clearfix">
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!--其他服务菜单分类-->
+    <div>
+        <p style="padding: 0 10px;">其他服务 <span class="caret1"></span></p>
+        <nav class="navList-live" style="background-color: #fff;">
+            <ul class="ulnav-l clearfix">
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+                <li><a href="javascript:;">实体</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<nav class="navMenu">
+    <ul class="navMenuUl">
+        <li><a class="on" href="javascript:;" style="background-image: url('img/icon01.png');">首页</a></li>
+        <li><a href="javascript:;" style="background-image: url('img/icon2.png');">频道</a></li>
+        <li><a href="javascript:;" style="background-image: url('img/icon3.png');">我的</a></li>
+        <li><a href="javascript:;" style="background-image: url('img/icon4.png');">更多</a></li>
+    </ul>
+</nav>
+</body>
+</html>

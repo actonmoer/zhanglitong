@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>掌里通-预定员工系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_8bbljbkhfl4k7qfr.css">
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	{template "room_head","mobile"}
+	<style>
+		body{
+			background:#fff;
+			width:100%;
+			height:100%;
+			background-position:.3125rem 6.25rem;
+			background-size:110% 80%;
+			background-repeat:no-repeat;
+			background-origin:border-box;
+			background-clip:border-box;
+			background-attachment: fixed;
+			background-image:url(http://www.zhanglitong.com/template/default/mobile/img/bgImg.png);
+		}
+		header{
+			position:relative;
+			width:100%;
+			height:43px;
+			line-height:43px;
+			color:#333;
+			font-size:18px;
+			border-bottom:1px solid #eee;
+		}
+		.header-back{
+			position:absolute;
+			width:60px;
+		}
+		.header-back i{
+			display:inline-block;
+			padding-left:20px;
+		}
+		.header-content{
+			position:absolute;
+			width:100%;
+			text-align:center;
+		}
+		.showLi{
+			position:relative;
+			padding:0;
+		}
+		.bodyBox{
+			top:135px;
+		}
+		.showLi{
+			border-bottom:none;
+		}
+		.showForm .showLi span{
+			margin:0 60px 0 85px;
+		}
+		.showForm .showLi span input{
+			text-align:left;
+			height:30px;
+			line-height:30px;
+			font-size:16px;
+			color:#666;
+			letter-spacing:1px;
+			background:transparent;
+			outline:none;
+		}
+		.icon-z-phone,.icon-mima1{
+			position:absolute;
+			top:0;
+			left:60px;
+			font-size: 20px;
+			display: inline-block;
+			color:#666;
+			height:30px;
+			line-height:30px;
+		}
+		.line{
+			margin:0 60px;
+			border-bottom:1px solid #ccc;
+		}
+		.showForm .showLi b{
+			padding:0;
+			width:100%;
+			height:30px;
+			line-height:30px;
+			text-align:right;
+			margin-bottom:30px;
+		}
+		/*input:-webkit-autofill {
+			-webkit-box-shadow: 0 0 0 100px rgba(255,255,255,1) inset;
+		}*/
+	</style>
+</head>
+<body>
+	<header>
+		<div class="header-back" style="z-index:10;" onclick="window.history.go(-1);">
+			<i class="iconfont icon-left"></i>
+		</div>
+		<div class="header-content">
+			<span>掌里通预定员工系统</span>
+		</div>
+	</header>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<form action="?act=waiter_login&rid=75" id="ds_form" method="post" enctype="multipart/form-data">
+				<div class="showList showForm" style="background:none;">
+					<!--<div class="showLi">
+					   <span style="border:none;padding:20px 0;font-size:25px;font-weight:blod;margin:0 auto;width:79%;"></span>
+					</div>-->
+				<div class="showLi">
+					<!--<b>用户名</b>-->
+					<i class="iconfont icon-z-phone"></i>
+					<span>
+						<input type="text" value="" name="username" placeholder="用户名">
+					</span>
+					</div>
+					<div class="line" style="margin-bottom:15px;"></div>
+				<div class="showLi">
+					<!--<b>密码</b>-->
+					<i class="iconfont icon-mima1"></i>
+					<span>
+						<input type="password" value="" name="password" autocomplete="new-password" placeholder="密码">
+					</span>
+				</div>
+					<div class="line"></div>
+				<div class="showLi" style="margin:0 60px;">
+					<b><a href="login.php" style="color:#499be6;">到首页登录></a></b>
+					<span style="width:100%;margin:0;">
+					<input style="color:#499be6;border-radius:5px;text-align:center;border:1px solid #499be6;background-color:transparent;" type="submit" value="登录" name="submit"/>
+		           </span>
+				</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="footBox"></div>
+
+</body>
+</html>

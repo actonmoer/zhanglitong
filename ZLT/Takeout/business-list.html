@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>外卖配送--商家列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="takeout.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_ilpdt0wl9mzyf1or.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+</head>
+<body>
+<header>
+    <div class="h-left">
+        <a href="javascript:;"><i class="iconfont icon-left"></i></a>
+    </div>
+    <div class="h-center">
+        <div class="h-sousou">
+            <input type="search" id="keyword" placeholder="搜索商铺/商品名称">
+            <a href="javascript:;" class="h-search"><i class="iconfont icon-sousuo1111"></i></a>
+        </div>
+    </div>
+    <div class="h-right">
+        <a href="javascript:;"><i class="iconfont icon-zhankai"></i></a>
+    </div>
+</header>
+
+<section>
+    <!--分类导航-->
+    <div class="swiper-container" style="height: 3.12rem;">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <!--优惠专区-->
+    <div class="discount">
+        <div class="left">
+            <a href="javascript:;">
+                <div class="left-word">
+                    <p>特价商品</p>
+                    <p>限时抢购</p>
+                </div>
+                <div class="right-img">
+                    <i class="iconfont icon-shangpinzhekoushezhi11"></i>
+                </div>
+            </a>
+        </div>
+        <div class="right">
+            <a href="javascript:;">
+                <div class="left-word">
+                    <p>热卖商品</p>
+                    <p>商家促销</p>
+                </div>
+                <div class="right-img">
+                    <i class="iconfont icon-iconfontyouhui"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!--菜单栏选择分类-->
+    <div class="menu">
+        <div class="menu-nav">
+            <div onclick="showNav(this)" data-show="0" data-hide="left">全部分类<i class="iconfont icon-down-trangle"></i>
+                <ul class="menu-nav-list" id="menuList">
+                    <li>全部分类</li>
+                </ul>
+            </div>
+            <div onclick="showNav(this)" data-show="0" data-hide="right">离我最近<i class="iconfont icon-down-trangle"></i>
+                <ul class="menu-nav-list" id="screenClassify">
+                    <li>离我最近</li>
+                    <li>最新发布</li>
+                    <li>人气优先</li>
+                    <li>价格最低</li>
+                    <li>价格最高</li>
+                    <li>免配送费</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--商家列表-->
+    <div class="seller-list">
+        <div class="seller-item">
+            <div class="seller-img">
+                <img src="http://img.mp.itc.cn/upload/20170808/a3fee4317ffd41f18de3c4e2e2cdd0d5_th.jpg" alt="">
+            </div>
+            <div class="seller-detail">
+                <div class="seller-title">
+                    <span class="title">真滋味美食</span>
+                </div>
+                <div class="sale">
+                    <span>总售1000</span>
+                    <span class="distance">1000km</span>
+                </div>
+                <div class="time">
+                    <span>30分钟送达</span>
+                </div>
+                <div class="seller-price">
+                    <span class="start-price">起送价¥0.00</span>
+                    <span class="distribution-price">配送价¥0.00</span>
+                </div>
+            </div>
+        </div>
+        <!--<div class="seller-item">-->
+            <!--<figure class="seller-img">-->
+                <!--<img src="http://img.mp.itc.cn/upload/20170808/a3fee4317ffd41f18de3c4e2e2cdd0d5_th.jpg" alt="">-->
+            <!--</figure>-->
+            <!--<div class="seller-detail">-->
+                <!--<div class="seller-title">-->
+                    <!--<span class="title">真滋味美食</span>-->
+                <!--</div>-->
+                <!--<div class="sale">-->
+                    <!--<span>总售1000</span>-->
+                    <!--<span class="distance">1000km</span>-->
+                <!--</div>-->
+                <!--<div class="time">-->
+                    <!--<span>30分钟送达</span>-->
+                <!--</div>-->
+                <!--<div class="seller-price">-->
+                    <!--<span class="start-price">起送价¥0.00</span>-->
+                    <!--<span class="distribution-price">配送价¥0.00</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="seller-item">-->
+            <!--<figure class="seller-img">-->
+                <!--<img src="http://img.mp.itc.cn/upload/20170808/a3fee4317ffd41f18de3c4e2e2cdd0d5_th.jpg" alt="">-->
+            <!--</figure>-->
+            <!--<div class="seller-detail">-->
+                <!--<div class="seller-title">-->
+                    <!--<span class="title">真滋味美食</span>-->
+                <!--</div>-->
+                <!--<div class="sale">-->
+                    <!--<span>总售1000</span>-->
+                    <!--<span class="distance">1000km</span>-->
+                <!--</div>-->
+                <!--<div class="time">-->
+                    <!--<span>30分钟送达</span>-->
+                <!--</div>-->
+                <!--<div class="seller-price">-->
+                    <!--<span class="start-price">起送价¥0.00</span>-->
+                    <!--<span class="distribution-price">配送价¥0.00</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="seller-item">-->
+            <!--<figure class="seller-img">-->
+                <!--<img src="http://img.mp.itc.cn/upload/20170808/a3fee4317ffd41f18de3c4e2e2cdd0d5_th.jpg" alt="">-->
+            <!--</figure>-->
+            <!--<div class="seller-detail">-->
+                <!--<div class="seller-title">-->
+                    <!--<span class="title">真滋味美食</span>-->
+                <!--</div>-->
+                <!--<div class="sale">-->
+                    <!--<span>总售1000</span>-->
+                    <!--<span class="distance">1000km</span>-->
+                <!--</div>-->
+                <!--<div class="time">-->
+                    <!--<span>30分钟送达</span>-->
+                <!--</div>-->
+                <!--<div class="seller-price">-->
+                    <!--<span class="start-price">起送价¥0.00</span>-->
+                    <!--<span class="distribution-price">配送价¥0.00</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="seller-item">-->
+            <!--<figure class="seller-img">-->
+                <!--<img src="http://img.mp.itc.cn/upload/20170808/a3fee4317ffd41f18de3c4e2e2cdd0d5_th.jpg" alt="">-->
+            <!--</figure>-->
+            <!--<div class="seller-detail">-->
+                <!--<div class="seller-title">-->
+                    <!--<span class="title">真滋味美食</span>-->
+                <!--</div>-->
+                <!--<div class="sale">-->
+                    <!--<span>总售1000</span>-->
+                    <!--<span class="distance">1000km</span>-->
+                <!--</div>-->
+                <!--<div class="time">-->
+                    <!--<span>30分钟送达</span>-->
+                <!--</div>-->
+                <!--<div class="seller-price">-->
+                    <!--<span class="start-price">起送价¥0.00</span>-->
+                    <!--<span class="distribution-price">配送价¥0.00</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="seller-item">-->
+            <!--<figure class="seller-img">-->
+                <!--<img src="http://img.mp.itc.cn/upload/20170808/a3fee4317ffd41f18de3c4e2e2cdd0d5_th.jpg" alt="">-->
+            <!--</figure>-->
+            <!--<div class="seller-detail">-->
+                <!--<div class="seller-title">-->
+                    <!--<span class="title">真滋味美食</span>-->
+                <!--</div>-->
+                <!--<div class="sale">-->
+                    <!--<span>总售1000</span>-->
+                    <!--<span class="distance">1000km</span>-->
+                <!--</div>-->
+                <!--<div class="time">-->
+                    <!--<span>30分钟送达</span>-->
+                <!--</div>-->
+                <!--<div class="seller-price">-->
+                    <!--<span class="start-price">起送价¥0.00</span>-->
+                    <!--<span class="distribution-price">配送价¥0.00</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</section>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/swiper.min.js"></script>
+<script src="../js/rem.js"></script>
+<script type="text/javascript" src="../js/myjs.js"></script>
+<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript">
+    var weburl = 'http://www.zhanglitong.com', navlist = '';
+    function getTakeoutClassify(){
+        var self = this;
+        $.ajax({
+            url: "/mobile/for_ajax.php",
+            type: "POST",
+            data: {for_ajax:"takeout_category_list"},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                if(d.success){
+                    navlist = d.data;
+                    $('.swiper-wrapper').html(self.strClassify(navlist));
+                    var swiper = new Swiper('.swiper-container', {
+                        pagination: {
+                            el: '.swiper-pagination'
+                        }
+                    });
+                    $('#menuList').append(classifyList());
+                    $('#menuList').children().attr('onclick','setClassify(this)');
+                }
+            },
+            error: function(){
+                alert('网络延时,请稍后再试!');
+            }
+        });
+    }
+
+    function strClassify(data){
+        var str = '',
+            arr = [];
+        for(var i=0;i<data.length;i+=8){
+            arr.push(data.slice(i,i+8));
+        }
+        for(var k=0;k<arr.length;k++){
+            str += '<div class="swiper-slide">\n';
+            str += '<div class="takeout-nav">\n';
+            for(var j=0;j<arr[k].length;j++){
+                if(arr[k][j].thumb.indexOf(weburl) != -1){
+                    arr[k][j].thumb = arr[k][j].thumb.slice(weburl.length);
+                }
+                str += '<div>\n' +
+                    '<a href="javascript:;">\n' +
+                    '<img src="'+arr[k][j].thumb+'" alt="">\n' +
+                    '<p>'+arr[k][j].category_name+'</p>\n' +
+                    '</a>\n' +
+                    '</div>\n';
+            }
+            str += '</div>';
+            str += '</div>';
+        }
+        return str;
+    }
+
+    function classifyList1111(){
+        var list = [];
+        console.log(list);
+        for(var i=0;i<navlist.length;i++){
+            list.push(navlist[i].category_name);
+        }
+        return list;
+    }
+
+    function classifyList(){
+        var str = '';
+        for(var i=0;i<navlist.length;i++){
+            str += '<li>'+navlist[i].category_name+'</li>'
+        }
+        return str;
+    }
+
+    //显示分类
+    var flag = false;
+    function showNav(self){
+        var s = $(self);
+        $('.menu-nav').find('.menu-nav-list').hide();
+        if(s.attr('data-show') == 0){
+            s.children('#menuList,#screenClassify').show();
+            s.attr('data-show',1);
+            s.siblings().attr('data-show',0);
+        }else{
+            s.children('#menuList,#screenClassify').hide();
+            s.attr('data-show',0);
+        }
+    }
+
+    //选择分类信息
+    function setClassify(self){
+        var s = $(self);
+    }
+
+
+    $(document).ready(function(){
+        getTakeoutClassify();
+        $.ajax({
+            url: '/mobile/for_ajax_test.php',
+            type: 'POST',
+            data: {
+                for_ajax: 'takeout_restaurant_list',
+                lng: '113.22026',
+                lat: '23.40391',
+                order: '',
+                catid: 0,
+                search: ''
+            },
+            dataType: 'JSON',
+            success: function(d){
+                console.log(d);
+                $('.seller-list').append(takeoutstr(d));
+            }
+        });
+//        $('#seller-list').append(takeoutstr());
+    });
+</script>
+</body>
+</html>

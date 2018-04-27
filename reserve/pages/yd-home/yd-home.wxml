@@ -1,0 +1,73 @@
+<view class='home-box'>
+  <view class='home-head'>
+    <view class='home-title'>
+      <view class='home-img'>
+        <image src="{{ userInfo.avatarUrl ? userInfo.avatarUrl : 'https://www.zhanglitong.com/api/avatar/default.jpg' }}"></image>
+      </view>
+      <text class='user-name'>{{ userInfo.nickName}}</text>
+    </view>
+    <!-- 登录状态 -->
+    <view class='price-box' wx:if='{{userInfo != ""}}'>
+      <view class='balance-box'>
+        <text class="balance">{{ balance ? balance : '0.00' }}</text>
+        <text class="balanceText">余额</text>
+      </view>
+      <view class='recharge' catchtap='recharge'>
+        <text>余额充值</text>
+      </view>
+    </view>
+    <!-- <view class='btn' wx:if='{{userInfo != "" }}'> -->
+    <view class='btn' wx:if='{{ !isBind && userInfo != ""}}'>
+      <button class="bindPhone" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机</button>
+    </view>
+    <!-- 不登录状态 -->
+    <view class='no-login-bg' wx:if='{{userInfo == ""}}'>
+      <view class='bg-image-box'>
+        <image src="/images/myHome-bg.jpg"></image>
+      </view>
+      <view class='login-logout'>
+        <text>注册/登录</text>
+        <text>登录后享更多优惠</text>
+      </view>
+    </view>
+  </view>
+  <view class='home-info'>
+    <view class='item-info'>
+      <view class='item-img'>
+        <image src="/images/service.png"></image>
+      </view>
+      <view class='item-cont' catchtap='call'>
+        <text>客服电话：020-36910000(转888)</text>
+      </view>
+    </view>
+    <view class='item-info'>
+      <view class='item-img'>
+        <image src="/images/enter.png"></image>
+      </view>
+      <view class='item-cont'>
+        <text>商家入驻</text>
+        <text class='tip'>(如需进驻，请关注掌里通公众号！)</text>
+      </view>
+      
+    </view>
+    <!-- <view class='item-info'>
+      <view class='item-img'>
+        <image src="/images/money.png"></image>
+      </view>
+     <view class='item-cont'>
+        <text>余额使用</text>
+        <text class='tip'>(如需使用，请关注掌里通公众号！)</text>
+      </view>
+    </view> -->
+  </view>
+  <view class='logOff' catchtap='clear'>
+    <text wx:if='{{userInfo != ""}}'>退出登录</text>
+    <text wx:if='{{userInfo == ""}}'>点击登录</text>
+  </view>
+  <!-- <view class='qrcode-mask'>
+    <view class='mask'></view>
+    <view class='qrcode-img'>
+      <image src='/images/qrcode.png' />
+    </view>
+  </view> -->
+</view>

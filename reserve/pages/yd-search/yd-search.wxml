@@ -1,0 +1,62 @@
+<!-- 搜索框 -->
+<view class="search-box">
+  <view class="search">
+    <input placeholder="搜索商家，商品" bindconfirm="changeInput" focus="true" />
+    <icon class="search-icon" type="search" size="14" />
+  </view>
+</view>
+<!-- 搜索列表 -->
+<view class="search-list">
+  <block wx:for="{{ shopList }}" wx:key="item">
+   <view class='shop-cen1'  catchtap='businessDetail' 
+data-id="{{ item.id }}" data-reserveprice="{{ item.reserve_price }}">
+      <!-- 商家 -->
+      <view class="shop-cen">
+        <view class="shop-image">
+          <image src="{{ item.thumb }}"></image>
+        </view>
+        <view class='shop-name'>
+          <text class="">{{ item.company }}</text>
+        </view>
+      </view>
+      <!-- 菜名 -->
+      <view class="shop-cen" wx:for="{{ item.goods }}" wx:key="item.goods">
+        <view class="shop-images">
+          <image src="{{ item.thumb }}"></image>
+        </view>
+        <view class='shop-names_a'>
+          <view class='shop-names'>
+            <view class="shop-na">{{ item.name }}</view> 
+           </view>
+          <view class='shop-namess'>
+            <text class="">库存：{{ item.sells }}</text> 
+          </view>
+          <view class='shop-names'>
+            <text class="">价格：￥{{ item.price }}</text> 
+          </view>
+        </view>
+      </view>
+    </view>
+  </block> 
+
+  
+
+
+
+</view>
+<!-- 搜索结果为空 -->
+<view class="search-empty" wx:if="{{ isEmpty }}">
+  <text>抱歉，未能找到您搜索的商家或商品</text>
+</view>
+<!-- 热门搜索 -->
+<view class="search-hot" wx:if="{{ shopList == '' }}">
+  <view class="hot-title">
+    <text>热门搜索</text>
+  </view>
+  <view class="hot-cont">
+  <block wx:for="{{ businessList }}" wx:key="item">
+    <text class="hot-item" catchtap='businessDetail' 
+    data-id="{{ item.id }}" data-reserveprice="{{ item.reserve_price }}">{{ item.company }}</text>
+  </block>
+  </view>
+</view>

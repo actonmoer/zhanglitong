@@ -1,0 +1,69 @@
+body{
+    font-family: "Microsoft YaHei";
+}
+body,p,ul,h1,h2,h3,h4,h5,h6{
+    margin: 0;
+    padding: 0;
+}
+a:hover,
+a:focus{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+header{
+    width: 100%;
+    height: 100px;
+    background-color: #010101;
+}
+.h-1200{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.h-left{
+    padding-top: 18px;
+}
+.h-left p{
+    color: #fff;
+    font-size: 26px;
+}
+.h-left div{
+    padding-left: 22px;
+    padding-top: 1px;
+}
+.h-nav li{
+    float: left;
+    width: 90px;
+    text-align: center;
+    line-height: 97px;
+    margin-left: 7px;
+}
+.h-nav li a.active,
+.h-nav li a:hover{
+    color: #eb1101;
+    font-weight: bold;
+    border-bottom: 3px solid #eb1101;
+}
+.h-nav li a{
+    display: block;
+    color: #fff;
+    font-size: 18px;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+}
+
+
+
+
+
+footer{
+    height: 50px;
+    background-color: #333;
+}
+footer p{
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    line-height: 50px;
+}

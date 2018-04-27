@@ -1,0 +1,167 @@
+.partner-box{
+  background-color:#fff;
+  width:100%;
+  padding: 0.656rem 0.390rem 0 0.390rem;
+}
+.partner-box_logo{
+  width: 2.468rem;
+  margin: 0 auto;
+  padding-bottom: 0.486rem;
+}
+
+.partner-box_logo img{
+  width: 100%;
+}
+.collection_text{
+  font-size: 16px;
+}
+
+.input_theme{
+  height: 1.218rem;
+  line-height: 1.218rem;
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  overflow: hidden;
+
+  font-size: 16px;
+  margin-bottom: 0.781rem;
+}
+.input_input::-webkit-input-placeholder { /* WebKit browsers */
+  color: #ccc;
+}
+.input_input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #ccc;
+}
+.input_input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #ccc;
+}
+.input_input:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: #ccc;
+}
+.input_name{
+  color: #666666;
+  font-size: 16px;
+  width: 35%;
+  letter-spacing:2px;
+  padding-left:0.468rem;
+
+}
+.input_input{
+  letter-spacing:2px;
+  font-size: 15px;
+  width: 65%;
+}
+
+.transfer_name{
+  color: #666666;
+  font-size: 16px;
+  padding-left:0.468rem;
+  letter-spacing:2px;
+  margin-bottom: 0.468rem;
+  margin-top: 0.468rem;
+}
+
+.transfer_bat{
+  width: 6.875rem;
+  height: 4.5rem;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+
+}
+
+.transfer_bat_input{
+  position: absolute;
+  left: 0;
+  top: -999px;
+  width: 10000%;
+  height: 10000%;
+
+}
+
+
+
+.transfer_bat img{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.agreement span{
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+.agreement{
+  padding: 20px;
+
+}
+.agreement h1{
+  font-size: 18px;
+  text-align: center;
+}
+.agreement p{
+  font-size: 14px;
+}
+
+.agreement i {
+  display: inline-block;
+  width: 0.312rem;
+  height: 0.312rem;
+  border: 1px solid #3d95e5;
+}
+.agreement .agreement_i{
+  background: #3d95e5;
+}
+
+
+
+.collection{
+  padding:0.468rem 0.234rem 0.234rem 0.468rem;
+  margin: 0.468rem 0;
+
+  border: solid 2px #eeee;
+}
+.collection_name{
+  font-size: 16px;
+  line-height: 1.328rem;
+}
+
+.collection_id{
+  font-size: 16px;
+}
+.collection_img{
+  width: 1.328rem;
+  height: 1.328rem;
+}
+.collection_img img{
+  width: 100%;
+}
+
+.btn{
+  background: #3d95e5;
+  letter-spacing:2px;
+  text-align: center;
+  height: 1.25rem;
+  font-size: 16px;
+  line-height: 1.25rem;
+  color: #ffffff;
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.tra{
+  height: 5px;
+  position: relative;
+  left: 0;
+  background-color: #eeeeee;
+  border-bottom: solid 1px #eeeeee;
+}

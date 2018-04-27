@@ -1,0 +1,82 @@
+<view class='pay-box'>
+  <view class='pay-head'>
+    <view class='head-img'>
+      <image src='{{avatarImg}}'></image>
+    </view>
+    <view class='head-cont'>
+      <text class='price'>¥{{ price }}</text>
+      <text class='order-number'>{{ order }}</text>
+    </view>
+  </view>
+  <!-- 选择支付方式 -->
+  <view class='choose-pay'>
+    <!-- 掌里通支付 -->
+    <view class='pay-item'>
+      <view class='pay-icon'>
+        <image src='/images/unionpaynew.png'></image>
+      </view>
+      <view class='pay-way'>
+        <text>余额支付</text>
+        <text>用账户余额支付</text>
+      </view>
+    </view>
+    <!-- 微信支付 -->
+    <view class='pay-item'>
+      <view class='pay-icon'>
+        <image src='/images/weixin.png'></image>
+      </view>
+      <view class='pay-way'>
+        <text>微信支付</text>
+        <text>推荐安装微信6.0.2及以上版本</text>
+      </view>
+    </view>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio">
+        <radio value="zhanglitong" color='#4fc08d' />
+      </label>
+      <label class="radio">
+        <radio value="weixin" color='#4fc08d' checked="true" />
+      </label>
+    </radio-group>
+  </view>
+  <!-- 确认支付 -->
+  <view class='pay-btn' bindtap="payname">
+    <text>确认支付</text>
+  </view>
+</view>
+
+
+ <view wx:if="{{!isWeixin}}" class="wallets-password"> 
+  <view class="input-content-wrap">
+    <view class="top">
+      <view catchtap="close_wallets_password" class="close">×</view>
+      <view class="txt">请输入支付密码</view>
+      <view catchtap="modify_password" class="forget">忘记密码?</view> 
+    </view>
+    <view class="actual_fee">
+      <span>￥</span>
+      <text>{{price}}</text>
+    </view>
+    <view catchtap="set_Focus" class="input-password-wrap">
+      <view class="password_dot">
+        <i wx:if="{{wallets_password.length>=1}}"></i>
+      </view>
+      <view class="password_dot">
+        <i wx:if="{{wallets_password.length>=2}}"></i>
+      </view>
+      <view class="password_dot">
+        <i wx:if="{{wallets_password.length>=3}}"></i>
+      </view>
+      <view class="password_dot">
+        <i wx:if="{{wallets_password.length>=4}}"></i>
+      </view>
+      <view class="password_dot">
+        <i wx:if="{{wallets_password.length>=5}}"></i>
+      </view>
+      <view class="password_dot">
+        <i wx:if="{{wallets_password.length>=6}}"></i>
+      </view>
+    </view>
+  </view>
+  <input bindinput="set_wallets_password" class="input-content" password type="number" focus="{{isFocus}}" maxlength="6" />
+</view>

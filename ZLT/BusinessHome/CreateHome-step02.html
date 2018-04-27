@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建商铺--信息填写</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_ifyw6j44rv2f0f6r.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/business.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">创建商铺</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+
+<section>
+    <!--路径导航-->
+    <nav class="path-nav">
+        <ul class="clearb path-ul">
+            <li>1.基本信息</li>
+            <li><a href="javascript:;" class="path-color">2.配送信息</a></li>
+            <li>3.创建成功</li>
+        </ul>
+    </nav>
+    <!--路径导航-->
+	<form action="../BusinessHome.php" method="post" onsubmit="return submitform()">
+    <div class="shop-message bfff">
+        <div class="m20-lr" style="padding-top: 1.25rem;">
+            <input type="hidden" name="action" value="create_home2">
+            <input type="hidden" name="summit" value="ts">
+            <div class="m20-b" style="margin-bottom: .4375rem;">
+                <input type="text" class="form-control shop-input" name="start_price" placeholder="请输入起送价格" required>
+            </div>
+            <p class="shop-p m20-b">注：多少钱起送餐,以(元)为单位.</p>
+
+            <div class="m20-b" style="margin-bottom: .4375rem;">
+                <input type="text" class="form-control shop-input" id="distributionprice" name="distribution_price" placeholder="请输入配送费用">
+            </div>
+            <p class="shop-p m20-b">注：配送过程需要多少钱,以(元)为单位.</p>
+
+            <div class="m20-b" style="margin-bottom: .4375rem;">
+                <input type="text" class="form-control shop-input" name="delivery_time" placeholder="请输入配送时间" required>
+            </div>
+            <p class="shop-p m20-b">注：送餐时间大概需要多久,以(分钟)为单位</p>
+
+            <div class="m20-b">
+                <select class="form-control shop-select" name="catid" style="height: 2.5rem;color: #666;" required>
+                    <option>请选择所属分类</option>
+                </select>
+            </div>
+
+            <div class="m20-b" style="margin-bottom: .4375rem;">
+                <input type="text" class="form-control shop-input" name="radius" placeholder="请输入服务半径">
+            </div>
+            <p class="shop-p">半径说明：指配送半径范围,0代表不限配送范围,以(公里)为单位.</p>
+        </div>
+    </div>
+    <div style="margin: 1.25rem;">
+        <input type="submit" class="btn shop-btn" style="width: 100%;" value="立即创建">
+    </div>
+	</form>
+</section>
+<script type="text/javascript">
+$(function(){
+	$.ajax({
+        type:"post",
+        url:"../BusinessHome.php",
+        dataType:"json",
+        data:{"action":"show_category"},
+        success:function(data){
+            console.log(data);
+            for(var i=0;i<data.length;i++){
+                $("select[name='catid']").append("<option value='"+data[i].id+"'>"+data[i].category_name+"</option>");
+            }
+        }
+    });
+});
+
+function submitform(){
+    var distribution_price = $("#distributionprice").val();
+    var delivery_time=$("input[name='delivery_time']").val();
+    var start_price=$("input[name='start_price']").val();
+    var catid=$("select[name='catid']").val();
+    
+    $.post("../BusinessHome.php",{action:"create_home2",distribution_price:distribution_price,delivery_time:delivery_time,start_price:start_price,catid:catid},function(data){
+        console.log(data);
+        var d=$.parseJSON(data);
+        if(d.code == "200"){
+            window.location.href="CreateHome-step03.html";
+        }
+    });
+}
+</script>
+</body>
+</html>

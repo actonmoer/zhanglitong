@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>配送</title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    	<!--script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=2c06279dcbbc3f2f5a2cf9093e0090a3"></script-->
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+		<script type="text/javascript" src="static/takeout/js/Map.js"></script>
+
+		<script type="text/javascript">
+			var isInitGet=true;
+			var lng = '';
+			var lat = '';
+			mMap.watchPosition(locationFunc);
+			function locationFunc(data){
+				//var _data =JSON.parse(data, null, 4);
+				lng = data.lng;
+				lat = data.lat;
+				 if(isInitGet){
+					 default_ajax_restaurant_list();
+					 isInitGet=false;
+                     geolocation.clearWatch();
+				 }else{
+					$("#restaurant_list").append("<div style='width: 52%;margin: 0 auto;'>找不到任何商家,可能没有该类型商家数据或定位失效</div>");
+				 }
+			}
+
+		</script>
+		{template "takeout_head","mobile"}
+		<script type="text/javascript">
+            var list_html;
+			var ajaxData = {page: 0, st: 0, catid: '0', order: ''};
+			var datak = {"for_ajax":"takeout_restaurant_list","page": 0, catid: '0', order: ''};
+			function getDefaultAjax(){
+				ajaxData = {page: 0, st: 0,'catid':ajaxData.catid,'order':ajaxData.order};
+				datak = {"for_ajax":"takeout_restaurant_list","page":0,'catid':ajaxData.catid,'order':ajaxData.order};
+				$("#restaurant_list").empty();
+			}
+			$(function(){
+				default_ajax_category_list();
+				$(window).scroll(function(){
+					if($(window).scrollTop()+$(window).height()>$('body').height()-100){
+						//default_ajax_restaurant_list();
+					}
+				});
+				$("#search").click(function(){
+				       $("#restaurant_list").empty();
+				       default_ajax_restaurant_list();
+				});
+			});
+             //获取配送分类
+			function default_ajax_category_list(){
+				$.ajax({
+					data:{"for_ajax":"takeout_category_list"},
+					type:"post",
+					dataType:"json",
+					url:"for_ajax.php",
+					success:function(data){
+						if (data.success) {
+							list_html = " <li onclick=\"Categorytw(this)\" data-val=\"0\">全部品牌</li>";
+							var list_category = "<div class=\"swiper-slide\">";
+							for(i in data.data){
+								list_html+=" <li onclick=\"Categorytw(this)\" data-val='"+data['data'][i]['id']+"'>"+data['data'][i]['category_name']+"</li>";
+								list_category+=" <a class=\"item\" onclick=\"Categorytw(this)\" data-val='"+data['data'][i]['id']+"' target=\"_blank\"><div class=\"pic\"><img src=\""+data['data'][i]['thumb']+"\"></div>"+data['data'][i]['category_name']+"</a>";
+								if ((parseInt(i)+1)%8==0&&i!==0) {
+									if ((parseInt(i)+1)!==data.data.length) {
+										list_category+="</div>";
+										list_category+="<div class=\"swiper-slide\">";
+									};
+								};
+
+							}
+							list_category+="</div>";
+							$("#list_category").html(list_category);
+							$("#Categorytw").html(list_html);
+							var mySwiper = new Swiper('#index_item .swiper-container', {
+								pagination : '#index_item .swiper-pagination'
+							})
+						};
+					},
+					error:function(){}
+				})
+			}
+            //获取配送商品
+//			function default_ajax_restaurant_list(){
+//			    var num=10;
+//				var str='<div id="box"><div style="position: fixed;top: 0;left: 0;bottom: 0;right: 0;width: 100%;height: 100%;z-index:99;background-color: rgba(0,0,0,.2);"></div><div style="position: fixed;top: 50%;left: 50%;width: 100%;height: 100%;z-index:100;margin: -24px 0 0 -24px;"><img src="http://www.zhanglitong.com/mobile/static/img/my_loading.gif" alt="加载中"></div></div>';
+//				if(ajaxData.st==1){ return false; }
+//				ajaxData.st=1;
+//				ajaxData.page++;
+//			    keyword=$("#keyword").val();
+//				//alert(keyword);
+//				$("body").append(str);
+//				$.ajax({
+//					data:{"for_ajax":"takeout_restaurant_list","page":ajaxData.page,'catid':ajaxData.catid,'order':ajaxData.order,'lng':lng,'lat':lat,keyword:keyword},
+//					type:"post",
+//					dataType:"json",
+//					url:"for_ajax.php",
+//					success:function(data){
+//					    console.log(data);
+//						if (data.success) {
+//							list_html='';
+//							if(data.data.length>0){
+////								for(i in data.data){
+////								    //href=\"takeout.php?act=restaurant&id="+data['data'][i]['id']+"\"
+////									list_html+="<dd class=\"page-link\"><a onclick=\"goto_restaurant("+data['data'][i]['id']+","+data['data'][i]['range']+","+data['data'][i]['radius']+")\" >";
+////									list_html+="<div class=\"dealcard-img imgbox\"> <img src=\""+data['data'][i]['thumb']+"\" alt=\""+data['data'][i]['take_out_shop_name']+"\"> </div>";
+////									list_html+="<div class=\"dealcard-block-right\"><div class=\"brand\">"+data['data'][i]['take_out_shop_name']+"<em class=\"location-right\">"+data['data'][i]['range']+"km</em></div>";
+////									list_html+="<div class=\"title \"><span class=\"star\">月售"+data['data'][i]['month_sell_count']+"单</span><em class=\"location-right\">"+data['data'][i]['delivery_time']+"分钟送达</em></div>";
+////									list_html+="<div class=\"price\"><span>起送价 ￥"+data['data'][i]['start_price']+"</span><span class=\"delivery\">配送费 ￥"+data['data'][i]['distribution_price']+"</span></div>";
+////									// list_html+="<div class=\"coupon \"><ul><li><em class=\"system_minus\"></em>平台优惠满10元减1元,满20元减5元</li><li>平台首单满100元减10元</li></ul></div></div></a></dd>";
+////									list_html+="</a></dd>";
+////								}
+//								for(var i=0;i<data.data.length;i++){
+//                                    list_html+="<dd class=\"page-link\"><a onclick=\"goto_restaurant("+data['data'][i]['id']+","+data['data'][i]['range']+","+data['data'][i]['radius']+")\" >";
+//                                    list_html+="<div class=\"dealcard-img imgbox\"> <img src=\""+data['data'][i]['thumb']+"\" alt=\""+data['data'][i]['take_out_shop_name']+"\"> </div>";
+//                                    list_html+="<div class=\"dealcard-block-right\"><div class=\"brand\">"+data['data'][i]['take_out_shop_name']+"<em class=\"location-right\">"+data['data'][i]['range']+"km</em></div>";
+//                                    list_html+="<div class=\"title \"><span class=\"star\">月售"+data['data'][i]['month_sell_count']+"单</span><em class=\"location-right\">"+data['data'][i]['delivery_time']+"分钟送达</em></div>";
+//                                    list_html+="<div class=\"price\"><span>起送价 ￥"+data['data'][i]['start_price']+"</span><span class=\"delivery\">配送费 ￥"+data['data'][i]['distribution_price']+"</span></div>";
+//                                    list_html+="</a></dd>";
+//								}
+//							}else{
+//							      if($("#keyword").val()!=""){
+//								      list_html="<div style='width: 52%;margin: 0 auto;'>该关键词没有匹配的结果</div>";
+//							      }else{
+//							          list_html="<div style='width: 52%;margin: 0 auto;'>找不到任何商家,可能商家还没加盟或定位失效</div>";
+//								  }
+//							}
+//							if($("#restaurant_list").find(".dealcard-img").length==0){
+//						    	$("#restaurant_list").append(list_html);
+//							}
+//						};
+//						ajaxData.st = 0;
+//                        $("#box").remove();
+//					},
+//					error:function(){
+//					    $("#restaurant_list").append("<div style='width: 52%;margin: 0 auto;'>找不到任何商家,可能没有该类型商家数据或定位失效</div>");
+//
+//					}
+//				});
+//			}
+
+            function default_ajax_restaurant_list(){
+			    console.log(ajaxData.order);
+			    console.log(ajaxData.catid);
+                var num=10;
+                var str='<div id="box"><div style="position: fixed;top: 0;left: 0;bottom: 0;right: 0;width: 100%;height: 100%;z-index:99;background-color: rgba(0,0,0,.2);"></div><div style="position: fixed;top: 50%;left: 50%;width: 100%;height: 100%;z-index:100;margin: -24px 0 0 -24px;"><img src="http://www.zhanglitong.com/mobile/static/img/my_loading.gif" alt="加载中"></div></div>';
+                if(ajaxData.st==1){ return false; }
+                ajaxData.st=1;
+                ajaxData.page++;
+                keyword=$("#keyword").val();
+                $("body").append(str);
+                $.ajax({
+                    type:"POST",
+                    data:{for_ajax:"takeout_restaurant_list",lng:lng,lat:lat,order:ajaxData.order,catid:ajaxData.catid,search:keyword},
+                    dataType:"json",
+                    url:"for_ajax_test.php",
+                    success:function(data){
+                        console.log(data);
+                        list_html='';
+                        if(data.length > 0){
+                            for(var i=0;i<data.length;i++){
+                                list_html+='<dd class="page-link"><a onclick="goto_restaurant('+data[i].id+','+data[i].datapx+','+data[i].radius+')" >';
+                                list_html+='<div class="dealcard-img imgbox"><img src="'+data[i].thumb+'" alt="'+data[i].take_out_shop_name+'"></div>';
+                                list_html+='<div class="dealcard-block-right"><div class="brand">'+data[i].take_out_shop_name+'<em class="location-right">'+data[i].datapx+'km</em></div>';
+                                list_html+='<div class="title "><span class="star">月售'+data[i].month_sell_count+'单</span><em class="location-right">'+data[i].delivery_time+'分钟送达</em></div>';
+                                list_html+='<div class="price"><span>起送价￥'+data[i].start_price+'</span><span class="delivery">配送费 ￥'+data[i].distribution_price+'</span></div>';
+                                list_html+='</a></dd>';
+                            }
+						}else{
+                            if($("#keyword").val()!=""){
+                                list_html="<div style='width: 52%;margin: 0 auto;'>该关键词没有匹配的结果</div>";
+                            }else{
+                                list_html="<div style='width: 52%;margin: 0 auto;'>找不到任何商家,可能商家还没加盟或定位失效</div>";
+                            }
+                        }
+                        if($("#restaurant_list").find(".dealcard-img").length==0){
+                            $("#restaurant_list").append(list_html);
+                        }
+                        ajaxData.st = 0;
+                        $("#box").remove();
+                    },
+                    error:function(){
+                        $("#restaurant_list").append("<div style='width: 52%;margin: 0 auto;'>找不到任何商家,可能没有该类型商家数据或定位失效</div>");
+                    }
+                });
+            }
+
+			function ajaxList(num){
+                $.ajax({
+                    data:{"for_ajax":"takeout_restaurant_list","page":ajaxData.page,'catid':ajaxData.catid,'order':ajaxData.order,'lng':lng,'lat':lat,keyword:keyword},
+                    type:"post",
+                    dataType:"json",
+                    url:"for_ajax.php",
+                    success:function(data){
+                        console.log(data);
+                        if (data.success) {
+                            list_html='';
+                            if(data.data.length>0){
+                                for(i in data.data){
+                                    //href=\"takeout.php?act=restaurant&id="+data['data'][i]['id']+"\"
+                                    list_html+="<dd class=\"page-link\"><a onclick=\"goto_restaurant("+data['data'][i]['id']+","+data['data'][i]['range']+","+data['data'][i]['radius']+")\" >";
+                                    list_html+="<div class=\"dealcard-img imgbox\"> <img src=\""+data['data'][i]['thumb']+"\" alt=\""+data['data'][i]['take_out_shop_name']+"\"> </div>";
+                                    list_html+="<div class=\"dealcard-block-right\"><div class=\"brand\">"+data['data'][i]['take_out_shop_name']+"<em class=\"location-right\">"+data['data'][i]['range']+"km</em></div>";
+                                    list_html+="<div class=\"title \"><span class=\"star\">月售"+data['data'][i]['month_sell_count']+"单</span><em class=\"location-right\">"+data['data'][i]['delivery_time']+"分钟送达</em></div>";
+                                    list_html+="<div class=\"price\"><span>起送价 ￥"+data['data'][i]['start_price']+"</span><span class=\"delivery\">配送费 ￥"+data['data'][i]['distribution_price']+"</span></div>";
+                                    // list_html+="<div class=\"coupon \"><ul><li><em class=\"system_minus\"></em>平台优惠满10元减1元,满20元减5元</li><li>平台首单满100元减10元</li></ul></div></div></a></dd>";
+                                    list_html+="</a></dd>";
+                                }
+                            }else{
+                                if($("#keyword").val()!=""){
+                                    list_html="<div style='width: 52%;margin: 0 auto;'>该关键词没有匹配的结果</div>";
+                                }else{
+                                    list_html="<div style='width: 52%;margin: 0 auto;'>找不到任何商家,可能商家还没加盟或定位失效</div>";
+                                }
+                            }
+                            if($("#restaurant_list").find(".dealcard-img").length==0){
+                                $("#restaurant_list").append(list_html);
+                            }
+                        };
+                        ajaxData.st = 0;
+                        $("#box").remove();
+                    },
+                    error:function(){
+                        $("#restaurant_list").append("<div style='width: 52%;margin: 0 auto;'>找不到任何商家,可能没有该类型商家数据或定位失效</div>");
+
+                    }
+                })
+			}
+	  
+	        function goto_restaurant(rid,range,radius){
+		
+					if(range<=radius||radius=='0'){
+					  location.href="takeout.php?act=restaurant&id="+rid;
+					}else{
+					   alert("你的位置不在商家配送范围内!");
+					}
+			}
+			
+			//帅筛选分类
+			function Sorts(s){
+	            alert(s);
+                default_ajax_restaurant_list(id);
+			}
+	  
+		</script>
+		
+		<style>
+			.grade-w-roll{bottom:0;top:256px;}
+			.Category-eject,.Sort-eject{height: auto;}
+			.Category-eject>ul,.Sort-eject>ul{margin-top: 0;}
+			.iconfont{font-size: 1rem;display: inline-block;}
+		</style>
+	</head>
+	<body>
+		<header class="hasManyCity hasManyCitytwo" id="header">
+			<div class="h-left">
+				<a href="javascript:history.go(-1)" class="fanhui" style="display: block;line-height: 45px;padding-left: 15px;">
+					<i class="iconfont icon-fanhui" style="font-size: 24px;"></i>
+				</a>
+			</div>
+			<div class="h-center">
+				<div class="h-sousou">
+					<input type="search" class="h-search" id="keyword" placeholder="搜索商铺/商品名称">
+					<a id="search" class="c-btn h-sousou-btn"><i class="iconfont icon-sousuo" style="font-size: 16px;color: #06c1ae;"></i></a>
+				</div>
+				<!--<input type="search" id="keyword"  style="width:100px;background: #fff; height: 20px; position: relative; top: -1px;">-->
+				<!--<a id="search" class="c-btn" style="background: #fff; height: 20px; font-size: 12px; padding: 2px 5px; color: #06c1ae; border-radius: 5px; margin: 0 7px; position: relative; top: -1px;">搜索</a>-->
+			</div>
+			<div class="h-right" onclick="addM()">
+				<i class="iconfont icon-zhankai" style="font-size: 20px;color: #fff;padding-top: 14px;"></i>
+				<!--<a href="takeout.php?act=order_list" style="font-size: 12px; color: #fff;">我的订单</a>-->
+			</div>
+			<!--<div id="div" class="header-tit" style="width: 87%; margin: 0 0 0 30px;">-->
+			<!--<p>-->
+			<!--</p>-->
+			<!--</div>-->
+			<!-- <a href="setup.html" class="fr shoucang sousuo"><i class="iconfont icon-shezhi"></i></a>
+			<a href="#" class="fr shoucang sousuo"><i class="iconfont icon-sousuo"></i></a> -->
+		</header>
+		<!-- screening -->
+		<div class="screening" style="top: 48px;">
+			<div id="index_item" class="foodItemSwiper">
+				<div class="swiper-container">
+			  		<div class="swiper-wrapper" id="list_category">
+			  		</div>
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+			<script> 
+				$(function(){
+					$('#container').css('padding-top',170);
+				})
+			</script>
+		    <ul><!-- width控制 —— 1个就是100%，2个就是50%，3个就是33.3% -->
+		        <li class="Brand" style="width: 50%">全部分类</li>
+		        <!-- <li class="Regional">全城</li> -->
+		        <li class="Sort" id='order' style="width: 50%">离我最近</li>
+		    </ul>
+		</div>
+		<!-- End screening -->		
+		<!-- Category -->
+		<div class="Category-eject">
+		    <ul class="Category-w" id="Categorytw">
+		        <li onclick="Categorytw(this)" data-val="">全部品牌</li>
+		        <li onclick="Categorytw(this)">奥迪</li>
+		        <li onclick="Categorytw(this)">丰田</li>
+		  <!-- $(this).attr("data-val") -->
+		</div>
+		<!-- End Category -->
+		<!-- grade -->
+		<!-- <div class="grade-eject">
+		    <ul class="grade-w" id="gradew">
+		        <li onclick="grade1(this)">哈尔滨</li>
+		        <li onclick="grade1(this)">全国</li>
+		        <li onclick="grade1(this)">北京</li>
+		    </ul>
+		    <ul class="grade-t" id="gradet">
+		        <li onclick="gradet(this)">全河北</li>
+		        <li onclick="gradet(this)">石家庄</li>
+		        <li onclick="gradet(this)">唐山</li>
+		    </ul>
+		    <ul class="grade-s" id="grades">
+		        <li onclick="grades(this)">全秦皇岛</li>
+		        <li onclick="grades(this)">海港区</li>
+		        <li onclick="grades(this)">山海关区</li>
+		    </ul>
+		</div> -->
+		<!-- End grade -->
+		<!-- Category -->
+		<div class="Sort-eject Sort-height">
+		    <ul class="Sort-Sort" id="Sort-Sort">
+		        <li onclick="Sorts(this)"  data-val='1'>离我最近</li>
+		        <!-- <li onclick="Sorts(this)"  data-val='2'>好评优先</li> -->
+		        <li onclick="Sorts(this)"  data-val='3'>最新发布</li>
+		        <li onclick="Sorts(this)"  data-val='4'>人气优先</li>
+		        <li onclick="Sorts(this)"  data-val='5'>价格最低</li>
+		        <li onclick="Sorts(this)"  data-val='6'>价格最高</li>
+		    </ul>
+		</div>
+		<!-- End Category -->
+		<div id="container">		
+			<div id="main">
+				<section class="dealcard-waimai">
+					<dl class="dealcard" id="restaurant_list">
+						
+					</dl>
+				</section>
+			</div>
+		</div>
+	</body>
+	<script src="static/takeout/js/other.js?a=1" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var m=['我的订单','会员中心'];
+		var url=['takeout.php?act=order_list','my.php'];
+		function addM(){
+            addMenu(m);
+            var len=$(".bg-menu-ul li").length;
+            for(var i=0;i<len;i++){
+                $(".bg-menu-ul li").eq(i).find("a").attr("href",url[i]);
+            }
+		};
+	</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>意见反馈</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2kld0lm9lm4e7b9.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/myjs.js"></script>
+</head>
+<body>
+<header></header>
+<section class="m20-t">
+    <form id="gbook">
+        <input type="hidden" name="ok" value="1">
+        <div class="m20-lr">
+            <textarea class="form-control" id="content" rows="5" placeholder="请填写反馈内容"></textarea>
+        </div>
+    </form>
+    <div class="m20-lr p20-t">
+        <input type="button" onclick="Gbook()" class="u-btn btn" style="background-color: #3d95e5;color: #fff;" value="保存信息">
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.ajax({
+            url: "../ZLT/head.html",
+            type: "GET",
+            success: function(d){
+                $("header").html(d);
+                $(".h-C").html("意见反馈");
+                $(".h-L").html("<a href='javascript:HistoryURL();' class='h-L-a'><i class='iconfont icon-left icon-return'></i></a>")
+                //$(".h-R").html("<a href='userAcountSet.html' class='h-R-a'>首页</a>");
+                $("section").show();
+            },
+            error: function(d){
+                alert("网络延时，请稍后再试!");
+                HistoryURL();
+            }
+        });
+    });
+
+    function Gbook(){
+        if($("#content").val().trim().length >= 5 && $("#content").val().trim().length < 5000) {
+            $.ajax({
+                url: "/mobile/guestbook.php",
+                type: "POST",
+                data: $("#gbook").serialize(),
+                success: function (d) {
+                    if (d == "ok") {
+                        alert("提交成功，感谢您的反馈!");
+                        $("#content").val("");
+                    }
+                }
+            });
+        }else{
+            alert("不能少于5字符");
+
+        }
+    }
+</script>
+</html>

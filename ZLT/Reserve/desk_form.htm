@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}餐桌</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+	{template "room_head","mobile"}
+	<style>
+		.file {
+			position: relative;
+			display: inline-block;
+			border-radius: 4px;
+			overflow: hidden;
+			color: #1E88C7;
+			text-decoration: none;
+			text-indent: 0;
+			line-height: 20px;
+			width:60px;
+		}
+		.file input {
+			position: absolute;
+			right: 0;
+			top: 0;
+			opacity: 0;
+		}
+		.showFileName{
+			position:absolute;
+			top:8px;
+			left:0;
+			white-space: nowrap;
+			display: inline-block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width:40%;
+		}
+		#QRdiv0 img{
+			width: 100%;
+		}
+		.showList{
+			letter-spacing:1px;
+		}
+		.showLi span{
+			margin-left:110px;
+		}
+	</style>
+</head>
+<body>
+	<div class="headBox">
+		<div class="head-bar-back">
+			<a href="javascript:window.history.back();">
+				<i class="iconfont icon-left"></i>
+			</a>
+		</div>
+		<div class="head-bar-title">{$title}餐桌</div>
+		<div class="head-bar-right"><a onclick="$('#ds_form').submit();"><span>保存</span></a></div>
+	</div>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<form action="?act={$act}" id="ds_form" method="post" enctype="multipart/form-data">
+			<div class="showList showForm">
+				<?php if(!empty($_GET["deskid"])){?>
+				<input type="hidden" name="deskid" value="{$item['id']}">
+				<?php }?>
+				
+				<div class="showLi">
+					<b>餐桌名</b>
+					<span><input type="text" value="{$item['desk']}" name="desk"></span>
+				</div>
+				<div class="showLi">
+					<b>餐桌号</b>
+					<span><input type="text" value="{$item['desk_id']}" name="desk_id"></span>
+				</div>
+				<div class="showLi" style="border-bottom:10px solid #eee;">
+					<b>容纳人数</b>
+					<span><input type="text" value="{$item['hold']}" name="hold"></span>
+				</div>
+				<div class="showLi" style="border-bottom:10px solid #eee;">
+					<b>服务员</b>
+					<span><input placeholder="请输入绑定平台的手机号，以英文逗号隔开" type="text" value="{$res}" name="waiters"></span>
+				</div>
+				<div class="showLi">
+					<b>使用中</b>
+					<span style="text-align:left;">
+					    <input type="radio" style="height:22px;" name="is_use" value="1" <?php if($item['is_use']) echo 'checked';?>/><i style="height:22px;line-height:22px">是</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" style="height:22px;" name="is_use" value="0" <?php if(!$item['is_use']) echo 'checked';?>/><i style="height:22px;line-height:22px">否</i>
+					</span>
+				</div>
+				<div class="showLi">
+					<b>是否开台</b>
+					<span style="text-align: left;">
+					    <input type="radio" style="height:22px;" name="lock_qrcode" value="1" <?php if($item['lock_qrcode']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" style="height:22px;" name="lock_qrcode" value="0" <?php if(!$item['lock_qrcode']) echo 'checked';?>/> 否
+					</span>
+				</div>
+				<div class="showLi" style="border-bottom:10px solid #eee;">
+					<b>最低消费</b>
+					<span><input type="text" value="{$item['min_consumption']}" name="min_consumption"></span>
+				</div>
+
+			   <?php if(!empty($_GET["deskid"])){?>
+				<div class="showLi" style="position:relative;">
+					<b>二维码</b>
+					<span class="showFileName" style="text-align:left;"></span>
+					<span class="file a-upload" style="margin-left: 80%;">
+						选择文件
+						<input type="file" name="qr_code">
+					</span>
+
+					<input type="hidden" name="old_qr_code" value="{$item['qr_code']}">
+					<?php if(!empty($item['qr_code'])){?>
+					<span><img src="{$item['qr_code']}"/ width="50%" height="auto"></span>
+					<?php }?>
+				</div>
+		
+				<div class="showLi">
+					<b>二维码地址</b>
+					<span><input type="text" value="{$url}" readonly="false" style="text-align:left;"></span>
+				</div>
+				<?php }?>
+				<div class="showLi">
+					<b>说明</b>
+					<span><input type="text" value="{$item['info']}" name="info" placeholder="请输入您的说明！" style="text-align:left;"></span>
+				</div>
+				<?php if(!empty($_GET["deskid"])){?>
+					<?php if(is_have_auth("餐桌删除")){?>
+					 <div class="showLi">
+						<b></b>
+						<span style="border:none;text-align:right;">
+							<a style="color:#ec7171;" href="?act=desk_del&deskid={$item['id']}">删除餐桌</a>
+						</span>
+					</div>
+					<?php }?>
+				<?php }?>
+
+				<div id="QRdiv0" style="border: 1px solid #333;padding: .625rem;width: 16.25rem;height: 16.25rem;margin: 1.25rem auto;">
+
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="footBox"></div>
+	<script>
+        $(".a-upload").on("change","input[type='file']",function(){
+            var filePath=$(this).val();
+            if(filePath != ""){
+                var arr=filePath.split('\\');
+                var fileName=arr[arr.length-1];
+                $(this).parent("span").siblings(".showFileName").html(fileName);
+            }else{
+                alert("请选择你需要上传的文件！");
+                return false
+            }
+        });
+		/* $(".a-upload").on("change","input[type='file']",function(){
+		 var filePath=$(this).val();
+		 if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1){
+		 $(".fileerrorTip").html("").hide();
+		 var arr=filePath.split('\\');
+		 var fileName=arr[arr.length-1];
+		 $(this).parent("span").siblings(".showFileName").html(fileName);
+		 }else{
+		 //                $(".showFileName").html("");
+		 //                $(".fileerrorTip").html("您未上传文件，或者您上传文件类型有误！").show();
+		 alert("您未上传文件，或者您上传文件类型有误!");
+		 return false
+		 }
+		 })*/
+		$.getScript("/mobile/js/QRcode.js",function(){
+            var qrcode = new QRCode(document.getElementById("QRdiv0"), {
+                text: '{$url}',
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+		});
+	</script>
+</body>
+</html>

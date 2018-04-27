@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜谱</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_647z71yyqj4qjjor.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Account.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <style>
+        .menu-box{
+            position:relative;
+        }
+        nav{
+            position:relative;
+            width:100%;
+            height:1.625rem;
+            font-size:.875rem;
+            background:#fff;
+        }
+        nav p{
+            position:absolute;
+            width:33.333%;
+            height:1.625rem;
+            line-height:1.625rem;
+            text-align:center;
+        }
+        nav p:nth-child(1){
+            top:0;
+            left:0;
+        }
+        nav p:nth-child(2){
+            top:0;
+            left:33.333%;
+        }
+        nav p:nth-child(3){
+            top:0;
+            left:66.666%;
+        }
+        nav p .icon-youhui{
+            color:#ffe931;
+        }
+        nav p .icon-huo{
+            color:#f31717;
+        }
+        nav p .icon-te{
+            color:#3d95e5;
+        }
+        .left-menu{
+            width:24%;
+            font-size:.875rem;
+            color:#666;
+        }
+        .left-menu ul li{
+            display:block;
+            height:2.6875rem;
+            line-height:2.6875rem;
+            padding-left:.65rem;
+            background:#eee;
+            border-bottom:1px solid #dbdbdb;
+            margin-right:.375rem;
+        }
+        .right-menu{
+            position:absolute;
+            top:0;
+            left:24%;
+            width:76%;
+        }
+        .menu-title{
+
+            border-top:1px solid #f6f6f6;
+            border-bottom:1px solid #f6f6f6;
+            margin-bottom:.375rem;
+        }
+        .menu-title span{
+            height:1.625rem;
+            line-height:1.625rem;
+            padding-left:.375rem;
+            font-size:.875rem;
+            border-left:2px solid #4fc08d;
+        }
+        .menu-img{
+            width:4.875rem;
+            height:4.875rem;
+            overflow:hidden;
+
+        }
+        .menu-img img{
+            width:100%;
+            height:100%;
+            overflow:hidden;
+        }
+        .menu-detail{
+            position:absolute;
+            top:2.125rem;
+            left:5.375rem;
+        }
+        .menu-detail p:nth-child(1){
+            font-size:.875rem;
+        }
+        .menu-detail p:nth-child(2){
+            font-size:.625rem;
+        }
+        .menu-detail p:nth-child(3){
+            font-size:.625rem;
+            color:#4fc08d;
+        }
+        .menu-detail p:nth-child(4) span{
+            font-size:.875rem;
+            color:#f31717;
+        }
+    </style>
+</head>
+<body style="background-color: #fff;">
+<header>
+    <div class="head" style="background:#4fc08d;">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">菜谱</div>
+        <div class="h-R" style="font-size:.75rem;color:#fff;"></div>
+    </div>
+</header>
+<section>
+    <nav>
+        <p><i class="iconfont icon-youhui"></i><span style="color:#4fc08d;">今日优惠</span></p>
+        <p><i class="iconfont icon-huo"></i><span>店长推荐</span></p>
+        <p><i class="iconfont icon-te"></i><span>特色热卖</span></p>
+    </nav>
+    <div class="menu-box">
+        <aside class="left-menu">
+            <ul>
+                <li>小炒类</li>
+                <li>小炒类</li>
+                <li>小炒类</li>
+                <li>小炒类</li>
+            </ul>
+        </aside>
+        <div class="right-menu">
+            <p class="menu-title"><span>小炒类</span></p>
+            <div class="menu-content">
+                <div class="menu-img">
+                    <img src="2.jpg" alt="菜图">
+                    <!--<img src="" alt="菜图">-->
+                </div>
+                <div class="menu-detail">
+                    <p>菜名</p>
+                    <p>电脑下单不享优惠了哦，优惠活动手机专享</p>
+                    <p>月售：2000</p>
+                    <p><span>￥10.00</span><del>$15.00</del></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

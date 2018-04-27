@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>银行卡</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_kv927g0p9s51xlxr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bankcard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">银行卡</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div class="bankcard bankcard-check">
+        <p><span>账户类型</span><span id="banktype"></span></p>
+        <p><span>开户银行</span><span id="bank"></span></p>
+        <p><span>银行卡号</span><span id="bankaccount"></span></p>
+        <p><span>&nbsp;&nbsp;&nbsp;持卡人</span><span id="bankusername"></span></p>
+    </div>
+    <div style="margin: 1.25rem;">
+        <input type="button" class="btn white-btn" onclick="window.location.href='BindBankcard.html?modify='+encodeURI(document.getElementById('bankusername').innerHTML)" style="width: 100%;" value="修改">
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.ajax({
+                method:"POST",
+                url:"../usercenter.php",
+                data:{action:"show_bank"},
+                success:function(data){
+                    data=$.parseJSON(data);
+                    console.log(data);
+                    if(data.code == 200){
+                        if(data.data.banktype == 0){
+                            data.data.banktype="对私账号";
+                        }else if(data.data.banktype == 1){
+                            data.data.banktype="对公账号";
+                        }
+                        $("#banktype").html(data.data.banktype);
+                        $("#bank").html(data.data.bank);
+                        $("#bankaccount").html(data.data.account);
+                        $("#bankusername").html(data.data.truename);
+                    }
+                }
+            });
+    });
+</script>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通智慧城市</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_y0pryxbsvduhxgvi.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/myjs.js"></script>
+    <style type="text/css">
+
+        #messageStation{
+            position: relative;
+        }
+        .mNuber{
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .mNuber>i{
+            background-color: red;
+            color: #fff;
+            font-style: normal;
+            padding: .125rem .25rem;
+            border-radius: .625rem;
+            font-size: .625rem;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">会员中心</div>
+        <div class="h-R"><a class="h-R-a" href="/mobile/HelpFile/helpFile.html">帮助</a></div>
+    </div>
+</header>
+<section class="m70-b">
+    <!--头像信息-->
+    <div class="bfff m20-t">
+        <div class="m20-lr">
+            <div class="userImgMsg">
+                <a href="usercenterType.html" class="disp-b">
+                    <div class="clearb u-d">
+                        <img class="u-img" src="../img/default.png" alt="默认头像">
+                        <div class="fl u-msg">
+                            <p class="u-type"></p>
+                            <p class="u-name"></p>
+                        </div>
+                        <div class="u-r">
+                            <i class="iconfont icon-xiangyou"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--菜单栏-->
+    <div class="bfff" style="margin-top: 1px;">
+        <div class="container">
+            <div class="row u-nav">
+                <div class="col-xs-4"><a href="javascript:checkUser();" class="u-nav-a">会员升级</a></div>
+                <div class="col-xs-4"><a href="/member/friend.php?action=add" class="u-nav-a">添加商友</a></div>
+                <div class="col-xs-4"><a href="/mobile/About/QRcode.html" class="u-nav-a">二维码</a></div>
+            </div>
+        </div>
+    </div>
+    <!--账户余额-->
+    <div class="bfff m20-t">
+        <div class="m20-lr">
+            <div class="yue clearb">
+                <span class="fl yue-s">账户余额</span>
+                <span class="fr yue-money">￥0.00</span>
+            </div>
+        </div>
+    </div>
+    <!--菜单栏-->
+    <div class="bfff" style="margin-top: 1px;">
+        <div class="container">
+            <div class="row u-nav">
+                <div class="col-xs-4" style="padding: 0;"><a href="../AccountDetail/accountList.html" class="yue-nav-a">明细</a></div>
+                <div class="col-xs-4" style="padding: 0;"><a href="javascript:isWithdrawCash();" class="yue-nav-a">提现</a></div>
+                <div class="col-xs-4" style="padding: 0;"><a href="../AccountRecharge/rechargeWay.html" class="yue-nav-a active">充值</a></div>
+            </div>
+        </div>
+    </div>
+    <!--餐饮店铺才有配送订单-->
+    <div class="bfff">
+        <div class="m20-t">
+            <nav class="menu-nav" id="distribution">
+                <ul id="canyinGL"></ul>
+            </nav>
+        </div>
+    </div>
+    <!--菜单管理-->
+    <div class="bfff">
+        <div class="m20-t">
+            <nav class="menu-nav" id="myShops">
+                <ul>
+                    <li class="m20-lr m-nav-li"><a href="../Extend/extend.html" class="m-nav-a"><i class="iconfont icon-zhuanqian colorb icon-xx"></i><span class="m-nav-span">推广赚钱</span><i class="iconfont icon-right fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="../MyOrder/Order.html" class="m-nav-a"><i class="iconfont icon-dingdan colorb icon-xx"></i><span class="m-nav-span">我的订单</span><i class="iconfont icon-right fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="../Mail/mailList.html" id="messageStation" class="m-nav-a"><i class="iconfont icon-xinxiguanli colorb icon-xx"></i><span class="m-nav-span">站内消息</span><i class="iconfont icon-right fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="../reserve_home.php" class="m-nav-a"><i class="iconfont icon-yuding colorb icon-xx"></i><span class="m-nav-span">预定管理</span><i class="iconfont icon-right fr"></i></a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!--菜单管理-->
+    <div class="bfff">
+        <div class="m20-t">
+            <nav class="menu-nav">
+                <ul>
+                    <li class="m20-lr m-nav-li"><a href="../Notice/NoticeList.html" class="m-nav-a"><i class="iconfont icon-gonggao colorb icon-xx"></i><span class="m-nav-span">平台公告</span><i class="iconfont icon-right fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="/mobile/chat.php?touser=13512728718" class="m-nav-a"><i class="iconfont icon-kefu colorb icon-xx"></i><span class="m-nav-span">在线客服</span><i class="iconfont icon-right fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="tel:13512728718" class="m-nav-a"><i class="iconfont icon-dianhua colorb icon-xx"></i><span class="m-nav-span">客服电话</span><i class="iconfont icon-right fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="/mobile/Suggest/guestbook.html" class="m-nav-a"><i class="iconfont icon-fankui colorb icon-xx"></i><span class="m-nav-span">意见反馈</span><i class="iconfont icon-right fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="/mobile/about.php" class="m-nav-a"><i class="iconfont icon-guanyuwomen colorb icon-xx"></i><span class="m-nav-span">关于我们</span><i class="iconfont icon-right fr"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="/mobile/js/layer.js"></script>
+<script type="text/javascript">
+    var gid = "", catidarr = [];
+    $(document).ready(function(){
+        $("section").append(footNav());  //渲染底部导航栏
+        footState(3);  //底部导航活跃状态
+        if(!getCookie("cpk_auth")){
+            window.location.href="/mobile/login.php?Callback="+encodeURIComponent(window.location.href);
+        }else{
+            getMessage();
+            CYGL();
+            $.ajax({
+                type: "post",
+                url: "../usercenter.php",
+                dataType: "json",
+                data: {"action":"myhome"},
+                success: function(data){
+                    if(data.code == 200){
+                        var d = data.data, catid = '';
+                        $(".u-type").html(d.truename);
+                        $(".yue-money").html("￥"+d.money);
+                        $(".u-name").html("账号:"+d.username);
+                        $(".u-img").attr("src","/api/avatar/show.php?username="+d.username+"&size=large");
+                        gid = d.groupid;
+                        $(".icon-gonggao").parent("a").attr("href","../Notice/NoticeList.html?gid=" + gid);
+                        d.company_catid.catid.split(',').forEach(function(value, index, arr){
+                            if(value){
+                                catid = value;
+                            }
+                        });
+                        console.log(catid);
+                        if(d.groupid != 5){
+                            // if(d.is_takeout == 0){
+                            //     $("#distribution ul").prepend('<li class="m20-lr m-nav-li"><a href="/mobile/BusinessHome/CreateHome-step01.html?compay='+d.company+'&phone='+d.mobile+'" class="m-nav-a"><i class="iconfont icon-shangpu colorb icon-xx"></i><span class="m-nav-span">餐饮商家入驻</span><i class="iconfont icon-right fr"></i></a></li>');
+                            // }else if(d.is_takeout == 1){
+                            //     $("#distribution ul").prepend('<li class="m20-lr m-nav-li"><a href="/mobile/BusinessHome/CreateHome-step02.html?compay='+d.company+'&phone='+d.mobile+'" class="m-nav-a"><i class="iconfont icon-shangpu colorb icon-xx"></i><span class="m-nav-span">餐饮商家入驻</span><i class="iconfont icon-right fr"></i></a></li>');
+                            // }else{
+                            //     $("#myShops ul").append('<li class="m20-lr m-nav-li"><a href="javascript:isCreateShop();" class="m-nav-a"><i class="iconfont icon-shangpu colorb icon-xx"></i><span class="m-nav-span">我的商铺</span><i class="iconfont icon-right fr"></i></a></li>');
+                            // }
+
+                            $("#distribution ul").append('<li class="m20-lr m-nav-li"><a href="../IndentManage/IndentManage.html" class="m-nav-a"><i class="iconfont icon-icon212 colorb icon-xx"></i><span class="m-nav-span">配送订单</span><i class="iconfont icon-right fr"></i></a></li>');
+                            $("#distribution ul").append('<li class="m20-lr m-nav-li"><a href="../reserve_home.php?act=order_list" class="m-nav-a"><i class="iconfont icon-yuyuedingdan colorb icon-xx"></i><span class="m-nav-span">预订订单</span><i class="iconfont icon-right fr"></i></a></li>');
+                            $("#distribution ul").append('<li class="m20-lr m-nav-li"><a href="../Turnover/turnover.html" class="m-nav-a"><i class="iconfont icon-qiandaizi colorb icon-xx"></i><span class="m-nav-span">营业额</span><i class="iconfont icon-right fr"></i></a></li>');
+                            $("#myShops ul").append('<li class="m20-lr m-nav-li"><a href="/member/my.php?mid=16" class="m-nav-a"><i class="iconfont icon-shangchang colorb icon-xx"></i><span class="m-nav-span">商场管理</span><i class="iconfont icon-right fr"></i></a></li>');
+                            if(d.is_takeout != 2){
+                                $("#distribution ul").prepend('<li class="m20-lr m-nav-li"><a href="/mobile/BusinessHome/CreateHome-step0'+(d.is_takeout * 1 + 1)+'.html?company='+d.company+'&phone='+d.mobile+'" class="m-nav-a"><i class="iconfont icon-shangpu colorb icon-xx"></i><span class="m-nav-span">餐饮商家入驻</span><i class="iconfont icon-right fr"></i></a></li>');
+                            }else{
+                                $("#myShops ul").append('<li class="m20-lr m-nav-li"><a href="javascript:isCreateShop();" class="m-nav-a"><i class="iconfont icon-shangpu colorb icon-xx"></i><span class="m-nav-span">我的商铺</span><i class="iconfont icon-right fr"></i></a></li>');
+                            }
+                        }else{
+
+                        }
+                    }
+                },
+                error: function(){
+                    alert("网络延时，请稍后！");
+                    HistoryURL();
+                }
+            });
+        }
+    });
+
+    //检测是否开通商铺
+    function isCreateShop(){
+        var Url = "";
+        $.ajax({
+            url: "../usercenter.php",
+            type: "POST",
+            data: {action:"check_shop"},
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    if(d.msg == 1){
+                        Url = "/mobile/MyHome/DistributionManagement.html";
+                    }else{
+                        Url = "/mobile/BusinessHome/CreateHome-step01.html?compay="+encodeURI(d.data);
+                    }
+                    location.href = Url;
+                }
+            },
+            error: function(d){
+                alert("网络延时，请稍后！");
+                HistoryURL();
+            }
+        });
+    }
+
+    //获取为查看消息的数量
+    function getMessage(){
+        var id = getCookie("cpk_userid");
+        $.ajax({
+            url: "/mobile/message_readed.php",
+            type: "POST",
+            data: {userid:id,action:"my_home"},
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    if(d.data > 0){
+                        $("#messageStation").append("<div class='mNuber'><i>"+d.data+"</i></div>");
+                    }
+                }
+            },
+            error: function(d){
+                alert("网络延时，请稍后再试!");
+            }
+        });
+    }
+
+    //判断是否餐饮预定人员
+    function CYGL(){
+        $.ajax({
+            url: "/mobile/usercenter.php",
+            type: "POST",
+            data: {action:"restaurant_waiter"},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                if(d.code == 200){
+                    $("#canyinGL").append('<li class="m20-lr m-nav-li"><a href="/mobile/reserve_home.php?act=login_show" class="m-nav-a"><i class="iconfont icon-dingdan colorb icon-xx"></i><span class="m-nav-span">餐饮管理员入口</span><i class="iconfont icon-right fr"></i></a></li>');
+                }
+            },
+            error: function(d){
+                alert("网络延时，请稍后！");
+            }
+        });
+    }
+
+    //会员升级检测
+    function checkUser(){
+        if(gid == 5){     //检测是否个人用户
+            $.ajax({
+                url: "/mobile/usercenter.php",
+                type: "POST",
+                data: {action:"check_truename"},
+                dataType: "JSON",
+                success: function(d1){
+                    if(d1.code == 200){
+                        $.ajax({
+                            url: "/mobile/usercenter.php",
+                            type: "POST",
+                            data: {action:"check_upgrade"},
+                            dataType: "JSON",
+                            success: function(d2){
+                                if(d2.code == 200){
+                                    console.log(d2);
+                                    window.location.href = "./upgradeUser.html";
+                                }else{
+                                    alert(d2.msg);
+                                }
+                            },
+                            error: function(d2){
+                                alert("网络延时，请稍后再试！");
+                            }
+                        });
+                    }else if(d1.code == -200){
+                        alert("你还没有实名认证，请先认证！");
+                        window.location.href = "../Authentication/TruenameValidate.html";
+                    }
+                },
+                error: function(d1){
+                    alert("网络延时，请稍后再试！");
+                }
+            });
+        }else{
+            layer.open({
+                content: '目前只支持个人会员进行升级',
+                //skin: 'msg',
+                time: 2 //2秒后自动关闭
+            });
+        }
+    }
+
+    //判断用户可否提现
+    function isWithdrawCash(){
+        if(gid == 5){
+            layer.open({
+                content: '个人暂时不能提现',
+                time: 5
+            });
+        }else{
+            window.location.href = '../AccountWithdraw/withdrawApply.html';
+        }
+    }
+
+    //检测是否开通餐饮行业
+    //function
+</script>
+</body>
+</html>

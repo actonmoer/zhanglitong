@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通智慧城市</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/publicHead.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_rnvh7zcdbgj8m2t9.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/rem.js"></script>
+    <script src="../js/myjs.js"></script>
+    <style>
+        .notice-box{
+            background:#fff;
+            margin:.2rem;
+            border-radius:.1rem;
+        }
+        .notice-item{
+            padding:.2rem .25rem .1rem;
+            border-bottom:1px solid #eee;
+        }
+        .notice-item h4 {
+            line-height:.55rem;
+            font-size:.3rem;
+            padding:0;
+            margin:0;
+        }
+        .notice-item p{
+            line-height:.5rem;
+            font-size:.24rem;
+            color:#666;
+            padding:0;
+            margin:0;
+        }
+        .notice-item p:nth-child(2){
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .notice-item p:nth-child(3){
+            text-align:right;
+        }
+    </style>
+</head>
+<body style="background:#f1f1f1;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">平台公告</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div class="notice-box">
+        <!--<div class="notice-item">
+            <h4>公告标题</h4>
+            <p>团体对重大事件当众正式公布或者公开团体对重大事件当众正式公布或者公开</p>
+            <p>2017-12-12</p>
+        </div>
+        <div class="notice-item">
+            <h4>公告标题</h4>
+            <p>团体对重大事件当众正式公布或者公开团体对重大事件当众正式公布或者公开</p>
+            <p>2017-12-12</p>
+        </div>
+        <div class="notice-item">
+            <h4>公告标题</h4>
+            <p>团体对重大事件当众正式公布或者公开团体对重大事件当众正式公布或者公开</p>
+            <p>2017-12-12</p>
+        </div>-->
+    </div>
+</section>
+<script>
+    $(function(){
+        $.ajax({
+            url:"../usercenter.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{action:"announce"},
+            success:function(data){
+                $(".notice-box").append(noticeItem(data));
+            },
+            error: function(){
+                alert("网络延时，请稍后!");
+            }
+        });
+    });
+
+    /*渲染页面*/
+    function noticeItem(data){
+        var item = '',
+            d = data.data,
+            obj = strUrl(window.location.search),
+            gid = obj.gid;
+        if(data.code == 200){
+            console.log(gid);
+            for(var i=0;i<d.length;i++){
+                console.log(d[i].groupid);
+                if(gid == 5 && d[i].groupid == 0){
+                    item += '<div class="notice-item" onclick="noticeDetail('+d[i].itemid+')">';
+                    item += '<h4>'+d[i].title+'</h4>';
+                    item += '<p>'+mtime(d[i].addtime)+'</p>';
+                    item += '</div>';
+                }else if(gid != 5){
+                    item += '<div class="notice-item" onclick="noticeDetail('+d[i].itemid+')">';
+                    item += '<h4>'+d[i].title+'</h4>';
+                    item += '<p>'+mtime(d[i].addtime)+'</p>';
+                    item += '</div>';
+                }
+            }
+        }
+        return item;
+    }
+
+    /*详细页面*/
+    function noticeDetail(itemid){
+        window.location.href = "./NoticeDetail.html?itemid=" + itemid;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+/*mailList*/
+.mail-list {
+    position:relative;
+    padding:1.25rem;
+    background-color:#fff;
+    font-size:.875rem;
+    color:#666;
+    border-bottom:1px solid #e2e2e2;
+}
+.mail-list p:nth-child(1) {
+    color:#333;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.mail-list p:nth-child(2) {
+    margin-top:.875rem;
+}
+.mail-list p:nth-child(2) span:nth-child(2){
+    float:right;
+    font-size:.75rem;
+    color:#666;
+}
+.delMultiple{
+    position:absolute;
+    top:0;
+    right: 0;
+    width: 2.5rem;
+    height: 5.5rem;
+    line-height: 5.5rem;
+    text-align: center;
+}
+label{
+    position:relative;
+    width:2.5rem;
+    height:5.5rem;
+}
+label input{
+    position:absolute;
+    top:35px;
+    left:15px;
+}
+label input:checked+span {
+    background-color: #3d95e5;
+}
+.round{
+    position:absolute;
+    top:37px;
+    left:13px;
+    display:inline-block;
+    width:16px;
+    height:16px;
+    line-height:16px;
+    color:#fff;
+    border-radius:50%;
+    border:1px solid #999;
+    font-size:12px;
+}
+/*mailDetail*/
+.mail-detail {
+    background-color:#fff;
+    font-size:.875rem;
+    color:#666;
+}
+.mail-title {
+    padding:1.25rem;
+    border-bottom:1px solid #e2e2e2;
+}
+.mail-title p:nth-child(1){
+    color:#333;
+    word-wrap: break-word;
+    word-break: normal;
+}
+.mail-title p:nth-child(2){
+    margin:.75rem 0;
+}
+.mail-title p:nth-child(3){
+    font-size:.75rem;
+}
+.mail-content {
+    padding:.9375rem 1.25rem;
+    height:100%;
+}
+.mail-content p{
+    line-height:1.5rem;
+    word-wrap: break-word;
+    word-break: normal;
+}
+

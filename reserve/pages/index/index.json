@@ -1,0 +1,14 @@
+{
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "小程序",
+    "backgroundColor": "#000000",
+    "backgroundTextStyle": "light",
+    "onReachBottomDistance": 30
+  },
+  "usingComponents": {
+    "nav": "../yd-public-btn/yd-public-btn",
+    "empty": "/pages/yd-empty/yd-empty"
+  }
+}

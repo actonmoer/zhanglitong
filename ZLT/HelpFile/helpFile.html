@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>帮助文档</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_rnvh7zcdbgj8m2t9.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        #list {
+            width:100%;
+            margin-top:1.25rem;
+            background:#fff;
+        }
+        #list #menu>li,
+        #list #help-video>li{
+            line-height:40px;
+            border-bottom:1px solid #eee;
+        }
+        #list #menu>li a,
+        #list #help-video>li a{
+            position:relative;
+            font-size:1.0rem;
+            display:block;
+            padding-left:15px;
+        }
+        #list #menu li ul,
+        #list #help-video li ul{
+            display:none;
+            background-color:ghostwhite;
+        }
+        #list #menu li ul li a,
+        #list #help-video li ul li a{
+            padding:10px;
+            padding-left:25px;
+            font-size:0.8rem;
+            line-height:20px;
+        }
+        .addReduce{
+            position:absolute;
+            right:15px;
+            font-weight:bold;
+        }
+        .help-video{
+            background:#fff;
+            color:#333;
+            margin-top:1.25rem;
+            padding:10px 20px;
+        }
+    </style>
+</head>
+<body style="background:#f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">帮助文档</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<div id="list">
+    <ul id="menu">
+       <!-- <li>
+            <a href="#" class="inactive" onclick="proListBtn(this)">
+                什么是签证及签证作用？
+                <i class="iconfont icon-add1 addReduce"></i>
+            </a>
+            <ul class="proList">
+                <li><a class="proDetail">签证是一个签注式的证明。</a></li>
+                <li><a class="proDetail">定件则，是不可能成行的。</a></li>
+            </ul>
+        </li>-->
+    </ul>
+
+    <ul id="help-video">
+         <li>
+             <a href="#" class="inactive" onclick="videoListBtn(this)">
+                 帮助视频
+                 <i class="iconfont icon-add1 addReduce"></i>
+             </a>
+             <ul class="proList videoList">
+                 <li onclick="videoDetail(this)"><a>商家提现资金。</a></li>
+                 <li onclick="videoDetail(this)"><a>添加，修改服务员信息。</a></li>
+                 <li onclick="videoDetail(this)"><a>服务员开台。</a></li>
+                 <li onclick="videoDetail(this)"><a>商品上下架。</a></li>
+                 <li onclick="videoDetail(this)"><a>设置打折商品。</a></li>
+                 <li onclick="videoDetail(this)"><a>锁定,修改房间信息。</a></li>
+                 <li onclick="videoDetail(this)"><a>查看订单信息。</a></li>
+             </ul>
+         </li>
+    </ul>
+</div>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url:"../usercenter.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{"action":"help"},
+            success:function(data){
+                console.log(data);
+                var d = data.data;
+                if(data.code == 200){
+                    for(var i=0;i<d.length;i++){
+                        $("#menu").append('<li><a href="javascript:;" class="inactive" onclick="proListBtn(this)" data-id="'+d[i].id+'">'+d[i].name+'<i class="iconfont icon-add1 addReduce"></i></a><ul class="proList"></ul></li>')
+                    }
+                }
+            }
+        });
+    });
+
+    /*点击第一层问题列表*/
+    function proListBtn(t){
+        fade(t);
+        var idPro = $(t).attr("data-id");
+        if(!$(t).next(".proList").hasClass("index")){
+            $.ajax({
+                url:"../usercenter.php",
+                type:"POST",
+                dataType:"JSON",
+                data:{action:"help",category:idPro},
+                success:function(data){
+                    console.log(data);
+                    var d = data.data;
+                    if(data.code == 200 && data.data != null){
+                        for(var i=0;i<d.length;i++){
+                            $(t).next(".proList").append('<li><a class="proDetail" onclick="proDetailBtn(this)" data-proId="'+d[i].id+'">'+d[i].help_name+'</a></li>')
+                        }
+                    }
+                }
+            });
+
+            $(t).next(".proList").addClass("index");
+        }
+    }
+    /*点击第二层问题详细*/
+    function proDetailBtn(t){
+        var DId = $(t).attr("data-proId");
+        window.location.href = "./helpDetail.html?id=" + DId;
+    }
+    function videoListBtn(t){
+        fade(t);
+    }
+    function fade(t){
+        if($(t).siblings("ul").css("display")=="none"){
+            $(t).children("i").removeClass("icon-add1").addClass("icon-hengxian");
+            $(t).parent("li").siblings("li").find("i").removeClass("icon-hengxian").addClass("icon-add1");
+            $(t).siblings("ul").slideDown(500).children("li");
+            $(t).parent("li").siblings("li").children("ul").slideUp("li");
+        } else {
+            $(t).children("i").removeClass("icon-hengxian").addClass("icon-add1");
+            $(t).siblings("ul").slideUp(500);
+        }
+    }
+
+    /*视频详细*/
+    function videoDetail(t){
+        var index = $(t).index();
+        window.location.href = "./helpVideo.html?index=" + index;
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通会员升级</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_gmpqr1u8sfijatt9.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/approve.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <style type="text/css">
+        .papers img{width: 100%;}
+    </style>
+</head>
+<body style="background-color: #f1f1f1;">
+<header>
+    <div class="head">
+        <div class="h-L">
+            <a href="javascript:window.history.back();" class="h-L-a">
+                <i class="iconfont icon-left" style="color: #fff;"></i>
+            </a>
+        </div>
+        <div class="h-C">会员升级认证</div>
+        <div class="h-R" style="font-size:.875rem;color:#fff;">
+            <a href="/mobile/User/usercenter.html" class="h-R-a">我的</a>
+        </div>
+    </div>
+</header>
+<section>
+    <nav class="path-nav">
+        <ul class="clearb path-ul">
+            <li><a href="javascript:;" class="path-color">1.填写信息</a></li>
+            <li><i class="iconfont icon-right"></i></li>
+            <li>2.提交认证</li>
+        </ul>
+    </nav>
+    <form onsubmit="return formsubmit()" method="post" action="/mobile/usercenter.php">
+        <input type="hidden" name="action" value="upgrade">
+        <div class="personal-message bfff">
+            <div class="m20-lr" style="padding: 1.25rem 0 .1rem;">
+                <div class="m20-b">
+                    <input type="text" class="form-control" name="company" placeholder="请输入公司名称" required>
+                </div>
+                <div class="select-classify">
+                    <div class="m20-b">
+                        <select class="form-control" onchange="catChild(this)" id="catid" name="catid1" style="height: 2.5rem;color: #666;" required>
+                            <option value="">请输入公司所属行业</option>
+                        </select>
+                    </div>
+                    <div class="m20-b catidChild">
+                        <select class="form-control" id="catidChild" name="catid2" style="height: 2.5rem;color: #666;" required>
+                            <option value="">请输入行业分类</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="m20-b clearb">
+                    <div class="upload-papers"><p>上传证照：</p></div>
+                    <div class="fl" style="width: 50%;padding-right: .625rem;">
+                        <div class="papers fl" id="thelist" style="width: 100%;">
+                            <i class="iconfont icon-tianjia" style="font-size: 2.5rem;color: #3d95e5;margin: 1.75rem 0 1.1875rem;line-height: initial;"></i>
+                            <p style="color: #666;font-size: .875rem;">营业执照</p>
+                        </div>
+                    </div>
+
+                    <div class="fr" style="width: 50%;padding-left: .625rem;">
+                        <div class="papers fr" id="thelist1" style="width: 100%;">
+                            <i class="iconfont icon-tianjia" style="font-size: 2.5rem;color: #3d95e5;margin: 1.75rem 0 1.1875rem;line-height: initial;"></i>
+                            <p style="color: #666;font-size: .875rem;">行业认证</p>
+                            <input type="file" name="thumb1" class="hide" onchange="upImg1($(this))" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tip">
+            <p>备注：</p>
+            <p>1、请上传公司有效证件（营业执照），以便网站核实认证</p>
+            <p>2、证件上的公司名称必须与填写的公司名称一致</p>
+            <p>3、行业认证请根据所选行业，上传相关行业许可证</p>
+        </div>
+        <div style="margin: 0 1.25rem 1.25rem;">
+            <input type="submit" class="btn btn-info" style="width: 100%;background-color: #3d95e5;" value="提交认证">
+        </div>
+    </form>
+</section>
+
+<script type="text/javascript" src="../js/webuploader.js"></script>
+<script type="text/javascript" src="../js/myjs.js"></script>
+<script type="text/javascript" src="../js/layer.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+//        layer.open({
+//            content: '凡是申请会员升级，需要支付1000元押金，押金随时可退！',
+//            btn: '我知道了'
+//        });
+        upImg("#thelist","thumb");
+        upImg("#thelist1","thumb1");
+        industryClassify();
+    });
+    //获取行业分类
+    function industryClassify(){
+        $.ajax({
+            url: "/mobile/usercenter.php",
+            type: "POST",
+            data: {action:"industry"},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                for(var i=0;i<d.data.length;i++){
+                    $("#catid").append('<option value="'+d.data[i].catid1+'">'+d.data[i].catname+'</option>');
+                }
+            },
+            error: function(d){
+                alert("网络延时,请稍后！");
+            }
+        });
+    }
+    //获取行业二级分类
+    function catChild(self){
+        var s = $("#catidChild");
+        s.html('<option value="">请输入行业分类</option>');
+        console.log(self.value);
+        var num = Number(self.value);
+        if(num){
+            $(".catidChild").show();
+            $.ajax({
+                url: "/mobile/usercenter.php",
+                type: "POST",
+                data: {action:"industry",catid:num},
+                dataType: "JSON",
+                success: function(d){
+                    console.log(d);
+                    for(var i=0;i<d.data.length;i++){
+                        if(i != 0){
+                            s.append('<option value="'+d.data[i].catid2+'">'+d.data[i].catname+'</option>');
+                        }
+                    }
+                },
+                error: function(d){
+                    console.log(d);
+                    alert("网络延时,请稍后！"+d);
+                }
+            });
+        }
+
+    }
+
+    function upImg(str, inputName){
+        /* init webuploader*/
+        var $list=$(str);   //几个初始化全局
+        var thumbnailWidth = 130;   //缩略图高度和宽度（单位是像素）
+        var thumbnailHeight = 130;
+        var uploader = WebUploader.create({
+            auto: true,    // 选完文件后，是否自动上传
+            swf: '/webupload/Uploader.swf',   // swf文件路径
+            server: '/mobile/fileupload.php',    // 文件接收服务端
+            pick: $list,  // 选择文件的按钮,可选
+            multiple:false,       //是否开起同时选择多个文件能力
+            noCompressIfLarger: false,    // 如果发现压缩后文件大小比原来还大,则使用原来图片,此属性可能会影响图片自动纠正功能
+            fileNumLimit:1,   //验证文件总数量, 超出则不允许加入队列
+            accept: {        // 只允许选择图片文件
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            },
+            method:'POST'
+        });
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {  // webuploader事件.当选择文件后，文件被加载到文件队列中，触发该事件。等效于 uploader.onFileueued = function(file){...} ，类似js的事件定义。
+            console.log(this);
+            console.log($(this));
+            var $li = $('<img>');
+            $list.html( $li );    // $list为容器jQuery实例
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            uploader.makeThumb( file, function( error, src ) {   //webuploader方法
+                if ( error ) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+                $li.attr( 'src', src );
+            }, thumbnailWidth, thumbnailHeight );
+            uploader.upload();
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', function( file,response ) {
+            $("form").append('<input type="hidden" name="'+inputName+'" value="'+response.data+'">');
+        });
+
+        // 文件上传失败，显示上传出错。
+        uploader.on( 'uploadError', function( file ) {
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+            // 避免重复创建
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
+            $error.text('上传失败');
+        });
+    }
+</script>
+</body>
+</html>

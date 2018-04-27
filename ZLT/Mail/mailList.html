@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>站内信件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_gmpqr1u8sfijatt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/mail.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #fff;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">站内信件</div>
+        <div class="h-R" onclick="popup(isRead)" style="text-align:right;font-size:.875rem;color:#fff;margin-right:1.25rem;"><i class="iconfont icon-zhankai"></i></div>
+    </div>
+</header>
+<section>
+    <div id="mail-list">
+        <!--<div class="mail-list" onclick="mailDetail()">
+            <p class="clearb">
+                <i class="iconfont icon-dian1" style="'+isread+'"></i>
+                <span>十多个哈哈感个哈哈感个哈哈感个哈哈感个哈哈感个哈哈感觉</span>
+            </p>
+            <p>
+                <span>所发生的</span>
+                <span class="right">2017-50-25</span>
+            </p>
+            <div class="delMultiple" onclick="delMultiple()">
+                <input type="checkbox" value="">
+            </div>
+        </div>-->
+    </div>
+    <footer style="line-height:3.125rem;display:none;" onclick="delBtn()">
+        <div><i class="iconfont icon-22-copy" style="font-size:1.125rem;margin-right:.25rem;"></i><span>删除</span></div>
+    </footer>
+</section>
+<script src="../js/layer.js"></script>
+<script>
+    /*获取数据*/
+    var isRead = new Array();
+    var id,touser;
+    var page = 1;
+    var isEnd = false;
+    $(function(){
+        listAjax();
+    });
+
+    /*动态加载页面*/
+    function addMail(itemid,isread,title,sender,addtime){
+        var mail = '<div class="mail-list">'+
+            '<div onclick="mailDetail(\''+itemid+'\')">'+
+            '<p class="clearb">' +
+            '<i class="iconfont icon-dian" style="'+isread+'"></i>' +
+            '<span>'+title+'</span>' +
+            '</p>'+
+            '<p><span>'+sender+'</span><span class="right">'+addtime+'</span></p>'+
+            '</div>'+
+            '<div class="delMultiple" style="display:none;" >'+   /*onclick="choose(this)"*/
+            '<label>'+
+            '<input type="checkbox" class="hide" value="'+itemid+'">'+
+            '<span class="round">√</span>'+
+            '</label>'+
+            '</div>'+
+            '</div>';
+        return mail;
+    }
+
+    /*信件状态*/
+    function iColor(isread){
+        if(isread == 0){
+            return "color:#f0790f";
+        }else if(isread == 1){
+            return "color:#666";
+        }
+    }
+
+    /*跳转详情*/
+    function mailDetail(itemid){
+        $.post("../bobotest.php",{action:"update_isread",itemid:itemid},
+            function(data){});
+        window.location.href="mailDetail.html?id="+itemid;
+    }
+
+    /*弹窗*/
+    function popup(isRead){
+        var m = ['一键已读','批量删除'];
+        addMenu(m,function(isRead){
+            $(".bg-menu-ul>li").eq(0).find("a").attr("onclick","allRead(isRead)");
+            $(".bg-menu-ul>li").eq(1).find("a").attr("onclick","delMultiple()");
+        });
+    }
+
+    /*一键已读*/
+    function allRead(isRead){
+        for(var i=0;i<isRead.length;i++){
+            if(isRead[i] == "0"){
+                isRead[i] = "1";
+            }
+        }
+        $.post("../bobotest.php",{action:"update_all_isread",touser:touser},function(data){
+            console.log(data);
+        });
+        closeMenu();
+    }
+
+    /*点击批量删除按钮*/
+    function delMultiple(){
+        $(".delMultiple,footer").css("display","block");
+        $(".mail-list").css("padding","1.25rem 2.5rem 1.25rem 1.25rem");
+        $("#mail-list").css("margin-bottom","3.125rem");
+        closeMenu();
+    }
+
+    /*批量删除*/
+    function delBtn(){
+        var itemIdArr = new Array();
+        $.each($('input:checkbox:checked'),function(){
+            itemIdArr.push($(this).val());
+            $(this).parents(".mail-list").addClass("index");
+        });
+        $(".delMultiple,footer").css("display","none");
+        $(".mail-list").css("padding","1.25rem");
+        $("#mail-list").css("margin-bottom","0");
+        $.post("../bobotest.php",{action:"del_more_message",itemid:itemIdArr},function(data){
+            if(data.code == 200){
+                if($(".mail-list").hasClass("index")){
+                    $(".index").remove();
+                    alert("删除成功!");
+                }
+            }
+        },"json");
+    }
+
+    /*上拉加载*/
+    $(document).scroll(function(){
+        var WHeight = $(window).height(),
+            DHeight = $(document).height(),
+            scroll = $(document).scrollTop();
+        if(!isEnd){
+            if(scroll + WHeight >= DHeight){
+                listAjax();
+            }
+        }else{
+            console.log("没有数据了！");
+        }
+    });
+
+    function listAjax(){
+        $.ajax({
+            type:"POST",
+            url:"../bobotest.php",
+            dataType:"json",
+            async:false,
+            data:{"action":"show_message",page:page},
+            success:function(data){
+                var d = data.data;
+                console.log(data);
+                /*判断还有没有数据*/
+                if(d.length == 0){
+                    isEnd = true;
+                    layer.open({
+                        content: '没有数据了！'
+                        ,btn: '我知道了'
+                    });
+                    return false;
+                }else{
+                    isEnd = false;
+                }
+
+                for(var i=0;i<d.length;i++){
+                    var sender = d[i].fromuser;
+                    id = d[i].itemid;
+                    touser = d[i].touser;
+                    isRead.push(d[i].isread);
+                    if (sender == ""){
+                        var sender = "系统信使";
+                    }
+                    $("#mail-list").append(addMail(d[i].itemid,iColor(d[i].isread),d[i].title,sender,mtime(d[i].addtime)));
+                }
+                page++;
+            },
+            error:function(){
+                console.log('网络错误,请稍后再试！');
+            }
+        });
+    }
+</script>
+</body>
+</html>

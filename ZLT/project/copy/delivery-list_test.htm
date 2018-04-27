@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>外卖列表</title>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="format-detection" content="address=no">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="static/takeout/css/common.css">
+	<link rel="stylesheet" type="text/css" href="static/takeout/css/index.css">
+	<link rel="stylesheet" type="text/css" href="static/takeout/css/mui.min.css"/>
+	<link rel="stylesheet" href="static/takeout/css/reset.css">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_7b7b94cryrjm7vi.css">
+	<link rel="stylesheet" href="/mobile/css/takeoutList.css">
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+	<script type="text/javascript" src="static/takeout/js/Map.js"></script>
+	<script type="text/javascript" src="/mobile/js/myjs.js"></script>
+	<script src="static/takeout/js/hmt.js" type="text/javascript"></script>
+	<script type="text/javascript">
+        loading();
+	</script>
+	<style type="text/css">
+		.head{
+			height: 30px;
+			background-color: #3d95e5;
+		}
+		.head-a{
+			display: inline-block;
+			height: 30px;
+			padding-left: 10px;
+		}
+		.shop-message{
+			padding-left: 70px;
+			padding-bottom: 15px;
+			margin: 0 10px;
+		}
+		.shop-message p{
+			line-height: 20px;
+		}
+		.shop-img{
+			width: 60px;
+			height: 60px;
+			position: absolute;
+			left: 10px;
+			top: 10px;
+		}
+		.shop-menu{
+			display: -webkit-flex;
+			display: flex;
+			width: 100%;
+			height: 40px;
+			box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.1);
+		}
+		.shop-menu>div{
+			flex: 1;
+			-webkit-flex: 1;
+		}
+		.shop-menu>div a{
+			color: #888;
+			font-size: 14px;
+			display: block;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+		}
+		.shop-menu>div a.on{
+			color: #3d95e5;
+			border-bottom: 1px solid #3d95e5;
+		}
+		.shop-goods-view{
+			display: -webkit-flex;
+			display: flex;
+			height: 100%;
+			overflow: hidden;
+		}
+		.shop-goods-view-m{
+			width: 25%;
+			overflow-y: auto;
+			background-color: #f2f2f2;
+		}
+		.shop-goods-view-m>ul{
+			overflow-y: auto;
+		}
+		.shop-goods-view-g{
+			/*overflow: hidden;*/
+			width: 75%;
+			/*position: relative;*/
+			/*top: 0;*/
+			overflow-y: auto;
+		}
+		.shop-goods-view-m li{
+			height: 38px;
+		}
+		.shop-goods-view-m li.on a{
+			color: #3d95e5;
+			border-left: 3px solid #3d95e5;
+			background-color: #fff;
+		}
+		.shop-goods-view-m a{
+			display: block;
+			font-size: 14px;
+			height: 38px;
+			line-height: 38px;
+			text-align: center;
+		}
+		.goods-list-name{
+			font-size: 16px;
+			color: #333;
+		}
+		.goods-list-price{
+			font-size: 16px;
+			color: #f60;
+		}
+		.goods-list-reduce,.goods-list-add{
+			display: inline-block;
+		}
+		.goods-list-add{
+			position: relative;
+			z-index: 1;
+		}
+		.goods-list-reduce{
+			opacity: 0;
+			transform: translate3d(22px, 0, 0);
+			transition: all .5s linear;
+			-webkit-transition: all .5s linear;
+			/*transform: rotate(180deg);*/
+		}
+		.goods-list-reduce.enter{
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+		.goods-list-reduce>i{
+			transform: rotate(180deg);
+			transition: all .5s linear;
+			-webkit-transition: all .5s linear;
+		}
+		.goods-list-reduce.enter>i{
+			transform: rotate(0deg);
+		}
+		.goods-list-reduce>i,.goods-list-add>i{
+			font-size: 20px;
+			line-height: initial;
+			color: #3d95e5;
+			display: inline-block;
+		}
+
+		.goods-message{
+			padding-left: 100px;
+		}
+		.goods-list-number{
+			display: inline-block;
+			font-size: 14px;
+			width: 23px;
+			text-align: center;
+			opacity: 0;
+			transition: opacity .5s linear;
+		}
+		.goods-list-number.enter{
+			opacity: 1;
+		}
+		.goods-list{
+			position: relative;
+			min-height: 80px;
+		}
+		.goods-list-img{
+			width: 90px;
+			height: 80px;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		.goods-list-btn{
+			position: relative;
+			text-align: right;
+		}
+		.goods-list-name,.goods-list-price{
+			line-height: 20px;
+		}
+		.shop-goods-scrollm{
+			position: relative;
+		}
+		.shop-goods-title{
+			padding: 8px 10px;
+			background-color: #f2f2f2;
+			color: #666;
+			font-size: 12px;
+		}
+		.shop-goods-div{
+			width: 100%;
+		}
+		.shop-goods-scrollg{
+			/*position: absolute;*/
+			/*top: 0;*/
+			/*width: 100%;*/
+			overflow-y: auto;
+		}
+		.goods-list-spec{
+			display: inline-block;
+			padding: 4px 10px;
+			border: 1px solid #ebebeb;
+			border-radius: 6px;
+			margin-right: 5px;
+			color: #666;
+		}
+		.goods-list-spec.on{
+			border-color: #3d95e5;
+			background-color: #3d95e5;
+			color: #fff;
+		}
+		/*菜单列表*/
+		.Cart-menu{
+			position: fixed;
+			left: 0;
+			bottom: 50px;
+			width: 100%;
+			z-index: 2;
+		}
+		.Cart-list{
+			position: relative;
+			z-index: 5;
+		}
+		.Cart-list-empty{
+			background-color: #fff;
+		}
+		.Cart-list-empty li{
+			padding: 5px 10px;
+			border-bottom: 1px solid #eceff1;
+		}
+		.Cart-list-empty li div{
+			display: inline-block;
+			font-size: 14px;
+			line-height: 21px;
+			overflow: hidden;
+
+		}
+		.Cart-bg{
+			background-color: rgba(0,0,0,.4);
+			position: fixed;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			z-index: 4;
+			width: 100%;
+		}
+		.Cart-list-head{
+			height: 34px;
+			padding: 0 10px;
+			background-color: #eceff1;
+		}
+		.Cart-list-head-L,
+		.Cart-list-head-R{
+			font-size: 14px;line-height: 34px;
+			color: #666;
+		}
+		.Cart-list-head-L span.line{
+			width: 4px;
+			height: 15px;
+			background-color: #3d95e5;
+			display: inline-block;
+			position: relative;
+			top: 2px;
+			margin-right: 6px;
+		}
+		.Cart-show-item-number{
+		}
+		.Cart-show-item-name{
+			width: 50%;
+			color: #333;
+			padding-right: 10px;
+		}
+		.Cart-show-item-price{
+
+			color: #333;
+		}
+		.Cart-show-item-reduce>i,
+		.Cart-show-item-add>i{
+			color: #3d95e5;
+			font-size: 18px;
+		}
+		.Cart-show-item-num{
+			display: inline-block;
+			font-size: 14px;
+			width: 23px;
+			text-align: center;
+			color: #333;
+		}
+
+		/*购物车*/
+		.Cart{
+			border-top: 1px #CCC solid;
+			height: 50px;
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			z-index: 2;
+			background-color: rgba(255, 255, 255, .9);
+			display: -webkit-flex;
+			display: flex;
+		}
+		.Cart .icon-gouwuche{
+			display: inline-block;
+			font-size: 36px;
+			padding: 7px;
+			color: #a59898;
+		}
+		.Cart-left{
+			width: 50px;
+			position: relative;
+			margin-left: 6px;
+		}
+		.Cart-center{
+			width: 60%;
+		}
+		.Cart-num{
+			display: inline-block;
+			padding: 3px;
+			font-style: normal;
+			background-color: #ff461d;
+			font-size: 12px;
+			color: #fff;
+			border-radius: 100%;
+			text-align: center;
+			position: absolute;
+			left: 18px;
+			top: 2px;
+		}
+		.Cart-right{
+			width: 40%;
+		}
+		.Cart-btn{
+			display: block;
+			height: 50px;
+			font-size: 16px;
+			text-align: center;
+			line-height: 50px;
+			background-color: #3d95e5;
+			color: #fff;
+		}
+		.Cart-btn:focus{
+			color: #fff;
+		}
+	</style>
+</head>
+<body ng-app="shop" ng-controller="shopController">
+<header class="head">
+	<a href="javascript:history.go(-1)" class="head-a"><i class="iconfont icon-fanhui" style="color: #fff;font-size: 24px;line-height: initial;"></i></a>
+</header>
+<div style="background-color: #3d95e5;position: relative;padding-top: 10px;">
+	<img id="restaurant_thumb" class="shop-img" ng-src="{{shopImg}}"/>
+	<div class="shop-message">
+		<p style="font-size: 16px;color: #fff;">{{shopName}}</p>
+		<p style="font-size: 14px;color: #fff;">{{distributionTime}}分钟送达 / 配送费￥{{distributionPrice}}</p>
+		<p style="font-size: 14px;color: #fff;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">公告：{{shopNotice}}</p>
+	</div>
+</div>
+<!--子菜单-->
+<div class="shop-menu">
+	<div><a href="javascript:;" class="on">菜单</a></div>
+	<div><a href="javascript:;">评价</a></div>
+	<div><a href="javascript:;">详情</a></div>
+</div>
+<!--配送菜单商品-->
+<div class="shop-goods-view swiper-container">
+	<!--分类菜单-->
+	<div class="shop-goods-view-m">
+		<ul id="Menu" class="swiper-pagination">
+			<li class="goods-menu" onclick="selMenu(this)" ng-repeat="sm in shopMenu track by $index" ng-class="{on:isOn == $index}" cid="{{sm.id}}" repeat-finish>
+				<a href="javascript:;" ng-if="sm.dishes_data">{{sm.cuisine}}</a>
+			</li>
+		</ul>
+	</div>
+	<!--分类商品-->
+	<div class="shop-goods-view-g swiper-wrapper">
+		<div class="shop-goods-scrollg" id="subMenu">
+			<div class="shop-goods-div" ng-repeat="sm in shopMenu" ng-if="sm.dishes_data" repeat-finish>
+				<div class="shop-goods-title">{{sm.cuisine}}</div>
+				<p style="display: none;">{{smindex = $index}}</p>
+				<div style="padding: 10px;border-bottom: 1px solid #ebebeb;" ng-repeat="gsm in sm.dishes_data" cid="{{gsm.cuisine_id}}">
+					<div class="goods-list">
+						<img ng-src="{{gsm.thumb}}" class="goods-list-img" alt="商品照片">
+						<div class="goods-message">
+							<p class="goods-list-name">{{gsm.dishes}}</p>
+							<p class="goods-list-price">{{gsm.sell_price}}元</p>
+							<p style="display: none">{{ind = $index}}</p>
+							<!--<div style="color: #666;font-size: 12px;">月售{{gsm.use_count}}单</div>-->
+							<div class="clearfix goods-list-attr" ng-if="gsm.is_spec == 1" style="padding-top: 4px;">
+								<span class="goods-list-spec" ng-repeat="gg in gsm.spec_attr" ng-class="{on:isIndex == $index ? 'red' : ''}" ng-click="selectAttr($event, gsm.cuisine_id, ind, gg.spec_price, gg.spec_name)">{{gg.spec_name}}</span>
+							</div>
+							<div class="goods-list-btn">
+								<a href="javascript:;" ng-click="goodsreduct(gsm.id, gsm.is_spec)" class="goods-list-reduce" ng-class="{enter:gsm.num > 0}" ng-if="gsm.is_spec == 0"><i class="iconfont icon-jian"></i></a>
+								<span class="goods-list-number" ng-class="{enter:gsm.num > 0}">{{gsm.num}}</span>
+								<a class="goods-list-add" ng-click="goodsAdd($index, gsm.id, gsm.is_spec, gsm.spec_attr, gsm, $event, gsm.sell_price)"><i class="iconfont icon-jia"></i></a>
+							</div>
+							<!--<div class="goods-list-btn" ng-if="gsm.is_spec == 1">-->
+								<!--<a class="goods-list-add" ng-click="goodsAdd($index, gsm.cuisine_id, gsm.is_spec)">多规格</a>-->
+							<!--</div>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--菜单列表-->
+<div class="Cart-menu" ng-show="isOpen">
+	<div class="Cart-bg" ng-click="isOpen=false"></div>
+	<div class="Cart-list">
+		<div class="Cart-list-empty">
+			<div class="clearfix Cart-list-head">
+				<div class="Cart-list-head-L pull-left"><span class="line"></span>已选商品</div>
+				<div class="Cart-list-head-R pull-right" ng-click="emptyCart()"><i class="iconfont icon-icon_delete"></i>清空</div>
+			</div>
+			<ul style="max-height: 160px;overflow: auto;width: 100%;">
+				<li class="Cart-show-item" ng-repeat="gs in goodsShow.cart_data" ng-if="gs.is_spec == 0">
+					<div class="Cart-show-item-name" >
+						{{gs.dishes_name}}
+					</div>
+					<div class="clearfix pull-right" style="width: 50%;">
+						<div class="Cart-show-item-price" ng-if="gs.is_spec == 0">￥{{gs.sell_price*gs.goods_number | number:2}}</div>
+						<div class="Cart-show-item-number pull-right">
+							<a class="Cart-show-item-reduce" ng-click="gReduce(gArr.id)"><i class="iconfont icon-jian"></i></a>
+							<span class="Cart-show-item-num">{{gs.goods_number}}</span>
+							<a class="Cart-show-item-add" ng-click="gAdd(gArr.id)"><i class="iconfont icon-jia"></i></a>
+						</div>
+					</div>
+				</li>
+
+				<li class="Cart-show-item clearfix" ng-repeat="gs in goodsShow.cart_data" ng-if="gs.is_spec == 1" >
+					<div class="Cart-show-item-name" style="display: block;">
+						{{gs.dishes_name}}
+					</div>
+					<div class="clearfix" ng-repeat="g01 in gs.spec_list" style="width: 100%;">
+						<div style="width: 50%;float: left;">( {{g01.spec_name}} )</div>
+						<div class="clearfix pull-right" style="width: 50%;">
+							<div class="Cart-show-item-price">￥{{g01.sell_price*g01.goods_number | number:2}}</div>
+							<div class="Cart-show-item-number pull-right">
+								<a class="Cart-show-item-reduce" ng-click="gReduce(gArr.id)"><i class="iconfont icon-jian"></i></a>
+								<span class="Cart-show-item-num">{{g01.goods_number}}</span>
+								<a class="Cart-show-item-add" ng-click="gAdd(gArr.id)"><i class="iconfont icon-jia"></i></a>
+							</div>
+						</div>
+					</div>
+					<p></p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!--购物车-->
+<div class="Cart">
+	<div class="Cart-left" ng-click="isOpen1()">
+		<i class="iconfont icon-gouwuche" ng-style="{color:numCart() > 0 ? '#3d95e5' : ''}"></i>
+		<i class="Cart-num" ng-show="numCart() > 0">{{numCart() }}</i>
+	</div>
+	<div class="Cart-center">
+		<div style="padding-left: 20px;">
+			<p style="font-size: 16px;line-height: 20px;margin-top: 6px;color: #ff461d">￥{{allAcount() | number:2 }}</p>
+			<p>配送费￥{{distributionPrice}} ---{{startPrice}}</p>
+		</div>
+	</div>
+	<div class="Cart-right">
+		<a class="Cart-btn" ng-show="startPrice <= allAcount()">创建订单</a>
+		<span class="Cart-btn" ng-show="startPrice > allAcount()" style="font-size: 12px;background-color: #666;">￥{{startPrice - allAcount() | number:2}}元起配送</span>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+    var obj=strUrl();
+    var arrH=[];
+	$(document).ready(function(){
+        $(".shop-goods-view").css("height",$(window).height()-$(".shop-goods-view").offset().top-70);
+        console.log($(window).height()-$(".shop-goods-view").offset().top-50);
+	    $(window).resize(function(){
+			$(".shop-goods-view").css("height",$(window).height()-$(".shop-goods-view").offset().top-70);
+	    });
+	    $(".shop-goods-view-g").scroll(function(){
+	        for(var i=0;i<arrH.length;i++){
+	            if(arrH[i] <= $(this).scrollTop() + $(this).offset().top){
+	                $(".shop-goods-view-m li").eq(i).addClass("on").siblings().removeClass("on");
+				}
+			}
+		});
+	});
+	//左侧菜单选择
+	function selMenu(s){
+	    var index=$(s).index();
+	    var h1=$(".shop-goods-view-g").offset().top;
+        $(".shop-goods-view-g").animate({scrollTop:(arrH[index] - h1)},100,function(){
+            $(s).addClass("on").siblings().removeClass("on");
+		});
+	}
+
+    var app = angular.module('shop', []);
+    app.directive('repeatFinish',function(){
+        return {
+            link: function(scope,element,attr){
+                if(scope.$last) {
+					for(var i=0;i<$(".shop-goods-div").length;i++){
+                        arrH.push($(".shop-goods-div").eq(i).offset().top);
+					}
+				}
+            }
+        }
+    });
+    app.controller('shopController', function($scope, $rootScope, $http) {
+        $scope.isOpen = false;
+        $scope.isOn=$scope.Acount1=$scope.arrAcount=0;
+        $scope.isIndex = 0;
+        $scope.goodsArr=[];
+        $scope.goodsArr1 = {};
+        $http({
+            url: "/mobile/takeout_restaurant.php",
+            method: "POST",
+            data: {for_ajax:"takeout_restaurant",id:obj.id,lat:obj.lat,lng:obj.lng},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+            transformRequest:function(obj) {
+                var str = [];
+                for (var p in obj) {
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function(d){
+            console.log(d);
+            if(d.status == 200){
+                d=d.data;
+                if(d.code == 200){
+                    $scope.shopName=d.take_out_shop_name;
+                    $scope.distributionTime=d.delivery_time;
+                    $scope.distributionPrice=parseInt(d.distribution_price);
+                    $scope.shopImg=d.thumb;
+                    $scope.shopNotice=d.shop_tip;
+                    $scope.shopMenu=d.cuisine_category;
+                    $scope.shopMenuSub = d.spec_data;
+                    $scope.startPrice=d.start_price;
+                    loading("loading");
+                    $scope.showGoods();
+				}else{
+                    alert(d.msg);
+                    //HistoryURL();
+				}
+            }
+        });
+
+        //增加商品数量
+        $scope.goodsAdd=function(index, cuisinId, isSpec, specAttr, obj1, s, price){
+            console.log(obj1);
+            console.log();
+            var len = angular.element(s.target).parent().parent().siblings(".goods-list-attr").find("span").length;
+            var o = {for_ajax:"takeout_cart_add",dishes_id:cuisinId,goods_number:1,is_spec:isSpec,spec_attr:specAttr};
+            if(isSpec == 1){
+                var span = angular.element(s.target).parent().parent().siblings(".goods-list-attr").find("span");
+                for(var i=0;i<len;i++){
+                    if(span.eq(i).hasClass("on")){
+                        span.eq(i).html();
+                        o.spec_attr = span.eq(i).html()+"|"+price;
+					}
+				}
+			}else{
+                o.spec_attr = "";
+			}
+            $http({
+                url: "/mobile/for_ajax.php",
+                method: "POST",
+                data: o,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+                transformRequest:function(obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function(d){
+                console.log(d);
+                obj1.num = d.data.data.cart_data[obj1.id].goods_number;
+                $scope.showGoods();
+            },function(d){
+                alert("网络延时，请稍后!");
+            });
+        };
+        $scope.gAdd=function(id){
+            angular.forEach($scope.goodsArr, function(v, k){
+                if(v.id == id){
+                    v.num++;
+				}
+			});
+		};
+        $scope.showGoods=function(){
+            $http({
+                url: "/mobile/for_ajax.php",
+                method: "POST",
+                data: {for_ajax:"takeout_cart_show",takeout_id:obj.id},
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+                transformRequest:function(obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function(d){
+                //console.log(d.data.data.cart_data);
+                $scope.goodsShow = d.data.data;
+                console.log($scope.goodsShow);
+//                for(var i=0;i<$scope.shopMenu.length;i++){
+//                    for(var j=0;j<$scope.shopMenu[i].dishes_data.length;j++){
+//                        if($scope.goodsShow.cart_data[$scope.shopMenu[i].dishes_data[j].id].dishes_id){
+//                            $scope.shopMenu[i].dishes_data[j].num = $scope.goodsShow.cart_data[$scope.shopMenu[i].dishes_data[j].id].goods_number;
+//						}
+//					}
+//				}
+                for(var i=0;i<$scope.shopMenu.length;i++){
+                    for(var j=0;j<$scope.shopMenu[i].dishes_data.length;j++){
+                        if($scope.goodsShow.cart_data[$scope.shopMenu[i].dishes_data[j].id]){
+                            //console.log(d.data.data.cart_data[$scope.shopMenu[i].dishes_data[j].id]);
+                            $scope.shopMenu[i].dishes_data[j].num = $scope.goodsShow.cart_data[$scope.shopMenu[i].dishes_data[j].id].goods_number;
+						}
+					}
+				}
+            },function(d){
+                alert("网络延时，请稍后!");
+            });
+		};
+
+
+        //减少商品数量
+        $scope.goodsreduct=function(id, isSpec){
+            $http({
+                url: "/mobile/for_ajax.php",
+                method: "POST",
+                data: {for_ajax:"takeout_cart_decrease",dishes_id:id,goods_number:1,is_spec:isSpec,spec_price:"",spec:""},
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+                transformRequest:function(obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+			}).then(function(d){
+			   console.log(d);
+			   if(d.data.success){
+			       $scope.goodsShow = d.data.data;
+			       for(var i=0;i<$scope.shopMenu.length;i++){
+			           for(var j=0;j<$scope.shopMenu[i].dishes_data.length;j++){
+			               if($scope.shopMenu[i].dishes_data[j].id == id){
+                               if($scope.shopMenu[i].dishes_data[j].num > 0){
+                                   $scope.shopMenu[i].dishes_data[j].num--;
+                                   return false;
+							   }
+						   }
+					   }
+				   }
+			   }
+			},function(d){
+			    alert("网络延时，请稍后!"+d);
+			});
+            var sameValue = false;
+            angular.forEach($scope.goodsArr, function(v,k){
+                if(v == obj){
+                    if(v.num > 1){
+                        v.num--;
+                    }else{
+                        v.num = 0;
+                        $scope.goodsArr.splice(k, 1);
+                    }
+                }
+            });
+            $scope.goodsArr1 = angular.copy($scope.goodsArr);
+        };
+        $scope.gReduce=function(id){
+            angular.forEach($scope.goodsArr, function(v, k){
+                if(v.id == id){
+                    v.num--;
+                    if(v.num == 0){
+                        $scope.goodsArr.splice(k,1);
+					}
+                }
+            });
+        };
+
+        //总计价格
+        $scope.allAcount=function(){
+            var result=0;
+            //console.log($scope.goodsShow);
+            if($scope.goodsShow){
+                result = $scope.goodsShow.detail_cash;
+            }
+            return result;
+        };
+
+        //购物车数量
+        $scope.numCart=function(){
+            var result=0;
+            if($scope.goodsShow){
+                result = $scope.goodsShow.num;
+            }
+            return result;
+        };
+
+        //多规格选择
+		$scope.selectAttr=function(s, id, i1, price, attrName){
+            angular.element(s.target).addClass("on").siblings().removeClass("on");
+            angular.forEach($scope.shopMenu, function(v, k){
+				if(v.id == id){
+                    $scope.shopMenu[k].dishes_data[i1].sell_price = price;
+                    $scope.shopMenu[k].dishes_data[i1].attrN = attrName;
+				}
+			});
+        };
+
+        //切换菜单显示
+        $scope.isOpen1=function(){
+            $scope.isOpen = !$scope.isOpen;
+		};
+
+		//情况购物车
+		$scope.emptyCart=function(){
+            $http({
+				url: "/mobile/for_ajax.php",
+				method: "POST",
+				data: {for_ajax:"takeout_cart_clear",takeout_id:obj.id},
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+                transformRequest:function(obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+			}).then(function(d){
+                $scope.showGoods();
+                $scope.isOpen = false;
+                for(var i=0;i<$scope.shopMenu.length;i++){
+                    for(var j=0;j<$scope.shopMenu[i].dishes_data.length;j++){
+                        $scope.shopMenu[i].dishes_data[j].num = 0;
+                    }
+                }
+			},function(){
+			    alert("网络延时,请稍后！");
+			});
+		}
+    });
+</script>
+</html>

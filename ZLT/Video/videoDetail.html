@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>视频</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_q2o1gog3ovcmcxr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/video.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/Account.css">
+</head>
+<body style="background-color: #fff;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C" id="title"></div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div class="video-source">
+        <div class="video-label">
+            <span>2017</span>
+            <span><i class="iconfont icon-dianjiliang"></i></span>
+        </div>
+    </div>
+    <div class="video-content">
+        <p>简介</p>
+    </div>
+</section>
+<!--<footer><a href="http://www.zhanglitong.com/resver_app">马上预订</a></footer>-->
+<script src="../js/myjs.js"></script>
+<script>
+    $(function(){
+        var obj = strUrl(window.location.search);
+        itemid = obj.itemid;
+        $.post("../show_video.php",{itemid:itemid},
+        function(data){
+            console.log(data);
+            var title = data.data4[0].title;
+            var addtime = mtime(data.data4[0].addtime);
+            var video = data.data4[0].video;
+            var introduce = data.data4[0].introduce;
+            var hits = data.data4[0].hits;
+            $("#title").html(title);
+            $(".video-source .video-label span:nth-child(1)").html(addtime);
+            $(".video-source .video-label span:nth-child(2)").append(hits);
+            if(data.code == 200){
+//                $('.video-title').append('<h4>'+title+'</h4> <p><span>'+addtime+'</span><span>播放：'+hits+'</span><a href="http://mp.weixin.qq.com/s?biz=MzA3MDA3MzY2OQ==&mid=206903695&idx=1&sn=4b1ae7dfbd47cfb8b1f06a5312742ad5#rd" style="color:#3d95e5">掌里通</a></p>');
+                var videoCut = video.replace('http','https');
+                $('.video-source').append('<iframe src="'+videoCut+'" width="100%" height="210" frameborder="0" scrolling="no" allowfullscreen="true" allowtransparency="true"> </iframe>');
+                $('.video-content').append('<p>'+introduce+'</p>');
+            }
+
+            if(data.data4[0].catid == 3589){
+                if(data.res_id){
+                    var url = 'https://www.zhanglitong.com/resver_app/#/roomList?param='+encodeURIComponent('{"id":"'+data.res_id+'","type":0,"reserve_price":"0.02"}');
+                    $("section").append("<a href='"+url+"' class='btn btn-primary' style='display: block;background: #3d95e5;'>进入预定系统</a>");
+                }
+            }
+        },'json')
+    });
+</script>
+</body>
+
+</html>

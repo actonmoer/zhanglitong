@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_gvfxnyu54tdcmcxr.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<div class="h-bgimg">
+    <div class="clearb">
+        <div class="m20-lr">
+            <a href="javascript:HistoryURL();" class="h-L-a fl"><i class="iconfont icon-left icon-return"></i></a>
+            <a onclick="loginOut()" class="h-R-a fr">退出</a>
+        </div>
+    </div>
+    <div class="tc">
+        <img src="../img/default.png" class="bor-img" alt="默认头像">
+        <p class="user-name">会员名称</p>
+    </div>
+</div>
+<div class="container bfff text-center">
+    <div class="row">
+        <div class="col-xs-6" style="border-right: 1px solid #f5f5f5;"><a href="javascript:;" class="Bond"><span class="Bond-n">0.00</span><span class="Bond-span">保证金</span></a></div>
+        <div class="col-xs-6"><a href="javascript:;" class="integral"><span class="integral-n">0.00</span><span class="integral-span">我的积分</span></a></div>
+    </div>
+</div>
+<section style="margin-bottom: 1.25rem;">
+    <!--菜单管理-->
+    <div class="bfff">
+        <div class="m20-t">
+            <nav class="menu-nav">
+                <ul class="userType">
+                    <li class="m20-lr m-nav-li"><a href="javascript:;" id="acountDetails" class="m-nav-a"><i class="iconfont icon-bangding colorb icon-xx"></i><span class="m-nav-span">认证信息</span><i class="iconfont icon-xiangqian fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="userdataedit.html" class="m-nav-a"><i class="iconfont icon-wode colorb icon-xx"></i><span class="m-nav-span">账户信息</span><i class="iconfont icon-xiangqian fr"></i></a></li>
+                    <!--<li class="m20-lr m-nav-li"><a href="javascript:;" class="m-nav-a"><i class="iconfont icon-company colorb icon-xx"></i><span class="m-nav-span">公司信息</span><i class="iconfont icon-xiangqian fr"></i></a></li>-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!--菜单管理-->
+    <div class="bfff">
+        <div class="m20-t">
+            <nav class="menu-nav">
+                <ul>
+                    <li class="m20-lr m-nav-li"><a href="javascript:checkBankCard();" class="m-nav-a"><i class="iconfont icon-bankcard colorb icon-xx" style="font-size: 1rem;"></i><span class="m-nav-span">银行卡</span><i class="iconfont icon-xiangqian fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="../Address/address.html" class="m-nav-a"><i class="iconfont icon-shouhuodizhi colorb icon-xx"></i><span class="m-nav-span">收货地址</span><i class="iconfont icon-xiangqian fr"></i></a></li>
+                    <li class="m20-lr m-nav-li"><a href="../Psw/password-set.html" class="m-nav-a"><i class="iconfont icon-mima colorb icon-xx"></i><span class="m-nav-span">密码设置</span><i class="iconfont icon-xiangqian fr"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!--菜单管理-->
+    <!--<div class="bfff">-->
+        <!--<div class="m20-t">-->
+            <!--<nav class="menu-nav">-->
+                <!--<ul></ul>-->
+            <!--</nav>-->
+        <!--</div>-->
+    <!--</div>-->
+</section>
+<div id="foot"></div>
+<script type="text/javascript" src="../js/myjsOriginal.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var userT, userU, userI;
+        $.ajax({
+            type: "post",
+            url: "../usercenter.php",
+            dataType: "JSON",
+            data: {"action":"mycount"},
+            success:function(data){
+                if(data.code == 200){
+                    $(".Bond-n").html(data.data.deposit);
+                    $(".integral-n").html(data.data.credit);
+                    $(".user-name").html(data.data.username);
+                    $(".bor-img").attr("src","/api/avatar/show.php?username="+data.data.username+"&size=large");
+                    $("#acountDetails").attr("href","/mobile/User/userAcountSet.html?id="+data.data.regid);
+                    if(data.data.regid == 5){
+                        userT = "账户信息";
+                        userU = "userdataedit.html";
+                        userI = "icon-wode";
+                    }else if(data.data.regid == 6){
+                        userT = "企业信息";
+                        userU = "javascript:;";
+                        userI = "icon-company";
+                        //$(".userType").append('<li class="m20-lr m-nav-li"><a href="'+userU+'" class="m-nav-a"><i class="iconfont '+userI+' colorb icon-xx"></i><span class="m-nav-span">'+userT+'</span><i class="iconfont icon-xiangqian fr"></i></a></li>')
+                    }else{
+                        userT = "";
+                    }
+                }else if(data.code == -200){
+                    window.location.href="/mobile/login.php?Callback="+encodeURIComponent(window.location.href);
+                }else{
+
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后再试！");
+            }
+        });
+    });
+
+    //添加银行卡
+    function checkBankCard(){
+        $.ajax({
+            method:"POST",
+            url:"../usercenter.php",
+            dataType: "JSON",
+            data:{action:"check_truename"},
+            success:function(data){
+                if(data.code == 200){
+                    window.location.href="../Bankcard/ShowBankcard.html";
+                    /*if(data.status == 3){
+                        $.ajax({
+                            method:"POST",
+                            url:"../usercenter.php",
+                            dataType: "JSON",
+                            data:{action:"show_bank"},
+                            success:function(data){
+                                if(data.code == 200){
+                                    if(data.data.vbank == 0){
+                                        window.location.href="../Bankcard/BindBankcard.html";
+                                    }else{
+                                        window.location.href="../Bankcard/ShowBankcard.html";
+                                    }
+                                }
+                            }
+                        });
+                    }else if(data.status == 2){
+                        alert("您的实名正在审核中，审核通过后才可添加银行卡");
+                    }else{
+                        alert("请您先实名验证，验证通过后才可以添加银行卡");
+                        window.location.href="../Bankcard/ShowBankcard.html";
+                    }*/
+                }else if(data.code == -200){
+                    alert("你的账号未认证，请先完成实名认证！");
+                    window.location.href="../Authentication/TruenameValidate.html";
+                }
+            }
+        });
+    }
+
+    //退出
+    function loginOut(){
+        var tips = confirm("是否确定退出登录");
+        if(tips){
+            clearCookie();
+            window.location.href="/mobile";
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!-- <view class='tops'>
+  <view class='tops-text'>商家入驻</view>
+  <view class='tops-text'>
+  
+  </view>
+</view> -->
+<form bindsubmit="formSubmit" bindreset="formReset">
+<view class='content'>
+  <view>
+    <view class='content-text'>店铺图片：</view>
+    <view class='content-img' data-type = "storeimg" catchtap="storeimg">
+      <image catchlongtap='' class='content-imgs' src='{{storeurl}}'></image>
+      <view class='content-imgtext'>上传店铺图片</view>
+    </view>
+  </view>
+
+  <view class='contentname' >
+    <view class='content-text'>商家名称：</view>
+    <input type='text' name='businessname' class='content-input' value="{{data.businessname}}"></input>
+  </view>
+
+   <view class='contentname' >
+    <view class='content-text'>营业时间：</view>
+    <view class='content-input' value>{{data.hours}}</view>
+  </view>
+
+</view>
+
+<view class='content-bor'></view>
+
+<view class='content content-con'>
+  <view class='contentname' >
+    <view class='content-text'>店主姓名：</view>
+    <input name ='unsername'  type='text' class='content-input' value='{{data.unsername}}'></input>
+  </view>
+
+   <view class='contentname' >
+    <view class='content-text'>身份证号：</view>
+    <input name="id" type='text' class='content-input' value='{{data.id}}'></input>
+  </view>
+
+  
+  
+</view>
+
+
+<view class='content-bor'></view>
+<view class='content conimg'>
+  <view>
+    <view class='content-text'>营业执照：</view>
+    <view class='content-img' data-type = "business" catchtap="storeimg">
+      <image class='content-imgs' src='{{businessurl}}'></image>
+      <view class='content-imgtext'>上传营业执照图片</view>
+    </view>
+  </view>
+</view>
+
+<view class='content-bor'></view>
+<view class='content conimg'>
+  <view>
+    <view class='content-text'>许可证：</view>
+    <view class='content-img' data-type = "license" catchtap="storeimg">
+      <image class='content-imgs' src='{{licenseurl}}'></image>
+      <view class='content-imgtext'>上传许可证</view>
+    </view>
+  </view>
+</view>
+
+<view class='audit'>
+  <!-- <view class='audit_bat' catchtap="audit">提交审核</view> -->
+  <button class='audit_bat' formType="submit">提交审核</button> 
+</view>
+</form>

@@ -1,0 +1,40 @@
+
+<app-titles [data]="titles"></app-titles>
+<div class="earnings">
+  <p class="earnings-p">{{explain}}(元)</p>
+  <p class="earnings-p2">{{amount}}</p>
+</div>
+
+<div class="earnings-content-bg">
+
+  <div class="earnings-content">
+    <div class="earnings-lis qf">
+      <div class="fl earnings-lis-div">主席({{data.Chairman.length?data.Chairman.length:0}})</div>
+      <div class="fl">收益：{{data.Chairman.money?data.Chairman.money:0}}</div>
+    </div>
+
+    <div class="earnings-lis qf">
+      <div class="fl earnings-lis-div">主任({{data.directors.length?data.directors.length:0}})</div>
+      <div class="fl">收益：{{data.directors.money?data.directors.money:0}}</div>
+    </div>
+
+    <div class="earnings-lis qf">
+      <div class="fl earnings-lis-div">主管({{data.dictor.length?data.dictor.length:0}})</div>
+      <div class="fl">收益：{{data.dictor.money?data.dictor.money:0}}</div>
+    </div>
+
+    <!--<div class="earnings-lis qf">-->
+      <!--<div class="fl earnings-lis-div">同级({{same.same.length?same.same.length:0}})</div>-->
+      <!--<div class="fl">收益：{{same.money?same.money:0}}</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="earnings-lis qf">-->
+      <!--<div class="fl earnings-lis-div">商家({{merchants.merchants.length?merchants.merchants.length:0}})</div>-->
+      <!--<div class="fl">收益：{{merchants.money?merchants.money:0}}</div>-->
+    <!--</div>-->
+
+  </div>
+</div>
+
+<app-layer (str)="explains($event)"></app-layer>

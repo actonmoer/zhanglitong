@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加分类</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_r7f94fthm1dzpvi.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../MenuManagement/css/add-classify.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">添加分类</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section style="margin-top: 1.25rem;">
+    <form id="addfrom">
+        <div class="add-classify" style="background-color: #fff;">
+            <div class="m20-b" style="margin-bottom:0;">
+                <input type="text" id="addcuisine" class="form-control classify-name" placeholder="请输入添加的分类名称" name="cuisine" required>
+            </div>
+        </div>
+        <div style="margin: 1.25rem;">
+            <input type="button" class="btn menu-btn" onclick="addClassify()" style="width: 100%;" value="保&nbsp;&nbsp;存">
+        </div>
+    </form>
+</section>
+<script type="text/javascript">
+    function addClassify(){
+        var cuisine=$("#addcuisine").val();
+        if($("input[name='state']").val() == "modifymenu"){
+            var mid=$("input[name='id']").val();
+            $.post("../BusinessHome.php",{action:"edit_cuisine",id:mid,cuisine:cuisine},function(data){
+                console.log(data);
+                var d=$.parseJSON(data);
+                if(d.msg == "ok"){
+                    window.location.href="ClassifyManager.html";
+                }else if(d.msg == "same"){
+                    alert("菜单名已添加，请输入其他菜单名");
+                }
+            });
+        }else if(cuisine == ""){
+            alert("请输入分类信息");
+        }else{
+            $.post("../BusinessHome.php",{action:"add_cuisine",cuisine:cuisine},function(data){
+                console.log(data);
+                var d=$.parseJSON(data);
+                if(d.msg == "ok"){
+                    window.location.href="ClassifyManager.html";
+                }else if(d.msg == "same"){
+                    alert("菜单名已添加，请输入其他菜单名");
+                }else{
+                    alert("添加失败");
+                }
+                //console.log(d);
+            });
+        }
+    }
+
+    $(document).ready(function(){
+        var arr=[];
+        var url=window.location.search;
+        var nurl=url.substr(1);
+        var arrurl=nurl.split("&");
+        for(var i=0;i<arrurl.length;i++){
+            arr.push(arrurl[i].split("="));
+        }
+        for(var i=0;i<arr.length;i++){
+            $("#addfrom").append("<input type='hidden' name='"+arr[i][0]+"' value='"+arr[i][1]+"'>");
+        }
+        if(url.indexOf("modifymenu") != -1){
+            $(".h-C").html("修改分类");
+            if($("input[name='menuname']") != "" && $("input[name='id']") != "" && $("input[name='state']") != "" && $("input[type='hidden']").length == 3){
+                $("#addcuisine").val(decodeURI($("input[name='menuname']").val()));
+            }else{
+                window.location.href="../my.php";
+            }
+        }
+    });
+</script>
+</body>
+</html>

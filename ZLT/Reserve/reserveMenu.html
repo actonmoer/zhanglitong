@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的菜单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_1039nte8kuunxw29.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Account.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <style>
+        .menu-box{
+            margin-top:.625rem;
+            background:#fff;
+            padding:0 1.125rem 0 1.75rem;
+        }
+        .menu-item{
+            font-size:.625rem;
+            border-bottom:1px solid #eee;
+            padding:.625rem 0;
+            color:#666;
+        }
+        .menu-title{
+            font-size:.875rem;
+            color:#333;
+        }
+        .memu-number{
+            position:relative;
+            margin:.625rem 0 .9375rem 0;
+        }
+        .memu-number span:nth-child(2){
+            position:absolute;
+            top:0;
+            right:.25rem;
+        }
+        .menu-money{
+            position:relative;
+        }
+        .menu-money span:nth-child(1){
+            font-size:.875rem;
+            color:#d72626;
+        }
+        .menu-money span:nth-child(2){
+            position:absolute;
+            top:0;
+            right:3.125rem;
+        }
+        .menu-money span:nth-child(3){
+            position:absolute;
+            top:0;
+            right:.25rem;
+        }
+        .menu-time,.menu-total{
+            background:#fff;
+            font-size:.875rem;
+            padding:.9375rem 0 2.25rem 1.75rem;
+        }
+        .menu-total{
+            position:relative;
+        }
+        .menu-total span:nth-child(2){
+            position:absolute;
+            right:1.375rem;
+            color:#d72626;
+        }
+        .menu-button{
+            position:relative;
+            width:100%;
+            background:#fff;
+            height:3.125rem;
+            border-top:1px solid #eee;
+            text-align:center;
+        }
+        .menu-button button{
+            position:absolute;
+            top:.625rem;
+            font-size:1rem;
+            color:#4fc08d;
+            border:1px solid #4fc08d;
+            background:#fff;
+            border-radius:.25rem;
+        }
+        .menu-button .addMenu{
+            left:1.75rem;
+            padding:.375rem 1.875rem;
+        }
+        .menu-button .settlement{
+            right:1.125rem;
+            padding:.375rem 1.875rem;
+        }
+        .menu-button .submit-settlement{
+            position:static;
+            margin-top:.625rem;
+            padding:.375rem 5rem;
+        }
+        .moreBtn{
+            position:fixed;
+            top:50px;
+            right:18px;
+            background:#fff;
+            width:34px;
+            height:34px;
+            line-height:34px;
+            border-radius:50%;
+            color:#4fc08d;
+            border:1px solid #eee;
+            text-align:center;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head" style="background:#4fc08d;">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">我的菜单</div>
+        <div class="h-R" style="color:#fff;font-size:.875rem;margin-right:1.25rem;"></div>
+    </div>
+</header>
+<section style="margin-bottom:3.125rem;">
+    <div style="text-align: center;font-size: 14px;line-height: 35px;">我的桌号是：<span id="deskId" style="font-size: 14px;"></span></div>
+    <div class="menu-box">
+    </div>
+    <div class="menu-total">
+        <p>
+            <span>总计：</span>
+            <span>¥0</span>
+        </p>
+    </div>
+    <div class="menu-button">
+        <button class="addMenu" id="shangcai" onclick="serving(2)" style="display: none;">即时上菜</button>
+        <button class="settlement" id="jiaoqi" onclick="serving(1)">起菜</button>
+    </div>
+    <div class="menu-button" style="position: fixed;bottom: 0;">
+        <button class="addMenu" onclick="addFood()">加菜</button>
+        <button class="settlement" onclick="settlement()">结算</button>
+    </div>
+    <div class="moreBtn" onclick="moreBtn()">
+        <i class="iconfont icon-gengduo1"></i>
+    </div>
+</section>
+<script>
+    var arrMenu = [],
+        obj = strUrl(),
+        orderid = obj.orderid,
+        videoId,
+        cutUrl;
+    $(function(){
+        $.ajax({
+            url:"../ajax_reserve.php?for_ajax=get_orders_info",
+            type:"pot",
+            dataType:"json",
+            data:JSON.stringify({order_id:orderid}),
+            success:function(data){
+                console.log(data);
+                if(data.code == 200){
+                    var d =data.data.cuisines,
+                        totalPrice = data.data.price,
+                        desk = data.data.desk,
+                        rid = data.data.restaurant_id,
+                        status = +data.data.status;
+                    console.log(typeof(status));
+                    videoId = data.data.video_id;
+                    $(".menu-total p").children("span").eq(1).html("¥" + totalPrice);
+                    $(".menu-box").append(menuItem(d));
+                    $("#deskId").html(desk[0].desk);
+
+                    /*判断订单状态*/
+                    if(status > 3){
+                        $('.menu-button').hide();
+                        $('.menu-money span:last-child').hide();
+                    }
+
+                    if(data.data.desk.length != 0){
+                        var commonid = data.data.desk[0].id,
+                            reserve_type = "desk";
+                        cutUrl = "&rid=" + rid + "&commonid=" + commonid + "&reserve_type=" + reserve_type;
+                    }else if(data.data.room.length != 0){
+                        var commonid = data.data.room[0].id,
+                            reserve_type = "room";
+                        cutUrl = "&rid=" + rid + "&commonid=" + commonid + "&reserve_type=" + reserve_type;
+                    }
+                }
+            }
+        });
+        if(getCookie("jiaoqi") == 1){
+            $("#jiaoqi").hide();
+            $("#shangcai").show();
+        }else if(getCookie("jiaoqi") == 2){
+            $("#jiaoqi").hide();
+        }else{
+        }
+    });
+    /*渲染订单*/
+    function menuItem(data){
+        var o = {};
+        var item = "";
+        for(var i=0;i<data.length;i++){
+            o.shop_name = data[i].title;
+            o.number = data[i].num;
+            o.shop_price = data[i].singel_price;
+            item +='<div class="menu-item">';
+            item +='<p class="menu-title">';
+            item +='<span>'+data[i].title+'</span>';
+            item +='</p>';
+            item +='<p class="memu-number">';
+            item +='<span>小份</span>';
+            item +='<span>x'+data[i].num+'份</span>';
+            item +='</p>';
+            item +='<p class="menu-money">';
+            item +='<span>¥'+data[i].singel_price+'</span>';
+            item +='<span class="menu-addTime"></span>';
+            item +='<span>'+data[i].status_text+'</span>';
+            item +='</p>';
+            item +='</div>';
+            arrMenu.push(o);
+        }
+        return item;
+    }
+    /*订单结算*/
+    function settlement(){
+        delCookie("jiaoqi","/");
+        window.location.href = "../reserve.php?act=reserve_owe_pay&order_id=" + orderid;
+    }
+    /*加菜*/
+    function addFood(){
+        window.location.href = "../newdemo/demo2.html?" + cutUrl + "&orderid=" + orderid;
+    }
+    /*点击更多(重复的代码)*/
+    function moreBtn(){
+        addMenu(["厨房直播","美食视频","我的订单","叫服务员"],function(a){
+            var menuUl = $(".bg-menu-ul").children("li");
+            for(var i=0;i<a.length;i++){
+                switch (i){
+                    case 0:
+                        menuUl.eq(0).click(function(){
+                            window.location.href = "../Video/video.html";
+                        });
+                        break;
+                    case 1:
+                        menuUl.eq(1).click(function(){
+                            if(videoId != null){
+                                window.location.href = "../Video/videoDetail.html?moduleid=14&itemid=" + videoId;
+                            }else{
+                                alert("此商家暂无美食视频！");
+                            }
+                        });
+                        break;
+                    case 2:
+                        menuUl.eq(2).click(function(){
+                            window.location.href = "../newdemo/ROrderList.html";
+                        });
+                        break;
+                    case 3:
+                        menuUl.eq(3).click(function(){
+                            $.get("../call_small_two.php?" + cutUrl,function(data){
+                                alert(data.data);
+                            },"json")
+                        });
+                        break;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
+    //上菜
+    function serving(n){
+        //叫起是1
+        //立即上菜是2
+        var price = 0;
+        for(var i=0;i<arrMenu.length;i++){
+            price += arrMenu[i].shop_price;
+        }
+        $.ajax({
+            url: "/mobile/go_to_status.php",
+            type: "POST",
+            data: {type:obj.reserve_type,rid:obj.rid,commomid:obj.commonid,array_content:arrMenu,detial_price:price,status:n},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                if(d.data == "叫起成功"){
+                    setCookie("jiaoqi",1,1,"/");
+                    alert(d.data);
+                    $("#jiaoqi").hide();
+                    $("#shangcai").show();
+                }else if(d.data == "立即上菜成功"){
+                    setCookie("jiaoqi",2,1,"/");
+                    $("#shangcai").hide();
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后！");
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

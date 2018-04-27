@@ -1,0 +1,105 @@
+<view class="menu-box">
+  <!-- 商家头部 -->
+  <!-- <view class="header">
+    <view class="header-img-box">
+      <image class="header-img" src="/images/02@2x.png"></image>
+    </view>
+    <view class="header-content">
+      <text class="header-title">台资味(广州新华店)</text>
+      <text class="header-time">30分钟送达</text>
+      <text class="fee">配送费：¥10.00</text>
+      <text class="header-notice">公告：欢迎光临，用餐高峰期敬请提前下单，谢谢！</text>
+    </view> 
+  </view> -->
+  <!-- 赠送菜提示 -->
+  <view class='tip' wx:if="{{ isTip }}">
+    <text>公告：{{ tip }}</text>
+  </view>
+  <!-- 列表主体 -->
+  <view class="menu-main">
+    <!-- 菜式分类 -->
+    <scroll-view scroll-y class="menu-left">
+      <view wx:for="{{ leftCategory }}" wx:key="item" data-typeid="{{ item.typeid }}" catchtap='leftNav' data-typeid="{{ item.typeid }}" class="menu-left-nav {{ leftClass == item.typeid ? 'menu-left-nav-active' : '' }}">
+        <text class="menu-left-nav-item">{{ item.typename }}</text>
+      </view>
+    </scroll-view>
+    <!-- 菜单列表 -->
+    <scroll-view scroll-y class="menu-right">
+      <view class="menu-right-item" wx:for="{{ rightCategory }}" wx:key="item">
+        <view class="menu-img-box" catchtap='openGoodsDetail' data-thumb='{{item.thumb}}' data-title='{{item.title}}' data-itemid='{{ item.itemid }}'>
+          <image class="menu-img" src="{{ item.thumb }}"></image>
+        </view>
+        <view class="menu-content">
+          <text class="title">{{ item.title }}</text>
+          <text class="sale">月售：{{ item.amount }}</text>
+          <text class="price">¥{{ item.price }}</text>
+        </view>
+        <!-- 增减购物车 -->
+        <view hidden='{{getUrlData.type == 0}}'>
+          <view wx:if="{{ item.spec_attr.length === 0 }}">{{num}}
+            <add-reduce goodsItem="{{ item }}" rid="{{ rid }}" cartDataStorage="{{ cartDataStorage }}" bindcartstorage="cartStorage"></add-reduce>
+          </view>
+          <!-- 多规格 -->
+          <view wx:else class='text-mask'>
+            <specificate specAttr="{{ item.spec_attr }}" rid="{{ rid }}" specTitle="{{ item.title }}" specItemId="{{ item.itemid }}" bindcartstorage="cartStorage" goodsItem="{{ item }}"></specificate>
+          </view>
+        </view>
+
+      </view>
+    </scroll-view>
+  </view>
+  <view hidden='{{getUrlData.type == 1 }}' class="fanhuis" catchtap='fanhui'>
+    返回预定
+  </view>
+  <view hidden='{{getUrlData.type == 0}}'>
+    <!-- 底部购物车 -->
+    <view class="footer">
+      <view class="foot-left">
+        <view class="cart-img-box {{ goodsNum > 0 ? 'have' : 'none'}}" catchtap='cartList'>
+          <image class="cart-img" src="/images/cart.png"></image>
+        </view>
+        <text class="total-price">¥{{ goodsPrice }}</text>
+        <text class="deposit" wx:if='{{getUrlData.type != 2}}'>押金：¥{{ getUrlData.reserve_price }}</text>
+        <text class="goods-num" wx:if="{{ goodsNum > 0 }}">{{ goodsNum }}</text>
+      </view>
+
+      <view class="foot-right {{ goodsNum > 0 ? 'have' : 'none'}}" catchtap='confirmOrder'>
+        <text class="confirm" wx:if="{{ goodsNum == 0 }}">还没点菜</text>
+        <text class="confirm" wx:elif="{{ getUrlData.type == 2 }}">确认加菜</text>
+        <text class="confirm" wx:else>确认下单</text>
+      </view>
+    </view>
+    <!-- 购物车列表 -->
+    <view class="cart-box" wx:if="{{ hasGoods }}">
+      <view class="mask" catchtap='cartList'></view>
+      <view class="goods-box">
+        <view class="cart-head">
+          <text class="lunch-box">已选菜肴</text>
+          <text class="clear-cart" catchtap='clear'>清空</text>
+        </view>
+        <scroll-view class="goods-list" scroll-y>
+          <view class="goods-item" wx:for="{{ cartDataStorage[1] }}" wx:key="item">
+            <text class="goods-title">{{item.title}}<text class="goods-size1" wx:if="{{ item.is_spec == 1 }}">规格:</text>
+            <text class="goods-size" wx:for="{{ item.spec_attr }}" wx:for-item="item1" wx:for-index="idx">{{ item1.cont[0].name }}</text></text>
+            <text class="goods-price">¥{{ item.total_price }}</text>
+            <view class="addReduce-box">
+              <add-reduce goodsItem="{{ item }}" rid="{{ rid }}" cartDataStorage="{{ cartDataStorage }}" bindcartstorage="cartStorage" specIndex="{{ index }}"></add-reduce>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+  </view>
+  <!-- 商品详情 -->
+  <view class='goods-detail' wx:if='{{isShow}}'>
+    <view class='goods-mask' catchtap='closeGoodsDetail'></view>
+    <view class='detail-box'>
+      <view class='detail-img'>
+        <image src='{{nowImg}}'></image>
+        <view class='shadow'></view>
+      </view>
+      <text class='detail-title'>{{nowTtitle}}</text>
+      <text class='detail-con'>{{goodsInfo}}</text>
+    </view>
+  </view>
+</view>

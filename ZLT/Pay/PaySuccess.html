@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_hkw9ma7qx5b138fr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/business.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/myjs.js"></script>
+    <script src="../js/layer.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">支付成功</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+
+<section>
+    <div style="text-align: center;padding-top: 2.5rem;"><i class="iconfont icon-dagou" style="line-height: initial;font-size: 3.75rem;color: #3d95e5;"></i></div>
+    <div class="s-tips" style="text-align: center;color: #333;font-size: 1rem;margin-top: 1rem;">付款成功</div>
+    <div style="margin: 1.25rem;padding-top: 1.25rem;">
+        <input type="button" id="btn" onclick="link()" class="btn shop-btn" style="width: 100%;" value="查看订单">
+    </div>
+</section>
+<script type="text/javascript">
+    $(function(){
+        var obj = strUrl(),
+            idNum = obj.id_num,
+            status = obj.status;
+
+        var w = window;
+        if(!checkCookie('cpk_auth')){
+            $('#btn').val('返回首页');
+        }
+        if(status == 'go_takeout'){
+            layer.open({
+                content: '<span style="font-size:1.25rem;">请记住您的编号：</span><strong style="color:#3d95e5;font-size:1.5rem;">'+idNum+'</strong>'
+                ,btn: '我知道了'
+            });
+        }
+    });
+
+    function link(){
+        if($('#btn').val() == '查看订单'){
+            window.location.href = '/mobile/MyOrder/Order.html';
+        }else{
+            window.location.href = '/mobile/index.html';
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<view class="order-detail-box">
+  <!-- 用户信息 -->
+  <view class='user-info'>
+    <view class="info-text">
+      <text>预定酒店：</text>
+      <text>{{ orderDetail.company }}</text>
+    </view>
+    <view class="info-text">
+      <text>下单时间：</text>
+      <text>{{ orderDetail.addtime }}</text>
+    </view>
+    <view class="info-text">
+      <text>到店时间：</text>
+      <text>{{ orderDetail.time }}</text>
+    </view>
+    <view class="info-text" wx:if="{{ orderDetail.desk.length == 0 }}">
+      <text>预定房间：</text>
+      <text>{{ orderDetail.room[0].room_name }}</text>
+    </view>
+    <view class="info-text" wx:else>
+      <text>预定桌子：</text>
+      <text>{{ orderDetail.desk[0].desk }}</text>
+    </view>
+    <view class="info-text">
+      <text>备注：</text>
+      <text>{{ orderDetail.remark }}</text>
+    </view>
+  </view>
+  <!-- 订单详情 -->
+  <view class="order-detail">
+    <view class="order-title">
+      <text class="title">预定菜单：</text>
+      <text class="status">{{ orderDetail.status_text }}</text>
+    </view>
+    <view class='menu-box' wx:if="{{orderDetail.cuisines.length != 0}}">
+      <block wx:for="{{ orderDetail.cuisines }}" wx:key="item">
+        <view class='menu-item'>
+          <text class='goods-title'>{{ item.title }}<text class='note' wx:if='{{ item.add_title != "" }}'>({{item.add_title}})</text></text>
+          <text class='number'>x{{ item.num }}</text>
+          <text class='price'>¥{{ item.detial_cash }}</text>
+        </view>
+      </block>
+    </view>
+    <text class="total-price" wx:if="{{orderDetail.status == 2 || orderDetail.status == 3}}">还需支付：¥{{ orderDetail.owe_balance }}</text>
+    <text class="total-price" wx:elif="{{orderDetail.status == 4 || orderDetail.status == 6 || orderDetail.status == 8}}">总价：¥{{ orderDetail.price }}</text>
+  </view>
+  <view class='empty-cuisines' wx:if="{{orderDetail.cuisines.length == 0}}">
+    <text>你还没有预定菜单！</text>
+  </view>
+  <view class='btn' wx:if="{{ orderDetail.status == 2 }}">
+    <view class="invitation" catchtap='invitation'>
+      <text>我的邀请函</text>
+    </view>
+    <view class='refund' catchtap='refundMoney'>
+      <text>申请退款</text>
+    </view>
+    <view class='arrive' catchtap='arriveShop'>
+      <text>我已</text>
+      <text>到店</text>
+    </view>
+  </view>
+  <!-- 申请退款遮罩层 -->
+  <view class='apply-refund-box' wx:if='{{isRefund}}'>
+    <view class='refund-mask'></view>
+    <view class='refund-box'>
+      <view class='refund-title'>确定要申请退款吗？</view>
+      <view class='refund-cont'>
+        <text>退款理由:</text>
+        <input type='text' bindblur='blurReason' focus='true' placeholder="请输入你的退款理由！" />
+      </view>
+      <view class='refund-btn'>
+        <text class='refund-cancel' catchtap='refundCancel'>取消</text>
+        <text class='refund-confirm' catchtap='refundConfirm'>确认</text>
+      </view>
+    </view>
+  </view>
+  <!-- 预定待支付 -->
+  <view class='toPay' wx:if="{{ orderDetail.status == 1 }}">
+    <text catchtap='toPay'>去支付</text>
+  </view>
+  <!-- 已到店 -->
+  <view class='toPay' wx:if="{{ orderDetail.status == 3 }}">
+    <text catchtap='invitation'>邀请函</text>
+    <text catchtap='callWaiter'>呼叫服务员</text>
+    <text catchtap='addMenu'>加菜</text>
+    <text catchtap='arrivePay'>结账</text>
+  </view>
+</view>

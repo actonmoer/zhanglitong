@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实名认证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnse94jdj7lrqkt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/approve.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">实名认证</div>
+        <div class="h-R" style="font-size:.875rem;color:#fff;" onclick="window.location.href='/mobile/User/usercenter.html'">我的</div>
+    </div>
+</header>
+<section>
+    <div class="approve-message">
+        <p><span>真实姓名</span><span id="truename"></span></p>
+        <!--<p><span>身份证号</span><span>4413**********5484</span></p>-->
+        <p><span>证件照片</span><span>已做隐私处理，不显示具体内容</span></p>
+        <p><span>认证状态</span><span class="approve-unfinish" id="codestate"></span></p>
+    </div>
+    <div class="approve-await" style="display: none;">
+        <p>你的实名认证正在审核中，请耐心等待......</p>
+    </div>
+</section>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.ajax({
+            url:"../usercenter.php",
+            type:"POST",
+            data:{action:"check_truename"},
+            dataType: "JSON",
+            success:function(data){
+                if(data.code == 200){
+                    $("#truename").html(data.name);
+                    $("#codestate").html("已认证");
+                }else if(data.code == -200){
+                    alert(data.msg);
+                    window.location.href="TruenameValidate.html";
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

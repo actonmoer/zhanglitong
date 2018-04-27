@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	{template "room_head","mobile"}
+</head>
+<body class="bottomBody">
+	<div class="headBox">
+		<div class="head-bar-back"><a href="javascript:window.location.href='user_home.php?act=order'"><img src="static/room/images/admin/icon-back.png" width="24" height="24"><span>返回</span></a></div>
+		<div class="head-bar-title">订单详情</div>
+	</div>
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<div class="showList"> 
+				<div class="catsToolFixed">
+					<i class="{$data['room_order']['evaluate_class']}">{$data['room_order']['evaluate_name']}</i><!-- 1好评2中评3差评 -->
+					<i class="orderst orderst_{$data['room_order']['status']}">
+					{$data['room_order']['status_name']}</i><!-- 1待支付2支付成功3订单关闭 -->
+				</div>
+				<div class="showLi">
+					<b>订单号</b>
+					<span>{$data['room_order']['orderid']}</span>
+				</div>
+				<div class="showLi">
+					<b>包房名字</b>
+					<span>{$data['room_order']['room_name']}</span>
+				</div>
+				<div class="showLi">
+					<b>下单人</b>
+					<span>{$data['room_order']['buyer']}</span>
+				</div>
+				<div class="showLi">
+					<b>联系方式</b>
+					<span>{$data['room_order']['contact_phone']}</span>
+				</div>
+				<div class="showLi">
+					<b>交易额</b>
+					<span style="color: #FF8000;">￥ {$data['room_order']['actual_payment']}</span>
+				</div>
+				<div class="showLi">
+					<b>店面价</b>
+					<span style="color: #FF8000;">￥ {$data['room_order']['sell_price']}</span>
+				</div>
+				<div class="showLi">
+					<b>下单时间</b>
+					<span><?php echo date("Y-m-d H:i:s",$data['room_order']['addtime']);?></span>
+				</div>
+				<div class="showLi showLi_txt">
+					<b>订房时间</b>
+					<span><?php echo date("Y-m-d",$data['room_order']['room_scheduled_time']);?> {$data['room_order']['room_time']}</span>
+				</div>
+				<div class="showLi showLi_txt">
+					<b>备注</b>
+					<span>{$data['room_order']['remark']}</span>
+				</div>
+
+		{if $data['room_order']['status'] == 4}
+				<div class="showLi showLi_txt">
+					<b>退款原因</b>
+					<span>{$data['room_order']['buyer_reason']}</span>
+				</div>
+		{/if}
+			</div>
+			<?php if ($data['cuisine_orders']) { ?>
+				<span class="top">点餐详细</span>
+				<div class="pdList">
+					{loop $data['cuisine_orders'] $r}
+					<a class="pdLi">
+						<!-- <i class="orderst orderst_1">已确认</i> -->
+						<b>【{$r['cuisine_orders']['cuisine']}】{$r['cuisine_orders']['cuisine_name']}</b>
+						<em class="type">单价 : <strong style="color:#FF8000">￥ {$r['cuisine_orders']['unit_price']}</strong></em>
+						<em class="type">份数 : {$r['cuisine_orders']['amount']}</em>
+						<em class="type">总价 : <strong style="color:#FF8000">￥ {$r['cuisine_orders']['detail_cash']}</strong></em>
+						<em class="type">下单时间 : <?php echo date("Y-m-d H:i:s",$r['cuisine_orders']['addtime']);?></em>
+					</a>
+					{/loop}
+				</div>
+			<?php } ?>
+			
+		</div>
+	</div>
+	<div class="footBox">
+		{if $data['room_order']['status'] == 4}
+		<a class="three refund2" href="javascript:succesRefund();">同意退款</a>
+		<a class="three refuse" href="javascript:noRefund();">拒绝退款</a>
+		{/if}
+		<!-- <a class="three refund" href="showroom.html">同意退款</a> -->
+	</div>
+	<script type="text/javascript">
+		function succesRefund() {
+			$.ajax({
+				data:{"for_ajax":"room_refunds_may","order_id":"{$data['room_order']['orderid']}"},
+				url:"for_ajax_restaurant.php",
+				dataType:"json",
+				type:"post",
+				success:function(mes){
+					if (mes.success) {
+						alertMsg("操作成功");
+						setTimeout("window.location.href='user_home.php?act=order'",3000)
+					} else {
+						alertMsg(mes.message);
+					}
+				}
+			})
+		}
+		function noRefund(){
+			$.ajax({
+				data:{"for_ajax":"room_refunds_might","order_id":"{$data['room_order']['orderid']}"},
+				url:"for_ajax_restaurant.php",
+				dataType:"json",
+				type:"post",
+				success:function(mes){
+					if (mes.success) {
+						alertMsg("操作成功");
+						setTimeout("window.location.href='user_home.php?act=order'",3000)
+					} else {
+						alertMsg(mes.message);
+					}
+				}
+			})
+		}
+	</script>
+</body>
+</html>

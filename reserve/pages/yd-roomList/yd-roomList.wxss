@@ -1,0 +1,242 @@
+page{
+  background: #fff;
+}
+.yd-img{
+  width: 100%;
+  height: 480rpx;
+  overflow: hidden;
+}
+.yd-img>image{
+  width: 100%;
+  height: 480rpx;
+}
+.yd-container{
+  padding:0 20rpx;
+}
+.yd-name{
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-top: 20rpx;
+}
+.yd-stars{
+  margin-top: 4rpx;
+}
+.yd-stars .item{
+  background: url('http://www.zhanglitong.com/smallprogram/img/star.png') no-repeat;
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  float: left;
+}
+.yd-tag{
+  margin-top: 20rpx;
+  position: relative;
+}
+.yd-tag view{
+  float: left;
+  margin-right: 40rpx;
+  font-size: 24rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+}
+.yd-tag .yd-shop-video{
+  border: 1px solid rgb(36, 206, 92);
+  color: rgb(36, 206, 92);
+}
+.yd-tag .yd-shop-picture{
+  border: 1px solid rgb(255, 162, 0);
+  color: rgb(255, 162, 0);
+}
+.yd-type{
+  margin-top: 20rpx;
+}
+.yd-type-item{
+  float: left;
+  text-align: center;
+  margin-right: 20rpx;
+}
+.yd-type-item image{
+  width: 50rpx;
+  height: 50rpx;
+}
+.yd-type-item view{
+  font-size: 24rpx;
+  color: #999;
+  margin-top: -14rpx;
+}
+.yd-time{
+  font-size: 24rpx;
+  color: rgb(219, 65, 65);
+  margin-top: 20rpx;
+}
+.yd-address-a{
+  position:relative;
+  display:flex;
+  flex-direction: row;
+  border-top: 1px solid rgb(241, 241, 241);
+  height: 70rpx;
+  padding: 0 20rpx;
+  line-height: 70rpx;
+  margin-top: 20rpx;
+}
+.yd-address{
+  display:flex;
+  flex-direction: row;
+  font-size: 24rpx;
+}
+.yd-navigation{
+  flex:0 0 30rpx;
+  width:30rpx;
+  height:30rpx;
+  margin:5rpx 10rpx 0 0;
+}
+.yd-phone{
+  position:absolute;
+  top:5rpx;
+  right:30rpx;
+  width:40rpx;
+  height:40rpx;
+  float:right;
+}
+.yd-phone image{
+  width:100%;
+  height:100%;
+}
+.yd-navigation image{
+  width:100%;
+  height:100%;
+}
+.yd-select-time{
+  font-size: 30rpx;
+  padding: 0 20rpx;
+  height: 80rpx;
+  background: #fff;
+  line-height: 80rpx;
+}
+.yd-select-time>view{
+  float: left;
+}
+.yd-select-time>picker{
+  float: right;
+  min-width: 80rpx;
+  min-height: 40rpx;
+}
+.yd-select-time-v{
+  background: #f1f1f1;
+  padding: 20rpx 0 0;
+}
+.yd-select-type{
+  height: 72rpx;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+.yd-select-type::before{
+  content: ' ';
+  width: 2rpx;
+  height: 50rpx;
+  background: #f1f1f1;
+  position: absolute;
+  top: 12rpx;
+  left: 50%;
+}
+.yd-select-type>view{
+  width: 50%;
+  text-align: center;
+  font-size: 30rpx;
+  line-height: 72rpx;
+  border-bottom: 4rpx solid #f1f1f1;
+}
+.yd-select-type>view.active{
+  color: #2ad060;
+  border-bottom-color: #2ad060;
+}
+.yd-room-name{
+  font-size: 32rpx;
+  color: #333;
+}
+.yd-room-tips{
+  font-size: 24rpx;
+  color: #999;
+}
+.yd-room-a{
+  padding: 20rpx;
+  position: relative;
+}
+.yd-room-btn{
+  position: absolute;
+  top: 50%;
+  right: 20rpx;
+  font-size: 26rpx;
+  background: #4fc08d;
+  color: #fff;
+  text-align: center;
+  border-radius: 10rpx;
+  width: 100rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  margin-top: -27rpx;
+}
+.yd-room-btn.active{
+  background: #ccc;
+}
+view.yd-menu{
+  position: absolute;
+  right: 0;
+  top: -20rpx;
+  width: 80rpx;
+  height: 80rpx;
+  background: #4fc08d;
+  color: #fff;
+  padding: 0;
+  margin: 0 auto;
+  border-radius: 100%;
+  line-height: 80rpx;
+  text-align: center;
+}
+
+.toHome{
+  background-color:#4fc08d;
+  color:#fff;
+  height:80rpx;
+  line-height:80rpx;
+  text-align:center;
+  font-size:36rpx;
+}
+
+/* 导航 */
+.navs{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height:110rpx;
+  width:100%;
+  position:fixed;
+  bottom:0;
+  background-color:#fff;
+  border-top:1px solid #eee;
+}
+.nav-item{
+  position:relative;
+  height:60rpx;
+  margin-top:10rpx;
+}
+.nav-img{
+  width:60rpx;
+  height:60rpx;
+  vertical-align: middle;
+}
+.nav-img image{
+  width:100%;
+  height:100%;
+}
+.nav-item text{
+  position:absolute;
+  bottom:-40rpx;
+  display:inline-block;
+  height:24rpx;
+  font-size:24rpx;
+  color:#666;
+  padding-left:10rpx;
+  margin-bottom:15rpx;
+}

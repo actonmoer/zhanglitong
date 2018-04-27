@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智慧城市一卡通</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_t4d6ts6aj0q0vn29.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/shoppingCart.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/angular.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body ng-app="PayApp" style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">订单支付</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<form ng-controller="PayController" action="/member/charge.php?action=share_cart_confirm" method="post">
+    <!--<input type="hidden" name="action" value="share_cart_confirm">-->
+    <input type="hidden" name="money">
+    <input type="hidden" name="referee">
+<section>
+    <div class="m20-t">
+        <div class="bfff">
+            <div class="p20-lr" style="border-bottom:1px solid #f2f2f2;">
+                <div class="clearb" style="height: 3.25rem;">
+                    <p class="fl order-number"></p>
+                    <!--<p class="fl order-number" ng-if="State == 'mall'">订单号：{{OrderId}}</p>-->
+                    <!--<p class="fr order-state">待付款</p>-->
+                </div>
+            </div>
+
+            <div class="p20-lr" style="border-bottom:1px solid #f2f2f2;padding:.8125rem 1.25rem;">
+                <div class="clearb order-discount-msg">
+                    <span class="fl" style="font-size:.75rem;color:#666;">优惠金额</span>
+                    <span class="fr order-discount-discount" style="font-size:.75rem;color:#666;"></span>
+                </div>
+                <div class="clearb order-discount-msg">
+                    <span class="fl" style="font-size:.875rem;color:#333;">总计</span>
+                    <span class="fr order-discount-total" style="font-size:.875rem;color:#f0790f;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pay-way">
+        <div class="choose clearb">
+            <p><span>选择支付方式</span><span id="pay-money"></span><span>需支付</span></p>
+        </div>
+
+        <div id="zhifubao" class="pay-container" ng-if="payWay == 0">
+            <label for="alipay" class="pay-label"></label>
+            <div class="pay-icon"><i class="iconfont icon-zhifubao" style="font-size:1.375rem;"></i></div>
+            <div class="pay-type">
+                <p>支付宝支付</p>
+                <p>推荐安装支付宝10.0.0及以上版本</p>
+            </div>
+            <div class="pay-checked">
+                <label>
+                    <input type="radio" id="alipay" name="bank" ng-model="pay" value="alipay" class="hide">
+                    <span><i></i></span>
+                </label>
+            </div>
+        </div>
+        <div class="pay-container">
+            <label for="weixin" class="pay-label"></label>
+            <div class="pay-icon"><i class="iconfont icon-weixinzhifu" style="font-size:1.375rem;"></i></div>
+            <div class="pay-type">
+                <p>微信支付</p>
+                <p>推荐安装微信6.0.2及以上版本</p>
+            </div>
+            <div class="pay-checked">
+                <label>
+                    <input type="radio" id="weixin" name="bank" ng-model="pay" value="weixin" class="hide">
+                    <span><i></i></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="order-btn-d" style="margin: 1.25rem;">
+        <input type="submit" class="btn order-btn" style="margin-bottom:.625rem;" value="立即支付">
+    </div>
+</section>
+</form>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var obj = strUrl(), m = obj.money ,discount = 0, to = 'xxx';
+        if(obj.to){
+            to = obj.to;
+        }
+        $("input[name='referee']").val(to);
+        $("input[name='money']").val(m);
+
+        if(m == 500){
+            discount = m * 0.2;
+        }else if(m = 1000){
+            discount = m * 0.15;
+        }else{
+            HistoryURL();
+        }
+        $(".order-discount-discount").html("￥"+discount);
+        $(".order-number").html("掌里通一卡通"+m+"元面值卡");
+        $(".order-discount-total,#pay-money").html("￥"+(m - discount));
+    });
+
+    var app = angular.module('PayApp', []);
+    app.controller('PayController',function($scope,$http){
+        $scope.isShow = true, $scope.payWay = 0, $scope.obj = strUrl();
+        //判断是否微信浏览器，是默认微信支付，不是默认支付宝支付
+        //$scope.pay = isWeiXin() ? 'weixin' : 'alipay';
+        if(isWeiXin()){
+            $scope.payWay = 1;
+            $scope.pay = 'weixin';
+        }else{
+            $scope.payWay = 0;
+            $scope.pay = 'alipay';
+        }
+
+        //支付
+        $scope.payOrder=function(){
+            console.log($scope.pay);
+            console.log($scope.money);
+            if($scope.money == 800){
+                $http({
+                    url: '/member/charge.php?action=share_cart_confirm',
+                    method: "POST",
+                    data: {bank:$scope.pay,money:$scope.money,referee:$scope.referee},
+                    headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest:function(obj){
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+                }).then(function(d){
+                    console.log(d);
+                });
+            }
+            //return false;
+//            if($scope.pay != "zhanglitong"){
+//                $http({
+//                    url:"/member/charge.php",
+//                    method:"POST",
+//                    data:{action:"mall_confirm",orderid:"mall_"+$scope.OrderId,bank:$scope.pay},
+//                    headers:{ 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+//                    transformRequest:function(obj){
+//                        var str = [];
+//                        for (var p in obj) {
+//                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+//                        }
+//                        return str.join("&");
+//                    }
+//                }).then(function(d){
+//                    console.log(d);
+//                },function(d){
+//                    console.log(d);
+//                });
+//            }
+
+        }
+    });
+</script>
+</html>

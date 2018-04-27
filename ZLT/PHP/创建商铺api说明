@@ -1,0 +1,23 @@
+ 请求地址：../mobile/BusinessHome.php
+//创建商铺接口文档
+	 传值方式：post 返回类型：json
+	 
+	 基本信息：action:create_home
+	（店名：company，错误'code' =>-201,'msg' => '公司不存在','code' =>-201,'msg' => '请输入正确的商铺名称'）
+	（营业时间：beguntime，overtime,错误'code' =>-202,'msg' => '请设置时间'）
+	（经度:lng 纬度:lat，错误'code' =>-203,'msg' => '请获取经纬度'）
+	（联系方式：contact，错误'code' =>-204,'msg' => '联系电话不能为空'）
+	（店铺介绍：shop_tip，错误'code' =>-205,'msg' => '店铺介绍不能为空''code' =>-206,'msg' => '店铺介绍不能小于6个字'）
+	 (店铺头像：thumb，缩略图：thumb_banner1，错误code' =>-207,'msg' => '图片上传失败'，'code' =>-208,'msg' => '商家头像不能为空')
+	（地址：province，city，area，address，areaid，'code' =>-209,'msg' => '请输入地址'）
+	（月售额：month_sell，可为空）
+	 通过：正确返回'code' =>200,'msg' => 'ok';
+         
+	 配送信息:打开action:create_home2，提交action:create_home2,summit:ts
+	 打开：(基本信息未创建导致错误'code' =>-202,'msg' => 'err_res'，正确则返回配送分类)
+	 提交：(配送费用：distribution_price，错误'code' =>-201,'msg' => '请填写配送费用')
+	       (配送时间：delivery_time，错误'code' =>-203,'msg' => '请填写配送时间')
+               (起送价格：start_price，错误'code' =>-204,'msg' => '请填写起送价格')
+	       (所属分类：catid，错误'code' =>-205,'msg' => '请选择所属分类')
+	       (服务半径：radius，可为空)
+	 通过：正确返回'code' =>200,'msg' => 'ok';

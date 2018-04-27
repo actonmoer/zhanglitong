@@ -1,0 +1,41 @@
+<!--  弹窗  -->
+
+ <view>
+  <view class='yd-bg' bindtap='closeBox'></view>
+  <view class='yd-room-detail'>
+    <view class='yd-room-name1' wx:if='{{setType == "roomid"}}'>{{setData.room_name}}<icon class='yd-close' bindtap='closeBox' type="clear" size="20"/></view>
+    <view class='yd-room-name1' wx:elif='{{setType == "deskid"}}'>{{setData.desk_name}}<icon class='yd-close' bindtap='closeBox' type="clear" size="20"/></view>
+    <view class='yd-lb'>
+      <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000" wx:if='{{setData.thumb_banner_arr.length > 0}}'>
+        <block wx:for="{{setData.thumb_banner_arr}}" wx:key="item">
+          <swiper-item>
+            <image src="{{item}}" class="slide-image yd-lb-img" height="150"/>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view class='yd-room-message'>
+      <view>
+        <view>上网：WIFI</view>
+        <view>窗户：有</view>
+        <view>空调：有</view>
+      </view>
+      <view>
+        <view>卫生间：独立</view>
+        <view>可容纳：{{setData.people_count || 1}}人</view>
+        <view>桌子：1</view>
+      </view>
+    </view>
+    <view style='background:#fff;padding:20rpx;'>
+      <view class='yd-room-p'>取消规则</view>
+      <view class='yd-room-p' style='margin-top:10rpx;'>使用规则</view>
+      <view class='yd-room-p'>到店提供姓名手机号直接使用</view>
+      <view class='yd-room-p'>请在预约时间前到店，如需延迟到店倾咨询商家</view>
+      <view class='yd-room-p'>预定需要押金，实际付款金额以前台为准</view>
+    </view>
+    <view class='yd-room-btn1'>
+      <view>￥{{setData.reserve_price}}</view>
+      <view bindtap='ydroom'>预定</view>
+    </view>
+  </view>
+</view>

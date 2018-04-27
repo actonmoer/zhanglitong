@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width">
+    <title></title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_hkw9ma7qx5b138fr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .dealcard {
+            position: relative;
+            box-sizing: border-box;
+            margin: -.08rem 0;
+        }
+        .page-link{
+            background-color: white;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 1px solid #f1f1f1;
+            padding: 8px 3px;
+            margin-bottom: 8px;
+        }
+        .page-link a{
+            display: block;
+        }
+        .dealcard-img{
+            width: 90px;
+            height: 60px;
+            border-radius: 2px;
+            float: left;
+            position: absolute;
+            overflow: hidden;
+        }
+        .dealcard-img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 2px;
+        }
+        .dealcard-img>img {
+            background-size: 100%;
+            background-color: #f0efed;
+            border: 0;
+        }
+        img {
+            border: 0;
+            vertical-align: middle;
+            -ms-interpolation-mode: bicubic;
+        }
+        .dealcard-block-right {
+            margin-left: 100px;
+            height: auto;
+            position: relative;
+        }
+        .brand {
+            font-size: 14px;
+            line-height: 24px;
+            color: #333;
+        }
+        .location-right {
+            position: absolute;
+            top: 0;
+            right: 4px;
+            color: #666;
+            font-size: 11px;
+        }
+        .title,.price {
+            position: relative;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .title, .cinemacard .title {
+            font-size: .12rem;
+            color: #666;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .title .star {
+            vertical-align: middle;
+            margin-left: 2px;
+            position: absolute;
+            left: 0px;
+            top: 6px;
+        }
+        .title .location-right {
+            top: 2px;
+            position: absolute;
+            right: 4px;
+            color: #666;
+            font-size: 11px;
+        }
+        .price span.delivery {
+            border-left: 1px solid #bbb;
+            padding-left: 8px;
+            margin-left: 8px;
+        }
+        .title span,.price span {
+            color: #666;
+            font-size: 12px;
+        }
+        .price>span,.price>del {
+            vertical-align: sub;
+        }
+    </style>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body>
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C"></div>
+        <div class="h-R" style="font-size:.875rem;color:#fff;"></div>
+    </div>
+</header>
+<div class="dealcard" id="restaurant_list"></div>
+<!--<div class="dealcard" id="restaurant_list">
+    <div class="page-link">
+        <a onclick="goto_restaurant(303,26.749,1)">
+        <div class="dealcard-img imgbox">
+            <img src="http://www.zhanglitong.com/file/upload/201707/01/164931965972.jpg" alt="潮汕汤粉王 隆江猪脚饭">
+        </div>
+    </a>
+        <div class="dealcard-block-right">
+        <a onclick="goto_restaurant(303,26.749,1)">
+            <div class="brand">潮汕汤粉王 隆江猪脚饭
+                <em class="location-right">26.749km</em>
+            </div><div class="title ">
+            <span class="star">月售22单</span>
+            <em class="location-right">30分钟送达</em>
+        </div><div class="price"><span>起送价￥15.00</span>
+            <span class="delivery">配送费 ￥0.00</span>
+        </div>
+        </a>
+    </div>
+    </div>
+</div>-->
+<script>
+    var lat,lng;
+    $(function(){
+        var obj=strUrl();
+        lat = obj.lat;
+        lng = obj.lng;
+        if(obj.goods == "hotSell"){
+            requestAjax({"action":"good_sell"});
+            $(".h-C, title").html("热卖商品");
+        }else if(obj.goods == "Special"){
+            requestAjax({"action":"cheap_price"});
+            $(".h-C, title").html("特价商品");
+        }else if(obj.goods == "newGoods"){
+            requestAjax({"action":"new_goods"});
+            $(".h-C, title").html("新出商品");
+        }else{
+            alert("你访问的页面不存在");
+            window.location.href = "http://www.zhanglitong.com";
+        }
+
+        function requestAjax(dataObj){
+            $.ajax({
+                url:"../takeout_goods_index.php",
+                type:"POST",
+                dataType:"json",
+                data:dataObj,
+                    success:function(data){
+                    console.log(data);
+                    var d = data.data;
+                    if(data.code == 200){
+                        var str;
+                        console.log(d[0].dishes_sell_num);
+                        for(var i=0;i<d.length;i++){
+                            $(".dealcard").append(shopList(d[i].dishes,d[i].thumb,d[i].sell_price,d[i].takeout_id));
+                            if(obj.goods == "hotSell"){
+                                str = "月售："+d[i].dishes_sell_num;
+                            }else if(obj.goods == "Special"){
+                                str = "折扣："+d[i].dishes_discount+"折";
+                            }else if(obj.goods == "newGoods"){
+                                str = "发布时间："+mtime(d[i].addtime);
+                            }
+                            $(".title").eq(i).html("<span class='star'>"+str+"</span>");
+                        }
+                    }
+                }
+            });
+        }
+        function shopList(dishes,thumb,sell_price,id){
+            var list = '<div class="page-link" onclick="linkShop(\''+id+'\')">'+
+                '<a>'+
+                '<div class="dealcard-img imgbox">'+
+                '<img src="'+thumb+'" alt="'+dishes+'">'+
+                '</div> </a>'+
+                '<div class="dealcard-block-right">'+
+                '<a>'+
+                '<div class="brand">'+dishes+'<em class="location-right"></em>'+
+                '</div><div class="title" style="padding:12px">'+
+//                '<span class="star">发布时间：'+addtime+'</span>'+
+                '<em class="location-right"></em>'+
+                '</div><div class="price"><span>售价￥'+sell_price+'</span>'+
+                '</div> </a> </div> </div>';
+            return list;
+        }
+    })
+    function linkShop(id){
+        window.location.href = "http://www.zhanglitong.com/mobile/takeout.php?act=restaurant&id="+id+"&lat="+lat+"&lng="+lng;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>服务功能</title>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        @font-face {font-family: "iconfont";
+            src: url('font/iconfont.eot'); /* IE9*/
+            src: url('font/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('font/iconfont.woff') format('woff'), /* chrome, firefox */
+            url('font/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+            url('font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+        }
+        .iconfont {
+            font-family:"iconfont" !important;
+            font-size:16px;
+            font-style:normal;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke-width: 0.2px;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        *{box-sizing:border-box;}
+        body{font-size: 100%;font-family: "Microsoft YaHei";line-height: 120%;background-color: #f2f2f2;}
+        img{vertical-align: middle;border: 0;}
+        a{text-decoration: none;color: #333;}
+        body,div,p{padding: 0;margin: 0;}
+        header{
+            height: 3rem;
+        }
+        .header {
+            display: -webkit-flex;
+            display: flex;
+            position: fixed;
+            top:0;
+            z-index: 1;
+            width: 100%;
+            background-color: #3d95e5;
+            box-shadow: 0 2px 4px 0 rgba(0, 17, 33, 0.1);
+        }
+        .header div{
+            color: #fff;
+            text-align: center;
+            height: 3rem;
+            line-height: 3rem;
+            background-color: #3d95e5;
+        }
+        .h-left,.h-right{
+            width: 15%;
+        }
+        .h-center{
+            width: 70%;
+            font-size: 1.125rem;
+        }
+        .h-right a{
+            display: block;
+        }
+
+        .nav-list-iconf{
+            display: inline-block;
+            width: 3.125rem;
+            height: 3.125rem;
+            margin: 1.5625rem auto;
+            border: 1px solid #3d95e5;
+            border-radius: 100%;
+            text-align: center;
+            position: absolute;
+            left: 0;
+        }
+        .iconfont{
+            display: inline-block;
+            color: #3d95e5;
+            font-size: 1.5625rem;
+            margin-top: .8125rem;
+        }
+        .nav-r{
+            position: relative;
+            margin-left: 3.75rem;
+            padding-top: 1rem;
+        }
+        .nav-r-intro{
+            color: #666;
+            font-size: .875rem;
+            max-height: 2.75rem;
+            overflow: hidden;
+            line-height: 1.375rem;
+        }
+        .nav-r-name{
+            margin-bottom: .3125rem;
+        }
+
+        .nav-menu{
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            background-color: #f2f2f2;
+            height: 3.3125rem;
+        }
+        .nav-menu div{
+            flex: 1;
+            text-align: center;
+            background-color: #fff;
+            height: 3.1875rem;
+        }
+        .nav-menu-s{
+            display: inline-block;
+            padding: 0 .5rem;
+            line-height: 3.1875rem;
+            font-size: 1rem;
+            color: #333;
+        }
+        .column{
+            background-color: #fff;
+            min-height: 15.625rem;
+            padding-bottom: 1.25rem;
+        }
+        .column-m{
+            margin: 0 1.25rem;
+            padding: 1rem 0 0;
+        }
+        .con{
+            color: #3d95e5;
+            border-bottom: .125rem solid #3d95e5;
+        }
+        .fun-btn{
+            border-top: 1px solid #d3d3d3;
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            background-color: #fff;
+            height: 3.1875rem;
+            position: fixed;
+            bottom: 0;
+        }
+        .fun-btn-kf{
+            width: 31.25%;
+        }
+        .fun-btn-kt{
+            width: 68.75%;
+            background-color: #3d95e5;
+        }
+        .fun-btn-kfa,.fun-btn-name,.fun-btn-img{
+            display: block;
+            text-align: center;
+        }
+        .fun-btn-img{
+            padding-top: .25rem;
+        }
+        .fun-btn-name{
+            color: #666;
+            font-size: .75rem;
+        }
+        .fun-btn-kt a{
+            display: block;
+            text-align: center;
+            font-size: 1rem;
+            color: #fff;
+            line-height: 3.125rem;
+        }
+        .flex{
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .column-flex{
+            width: 50%;
+        }
+        .column-a{
+            display: block;
+            padding: 0 1.25rem;
+        }
+        .column-a img{
+            width: 100%;
+        }
+        .column-p{
+            text-align: center;
+            color: #333;
+            font-size: .875rem;
+            height: 3.125rem;
+            line-height: 3.125rem;
+        }
+        #dimg{
+            position:fixed;background:#000;opacity: 0.4;top:0;bottom:0;left:0;right:0;width:100%;
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header">
+        <div class="h-left"></div>
+        <div class="h-center">商家交谈</div>
+        <div class="h-right"><a href="javascript:;"><img src="img/Message.png" alt="消息"></a></div>
+    </div>
+</header>
+<section style="margin-bottom: 4.375rem">
+    <!--头部信息-->
+    <div style="background-color: #fff;margin: 1.25rem 0;">
+        <div style="margin: 0 1.25rem;position: relative;height: 6.25rem;">
+            <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+            <div class="nav-r">
+                <div class="nav-r-name">
+                    <span id="functionName" style="float: left;font-size: 1rem;color: #333;">我的商友</span>
+                    <span style="float: right;color: #666;font-size: .75rem;">已开通：100</span>
+                    <p style="clear: both;"></p>
+                </div>
+                <div class="nav-r-intro">功能简介：这是与人添加的功能这是与人添加的功能</div>
+            </div>
+        </div>
+    </div>
+    <!--菜单-->
+    <div>
+        <nav class="nav-menu">
+            <div onclick="clickMenu($(this))"><a href="javascript:;" class="nav-menu-s con">服务介绍</a></div>
+            <div onclick="clickMenu($(this))"><a href="javascript:;" class="nav-menu-s">使用教程</a></div>
+        </nav>
+    </div>
+    <!--介绍-->
+    <div>
+        <div class="column">
+            <div class="column-m">
+                <div>
+                    <p style="margin-bottom: .8125rem;font-size: .875rem;color: #333;word-wrap: break-word; word-break: normal;">服务介绍</p>
+                    <div>
+                        <p style="font-size: .875rem;color: #666;word-wrap: break-word; word-break: normal;">1.开通此功能，可以与其他商家交谈</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column" style="display: none;">
+            <div class="column-m flex">
+                <div class="column-flex"><!-- onclick="enlargeImg(this)" -->
+                    <a href="javascript:;" class="column-a"><img src="img/1.jpg" alt="教程" class="column-img" onclick="enlargeImg(this)"></a>
+                    <p class="column-p">第一步</p>
+                </div>
+                <div class="column-flex">
+                    <a href="javascript:;" class="column-a"><img src="img/1.png" alt="教程"></a>
+                    <p class="column-p">第二步</p>
+                </div>
+                <div class="column-flex">
+                    <a href="javascript:;" class="column-a"><img src="img/1.png" alt="教程"></a>
+                    <p class="column-p">第三步</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--底部-->
+    <div class="fun-btn">
+        <div class="fun-btn-kf">
+            <a href="javascript:;" class="fun-btn-kfa">
+                <i class="fun-btn-img"><img src="img/kf.png" alt="在线客服"></i>
+                <span class="fun-btn-name">联系客服</span>
+            </a>
+        </div>
+        <div class="fun-btn-kt"><a href="javascript:Open();">立即开通</a></div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function clickMenu(s){
+        var i=s.index();
+        s.siblings().find("a").removeClass("con");
+        s.find("a").addClass("con");
+        $(".column").hide();
+        $(".column").eq(i).show();
+    }
+
+    function Open(){
+        var n=$("#functionName").innerHTML;     //名称
+        $.post("",{name:n,functionid:""});
+    }
+
+    function enlargeImg(s){
+        var img=new Image();
+        var d=document.createElement("div");
+        d.id="dimg";
+        img.src=s.src;
+        img.style.width=100+"%";
+        img.style.position="absolute";
+        img.style.top=0;
+        img.style.zIndex=100;
+        document.body.appendChild(d);
+        document.body.appendChild(img);
+        var h=img.offsetHeight;
+        console.log(h);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绑定银行卡</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_5yyxj232dbqbmx6r.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bankcard.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">绑定银行卡</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <form onsubmit="return bankcardForm()">
+        <div class="m20-t bfff p20-b">
+            <div class="m20-lr">
+                <div class="clearb p20-t m20-b">
+                    <span style="font-size: .875rem;color: #666;">账户类型：</span>
+                    <label class="is-label" style="font-size: .875rem;color: #666;margin-right: 1.625rem;"><input type="radio" class="hide" name="BankType" value="0"><span class="s-bor"><i class=""></i></span>私人账户</label>
+                    <label class="is-label" style="font-size: .875rem;color: #666;"><input type="radio" class="hide" name="BankType" value="1"><span class="s-bor"><i class=""></i></span>公司账户</label>
+                </div>
+                <div class="m20-b">
+                    <input type="text" id="name" class="form-control bank-cardholder" name="name" placeholder="请输入持卡人姓名" readonly required>
+                </div>
+                <div class="m20-b">
+                    <select id="bank" class="form-control bank-open b-bank-select" name="bank" style="height: 2.5rem;" required>
+                        <option value="">请选择开户银行</option>
+                        <option value="招商银行">招商银行</option>
+                        <option value="中国工商银行">中国工商银行</option>
+                        <option value="中国农业银行">中国农业银行</option>
+                        <option value="中国建设银行">中国建设银行</option>
+                        <option value="中国交通银行">中国交通银行</option>
+                        <option value="中国银行">中国银行</option>
+                        <option value="邮政储蓄">邮政储蓄</option>
+                        <option value="支付宝">支付宝</option>
+                    </select>
+                </div>
+                <div class="m20-b">
+                    <input type="number" id="account" class="form-control bank-number" name="account" placeholder="请输入银行卡号" required>
+                </div>
+                <div style="position:relative;">
+                    <input type="password" autocomplete="new-password" class="form-control bank-number" minlength="6" maxlength="6" name="password" placeholder="请输入支付密码" required>
+                    <span class="find-password"><a href="../FindPassWord/PayPassWord-step01.html">找回支付密码</a></span>
+                </div>
+            </div>
+        </div>
+        <div style="margin: 1.25rem;">
+            <input type="submit" class="btn white-btn" style="width: 100%;" value="确定绑定">
+        </div>
+    </form>
+    <div style="padding: 20px 20px;">
+        <p><strong>备注:</strong></p>
+        <div style="margin-top: 10px;font-size: 12px;color:#666;">私人账户：指的是个人银行卡与实名认证姓名必须一致，否则申请提现失败</div>
+        <div style="margin-top: 10px;font-size: 12px;color:#666;">公司账户：指的是公司银行卡必须与营业执照的名称对应，否则申请提现失败</div>
+    </div>
+</section>
+<script>
+    var BankType;
+    $(document).ready(function(){
+        var url=window.location.search;
+        var obj=strUrl(url);
+        if(url.indexOf("modify") != -1){
+            $(".h-C").html("修改银行卡");
+            $.ajax({
+                method:"POST",
+                url:"../usercenter.php",
+                data:{action:"show_bank"},
+                dataType:"json",
+                success:function(data){
+                    console.log(data)
+                    $("#name").val(data.data.truename);
+                    $("#account").val(data.data.account);
+                    $(".is-label").eq(parseInt(data.data.banktype)).find("input").attr("checked",true);
+
+                    if(obj.modify){
+                        if(decodeURI(obj.modify) != data.data.truename){
+                            alert("违法操作,请您重新绑定银行卡！");
+                            window.location.href="AddBankcard.html";
+                        }
+                    }
+                }
+            });
+        }else{
+            $.ajax({
+                method:"POST",
+                url:"../usercenter.php",
+                data:{action:"check_truename"},
+                dataType:"json",
+                success:function(data){
+                    if(data.code == 200){
+                        console.log(data);
+                        $("#name").val(data.name);
+                    }
+                }
+            });
+        }
+    });
+    $("input[name='BankType']").change(function(){
+        BankType = this.value;
+    })
+
+    function bankcardForm(){
+        var bank=$("select[name='bank']").val();
+        var account=$("input[name='account']").val();
+        var name=$("input[name='name']").val();
+        var password=$("input[name='password']").val();
+        console.log(BankType)
+        $.post("../usercenter.php",{
+            action:"bind_bank_card",
+            banktype:BankType,
+            bank:bank,
+            account:account,
+            name:name,
+            password:password
+        },function(data){
+            console.log(data);
+            if(data.code == 200){
+                alert("银行卡绑定成功！");
+                window.location.href="ShowBankcard.html";
+            }else{
+                alert("您输入的密码有误，请重新输入！");
+            }
+        },"json");
+        return false;
+    }
+</script>
+</body>
+</html>

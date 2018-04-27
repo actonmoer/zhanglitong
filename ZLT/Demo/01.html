@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加载中</title>
+</head>
+<body>
+
+<img id="scream" src="1.jpg" alt="The Scream" width="220" height="277">
+<p>Canvas:</p>
+<canvas id="myCanvas" width="250" height="300" style="border:1px solid #d3d3d3;">您的浏览器不支持 HTML5 canvas 标签。</canvas>
+
+<script type="text/javascript">
+
+    window.onload = function(){
+        console.log(canvasBase64());
+    };
+    function canvasBase64(){
+        var canv = document.createElement('canvas'),
+        ctx = canv.getContext("2d");
+        canv.width = 100;
+        canv.height = 100;
+        img = new Image;
+        img.src = '1.jpg';
+        console.log(img.width+','+img.height);
+        img.width = 100;
+        img.height = 100;
+        console.log(img);
+        ctx.drawImage(img,0,0,100,100);
+        var dataURL = canv.toDataURL('image/png');
+        return dataURL;
+        //console.log(dataUrl);
+//        img.onload = function(){
+//            var w = img.width,
+//            h = img.height;
+//            ctx.drawImage(img,0,0);
+//            var dataURL = canv.toDataURL('image/png');
+//            console.log(dataUrl);
+//        };
+    }
+</script>
+</body>
+</html>

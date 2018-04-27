@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建商铺</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_nk9nttdgvqd50zfr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style type="text/css">
+        .create-btn{
+            padding: .375rem .75rem;
+            background-color: #3d95e5;
+            border-radius: .25rem;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -.875rem;
+            margin-left: -2.75rem;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-fanhui" style="color: #fff;font-size: 1.5rem;"></i></a></div>
+        <div class="h-C">创建商铺</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<a href="javascript:isOpen();" class="create-btn">创建商铺</a>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        isOpen();
+//        $.post("../BusinessHome.php",{action:"check_company_yn"},function(data){
+//            var d=$.parseJSON(data);
+//            if(d.code == -202){
+//                alert(d.msg);
+//                window.location.href="http://www.zhanglitong.com/mobile/my.php";
+//            }
+//        });
+    });
+
+    function isOpen(){
+        $.post("../BusinessHome.php",{action:"company"},function(data){
+            console.log($.parseJSON(data));
+            var d=$.parseJSON(data);
+            if(d.msg == "not_res"){
+//                window.location.href="http://www.zhanglitong.com/mobile/BusinessHome/CreateHome-step01.html?compay="+encodeURI(d.data);
+            }
+        });
+    }
+</script>
+</html>

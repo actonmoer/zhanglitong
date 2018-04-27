@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_s8br0xo9meljtt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/order.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <!--<script src="../js/angular.min.js"></script>-->
+    <style type="text/css">
+        #loading{
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            z-index: 999;
+
+        }
+        .bg-loading{
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            margin-top: -50px;
+            margin-left: -50px;
+            background-color: rgba(0,0,0,.5);
+            z-index: 1000;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .bg-loading i{
+            line-height: 100px;
+            font-size: 80px;
+            color: #fff;
+
+            animation:load 1.5s ease infinite;
+            -webkit-animation:load 1.5s ease infinite;
+        }
+        @keyframes load{
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+        @-webkit-keyframes load {
+            from {-webkit-transform: rotate(0deg);}
+            to {-webkit-transform: rotate(360deg);}
+        }
+    </style>
+
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="/mobile/User/usercenter.html" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">我的订单</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div class="order-nav">
+        <div><a onclick="sMenu($(this),'all')" class="order-nav-a on">全部</a></div>
+        <div><a onclick="sMenu($(this),'takeout')" class="order-nav-a">配送订单</a></div>
+        <!--<div><a onclick="sMenu($(this),'mall')" class="order-nav-a">商城订单</a></div>-->
+        <div><a onclick="sMenu($(this),'reserve')" class="order-nav-a">预定订单</a></div>
+    </div>
+    <div class="m20-lr">
+        <p style="color: #666;font-size: .75rem;line-height:1.25rem;padding: .3125rem 0;">温馨提示：下单后，请您在<span style="color: #f0790f;">十分钟</span>之内付款，否则系统将自动关闭订单</p>
+    </div>
+    <div>
+        <div class="order-list">
+            <div></div>
+        </div>
+    </div>
+</section>
+<script src="../js/myjs.js"></script>
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+    var obj = strUrl(), btn = '', page = 0, type = 'all', isend = true;
+    $('body').append(loading(1));
+
+    $(document).ready(function(){
+        getOrder(type);
+        var doc = $(document),win = $(window);
+        doc.scroll(function(){
+            if(isend){
+                if(doc.scrollTop() + win.height() >= doc.height()){
+                    isend = false;
+                    $('body').append(loading(1));
+                    getOrder(type);
+                }
+            }
+        });
+    });
+
+    function getOrder(namestatus){
+        page++;
+        $.ajax({
+            url: "/mobile/usercenter.php",
+            type: "POST",
+            data: {action:"my_order",namestatus:namestatus,page:page},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                if(d.code == 200){
+//                    setTimeout(function(){
+                        isend = true;
+                        $('.order-list').append(getData(d.data));
+                        loading(0);
+//                    },1500);
+                }else if(d.code == -200){
+                    window.location.href = '/mobile/login.php?Callback='+window.location.href;
+                }
+            },
+            error: function(d){
+                console.log(d);
+            }
+        });
+    }
+
+    //渲染数据
+    function getData(data){
+        var str = '', order = '', ostate = '', orderdetail = '', btnstate, price = 0, weburl = 'http://www.zhanglitong.com';
+        for(var i=0;i<data.length;i++){
+            if(data[i].namestatus == 'takeout'){
+                switch(data[i].status){
+                    case '1':
+                        btnstate = '<a href="../Pay/ShoppingPay.html?oid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">立即支付</a>';
+                        break;
+                    case '2':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a><a href="OrderDetails.html?takeout='+data[i].order_id+'&shopName='+data[i].name+'&state='+data[i].namestatus+'&apply=refund">申请退款</a>';
+                        break;
+                    case '3':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a>';
+                        break;
+                    case '4':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a><a onclick="ConfirmOrder(\''+data[i].order_id+'\',\''+data[i].namestatus+'\',this)" class="all-btn">确认收货</a>';
+                        break;
+                    case '5':
+                        btnstate = '<a href="OrderComment.html?oid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn all-btn2">评价</a>';
+                        break;
+                    case '6':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a><a onclick="delOrder(\''+data[i].order_id+'\',\''+data[i].namestatus+'\',this)" class="all-btn">删除订单</a>';
+                        break;
+                    case '7':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a>';
+                        break;
+                    case '8':
+                        btnstate = '<a onclick="delOrder(\''+data[i].order_id+'\',\''+data[i].namestatus+'\',this)" class="all-btn">删除订单</a>';
+                        break;
+                    default:
+                        btnstate = '';
+                }
+            }else if(data[i].namestatus == 'mall'){
+                switch(data[i].status){
+                    case '1':
+                        btnstate = '<a href="../Pay/ShoppingPay.html?oid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">立即支付</a>';
+                        break;
+                    case '2':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a>';
+                        break;
+                    case '3':
+                        btnstate = '<a onclick="ConfirmOrder(\''+data[i].order_id+'\',\''+data[i].namestatus+'\',this)" class="all-btn">确认收货</a>';
+                        break;
+                    case '4':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a>';
+                        break;
+                    case '5':
+                        btnstate = '<a href="OrderComment.html?oid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn all-btn2">评价</a>';
+                        break;
+                    case '6':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a><a onclick="delOrder(\''+data[i].order_id+'\',\''+data[i].namestatus+'\',this)" class="all-btn">删除订单</a>';
+                        break;
+                    case '7':
+                        btnstate = '<a href="OrderProgress.html?mid='+data[i].order_id+'&state='+data[i].namestatus+'" class="all-btn">查看进度</a>';
+                        break;
+                    case '8':
+                        btnstate = '<a onclick="delOrder(\''+data[i].order_id+'\',\''+data[i].namestatus+'\',this)" class="all-btn">删除订单</a>';
+                        break;
+                }
+            }else if(data[i].namestatus == 'reserve'){
+                switch(data[i].status){
+                    case '0':
+                        btnstate = '';
+                        break;
+                    default:
+                        btnstate = '';
+                }
+            }
+            ostate = orderState(data[i].namestatus, data[i].status, data[i].order_id);
+            if(data[i].order_id.indexOf('-') == -1){
+                order = data[i].order_id;
+            }else{
+                order = data[i].order_id.split('-')[1];
+            }
+            if(data[i].namestatus == 'reserve'){
+                price = data[i].owe_balance;
+                orderdetail = '/resver_app/#/orderDetail?param='+encodeURIComponent('{"oid":'+order+',"isReserve":"1","status":'+data[i].status+'}');
+            }else{
+                price = data[i].actual_payment;
+                orderdetail = 'OrderDetails.html?takeout='+data[i].order_id+'&shopName=' + encodeURIComponent(data[i].name) + '&state=' +data[i].namestatus;
+            }
+
+            if(data[i].thumb.indexOf(weburl) != -1){
+                data[i].thumb = data[i].thumb.slice(weburl.length);
+            }
+
+
+            str += '<div class="order-content bfff p20-lr">\n';
+            str += '<div class="clearb" style="height: 3.25rem;">\n';
+            str += '<p class="fl order-number ng-binding ng-scope">订单号：'+order+'</p>\n';
+            str += '<div class="fr ng-scope">\n';
+            str += '<p class="fr order-state ng-scope" style="color:#3d95e5;">'+ostate+'</p>\n';
+            str += '</div></div>\n';
+            str += '<div style="border-top: 1px solid #f2f2f2;border-bottom: 1px solid #f2f2f2;" class="ng-scope">\n';
+            str += '<a class="order-link" href="'+orderdetail+'">\n';
+            str += '<img class="order-shop-img" alt="店铺图片" src="'+data[i].thumb+'">\n';
+            str += '<p class="order-shop ng-binding">'+data[i].name+'</p>\n';
+            str += '<p class="order-time ng-binding">下单时间：'+mtime(data[i].addtime)+'</p>\n';
+            str += '<p class="order-price">总计：<span style="font-size: .875rem;color: #333;" class="ng-binding">￥'+price+'</span></p>\n';
+            str += '<i class="iconfont icon-xiangyou order-right"></i>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+            str += '<div class="ng-scope">\n';
+            str += '<div class="order-btn-d" style="text-align: right;padding: .625rem 0;" >\n';
+            if(data[i].order_id.split('-')[0] == 'go_takeout'){
+                str += '';
+            }else{
+                str += btnstate;
+            }
+            str += '</div>\n';
+            str += '</div>\n';
+            str += '</div>\n';
+        }
+        if(data.length < 10){
+            isend = false;
+        }
+        return str;
+    }
+
+    //选择类型的订单
+    function sMenu(s,status){
+        $('.order-list').text('');
+        $('body').append(loading(1));
+        s.parent().siblings().find("a").removeClass("on");
+        s.addClass("on");
+        $(".order-content").show(200);
+        page = 0;
+        type = status;
+        getOrder(type);
+    }
+
+    //
+    function orderState(namestatus, state, order){
+        var str = '';
+        if(namestatus == 'takeout'){
+            switch(state){
+                case '1':
+                    str = '待付款';
+                    break;
+                case '2':
+                    str = '支付成功';
+                    break;
+                case '3':
+                    str = '待发货';
+                    break;
+                case '4':
+                    str = '待收货';
+                    break;
+                case '5':
+                    str = '待评价';
+                    break;
+                case '6':
+                    str = '订单完成';
+                    break;
+                case '7':
+                    str = '退款中';
+                    break;
+                case '8':
+                    str = '退款完成';
+                    break;
+                default:
+                    str = '不知什么状态';
+            }
+        }else if(namestatus == 'mall'){
+            switch(state){
+                case '1':
+                    str = '待付款';
+                    break;
+                case '2':
+                    str = '待发货';
+                    break;
+                case '3':
+                    str = '待收货';
+                    break;
+                case '4':
+                    str = '交易成功';
+                    break;
+                case '5':
+                    str = '申请退款';
+                    break;
+                case '6':
+                    str = '已退款';
+                    break;
+                case '7':
+                    str = '货到付款';
+                    break;
+                case '8':
+                    str = '买家关闭';
+                    break;
+                case '9':
+                    str = '卖家关闭';
+                    break;
+                default:
+                    str = 'mall不知什么状态';
+            }
+        }else if(namestatus == 'reserve'){
+            switch(state){
+                case '1':
+                    str = '待付款';
+                    break;
+                case '2':
+                    str = '支付成功';
+                    break;
+                case '3':
+                    str = '进行中';
+                    break;
+                case '4':
+                    str = '订单关闭';
+                    break;
+                case '5':
+                    str = '退款中';
+                    break;
+                case '6':
+                    str = '已确认,未评价';
+                    break;
+                case '7':
+                    str = '订单完成';
+                    break;
+                case '8':
+                    str = '退款完成';
+                    break;
+                case '9':
+                    str = '商家不同意退款';
+                    break;
+                default:
+                    str = 'reserve不知什么状态';
+            }
+        }
+        return str;
+    }
+
+    //删除订单
+    function delOrder(orderid, status, s){
+        $.ajax({
+            url: "/mobile/usercenter.php",
+            type: "POST",
+            data:{action:"del_order_id", order_id:orderid, namestatus:status},
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    alert('订单删除成功');
+                    $(s).parents('.order-content').remove();
+                }
+            },
+            error: function(d){
+                alert('网络延时，请稍后!');
+            }
+        });
+    }
+
+    //加载中
+    function loading(v){
+        if(v){
+            var str = '<div id="loading"><div class="bg-loading"><i class="iconfont icon-jiazaizhong"></i></div></div>\n';
+            return str;
+        }else{
+            $("#loading").remove();
+        }
+    }
+
+    //确认收货
+    function ConfirmOrder(id,state,s){
+        $.ajax({
+            type:"POST",
+            url:"../usercenter.php",
+            data:{action:"order_ok",order_id:id,namestatus:state},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                if(d.code == 200){
+                    alert('收货成功');
+                    $(s).parents('.order-content').find('.order-state').text('待评价');
+                    var p = $(s).parent();
+                    p.children().remove();
+                    p.html('<a href="OrderComment.html?oid='+id+'&state='+state+'" class="all-btn all-btn2">评价</a>');
+                }
+            },
+            error: function(d){
+                console.log(d);
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

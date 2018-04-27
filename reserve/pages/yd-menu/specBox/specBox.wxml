@@ -1,0 +1,28 @@
+ <specificate>
+  <view class="spec-box" catchtap='switchSpec'>
+    <text>多规格</text>
+  </view>
+  <view class="spec-mask" wx:if="{{ isSpec }}">
+    <view class="spec-container">
+      <text class="spec-head">{{ specTitle }}</text>
+      <view class="spec-item-box" wx:for="{{ specAttr }}" wx:for-index='ind' wx:for-item='item' wx:key="item" data-itemid='{{ind}}'>
+        <text class="spec-item-head">{{ item.title }}:</text>
+        <view class="spec-item" data-specIndex="{{ ind }}" bindtap='specBox'>
+          <text wx:for="{{ specAttr[ind].cont }}" 
+          wx:for-index='index' wx:key="item" data-money="{{ item.money }}" 
+          data-id="{{ item.id }}" data-name="{{ item.name }}" 
+          class="spec-text {{active[ind][0] == item.id ? 'spec-text-active' : ''}}" 
+          data-parentindex='{{ind}}' data-index='{{index}}' bindtap='specItem' 
+          style='display:inline-block;margin-right:20rpx;font-size:28rpx;padding:8rpx 30rpx;border-radius:10rpx;border:1px solid #ccc;color:#666;'>{{ item.name }}</text>
+        </view>
+      </view>
+      <view class="spec-bottom">
+        <text class="spec-price">¥{{ specPrice }}</text>
+        <text class="spec-cart" bindtap='specAddCart'>加入购物车</text>
+      </view>
+      <view class="spec-close" catchtap='specClose'>
+        <image src="/images/close.png"></image>
+      </view>
+    </view>
+  </view>
+</specificate> 

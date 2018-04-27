@@ -1,0 +1,77 @@
+<view>
+  <!-- 酒店信息 -->
+  <view class="hotel-info">
+    <view class="title">
+      <text>酒店信息：</text>
+    </view>
+    <view>
+      <text>酒店</text>
+      <text>{{ company }}</text>
+    </view>
+    <view wx:if="{{ rtype == 'room' }}">
+      <text>房间</text>
+      <text>{{ cname }}</text>
+    </view>
+    <view wx:else>
+      <text>桌子</text>
+      <text>{{ cname }}</text>
+    </view>
+    <view>
+      <text>订金</text>
+      <text>¥{{ reserve_price }}</text>
+    </view>
+    <view>
+      <text>预定时间</text>
+      <text>{{ arrive_time }}</text>
+    </view>
+    <view>
+      <text>用餐时间</text>
+      <text>{{ limitTime }}</text>
+    </view>
+    <view>
+      <text>温馨提示</text>
+      <text class="tip">到店后必须在指定用餐时间内完成。超出时间预定餐房(桌)无效</text>
+    </view>
+  </view>
+  <!-- 预定信息 -->
+  <view class="reserve-info">
+    <view class="title">
+      <text>预定信息：</text>
+    </view>
+    <view>
+      <text>姓名</text>
+      <input type="text" placeholder="请输入你的名字" placeholder-style="font-size:28rpx" bindinput="bindName"></input>
+    </view>
+    <view>
+      <text>联系方式</text>
+      <input type="number" maxlength="11" placeholder="请输入你的手机号码" placeholder-style="font-size:28rpx" bindinput="bindNumber"></input>
+    </view>
+    <view>
+      <text>到店人数</text>
+      <input type="number" placeholder="请输入到店人数" placeholder-style="font-size:28rpx" bindinput="bindCount"></input>
+    </view>
+  </view>
+  <!-- 邀请函信息 -->
+  <view class="invitation-info">
+    <view class="title">
+      <text>邀请函：</text>
+      <switch color="#4fc08d" bindchange="swicthInvitation"></switch>
+    </view>
+    <view wx:if='{{hasInvitation}}'>
+      <text>邀请函标题</text>
+      <input type="text" placeholder="请您输入邀请函标题" placeholder-style="font-size:28rpx" bindinput="bindTitle"></input>
+    </view>
+    <view wx:if='{{hasInvitation}}'>
+      <text>是否显示菜单</text>
+      <switch checked color="#4fc08d" bindchange="swicthMenu"></switch>
+    </view>
+    <view wx:if='{{hasInvitation}}' class='invitation-cont'>
+      <text>邀请函内容</text>
+      <textarea placeholder-style="font-size:28rpx;" placeholder="请填写邀请函内容" bindinput="bindContent"></textarea>
+    </view>
+  </view>
+  <view class="buttom">
+    <text class="price">¥{{ reserve_price }}</text>
+    <text class="comfirm" catchtap='comfirmPay'>确认支付</text>
+  </view>
+</view>

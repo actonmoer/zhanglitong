@@ -1,0 +1,230 @@
+.user-info{
+  margin-top:20rpx;
+  padding:20rpx 30rpx 0;
+  background-color:#fff;
+  font-size:32rpx;
+}
+.info-text{
+  height:80rpx;
+  line-height:80rpx;
+  width:100%;
+  border-bottom:1px solid #f1f1f1;
+  color:#666;
+}
+.info-text text:nth-child(2){
+  float:right;
+}
+.order-detail{
+  margin:20rpx 0 120rpx;
+  background-color:#fff;
+  padding:0 30rpx;
+}
+.order-title{
+  height:90rpx;
+  line-height:90rpx;
+  border-bottom:1px solid #f1f1f1;
+}
+.title{
+  font-size:32rpx;
+}
+.status{
+  float:right;
+  color:red;
+  font-size:28rpx;
+}
+.menu-item{
+  display:flex;
+  flex-direction: row;
+  height:60rpx;
+  line-height:60rpx;
+  width:100%;
+  border-bottom:1px solid #f1f1f1;
+}
+
+.goods-title{
+  flex:0 0 400rpx;
+  text-align:left;
+  font-size:30rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color:#666;
+}
+.note {
+  display:inline-block;
+  margin-left:4px;
+  font-size:22rpx;
+  color:#999;
+}
+.number{
+  font-size:30rpx;
+  padding-left:40rpx;
+}
+.price{
+  flex:1;
+  text-align:right;
+  font-size:30rpx;
+  color:red;
+}
+.empty-cuisines{
+  background-color:#f1f1f1;
+  font-size:30rpx;
+  text-align:center;
+  color:#999;
+  line-height:100rpx;
+}
+.total-price{
+  display:inline-block;
+  height:80rpx;
+  line-height:80rpx;
+  width:100%;
+  text-align:right;
+  font-size:34rpx;
+  color:red;
+}
+
+.btn{
+  display: flex;
+  flex-direction: row;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+}
+/* 邀请函 */
+.invitation,.refund,.arrive {
+  flex:1;
+  height:100rpx;
+  line-height:100rpx;
+  background-color:#4fc08d;
+  text-align:center;
+  color:#fff;
+  font-size:30rpx;
+}
+.invitation {
+  background-color:#feab40;
+}
+.refund{
+   background-color:#fe4c40;
+}
+.arrive{
+  position:fixed;
+  bottom:130rpx;
+  right:20rpx;
+  border-radius:50%;
+  padding:0 20rpx; 
+  background-color:#feab40;
+}
+.arrive text{
+  display:block;
+  line-height:32rpx;
+}
+.arrive text:nth-child(1){
+  margin-top:17rpx;
+}
+
+/* 去支付 */
+.toPay{
+  display:flex;
+  flex-direction: row;
+  position:fixed;
+  bottom:0;
+  left:0;
+  height:100rpx;
+  width:100%;
+  font-size:36rpx;
+  color:#fff;
+  background-color:#4fc08d;
+}
+.toPay text{
+  flex:1;
+  display:inline-block;
+  height:100rpx;
+  line-height:100rpx;
+  width:100%;
+  font-size:30rpx;
+  color:#fff;
+  background-color:#4fc08d;
+  border:none;
+  text-align:center;
+  border-right:1px solid #eee;
+}
+
+/* 退款遮罩层 */
+.apply-refund-box{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+.refund-mask{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:rgba(0,0,0,.5);
+  z-index:100;
+}
+.refund-box{
+  position:absolute;
+  top:300rpx;
+  left:50%;
+  width:580rpx;
+  margin-left:-290rpx;
+  background-color:#fff;
+  border-radius:4px;
+  z-index:110;
+}
+.refund-title{
+  text-align:center;
+  font-size:32rpx;
+  line-height:100rpx;
+  color:#666;
+  border-bottom:1px solid #eee;
+}
+.refund-cont{
+  display:flex;
+  flex-direction: row;
+}
+.refund-cont{
+  border-bottom:1px solid #eee;
+  padding:50rpx 20rpx;
+  box-sizing: border-box;
+}
+.refund-cont text {
+  display:inline-block;
+  flex:0 0 110rpx;
+  height:50rpx;
+  line-height:50rpx;
+  font-size:24rpx;
+}
+.refund-cont input{
+  width:100%;
+  border:1px solid #eee;
+  font-size:28rpx;
+  padding-left:15rpx;
+  border-radius:3px;
+}
+.refund-btn{
+  display:flex;
+  flex-direction: row;
+  font-size:32rpx;
+  height:80rpx;
+  line-height:80rpx;
+  justify-content:space-around;
+  text-align:center;
+}
+.refund-cancel{
+  display:inline-block;
+  color:#ff6000;
+  width:50%;
+  border-right:1px solid #eee;
+}
+.refund-confirm{
+  display:inline-block;
+  color:#4fc08d;
+  width:50%;
+}
+

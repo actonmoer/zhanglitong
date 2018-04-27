@@ -1,0 +1,34 @@
+<!-- Mobile Devices Support @begin -->
+<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen 全屏苹果设备 -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<!-- Mobile Devices Support @end -->
+<link href="static/room/css/HotelServices/OrderRoom-hotels.css" rel="stylesheet" type="text/css">
+<link href="static/room/css/HotelServices/OrderRoom-datepicker.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="static/room/css/HotelServices/orderRoom.fancybox.css" media="screen" />
+<script type="text/javascript" src="static/room/js/StayHotel/index-swipe.js"></script>
+<script type="text/javascript" src="static/room/js/StayHotel/index-zepto.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery-lazyload/1.9.5/jquery.lazyload.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="static/room/js/HotelServices/orderRoom.fancybox.js"></script>
+<!-- lcalendar -->
+<script src="static/lcalendar/js/lCalendar.min.js"></script>
+<link rel="stylesheet" href="static/lcalendar/css/lCalendar.css">
+<!-- lcalendar -->
+<script type="text/javascript" src="static/room/js/admin/swiper-3.3.1.min.js"></script>
+<script type="text/javascript" src="static/room/js/admin/index.js"></script>
+<link rel="stylesheet" href="static/room/css/admin/index.css">
+<link rel="stylesheet" href="static/room/css/admin/swiper-3.3.1.min.css">
+<script type="text/javascript">
+	function alertMsg(msg){
+		if($('#alertMsgBox').length>0){ $('#alertMsgBox').remove(); }
+		$('body').append('<div class="alertMsgBox" id="alertMsgBox"><div class="layer"></div><div class="txt">'+(msg||'')+'</div></div>');
+		setTimeout(function(){ $('#alertMsgBox').remove(); },1500);
+	}
+</script>

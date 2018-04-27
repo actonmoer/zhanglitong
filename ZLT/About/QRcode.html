@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>二维码</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/mobile/js/need/layer.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <style type="text/css">
+        h1,h2,h3{
+            margin: 0 0 0 0;
+        }
+        .nav-m{
+            display: flex;
+            display: -webkit-flex;
+            width: 100%;
+            box-shadow: 0 0.125rem 0.25rem 0 rgba(51, 51, 51, 0.1);
+            background-color: #fff;
+        }
+        .nav-m>div{
+            flex: 1;
+            -webkit-flex: 1;
+
+        }
+        .nav-m>div>a{
+            display: block;
+            height: 2.375rem;
+            line-height: 2.375rem;
+            font-size: .875rem;
+            text-align: center;
+            margin: 0 .625rem;
+        }
+        .nav-m>div>a.on{
+            color: #3d95e5;
+            border-bottom: 2px solid #3d95e5;
+        }
+        .QR-d img{
+            width: 100%;
+            height: 15rem;
+        }
+        .QR-d{
+            display: none;
+        }
+        .QR-d:nth-child(1){
+            display: block;
+        }
+    </style>
+</head>
+<body style="background-color: #f5f5f5;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:HistoryURL();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">二维码</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section style="display: none;">
+    <nav class="nav-m">
+        <div onclick="menuQR(this,0)"><a href="javascript:;" class="on">收款</a></div>
+        <div onclick="menuQR(this,1)"><a href="javascript:;" >店铺</a></div>
+        <div onclick="menuQR(this,2)"><a href="javascript:;" >推广</a></div>
+        <div onclick="menuQR(this,3)"><a href="javascript:;" >赚佣金</a></div>
+    </nav>
+    <div>
+        <!--二维码显示区域-->
+        <div class="text-center QR-d" style="background-color: #fff;margin-top: 1.25rem;">
+            <h3 style="padding: 1.25rem 0;">收款二维码</h3>
+            <div id="QRdiv0" style="border: 1px solid #333;padding: .625rem;width: 16.25rem;height: 16.25rem;margin: 0 auto;"></div>
+            <p style="font-size: 1rem;padding: 1.25rem 0;">长按保存图片</p>
+        </div>
+
+        <div class="text-center QR-d" style="background-color: #fff;margin-top: 1.25rem;">
+            <h3 style="padding: 1.25rem 0;">店铺二维码</h3>
+            <div id="QRdiv1" style="border: 1px solid #333;padding: .625rem;width: 16.25rem;height: 16.25rem;margin: 0 auto;"></div>
+            <p style="font-size: 1rem;padding: 1.25rem 0;">长按保存图片</p>
+        </div>
+
+        <div class="text-center QR-d" style="background-color: #fff;margin-top: 1.25rem;">
+            <h3 style="padding: 1.25rem 0;">推广二维码</h3>
+            <!--<div id="QRdiv2" style="border: 1px solid #333;padding: .625rem;width: 16.25rem;height: 16.25rem;margin: 0 auto;"></div>-->
+            <div id="QRImg" style="border: 1px solid #333;padding: .625rem;width: 16.25rem;height: 16.25rem;margin: 0 auto;">
+                <img src="" alt="二维码图片">
+            </div>
+            <p style="font-size: 1rem;padding: 1.25rem 0;">长按保存图片</p>
+        </div>
+
+        <div class="text-center QR-d" style="background-color: #fff;margin-top: 1.25rem;">
+            <h3 style="padding: 1.25rem 0;">赚佣金二维码</h3>
+            <div id="QRdiv3" style="border: 1px solid #333;padding: .625rem;width: 16.25rem;height: 16.25rem;margin: 0 auto;"></div>
+            <p style="font-size: 1rem;padding: 1.25rem 0;">长按保存图片</p>
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript" src="../js/myjs.js"></script>
+<script type="text/javascript" src="../js/QRcode.js"></script>
+<script type="text/javascript">
+    var arrQR = [];
+    var obj = {};
+    $(document).ready(function(){
+        loading();
+        $.ajax({
+            url: "/mobile/business_qrcode.php",
+            type: "GET",
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    if(d.msg != 5){
+                        obj.payU = $.trim(d.payU);
+                        obj.registerU = $.trim(d.registerU);
+                        obj.shopU = $.trim(d.shopU);
+                        arrQR.push(obj.payU);
+                        arrQR.push(obj.shopU);
+                        arrQR.push(obj.registerU);
+                        QRc(arrQR[0],0);
+                    }else{
+                        var qr= $(".QR-d");
+
+                        obj.registerU = $.trim(d.registerU);
+                        arrQR.push(obj.registerU);
+                        $(".nav-m div:eq(0),.nav-m div:eq(1)").remove();
+                        $(".nav-m>div").eq(0).find('a').addClass('on');
+                        qr.hide();
+                        qr.eq(2).show();
+                        $("#QRImg").children("img").attr("src",arrQR[0]);
+                    }
+                    loading("loading");
+                    $("section").show();
+                }else{
+                    alert(d.msg);
+                    isLogin();
+                }
+                $("#QRImg").children("img").attr("src",arrQR[2]);
+            },
+            error: function(d){
+                alert("网络错误，请稍后再试");
+            }
+        });
+    });
+
+    function menuQR(s, i){
+        var _this = $(s);
+        _this.siblings().find("a").removeClass("on");
+        _this.find("a").addClass("on");
+        $(".QR-d").hide();
+        $(".QR-d").eq(i).show();
+        if(i != arrQR.length - 1){
+            QRc(arrQR[i], i);
+        }
+        if(i == 3){
+            QRc('http://www.zhanglitong.com/mobile/share/discountCard.html?referee='+getCookie('cpk_username'), 3);
+        }
+    }
+    function QRc(o, i){
+        $("#QRdiv"+i).children().remove();
+        var qrcode = new QRCode(document.getElementById("QRdiv"+i), {
+            text: o,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    }
+
+</script>
+</body>
+</html>

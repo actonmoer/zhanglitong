@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "菜谱",
+  "usingComponents": {
+    "specificate": "/pages/yd-menu/specBox/specBox",
+    "add-reduce" : "/pages/yd-menu/addReduce/addReduce"
+  }
+}

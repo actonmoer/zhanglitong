@@ -1,0 +1,51 @@
+.earnings{
+  background: #3d95e5;
+  height: 4.687rem;
+  padding-top: 0.562rem;
+}
+/*body{*/
+  /*background-color: #f1f1f1 !important;*/
+/*}*/
+.earnings-p{
+  color: #fefefe;
+  font-size: 16px;
+  text-align: center;
+}
+.earnings-p2{
+  color: #fefefe;
+  font-size: 30px;
+  text-align: center;
+
+}
+.earnings-content-bg{
+
+  background: #f1f1f1;
+  position:relative;
+
+}
+
+.earnings-content{
+  width: 9.219rem;
+  background: #fff;
+  position: absolute;
+  left: 50%;
+  margin-left: -4.6095rem;
+  top: -1.4375rem;
+  border-radius: 4px;
+  padding:0  20px;
+  box-shadow: 0px 4px 7px #dbe5ee;
+
+}
+
+.earnings-lis{
+  height: 2.03125rem;
+  border-bottom: 1px solid #eeeeee;
+  font-size: 16px;
+  color: #333333;
+  line-height: 2.03125rem;
+}
+
+.earnings-lis-div{
+  width: 4.156rem;
+}
+/*590  266*/

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>配送管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_vnf64awaptz6ko6r.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dispatch-manage.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">配送管理</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section class="m20-b">
+    <div class="m20-t">
+        <!--配送管理-->
+        <div class="dispatch-menu">
+            <ul class="dispatch-menu-ul">
+                <li>
+                    <a href="javascript:menuManager();" class="dispatch-menu-a">
+                        <span class="dispatch-menu-bor">
+                            <i class="iconfont icon-quanbushangpin-iconfont icon-img" style="color: #3d95e5;"></i>
+                            <i class="dispatch-menu-red" style="display: none;">1</i>
+                        </span>
+                        <p class="dispatch-menu-name">菜单管理</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="IndentManage.html" class="dispatch-menu-a">
+                        <span class="dispatch-menu-bor">
+                            <i class="iconfont icon-dingdan icon-img" style="color: #3d95e5;"></i>
+                            <i class="dispatch-menu-red" style="display: none;">1</i>
+                        </span>
+                        <p class="dispatch-menu-name">订单管理</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="CommentManage.html" class="dispatch-menu-a">
+                        <span class="dispatch-menu-bor">
+                            <i class="iconfont icon-pinglun icon-img" style="color: #3d95e5;font-size: 1.875rem;"></i>
+                            <i class="dispatch-menu-red" style="display: none;">1</i>
+                        </span>
+                        <p class="dispatch-menu-name">评论管理</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--温馨提示语-->
+    <div class="m20-lr">
+        <div class="dispatch-tip">温馨提示：买家下单后，请你在<span style="color: #f0790f;">十分钟</span>之内接单，否则系统将自动关闭订单</div>
+    </div>
+
+    <!--商铺信息-->
+    <div id="shopMessage" class="bfff" style="display: none;">
+        <div style="border-bottom: 1px solid #f2f2f2;">
+            <div class="m20-lr">
+                <div class="shops-msg">
+                    <span class="shops-msg-s">商家信息</span>
+                    <!--<a href="http://www.zhanglitong.com/member/user_takeout_home.php?act=edit_restaurant" target="_blank" class="shops-msg-a">编辑全部 <i class="iconfont icon-right" style="font-size: .875rem;"></i></a>-->
+                </div>
+            </div>
+        </div>
+        <div style="border-bottom: 1px solid #f2f2f2;">
+            <div class="m20-lr">
+                <div class="shops-msg-h">
+                    <img src="" id="img_shop" class="shops-msg-img" alt="商家头像">
+                    <span class="shops-msg-name" id="company">店铺名称</span>
+                    <div class="shops-msg-time" id="shop_time">营业时间：09:00-12:00;14:00-18:00</div>
+                </div>
+            </div>
+        </div>
+        <div style="border-bottom: 1px solid #f2f2f2;">
+            <div class="m20-lr">
+                <div class="shops-msg-states">
+                    <span class="shops-msg-s1">营业状态</span>
+                    <div style="float: right;">
+                        <div class="onoff" style="margin-top: 1.625rem;" onclick="changeStatu($(this))">
+                            <i class=""></i>
+                        </div>
+                        <span style="color: #333;font-size: .75rem;float: right;margin-right: .625rem;">正在营业</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="border-bottom: 1px solid #f2f2f2;">
+            <div class="m20-lr">
+                <div class="shops-msg-states">
+                    <span class="shops-msg-s1">联系方式</span>
+                    <span class="shops-msg-rs1" id="phone">0755-123456</span>
+                </div>
+            </div>
+        </div>
+        <div style="border-bottom: 1px solid #f2f2f2;">
+            <div class="m20-lr">
+                <div class="clearb" style="padding: 1rem 0;">
+                    <span class="shops-msg-s1">店铺地址</span>
+                    <span class="shops-msg-rs1" style="max-width: 70%;line-height: 1.25rem;max-height: 2.5rem;overflow:hidden;" id="address_shop">广东省广州广东省广州广东省广州广东省广州</span>
+                </div>
+            </div>
+        </div>
+        <div style="border-bottom: 1px solid #f2f2f2;">
+            <div class="m20-lr">
+                <div class="clearb" style="padding: 1rem 0;">
+                    <span class="shops-msg-s1">店铺介绍</span>
+                    <span class="shops-msg-rs1" style="max-width: 70%;line-height: 1.25rem;max-height: 2.5rem;overflow:hidden;" id="in_shop">广东省广州广东省广州广东省广州广东省广州</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="border-bottom: 1px solid #f2f2f2;" id="QRcode" onclick="QRcode()">
+            <div class="m20-lr">
+                <div class="clearb" style="padding: 1rem 0;">
+                    <span class="shops-msg-s1">生成二维码</span>
+                    <span class="shops-msg-rs1" style="max-width: 70%;line-height: 1.25rem;max-height: 2.5rem;overflow:hidden;">
+                        <i class="iconfont icon-right"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+<script type="text/javascript">
+    var companyId, webUrl = 'http://www.zhanglitong.com';
+    $(document).ready(function(){
+        $.post("../BusinessHome.php",{action:"show"},function(data){
+            var d=$.parseJSON(data);
+            if(d.code == 200){
+                companyId = d.id;
+                $("#company").text(d.data.take_out_shop_name);
+                if(d.data.business == 2){
+                    $(".onoff").find("i").addClass("offbtn");
+                }else{
+                    $(".onoff").find("i").addClass("onbtn");
+                }
+                $("#phone").html(d.data.contact);
+                $("#address_shop").html(d.data.address);
+                $("#in_shop").html(d.data.shop_tip);
+                if(d.data.thumb.indexOf(webUrl) !== 0){
+                    $("#img_shop").attr("src",d.data.thumb);
+                }else{
+                    $("#img_shop").attr("src",d.data.thumb.slice(webUrl.length));
+                }
+                $("#shop_time").html("营业时间："+d.time[0].begun_time.substring(0,5)+"-"+d.time[0].over_time.substring(0,5)+";");
+                $('#shopMessage').show();
+            }else if(d.code == -200){
+                alert(d.msg);
+                window.location.href="/mobile/my.php";
+            }else if(d.code == -201){
+                alert(d.msg);
+                window.location.href="/mobile/my.php";
+            }else if(d. code == -202){
+                alert(d.msg);
+                window.location.href="/mobile/Authentication/TruenameValidate.html";
+            }
+        })
+    });
+
+    function menuManager(){
+        $.post("../BusinessHome.php",{action:"s_dishes"},function(data){
+            var d=$.parseJSON(data);
+            console.log(d);
+            if(d.data.length > 0){
+                window.location.href="MenuManager.html";
+            }else{
+                window.location.href="AddManager.html";
+            }
+        })
+    }
+    function changeStatu(a){
+        var s;
+        if(a.find("i").hasClass("onbtn")){
+            s=confirm("是否关闭店铺");
+        }else{
+            s=confirm("是否开启店铺");
+        }
+        if(s){
+            $.post("../BusinessHome.php",{action:"change_business"},function(data){
+                var d=$.parseJSON(data);
+                console.log(d);
+                if(d.business == 1){
+                    $(".onoff").find("i").removeClass("offbtn");
+                    $(".onoff").find("i").addClass("onbtn");
+                }else{
+                    $(".onoff").find("i").removeClass("onbtn");
+                    $(".onoff").find("i").addClass("offbtn");
+                }
+            });
+        }else{
+        }
+    }
+
+    function QRcode(){
+        console.log(companyId);
+        window.location.href = './deskQRcode.html?companyId=' + companyId;
+    }
+</script>
+</html>

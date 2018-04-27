@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>打印机</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_t4d6ts6aj0q0vn29.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Account.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/layer.js"></script>
+    <style>
+        .printer{
+            margin-top:.625rem;
+            background:#fff;
+            padding:0 3rem 1rem;
+            text-align:center;
+        }
+        .print-box{
+            background:#fff;
+        }
+        .top{
+
+            font-size:16px;
+
+            padding:10px 0;
+
+            border-bottom:1px solid #eee;
+
+        }
+        .print-item{
+            position:relative;
+
+            margin-top:10px;
+
+            padding-bottom:10px;
+
+        }
+        .print-img-box{
+
+            width:90px;
+
+            height:75px;
+
+            background:#eee;
+
+        }
+        .print-img-box img{
+
+            width:100%;
+
+            height:100%;
+
+        }
+        .print-cont-box{
+
+            position:absolute;
+
+            top:0;
+
+            left:100px;
+
+            border-bottom:1px solid #eee;
+
+            padding-bottom:9px;
+            font-size:12px;
+            margin-right:35px;
+
+        }
+        .print-cont-box p:nth-child(1){
+
+            margin:16px 0 10px;
+
+        }
+        .print-btn{
+            position:absolute;
+            right:0;
+            font-size:14px;
+        }
+        .print-edit a{
+            color:#3d95e5;
+        }
+        .print-edit{
+            top:0;
+        }
+        .print-del{
+            bottom:15px;
+        }
+        .print-del a{
+            color:red;
+        }
+        #printer{
+            background:#fff;
+
+            margin:10px 14px;
+
+            padding:0 10px;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">绑定打印机</div>
+        <div class="h-R" style="color:#fff;font-size:.875rem;margin-right:1.25rem;"></div>
+    </div>
+</header>
+<section>
+    <form class="printer">
+        <div class="form-group">
+            <label for="userName"></label>
+            <input type="text" name="userName" class="form-control userName" id="userName" placeholder="请输入用户名">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1"></label>
+            <input type="number" name="machinecode" class="form-control machinecode" id="exampleInputEmail1" placeholder="打印机终端号">
+        </div>
+        <button type="button" class="btn btn-default" onclick="printerBtn()">添加</button>
+    </form>
+    <!--打印设备-->
+    <div id="printer">
+        <h4 class="top">打印设备</h4>
+        <div class="print-box">
+            <!--<div class="print-item">
+                <div class="print-img-box">
+                    <img src="/mobile/images/printer.jpg" alt="">
+                </div>
+                <div class="print-cont-box">
+                    <p>部门：前台</p>
+                    <p>设备号：4004537602</p>
+                </div>
+                <div class="print-btn">
+                    <a href="?act=print_form&amp;code=11">编辑</a>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</section>
+<script>
+    /*显示打印机*/
+    $(function(){
+        $.ajax({
+            url:"../user_printer.php",
+            type:"post",
+            data:{action:"show"},
+            dataType:"json",
+            success:function(data){
+                if(data.code == 2000){
+                    $(".print-box").html(showprint(data));
+                }else if(data.code == -2000){
+                    alert("您没有访问权限！");
+                    window.location.href = "../index.html";
+                }
+            }
+        });
+    });
+    function showprint(data){
+        var show = "",
+            d = data.data;
+        if(data.code == 2000){
+            for(let i=0;i<d.length;i++){
+                show += '<div class="print-item">';
+                show += '<div class="print-img-box">';
+                show += '<img src="/mobile/images/printer.jpg" alt="">';
+                show += '</div>';
+                show += '<div class="print-cont-box">';
+                show += '<p>公司名：'+d[i].company+'</p>';
+                show += '<p>设备号：'+d[i].machinecode+'</p>';
+                show += '</div>';
+                show += '<div class="print-btn print-edit" onclick="printEdit(\''+d[i].company+'\',\''+d[i].machinecode+'\')">';
+                show += '<a href="javascript:;">编辑</a>';
+                show += '</div>';
+                show += '<div class="print-btn print-del" onclick="printDel(this)" data-code="'+d[i].machinecode+'">';
+                show += '<a href="javascript:;">删除</a>';
+                show += '</div>';
+                show += '</div>';
+            }
+        }
+        return show;
+    }
+    /*编辑打印机*/
+    function printEdit(company,code){
+        layer.open({
+            content: '<form class="printer">\n' +
+            '        <div class="form-group">\n' +
+            '            <input type="text" name="userNameEdit" class="form-control userName" value="'+company+'" readonly>\n' +
+            '        </div>\n' +
+            '        <div class="form-group">\n' +
+            '            <input type="number" name="machinecodeEdit" class="form-control machinecode" value="'+code+'">\n' +
+            '        </div>\n' +
+            '    </form>'
+            ,style: 'background-color:#fff; color:#333; border:none;'
+            ,btn: ['确定', '取消']
+            ,yes: function(index){
+                editAjax(code,$("input[name='userNameEdit']").val(),$("input[name='machinecodeEdit']").val());
+                layer.close(index);
+            }
+        });
+    }
+    function editAjax(code,company,newcode){
+        $.ajax({
+           url:"../user_printer.php",
+           type:"post",
+           data:{action:"edit",machinecode:code,username:company,machinecode_new:newcode},
+           dataType:"json",
+           success:function(data){
+               if(data.code ==2000){
+                   alert("设备更新成功！");
+                   window.location.reload();
+               }
+           }
+       });
+    }
+    /*添加打印机*/
+    function printerBtn(){
+        var code = $(".machinecode").val();
+        var user = $(".userName").val();
+        $.ajax({
+            url:"../user_printer.php",
+            type:"post",
+            data:{action:"add",machinecode:code,username:user},
+            dataType:"json",
+            success:function(data){
+                if(data.code == 200){
+                    alert("输入的终端号成功！");
+                    window.location.href = "../User/usercenter.html";
+                }else if(data.code == -200){
+                    alert("您还没登录，请先登录！");
+                    window.location.href = "../login.php";
+                }else{
+                    alert("添加设备成功！");
+                }
+                window.location.reload();
+            }
+        });
+    }
+    /*删除打印机*/
+    function printDel(t){
+        let code = $(t).attr("data-code");
+        layer.open({
+            content: '您确定要删除这个设备吗？'
+            ,btn: ['确定', '取消']
+            ,yes: function(index){
+                delAjax(t,code);
+                layer.close(index);
+            }
+        });
+    }
+    function delAjax(t,code){
+        $.ajax({
+            url:"../user_printer.php",
+            type:"post",
+            data:{action:"del_one",machinecode:code},
+            dataType:"json",
+            success:function(data){
+                if(data.code == 2000){
+                    $(t).parents(".print-item").remove();
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提现申请</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnse94jdj7lrqkt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/withdraw.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">提现申请</div>
+        <div class="h-R" style="color:#fff;font-size:.875rem;margin-right:1.25rem;"></div>
+    </div>
+</header>
+<section>
+    <div style="text-align: center;padding-top: 2.5rem;"><i class="iconfont icon-dagou" style="line-height: initial;font-size: 3.75rem;color: #3d95e5;"></i></div>
+    <div style="text-align: center;">
+        <p style="font-size: 1rem;margin-top: 1rem;"><span>提现申请已提交</span></p>
+        <p style="font-size:.625rem;color:#666;margin-top:.625rem;"><span>预计1个工作日到账，请注意查收</span></p>
+    </div>
+    <div class="withdraw-submit success cleard">
+        <p><span>到账账户</span><span id="bank"></span></p>
+        <p><span>提现金额</span><span id="amount"></span></p>
+        <!--<p><span>&nbsp;&nbsp;手续费</span><span>￥1.00</span></p>-->
+    </div>
+    <div style="margin:1.25rem;">
+        <input type="button" class="btn white-btn" onclick="withdrawRecord()" style="width: 100%;" value="完&nbsp;&nbsp;成">
+    </div>
+</section>
+</body>
+<script>
+    $(function(){
+        isLogin();
+        $.ajax({
+            url:"../../member/newcash.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{action:"confirm"},
+            success:function(data){
+                console.log(data);
+                var d = data.data;
+                if(data.code == 200){
+                    $("#bank").append(d.bank);
+                    $("#amount").append("￥" + d.amount);
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后!");
+            }
+        });
+    });
+    function withdrawRecord(){
+        window.location.href = "withdrawList.html";
+    }
+</script>
+</html>

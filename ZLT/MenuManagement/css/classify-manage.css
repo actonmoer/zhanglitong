@@ -1,0 +1,35 @@
+.classify {
+    padding:1.25rem 1.25rem 0 1.25rem;
+    background-color:#fff;
+    border-bottom:1px solid #f2f2f2;
+}
+.classify-detail {
+    width:50%;
+    float:left;
+}
+.classify-status {
+    width:50%;
+    float:left;
+}
+.classify-detail p{
+    font-size:.875rem;
+    margin-bottom:1.25rem;
+}
+.classify-detail p span {
+    font-size:.625rem;
+}
+.classify-detail p span:first-child {
+    margin-right:.375rem;
+}
+.classify-status {
+    padding-top:1.75rem;
+}
+.classify-status input {
+    background-color: #fff;
+    color: #4097e3;
+    font-size: .75rem;
+    border-color: #4097e3;
+    float: right;
+    margin: 0 .25rem;
+    padding:.375rem 1rem;
+}

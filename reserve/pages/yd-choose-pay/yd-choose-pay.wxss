@@ -1,0 +1,210 @@
+.pay-box {
+  position: relative;
+  z-index: 999;
+}
+
+.pay-head {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.head-img {
+  flex: 0 0 120rpx;
+  margin: 50rpx;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.head-img image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.head-cont {
+  padding: 50rpx 0;
+}
+
+.head-cont text {
+  display: block;
+}
+
+.price {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #da1e4b;
+}
+
+.order-number {
+  margin-top: 15rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.choose-pay {
+  position: relative;
+  margin-top: 50rpx;
+  background-color: #fff;
+}
+
+.pay-item {
+  display: flex;
+  flex-direction: row;
+  padding: 30rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.pay-icon {
+  flex: 0 0 50rpx;
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: 15rpx;
+}
+
+.pay-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.pay-way text {
+  display: block;
+  margin-left: 30rpx;
+}
+
+.pay-way text:nth-child(1) {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.pay-way text:nth-child(2) {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.radio-group {
+  position: absolute;
+  top: 35rpx;
+  right: 30rpx;
+}
+
+.radio-group .radio {
+  display: block;
+  margin-bottom: 85rpx;
+}
+
+.pay-btn {
+  text-align: center;
+  margin-top: 50rpx;
+}
+
+.pay-btn text {
+  display: inline-block;
+  width: 80%;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 4px;
+  background-color: #4fc08d;
+}
+
+/* 余额密码框 */
+
+.wallets-password{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index:1000;
+}
+.input-content-wrap{
+  position: absolute;
+  top: 200rpx;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  width: 600rpx;
+  margin-left: -300rpx;
+  background: #fff;
+  border-radius: 20rpx;
+}
+.top{
+  display: flex;
+  align-items: center;
+  height: 90rpx;
+  border-bottom: 2rpx solid #ddd;
+  justify-content: space-around;
+}
+.close{
+  font-size: 44rpx;
+  color: #999;
+  font-weight: 100;
+}
+.forget{
+  /* color: #00a2ff; */
+  color:#fff;
+  font-size: 22rpx;
+}
+.actual_fee{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  height: 100rpx;
+  margin: 0 23rpx;
+  border-bottom: 2rpx solid #ddd;
+}
+.actual_fee span {
+  font-size: 24rpx;
+}
+
+.actual_fee text {
+  font-size: 36rpx;
+}
+.input-password-wrap{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150rpx;
+}
+.wallets-password .input-content-wrap .input-password-wrap .password_dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #000;
+  box-sizing: border-box;
+  width: 90rpx;
+  height: 90rpx;
+  border: 2rpx solid #ddd;
+  border-left: none 0;
+}
+
+.wallets-password .input-content-wrap .input-password-wrap .password_dot:nth-child(1) {
+  border-left: 2rpx solid #ddd;
+}
+
+.wallets-password .input-content-wrap .input-password-wrap .password_dot i {
+  background: #000;
+  border-radius: 50%;
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.wallets-password .input-content {
+  position: absolute;
+  opacity: 0;
+  left: -100%;
+  top: 600rpx;
+  background: #f56;
+  z-index: -999;
+}
+
+.wallets-password .input-content.active {
+  z-index: -99;
+}

@@ -1,0 +1,4 @@
+路径：mobile/takeout_restaurant.php
+传值：for_ajax：takeout_restaurant
+      lat:经度（例“23.129163”）
+      lng:纬度（例“113.264435”）

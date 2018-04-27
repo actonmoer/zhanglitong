@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单选择</title>
+</head>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<body>
+<style type="text/css">
+    .cell,.cell-access{position:relative;display:-webkit-box;display:-webkit-flex;display:flex;min-height:5rem;background:#fff;padding:0 1.8rem;-webkit-box-align:center;-webkit-align-items:center;align-items:center}
+    .cell-icon,.cell-icon img{width:2rem;height:2rem}
+    .cell-left{-webkit-box-flex:1;-webkit-flex:1;flex:1;margin:0;padding-right:1rem;color:#555}
+    .cell-ellipsis{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+    .checkbox{height:4rem;position:relative;display:-webkit-inline-box;display:-webkit-inline-flex;display:inline-flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center}
+    .checkbox input[type=checkbox],.checkbox input[type=radio]{position:absolute;top:0;left:0;margin:0;opacity:0;z-index:9;width:100%;height:100%;-webkit-appearance:none}
+    .checkbox-icon,.checkbox-icon-round{position:relative;display:block;width:20px;height:20px;background:#fff;-webkit-transition:background .1s;transition:background .1s;border:1px solid #ddd}
+    .checkbox-icon-round:after,.checkbox-icon:after{position:absolute;content:"";top:3px;right:6px;width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;-webkit-transform:rotate(45deg) scale(0);transform:rotate(45deg) scale(0);-webkit-transition:-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:transform .2s cubic-bezier(.18,.89,.32,1.28) .1s,-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s}
+    .checkbox-icon-round{border-radius: 50%;}
+    .cell-icon{text-align:center;margin-right:1.6rem}
+    input:checked+.checkbox-icon,input:checked+.checkbox-icon-round{background:#00cab7;border-color:#00cab7;background-clip:padding-box}input:checked+.checkbox-icon-round:after,input:checked+.checkbox-icon:after{-webkit-transform:rotate(45deg) scale(1);transform:rotate(45deg) scale(1)}
+</style>
+<div class="in-pay-type cell-access">
+    <div class="cell-icon">
+        <img src="http://www.zhanglitong.com/member/static/takeout/img/unionpaynew.png" alt="余额支付">
+    </div>
+    <div class="cell-left">
+        <div class="in-pay-title cell-ellipsis">余额支付 </div>
+        <div class="in-pay-info cell-ellipsis">
+            <span class="in-amount-info">用账户余额支付</span>
+        </div>
+    </div>
+    <div class="checkbox">
+        <input type="radio" name="bank" value="zhanglitong">
+        <span class="checkbox-icon-round"></span>
+    </div>
+</div>
+<!--微信-->
+<div class="in-pay-type cell-access">
+    <div class="cell-icon">
+        <img src="http://www.zhanglitong.com/member/static/takeout/img/weixin2-2.png" alt="微信支付">
+    </div>
+    <div class="cell-left">
+        <div class="in-pay-title cell-ellipsis">微信支付 </div>
+        <div class="in-pay-info cell-ellipsis">
+            <span class="in-amount-info">推荐安装微信6.0.2及以上版本</span>
+        </div>
+    </div>
+    <div class="checkbox">
+        <input type="radio" name="bank" value="weixin">
+        <span class="checkbox-icon-round"></span>
+    </div>
+</div>
+<!--支付宝-->
+<div class="in-pay-type cell-access">
+    <div class="cell-icon">
+        <img src="http://www.zhanglitong.com/member/static/takeout/img/alipay2-2.png" alt="支付宝支付">
+    </div>
+    <div class="cell-left">
+        <div class="in-pay-title cell-ellipsis">支付宝支付 </div>
+        <div class="in-pay-info cell-ellipsis">
+            <span class="in-amount-info">推荐有支付宝账户的用户使用</span>
+        </div>
+    </div>
+    <div class="checkbox">
+        <input type="radio" name="bank" value="alipay">
+        <span class="checkbox-icon-round"></span>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+</script>
+</html>

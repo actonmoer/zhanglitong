@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>配送分类详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="static/room/css/admin/index.css">
+	<link rel="stylesheet" href="static/room/css/admin/swiper-3.3.1.min.css">
+
+	<script src="static/room/js/jquery-1.7.2.min.js"></script>
+	<script src="static/room/js/admin/swiper-3.3.1.min.js"></script>
+	<script src="static/room/js/admin/index.js"></script>
+</head>
+<body class="bottomBody">
+	<div class="headBox">
+		<div class="head-bar-back"><a href="javascript:window.location.href='user_takeout_home.php?act=restaurant'"><img src="static/room/images/admin/icon-back.png" width="24" height="24"><span>返回</span></a></div>
+		<div class="head-bar-title">配送分类详情</div>
+	</div>
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<div class="showList"> 
+					<div class="showLi">
+						<b>分类名字</b>
+						<span>{$cuisine_mes['cuisine']}</span>
+					</div>
+					<div class="showLi">
+						<b>修改时间</b>
+						<span><?php echo date("Y-m-d H:i:s",$cuisine_mes['edittime']);?></span>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div class="footBox">
+		<a class="three add" href="user_takeout_home.php?act=update_cuisine">添加种类</a>
+		<a class="three edit" href="user_takeout_home.php?act=update_cuisine&id={$cuisine_mes['id']}">编辑种类</a>
+		<a class="three delete" href="javascript:del_cuisine({$cuisine_mes['id']});">删除种类</a>
+	</div>
+<script type="text/javascript">
+	function del_cuisine(id)
+	{
+		$.ajax({
+			data:{"id":id,"for_ajax":"takeout_cuisine_category_del"},
+			type:"post",
+			dataType:"json",
+			url:"for_ajax_restaurant.php",
+			success:function(data){
+				if (data.success) {
+					window.location.href="user_takeout_home.php?act=restaurant";
+				} else {
+					alertMsg(data.message);
+				}
+			},error:function(){
+
+			}
+		})
+	}
+</script>
+</body>
+</html>

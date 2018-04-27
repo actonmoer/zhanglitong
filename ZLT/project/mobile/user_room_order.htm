@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+ <head>
+<meta charset="utf-8" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
+<!-- Mobile Devices Support @begin -->
+	<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+	<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+	<meta content="no-cache" http-equiv="pragma">
+	<meta content="0" http-equiv="expires">
+	<meta content="telephone=no, address=no" name="format-detection">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen 全屏苹果设备 -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<!-- Mobile Devices Support @end -->
+
+{template "room_head","mobile"}
+<title>订单列表</title>
+	<style>
+		img{width:100%!important;}
+	</style>
+ </head>
+<body id="hotels" ondragstart="return false;" onselectstart="return false;" >
+    <section class="body">
+	   	<div class="cardexplain">
+			<!--我的订单-->
+            <ul class="round">
+            	<li class="title"><span class="none">我的订单</span></li>
+            </ul>
+		</div>
+    </section>
+	<div mark="stat_code" style="width:0px; height:0px; display:none;"></div>
+	<script type="text/javascript">
+		var ajaxData = { page: 0 ,st: 0 };
+		var order_status = {
+			1: { state: '待支付', color: '#ed4948' },
+			2: { state: '支付成功', color: '#70d616' },
+			3: { state: '订单关闭', color: '#a1a1a1' },
+			4: { state: '退款中', color: '#0d8ece' },
+			5: { state: '已确认，未评价', color: '#333333' },
+			6: { state: '订单完成', color: '#333333' }
+		}
+
+		$(function(){
+			getList();
+
+   			$(window).scroll(function(){
+   				if($('body').height()-$('body').scrollTop()-$(window).height()<100){
+   					getList();
+   				}
+   			})
+		})
+
+		function getList(){
+			if(ajaxData.st==1){return false;}
+			ajaxData.st = 1;
+			ajaxData.page++;
+			$.ajax({
+				data:{"for_ajax":"room_orders_list","page":ajaxData.page},
+				type:"post",
+				dataType:"json",
+				url:"for_ajax.php",
+				success:function(data){
+					if (data.data) {
+						var html = '';
+						for ( i in data.data) {
+							html += '<li class="dandanb orderkLi" style="position: relative;">';
+							html += '<i class="kDelBtn" onclick="del_order(\''+data['data'][i]['orderid']+'\')"></i>';
+							html += '<a class="various1" href="user_home.php?act=user_room_orders_mes&orderid='+data['data'][i]['orderid']+'">';
+							html += '<span style="background: #fff;">';
+							html += '<table class="jiagebiao" border="0" cellpadding="0" cellspacing="0" width="100%">';
+							html += '<tr><td><div>'+data['data'][i]['room_name'];
+							html += '<i class="st_k" style="color:'+order_status[data['data'][i]['status']].color+'">';
+							html += order_status[data['data'][i]['status']].state+'</i></div>';
+							html += '<div><p>交易额 : <i class="price_k">￥<b>'+data['data'][i]['actual_payment']+'</b></i></p>';
+							html += '<p>订单号 : '+data['data'][i]['orderid']+'</p><p>下单时间';
+							html += ' : '+data['data'][i]['addtime']+'</p></div></td></tr></table></span></a></li>';
+						}
+						$(".round").append(html);
+					}
+					ajaxData.st = 0;
+				}
+			})
+		}
+		function del_order(order_id) {
+			$.ajax({
+				data:{"act":"delete_user_room_order","order_id":order_id},
+				url:"user_home.php",
+				type:'get',
+				dataType:"json",
+				success:function(mes){
+					if (mes.success) {
+						window.location.href=window.location.href;
+					} else {
+						alertMsg(mes.message);
+					}
+				}
+			})
+		}
+	</script>
+</body>
+</html>

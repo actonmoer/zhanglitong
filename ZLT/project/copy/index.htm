@@ -1,0 +1,636 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>    
+        <meta charset="UTF-8"/>
+        <title>{$head_title}</title>
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width"/>
+        <meta http-equiv="Cache-Control" content="no-siteapp"/>
+        <meta name="generator" content="DESTOON B2B - www.destoon.com"/>
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-title" content="{$site_name}"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+        <meta name="msapplication-TileImage" content="apple-touch-icon-precomposed.png">
+        <meta name="msapplication-TileColor" content="#007AFF">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png"/>
+        <link rel="icon" sizes="128x128" href="apple-touch-icon-precomposed.png">
+        <link rel="shortcut icon" type="image/x-icon" href="{DT_PATH}favicon.ico"/>
+        <link rel="bookmark" type="image/x-icon" href="{DT_PATH}favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="static/lib/jquery/jquery.mobile.custom.structure.min.css"/>
+        <link rel="stylesheet" type="text/css" href="static/style.css"/>
+        <link rel="stylesheet" type="text/css" href="static/css/head1.css"/>
+        <link rel="stylesheet" type="text/css" href="/skin/default/group.css"/>
+        {if $CSS}
+        {loop $CSS $css}
+        <link rel="stylesheet" type="text/css" href="static/{$css}.css"/>
+        {/loop}
+        {/if}
+        <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery-lazyload/1.9.5/jquery.lazyload.min.js"></script>
+        <script type="text/javascript" src="/file/script/config.js"></script>
+        <script type="text/javascript" src="/file/script/common.js"></script>
+        <script type="text/javascript">
+            $(document).bind("mobileinit", function() {
+                $.mobile.defaultPageTransition = "slide";
+            });
+            var AJPath = 'ajax.php';
+            var Dbrowser = '{$DT_MOB[browser]}';
+            {if !DT_DEBUG}
+            if (!('ontouchend' in document) && window.location.href.indexOf('device.php') == - 1) window.location = 'device.php';
+            {/if}
+        </script>
+        <script type="text/javascript" src="static/lib/jquery/jquery.mobile.custom.min.js"></script>
+        <script type="text/javascript" src="static/js/common.js"></script>
+<?php if ($isweixin && empty($userlocation)){ ?>
+<script>
+function getLocation(){
+    if (navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }else{
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+function showPosition(position){
+    //alert("侦测到的地理位置 Latitude: " + position.coords.latitude + "<br />Longitude: " + position.coords.longitude); 
+    set_cookie('userlocation', position.coords.longitude + ',' + position.coords.latitude, 1 / 24 * 86400);
+    //alert(get_cookie('userlocation'));
+    Go('/mobile/index.php');
+}      
+getLocation();
+</script>
+<?php } ?>
+        {if $JS}
+        {loop $JS $js}
+        <script type="text/javascript" src="static/{$js}.js"></script>
+        {/loop}
+        {/if}
+         <script type="text/javascript" src="static/js/fix.js"></script>
+   <style>
+        /* first-menu */
+        .first-menu-sidebar {
+            position:fixed;
+            width:300px;
+            height:100%;
+            left:-320px;
+            top:0;
+            transition: .25s;
+            background-color:#fff;
+            box-shadow: 4px 2px 15px 1px #B9ADAD;
+            overflow: auto;
+			z-index:100;
+        }
+        .menu-wrap .first-menu-sidebar .close1 {
+            position:fixed;
+            padding:30px 0 15px 30px;
+            background-color:#fff;
+            width:270px;;
+            z-index:10;
+            border-bottom:1px solid rgba(132, 121, 121, 0.14);
+        }
+        .menu-wrap .first-menu-sidebar .menu1 {
+            position:absolute;
+            margin:90px 20px 0;
+        }
+        .menu-wrap .first-menu-sidebar .menu1 li {
+            color:#333;
+            padding:8px;
+        }
+        /* second-menu */
+        .second-menu-sidebar {
+            position:fixed;
+            width:300px;
+            height:100%;
+            left:-300px;
+            top:0;
+            background-color:#fff;
+            transition: .25s;
+            overflow: auto;
+			z-index:101;
+            font-size:16px;
+        }
+        .menu-wrap .second-menu-sidebar .close2 {
+            position:fixed;
+            padding:20px;
+            background-color:#fff;
+            width:260px;;
+            z-index:11;
+            border-bottom:1px solid rgba(132, 121, 121, 0.14);
+        }
+        .menu-wrap .second-menu-sidebar .menu2 {
+            position:absolute;
+            margin:70px 0 0;
+            background-color:#fff;
+            width:100px;
+            border:1px solid rgba(132, 121, 121, 0.14);
+        }
+        .menu-wrap .second-menu-sidebar .menu2 li {
+            border-bottom: 1px solid rgba(132, 121, 121, 0.14);
+            color:#333;
+            padding:8px;
+        }
+        .menu-wrap .second-menu-sidebar .menu2 .next2:first-child {
+            background-color:#DFE4E8;
+        }
+        /* third-menu */
+        .menu-wrap .second-menu-sidebar .menu2 .next2 .third-menu-sidebar {
+            position:fixed;
+            background-color:#DFE4E8;
+            width:198px;
+            top:0;
+            display:none;
+            margin-left:93px;
+            margin-top:70px;
+            height:100%;
+            overflow:auto;
+        }
+        .menu-wrap .second-menu-sidebar .menu2 .next2:first-child .third-menu-sidebar {
+            display:block;
+        }
+    </style>
+    </head>
+    <body>
+        <div data-role="page">
+            <div class="ui-toast"></div>
+            <div class="ui-mask"></div>
+            <div class="ui-sheet"></div>
+<style type="text/css">
+body { position:relative;}
+.slide {width:100%;height:100px;background:#FAFAFA;overflow:hidden;}
+.quick {height:70px;background:#FFFFFF;text-align:center;padding:15px 0;}
+.quick li {width:25%;float:left;}
+.quick img {width:30px;margin:0 0 6px 0;}
+.quick span {display:block;font-size:12px;}
+.quick em {font-style:normal;font-size:12px;color:#FFFFFF;z-index:8;position:relative;display:block;width:22px;height:22px;line-height:22px;left:50%;margin:-74px 0 0 8px;background:#FF0000;border-radius:50%;text-align:center;}
+.channel { clear:both; background:#FFFFFF url('static/img/bg-channel.png') repeat-x 0 bottom;height:44px;margin-top:10px;font-size:16px;}
+.channel ul {  width:10000px; margin-top:0;}
+.channel li {height:42px;line-height:42px;padding:0 10px;border-bottom:#EFEFF4 2px solid;float:left;}
+.channel .on { border-bottom:#007AFF 2px solid;color:#007AFF;}
+.channel_fix { position:fixed; z-index:1;left:0; top:38px; right:0;border-top:#A7A7AA 0.5px solid;}
+#main { clear:both; position:static; background:#FFFFFF;}
+.spin-more,.spin-load {height:44px;background:#FFFFFF url('static/img/spinner.gif') no-repeat center center;background-size:16px 16px;display:none;}
+.home-search {text-align:center;padding:10px;}
+.home-search div {height:28px;line-height:28px;background:#FFFFFF;border-radius:4px;}
+.home-search img {width:16px;height:16px;vertical-align:top;padding-top:6px;padding-right:8px;}
+.home-search span {color:#8E8E93;font-size:14px;font-weight:normal;}
+.home-goto {background:#FFFFFF;padding:8px 8px 16px 8px;text-align:center;display:none;}
+.home-goto div {background:#007AFF;padding:8px;border-radius:4px;font-size:16px;color:#FFFFFF;}
+.list-txt {border-top:none;}
+</style>
+<div id="head-bar">
+<div class="head-bar">
+{if $DT_MOB[browser]=='b2b'}
+<div class="head-bar-back" onclick="api.execScript({name:'root',script:'Dexec({$_userid});'});api.closeWin({name:'destoon'});api.closeFrame({name:'destoon'});">
+<img src="static/img/icon-back.png" width="24" height="24"/><span>返回</span>
+</div>
+{else}
+<div class="head-bar-left">
+<span class="toggle-button"><img src="static/images/list_bullets_silver_32px_1098929_easyicon.ico"></span>
+</div>
+{/if}
+  <div class="search_bar" style="margin:11px 0 0 10px;">
+    <form action="search.php" method="post" id="dform">
+	<input type="hidden" name="ok" value="1"/>
+      <input type="hidden" name="moduleid" value="{$searchid}" id="destoon_moduleid"/>
+      <input type="hidden" name="spread" value="0" id="destoon_spread"/>
+      <div  onmouseover="this.className='head_search_on';" onmouseout="this.className='head_search';">
+        <div>
+          <input name="wd" id="wd" type="text" class="ss_text" />
+          <select  name="action" class="shop_item" id="destoon_select">
+	{loop $MOB_MODULE $i $m}
+	<option value="mod{$m[moduleid]}"{if $action=='mod'.$m[moduleid]} selected{/if}>{$m[name]}</option>
+	{/loop}
+	<option value="message"{if $action=='message'} selected{/if}>消息</option>
+	{if $club_post}<option value="{$action}" selected>帖子</option>{/if}
+          </select>
+          <input type="button" class="ss_btn" value="" onclick="Dsearch();"/>
+        </div>
+      </div>
+    </form>
+  </div>
+<script type="text/javascript">
+function Dsearch() {
+	if(Dd('wd').value.length < 1) {
+		Dtoast('请输入关键词');
+		return false;
+	}
+	Dd('dform').submit();
+}
+</script>
+<!--
+
+<div class="head-bar-title">{$head_name}</div>
+
+-->
+
+<div class="head-bar-right">
+<!--
+<a href="setting.php"><img src="static/img/icon-setting.png" width="24" height="24"/></a>
+
+<a href="/sitemap/category.php?mid=16" target="_blank" id="chengecategory"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+-->
+<a href="city.php">{$city_name}<!--<img src="static/img/icon-sort.png" width="24" height="24"/>--></a>
+</div>
+
+</div>
+
+<div class="head-bar-fix"></div>
+
+</div>
+
+{if $ads}
+<!-- banner新样式//start -->
+<div class="index_banner">
+	<section class="sample slider--animated" data-slidizle data-slidizle-timeout="2000" data-slidizle-loop="true" data-slidizle-pause-on-hover="true">
+		<ul class="slider-content" data-slidizle-content>
+{loop $ads $t}
+			<li class="slider-item"><img src="{$t[image_src]}" width="100%"></li>
+{/loop}
+		</ul>
+		<ul class="slider-navigation" data-slidizle-navigation></ul>
+	</section>
+</div>
+{/if}
+<!--
+<script src="static/js/jquery.min.js" type="text/javascript"></script>
+<script>window.jQuery || document.write('<script src="static/js/jquery-2.1.1.min.js"><\/script>')</script>
+-->
+<script src="static/js/jquery.slidizle.js"></script>
+<script>
+    jQuery(function($) {
+        $('[data-slidizle]').slidizle();
+    });
+</script>
+<div class="cl"></div>
+<div class="index_item">
+    <a class="item" href="https://common.diditaxi.com.cn/general/webEntry?channel=1262#/"><div class="pic"><img src="static/images3/ddcx.jpg" /></div>滴滴出行</a>
+	<a class="item" href="http://m.ctrip.com/webapp/hotel/searchlist/23.397235/113.21866/?allianceid=28437&sid=466138&ouid=&sourceid=&utm_medium=&utm_campaign=&utm_source=&isctrip=&from=timeline&isappinstalled=1" target="_blank"><div class="pic"><img src="static/images3/jiudian.png" /></div>携程酒店</a>
+	<a class="item" href="http://www.zhanglitong.com/mobile/index.php?moduleid=4&username=zltzs&action=mall&homepage=1" target="_blank"><div class="pic"><img src="static/images3/cz.jpg" /></div>充值中心</a>
+	<a class="item" href="http://wx.weather.com.cn/mweather/101280101.shtml#1" target="_blank"><div class="pic"><img src="static/images3/tq.png" /></div>天气预报</a>
+    <a class="item" href="http://touch.dujia.qunar.com/around.qunar?area=around&limit=0,10"><div class="pic"><img src="static/images3/lv.jpg" /></div>周边游</a>
+<!--	<a class="item" href="my.php?action=member"><div class="pic"><img src="static/images/mrqd.png" /></div>每日签到</a>-->
+	<a class="item" href="bianmin.php"><div class="pic"><img src="static/images3/cx.jpg" /></div>查询工具</a>
+    <a class="item" onclick="location.href='http://www.zhanglitong.com/mobile/takeout_test.php';"><div class="pic"><img src="static/images3/ps.jpg" /></div>配送服务</a>
+    <a class="item" href="/mall/lotterywap.php" target="_blank"><div class="pic"><img src="static/images3/cj.jpg" /></div>天天抽奖</a>
+    <a class="item" href="http://m.kuaidi100.com/"><div class="pic"><img src="http://www.zhanglitong.com/file/upload/201604/23/15300832878.png" /></div>快递查询</a>
+    <!--<a class="item" href="http://www.zhanglitong.com/mobile/ticket.php" target="_blank"><div class="pic"><img src="static/images3/pw.jpg" /></div>票务中心</a>-->
+	<a class="item" href="http://uc.wy.guahao.com/" rel="nofollow"><div class="pic"><img src="static/images3/gh.jpg" /></div>挂号</a>
+</div>
+<div class="cl"></div>
+
+<div id="segment"></div>
+<div class="cl"></div>
+<div class="channel" id="channel">
+	<ul>
+	{loop $MOD_MY $i $m}
+	<li{if $i==0} class="on"{/if} id="m_{$m[moduleid]}" onclick="Dmenu({$m[moduleid]});">{$m[name]}</li>
+	{/loop}
+    <!--li><a onclick="location.href='http://www.zhanglitong.com/mobile/takeout.php';">配送</a></li-->
+	</ul>
+</div>
+
+<div class="spin-load" onclick="window.location.reload();"></div>
+
+<div id="main">
+
+</div>
+
+<div class="spin-more" onclick="window.location.reload();"></div>
+
+<div class="home-goto"><a href="more.php"><div>进入频道</div></a></div>
+  
+<script type="text/javascript">
+
+var C = {$MOD_MY[0][moduleid]};
+
+var P = 1;
+
+function Dmenu(i) {
+        //改变导航时，同时改变搜索框分类
+	$('#destoon_select').val('mod'+i);
+        $('#chengecategory').attr('href','/sitemap/category.php?mid='+i);
+        if(i == C) return;
+	$('.spin-load').show();
+	$('.home-goto').hide();
+	$('#m_'+C).removeClass('on');
+	C = i;
+	$('#m_'+C).addClass('on');
+	P = 1;
+	//$('html, body').animate({scrollTop:$('#segment').offset().top-{if $DT_MOB[browser]=='b2b'}0{else}88{/if}},0);
+	//$('#channel').addClass('channel_fix');
+	Dload();
+}
+
+function Dstop() {
+	$('.spin-load').hide();
+	$('.home-goto a').attr('href', 'index.php?moduleid='+C);
+	$('.home-goto div').html('进入'+$('#m_'+C).html()+'频道');
+	$('.home-goto').show('slow');
+}
+
+function Dload() {
+	if(P > 1) {
+		Dstop();
+		return;
+	}
+	$.get('index.php?action=ajax&moduleid='+C+'&page='+P, function(result){
+		$('.spin-load').hide();
+		if(result && result.indexOf('list-empty') == -1) {
+			P == 1 ?  $('#main').html(result) : $('#main').append(result);
+			$(".ui-loader").hide();
+		} else {
+			if(P == 1) $('#main').html('<br/><br/><center>暂无信息</center><br/><br/>');
+			P = 4;
+			Dstop();
+		}
+	});
+}
+
+{if $ads}
+
+function dslide(id, time) {
+
+	var _this = this;
+
+	this.w = $(document).width();
+
+	this.h = $('#'+id).height();
+
+	this.c = 0;
+
+	this.src = [];
+
+	this.url = [];
+
+	this.alt = [];
+
+	this.tar = [];
+
+	$('#'+id).find('a').each(function(i) {
+
+		_this.src.push($(this).find('img')[0].src);
+
+		_this.alt.push($(this).find('img')[0].alt);
+
+		_this.url.push(this.href);
+
+		_this.tar.push(this.target);
+
+	});
+
+	if(!this.src[0]) return;
+
+	this.max = this.src.length;
+
+	this.htm = '<ul id="'+id+'_ul" style="position:relative;width:'+this.w*(this.max+1)+'px;height:'+this.h+'px;z-index:1;overflow:hidden;">';
+
+	for(var i = 0; i < this.max; i++) {
+
+		this.htm += '<li style="float:left;"><a href="'+this.url[i]+'" target="'+this.tar[i]+'"><img src="'+this.src[i]+'" width="'+this.w+'"/></a></li>';
+
+	}
+
+	this.htm += '</ul><div style="clear:both;"></div>';
+
+	if(this.alt[0]) this.htm += '<div style="width:'+this.w+'px;height:24px;line-height:24px;overflow:hidden;z-index:2;position:relative;top:-24px;background:#384349;filter:Alpha(Opacity=80);opacity:0.8;">&nbsp;</div>';
+
+	if(this.alt[0]) this.htm += '<div id="'+id+'_alt" style="width:'+(this.w-12)+'px;height:24px;line-height:24px;overflow:hidden;z-index:3;position:relative;top:-48px;padding:0 6px 0 6px;font-weight:bold;color:#FFFFFF;">'+this.alt[0]+'</div>';
+
+	this.htm += '<div style="width:'+this.w+'px;height:20px;overflow:hidden;z-index:4;position:relative;top:-'+(this.alt[0] ? 30 : 30)+'px;text-align:center;padding-left:6px;">';
+
+	for(var i = 0; i < this.max; i++) {
+
+		this.htm += '<span id="'+id+'_no_'+i+'" style="display:inline-block;width:6px;height:6px;border:1px solid #FFFFFF;border-radius:6px;margin-right:6px;'+(i == this.c ? 'background:#007AFF;' : 'background:#FFFFFF;')+'"></span>';
+
+	}
+
+	this.htm += '</div>';
+
+	$('#'+id).html(this.htm);
+
+	if(this.max == 1) return;
+
+	this.t;
+
+	this.p = 0;
+
+	$('#'+id).mouseover(function() {_this.p=1;});
+
+	$('#'+id).mouseout(function() {_this.p=0;});
+
+	$('#'+id).find('span').each(function(i) {
+
+		$(this).mouseover(function() {
+
+			_this.slide(i);
+
+		});
+
+	});
+
+	this.slide = function(o) {
+
+		if(o == this.c) return;
+
+		if(o < 0 || o >= this.max) return;
+
+		if(o == 0 && this.c == this.max - 1) {
+
+			$('#'+id+'_ul').append($('#'+id+'_ul li:first').clone());
+
+			$('#'+id+'_ul').animate({'left':-this.w*this.max},500,function() {
+
+				$('#'+id+'_ul').css('left','0');
+
+				$('#'+id+'_ul li:last').remove();
+
+			});
+
+		} else {
+
+			$('#'+id+'_ul').animate({'left':-o*this.w},500);
+
+		}
+
+		$('#'+id+'_no_'+this.c).css('background','#FFFFFF');
+
+		$('#'+id+'_no_'+o).css('background','#007AFF');
+
+		if(this.alt[0]) $('#'+id+'_alt').html(this.alt[o]);
+
+		this.c = o;
+
+	}
+
+	this.start = function() {
+
+		if(this.p) return;
+
+		if(this.c == this.max - 1) {
+
+			this.slide(0);
+
+		} else {
+
+			this.slide(this.c+1);
+
+		}
+
+	}
+
+	if(!time) time = 5000;
+
+	this.t = setInterval(function() {_this.start();}, time);
+
+}
+
+{/if}
+
+//$(document).on('pageinit', function(event) {
+
+$(document).ready(function() {
+    var channelTop=$('#channel').offset().top - 48;
+    $(window).scroll(function(){
+        if($(document).scrollTop() > channelTop) {
+            $('#channel').addClass('channel_fix');
+        } else {
+            $('#channel').removeClass('channel_fix');
+        }
+    });
+	//$('.spin-more').show();
+
+	Dload();
+
+	$('#main').on('scrollstop',function(event){
+
+		var cmh2 = $(window).height();
+
+		var cmh1 = $('.spin-more').offset().top;
+
+		if($(document).scrollTop() + cmh2 >= cmh1-0) {
+
+			P++;
+
+			Dload();
+
+		}
+
+	});
+
+{if $ads}	
+
+	var ds = new dslide('mobile-slide');
+
+	$('#mobile-slide').on('swipeleft',function(){
+
+		ds.slide(ds.c+1);
+
+	});
+
+	$('#mobile-slide').on('swiperight',function(){
+
+		ds.slide(ds.c-1);
+
+	});
+
+	$(window).bind('orientationchange.slide', function(e){
+
+		ds.w = $(document).width();
+
+		$('#mobile-slide').find('ul').css('width', ds.w*(ds.max+1));
+
+		$('#mobile-slide').find('img').css('width', ds.w);
+
+		$('#mobile-slide').find('div').css('width', ds.w);
+
+	});
+
+{/if}
+
+});
+
+
+
+</script>
+
+<div class="cl m8"></div>
+<div class="joinus"><a href="/member/invite.php?user={$_username}&goto=register" target="_blank">&nbsp;&nbsp;</a></div>
+<div class="cl" style="height:60px;"></div>
+    {if $foot}
+    <div class="foot-bar-fix"></div>
+    <div class="foot-bar">
+        <ul class="foot-bar-ul">
+            <li class="icon-home{if $foot=='home'}-on{/if}"><a href="index.php" data-transition="none"><span>首页</span></a></li>
+            <li class="icon-channel{if $foot=='channel'}-on{/if}"><a href="channel.php" data-transition="none"><span>频道</span></a></li>
+            {if $_username}
+            {if $vtruename == 1 || $vcompany == 1 }
+            <li class="icon-service"><a href="/mobile/UserService.html" data-transition="none" target="_blank"><span>会员服务</span></a></li>
+            {/if}
+            {/if}
+            <li class="icon-my{if $foot=='my'}-on{/if}"><a href="my.php" data-transition="none" target="_blank"><span>我的</span></a>{if $_message || $_chat || $_cart}<em></em>{/if}</li>
+            <li class="icon-more{if $foot=='more'}-on{/if}"><a href="more.php" data-transition="none"><span>更多</span></a></li>
+        </ul>
+    </div>
+    {/if}
+</div>
+	<!-- menu-wrap开始 -->
+<div class="menu-wrap">
+    <!-- first-menu-sidebar开始 -->
+    <div class="first-menu-sidebar">
+        <span class="close1"><img src="static/images/close_32px_1181276_easyicon.ico"></span>
+        <ul class="menu1">
+           {loop $MOB_MODULE $i $m}
+				<?php $md_arr[$i]=$m[moduleid];?>
+					<li class="next1"><div{if $i==0} style="border:none;"{/if}><a style="font-size:20px;" id="zlt-Cate" class="next" attr-id="{$m[moduleid]}" href="#{$m[moduleid]}" target="_self">{$m[name]}</a></div></li>				
+			{/loop}
+        </ul>
+    </div><!-- first-menu-sidebar开始 -->
+    <!-- second-menu-sidebar开始 -->
+    <div class="second-menu-sidebar zltCate">
+       
+       
+    </div><!-- second-menu-sidebar开始 -->
+</div><!-- menu-wrap结束 -->
+
+
+
+
+	<script>
+		$('.first-menu-sidebar #zlt-Cate').on('click',function(){
+			var id = $(this).attr('attr-id');
+			data = {};
+			data['id'] = id;
+			console.log(data);
+			var url = "/mobile/getCate.php";
+			$.post(url,data,function(result){
+				$(".zltCate").html(result);
+				//console.log(result)
+			});
+		});
+	</script>
+    <script>
+        $(function(){
+            $('.toggle-button').click(function(){
+                $('.first-menu-sidebar').css({'left':'0'});
+            });
+            $('.close1').click(function(){
+                $('.first-menu-sidebar').css({'left':'-320px'});
+            });
+            $('.next1').click(function(){
+                $('.second-menu-sidebar').css({'left':'0'});
+            });
+            $('.close2').click(function(){
+                $('.second-menu-sidebar').css({'left':'-300px'});
+            });
+            $('.next2').click(function(){
+                $('.third-menu-sidebar').css({'display':'block'});
+                $(this).css({"background-color":"#DFE4E8"});
+                $(this).siblings().children(".third-menu-sidebar").hide();
+                $(this).siblings().css({"background-color":"#fff"});
+            });
+        });
+    </script>
+
+
+</body>
+</html>

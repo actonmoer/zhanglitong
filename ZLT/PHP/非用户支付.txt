@@ -1,0 +1,10 @@
+//判断公司是否存在
+url:nonuser_pay.php?action=company
+传值方式：post
+要传参数：touser（收款者）;company（商家公司名，注：使用urlencode序列化数字）;
+//非用户付款给商家
+url:nonuser_pay.php?action=payforseller
+传值方式：post
+要传参数：touser（收款者）;money(付款金额); bank（weixin ,alipay）;payid(需前端生成，例子：pay-1504068260481);
+	 
+	  

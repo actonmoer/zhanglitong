@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>充值</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_6ej3pm25ln154s4i.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/recharge.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">充值记录</div>
+        <div class="h-R" style="font-size:.75rem;color:#fff;"></div>
+    </div>
+</header>
+<section>
+    <div id="recharge-list">
+        <!--<div class="recharge-list list">
+            <p><span>编号:20170614152417001</span><span class="status orange">等待支付</span></p>
+            <p><span class="time">2017-06-14&nbsp;15:24:17</span><span class="amount">+2,308.00</span></p>
+        </div>
+        <div class="recharge-list list">
+            <p><span>编号:20170614152417001</span><span class="status green">充值成功</span></p>
+            <p><span class="time">2017-06-14&nbsp;15:24:17</span><span class="amount">+2,308.00</span></p>
+        </div>
+        <div class="recharge-list list">
+            <p><span>编号:20170614152417001</span><span class="status gray">充值失败</span></p>
+            <p><span class="time">2017-06-14&nbsp;15:24:17</span><span class="amount">+2,308.00</span></p>
+        </div>
+        <div class="recharge-list list">
+            <p><span>编号:20170614152417001</span><span class="status orange">等待支付</span></p>
+            <p><span class="time">2017-06-14&nbsp;15:24:17</span><span class="amount">+2,308.00</span></p>
+        </div>-->
+    </div>
+</section>
+<script>
+    $(function(){
+        isLogin();
+        $.ajax({
+            url:"../usercenter.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{"action":"recharge_record"},
+            success:function(data){
+                console.log(data);
+                var d = data.data;
+                for(var i=0;i<d.length;i++){
+                    var status;
+                    if(d[i].status == 0){
+                        status = "等待支付";
+                        $("#recharge-list").append(rechargeList(d[i].itemid,status,mtime(d[i].sendtime),'+'+d[i].amount));
+                        $(".status").eq(i).addClass("orange");
+                    }else if(d[i].status == 1 || d[i].status == 2){
+                        status = "充值失败";
+                        $("#recharge-list").append(rechargeList(d[i].itemid,status,mtime(d[i].sendtime),'-'+d[i].amount));
+                        $(".status").eq(i).addClass("gray");
+                    }else{
+                        status = "充值成功";
+                        $("#recharge-list").append(rechargeList(d[i].itemid,status,mtime(d[i].sendtime),'+'+d[i].amount));
+                        $(".status").eq(i).addClass("green");
+                    }
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后!");
+            }
+        });
+    });
+
+    function rechargeList(itemid,status,sendtime,amount){
+        var list = '<div class="recharge-list list" onclick="rechargeLink(\''+itemid+'\')">'+
+            '<p><span>编号:'+itemid+'</span><span class="status">'+status+'</span></p>'+
+            '<p><span class="time">'+sendtime+'</span><span class="amount">'+amount+'</span></p>'+
+            '</div>';
+        return list;
+    }
+    function rechargeLink(itemid) {
+        window.location.href = 'rechargeDetails.html?itemid='+itemid;
+    }
+</script>
+</body>
+</html>

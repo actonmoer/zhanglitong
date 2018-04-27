@@ -1,0 +1,5 @@
+url:takeout_goods_index.php
+请求方式：post
+请求参数：action：good_sell   /*外卖首页热销商品*/
+                  cheap_price /*外卖首页特价商品*/
+                  new_goods   /*外卖首页新出商品*/

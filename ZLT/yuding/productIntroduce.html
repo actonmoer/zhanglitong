@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通-公司介绍</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_4oixxx5owgb65hfr.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <script type="text/javascript" src="js/rem.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!--通用样式-->
+    <style>
+        body,html{
+            font-family: "Helvetica";
+        }
+        p,h1,h2,h3{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <!--头部css-->
+    <style>
+        header{
+            height: .88rem;
+            background-color: rgba(1,1,1,.4);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1;
+        }
+        .yu-head-l{
+            margin-left: .33rem;
+            float: left;
+        }
+        .yd-logo{
+            margin: .11rem .23rem 0 0;
+            float: left;
+        }
+        .yd-logo img{
+            width: .62rem;
+            height: .66rem;
+        }
+        .yd-font{
+            float: left;
+            margin-top: .13rem;
+        }
+        .yd-font p{
+            font-size: .26rem;
+            color: #fff;
+        }
+        .yd-font-p1{
+            letter-spacing: .02rem;
+        }
+        .yd-font-p2{
+            margin-top: -.1rem;
+        }
+        .yu-head-r{
+            float: right;
+        }
+        .yd-head-r a{
+            float: right;
+            display: inline-block;
+            width: 1.25rem;
+            height: .5rem;
+            line-height: .5rem;
+            text-align: center;
+            color: #fff;
+            font-size: .22rem;
+            border: 1px solid #fff;
+            border-radius: .04rem;
+            margin: .19rem .72rem 0 0;
+        }
+        .yd-head-r a:focus,.yu-head-r a:hover{
+            text-decoration: none;
+            color: #fff;
+        }
+        .yd-menu{
+            width: .38rem;
+            float: right;
+            margin: .29rem .36rem 0 0;
+        }
+        .yd-menu span{
+            width: 100%;
+            display: block;
+            height: .05rem;
+            margin-bottom: .08rem;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+    </style>
+    <!--中间内容-->
+    <style>
+        .yd-img img{
+            width: 100%;
+            height: 3.2rem;
+        }
+        .yd-introduce{
+            padding-top: 1.28rem;
+            background-color: #fff;
+            padding-bottom: .36rem;
+            /*margin-bottom: .6rem;*/
+        }
+        .yd-introduce h3{
+            font-size: .32rem;
+            text-align: center;
+            color: #333;
+            margin-bottom: .12rem;
+        }
+        .yd-content{
+            text-indent: 2em;
+            padding: 0 .26rem;
+            font-size: .26rem;
+            color: #666;
+            line-height: .44rem;
+        }
+
+        .yd-content-one{
+            width: 100%;
+            padding: 0 .25rem;
+        }
+        .yd-content-one1{
+            width: 100%;
+            position: relative;
+            margin-top:.4rem;
+        }
+        .yd-content-tu{
+            width: 2.8rem;
+            height: 2.1rem;
+            background-color: #e7e7e7;
+            border:1px solid #eee;
+        }
+        .yd-content-tu img{
+            width:100%;
+            height:100%;
+        }
+        .yd-content-font{
+            font-size: .26rem;
+            color: #999;
+            width: 2.9rem;
+            height:2.1rem;
+            position: absolute;
+            display:table;
+        }
+        .yd-content-font p{
+            display:table-cell;
+            vertical-align:middle;
+            text-align:center;
+        }
+    </style>
+    <!--底部-->
+    <style>
+        footer{
+            background-color: #181818;
+            color: #fff;
+            text-align: center;
+            padding-bottom: .2rem;
+        }
+        .yd-foot-title{
+            padding: .48rem 0 .73rem;
+        }
+        .yd-foot-title h3{
+            font-size: .3rem;
+        }
+        .yd-foot-title p{
+            font-size: .16rem;
+        }
+        .yd-bq small{
+            font-size: .18rem;
+        }
+        .yd-foot-phone{
+            font-size: .2rem;
+        }
+        .yd-foot-phone a{
+            color: #fff;
+            font-size: .2rem;
+        }
+    </style>
+</head>
+<body style="background-color: #f1f1f1;">
+<!--头部-->
+<header>
+    <div class="yu-head-l clearfix" onclick="window.location.href='/'">
+        <div class="yd-logo">
+            <img src="img/logo.png" alt="">
+        </div>
+        <div class="yd-font">
+            <p class="yd-font-p1">掌里通智慧城市</p>
+            <p class="yd-font-p2">zhanglitong.com</p>
+        </div>
+    </div>
+    <div class="yd-head-r">
+        <a href="require.html" class="yd-btn">使用要求</a>
+    </div>
+</header>
+<!--中间内容-->
+<section>
+    <!--<div class="yd-img">
+        <img src="img/02.jpg" alt="">
+    </div>-->
+    <div class="yd-introduce">
+        <h3>智慧餐饮管理系统</h3>
+        <!--<div class="yd-content">各大餐饮商家入驻掌里通平台拥有自己的预订页面。 用户可随时随地用手机了解商家的环境设施，
+            菜式和价格并且可以进行预定餐桌、房间、点菜， 用户到店可使用一键叫起功能用餐，用餐结束可在手机上一键支付，
+            订单账数一目了然，减少用户排队结算、结账时间。用户亦可在到店后扫描桌上二维码自主点餐，
+            用餐过程中可使用手机随时加单，一键呼叫服务员，商家前台及厨房可即时接收用户菜单， 不需要服务员传达，
+            大大提高厨房工作效率。商家可通过掌里通与自身门店管理、订单管理、收银系统、运营流程等环节打通，
+            进一步提升运营效率，为餐饮商家带来更多客源，提升盈利。全程智能化、自助化，大大提高服务效率。
+            商家使用后表示省时省力降低人力成本，智能统计快速出单，大数据分析精准营销，简单管理，高效决策，
+            回头率高，生意蒸蒸日上！ 掌里通智慧餐饮管理系统真正让商家降低成本，提高效率，带来客户。</div>
+        <div class="yd-content-one">-->
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: right;">
+                    <img src="img/reserve.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="left: 0;">
+                    <p>用户可随时随地用手机了解商家的环境设施，菜式和价格并且可以进行预定餐桌、房间、点菜</p>
+                </div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: left;">
+                    <img src="img/scan.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="right: 0;">
+                    <p>用户可到店扫描桌上二维码自主点餐，用餐过程中可使用手机随时加单</p>
+                </div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: right;">
+                    <img src="img/fall.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="left: 0;">
+                    <p>掌里通智慧餐饮管理系统真正让商家降低成本，提高效率，带来客户</p>
+                </div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: left;">
+                    <img src="img/rise.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="right: 0;">
+                    <p>为餐饮商家带来更多客源，提升盈利。全程智能化、自助化，大大提高服务效率</p>
+                </div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: right;">
+                    <img src="img/lineup.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="left: 0;">
+                    <p>大数据分析精准营销，简单管理，高效决策，回头率高，生意蒸蒸日上！</p>
+                </div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: left;">
+                    <img src="img/call.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="right: 0;">
+                    <p>用餐过程中可使用手机随时加单，一键呼叫服务员</p>
+                </div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: right;">
+                    <img src="img/pay.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="left: 0;">
+                    <p>用餐结束可在手机上一键支付，订单账数一目了然，减少用户排队结算、结账时间</p>
+                </div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: left;">
+                    <img src="img/hardware.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="right: 0;"><p>无需投入硬件设施</p></div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: right;">
+                    <img src="img/printer.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="left: 0;">
+                    <p>商家前台及厨房可即时接收用户菜单， 不需要服务员传达，大大提高厨房工作效率</p>
+                </div>
+            </div>
+            <div class="yd-content-one1 clearfix">
+                <div class="yd-content-tu" style="float: left;">
+                    <img src="img/check.jpg" alt="">
+                </div>
+                <div class="yd-content-font" style="right: 0;"><p>随时随地查看餐厅运营情况</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--底部-->
+<footer>
+    <div class="yd-foot-title">
+        <h3>联系我们</h3>
+        <p>CONTACT US</p>
+    </div>
+    <div class="yd-foot-phone">官方热线：<a href="tel:020--36910000">020--36910000转(888)</a></div>
+    <!--<div>Email：</div>-->
+    <div class="yd-bq">
+        <small>版权所有</small>
+        <small>2015-2025</small>
+        <small>粤ICP备15012240号</small>
+    </div>
+</footer>
+</body>
+</html>

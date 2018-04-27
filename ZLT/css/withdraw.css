@@ -1,0 +1,159 @@
+/*withdraw-apply*/
+.apply{
+    background:#fff;
+    margin:1.25rem 0 0;
+    padding:0 1.25rem;
+    font-size:.875rem;
+}
+.apply .amount,.balance,.Withdraw{
+    position: relative;
+    border-bottom: 1px solid #f2f2f2;
+    height: 3.3125rem;
+    line-height: 3.3125rem;
+}
+.apply .amount>span,.balance>span,.Withdraw>span{
+    position:absolute;
+}
+.apply .amount>div,.balance>div,.Withdraw>div{
+    padding: .5625rem 0 0 3.9375rem;
+}
+.tip{
+    padding:.625rem 0 0;
+    font-size:.75rem;
+    text-align:center;
+}
+.tip p span{
+    color:#f0790f;
+}
+.password-container {
+    position:relative;
+}
+.password-container .password{
+    background:#fff;
+    margin:1.25rem 0 0;
+    padding:1.25rem;
+    font-size:.875rem;
+}
+.password-container .find-password{
+    position:absolute;
+    top:1.8125rem;
+    right:1.25rem;
+    border-left:1px solid #f2f2f2;
+    padding:0 .625rem;
+}
+.password-container .find-password p{
+    font-size:.625rem;
+    color:#3d95e5;
+}
+.wx-withdraw{
+    text-align:right;
+    padding-right:1.25rem;
+}
+.wx-withdraw button{
+    background-color:#fff;
+    border:none;
+    font-size:.875rem;
+    padding:8px 15px;
+    border-radius:4px;
+    box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.1);
+}
+
+/*withdraw-submmit*/
+.success{
+    margin-top:2.5rem;
+    padding:0 1.25rem;
+    background-color:#fff;
+}
+.success p{
+    height:3.375rem;
+    line-height:3.375rem;
+    border-bottom:1px solid #f2f2f2;
+}
+.success p span:first-child{
+    font-size:.875rem;
+    color:#666;
+}
+.success p span:last-child{
+    float:right;
+    font-size:.875rem;
+    color:#333;
+}
+.white-btn {
+    background-color: #fff;
+    color: #333;
+    font-size: 1rem;
+    height: 3.125rem;
+    box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.1);
+}
+/*withdraw-list*/
+.list {
+    padding: .625rem 1.25rem;
+    background-color:#fff;
+    border-bottom:1px solid #f2f2f2;
+
+}
+.list p {
+    height:2.125rem;
+    line-height:2.125rem;
+    font-size:.875rem;
+}
+.list .status {
+    font-size:.625rem;
+    float:right;
+}
+.list .amount {
+    font-size:1.125rem;
+    float:right;
+}
+.list .time {
+    color:#666;
+}
+.orange {
+    color:#f0790f;
+}
+.green {
+    color:#2acaaa;
+}
+.gray{
+    color:#888;
+}
+/*withdraw-details*/
+.details div:first-child{
+    padding:1.25rem;
+    background-color:#fff;
+}
+.details div:first-child p:first-child {
+    margin-bottom:.5rem;
+}
+.details div:first-child p:first-child span:first-child {
+    font-size:1rem;
+}
+.details div:first-child p:first-child span:last-child {
+    font-size:1.25rem;
+    float:right;
+}
+.details div:first-child p:last-child span:first-child {
+    font-size:.625rem;
+}
+.details div:first-child p:last-child span:last-child {
+    font-size:.625rem;
+    color:#666;
+    float:right;
+}
+.details div:last-child {
+    margin-top:1.25rem;
+    background-color:#fff;
+    padding:0 1.25rem;
+}
+.details div:last-child p {
+    height:3.3125rem;
+    line-height:3.3125rem;
+    font-size:.875rem;
+    border-bottom:1px solid #f2f2f2;
+}
+.details div:last-child p span:first-child {
+    color:#666;
+}
+.details div:last-child p span:last-child {
+    float:right;
+}

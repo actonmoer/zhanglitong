@@ -1,0 +1,115 @@
+.top{
+
+  width: 100%;
+
+}
+.top img{
+  width: 100%;
+
+}
+
+
+
+.invitati{
+  background-color: #ff7700;
+  margin-top: -1px;
+  padding-bottom: 2.875rem;
+}
+
+.invitati-p1{
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+  line-height: 32px;
+}
+.invitati-p2{
+  font-weight: 600;
+  margin-top: 0.3rem;
+}
+
+.invitati-p3{
+  font-size: 9px;
+  padding:0 86px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.468rem;
+
+}
+.invitati-p4{
+  color: #fff;
+  width: 8.1875rem;
+  margin: 0 auto;
+  height: 0.781rem;
+  line-height: 0.781rem;
+  border: 1px solid #fff;
+  font-size:12px ;
+  text-align: center;
+  letter-spacing:8px;
+  border-radius: 20px;
+  margin-bottom: 0.906rem;
+
+
+}
+.inpu{
+  height: 1.25rem;
+  line-height: 1.25rem;
+  color: #ffffff;
+  background-color: #ff7700;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  font-size: 12px;
+  padding:0 10px;
+  letter-spacing:4px;
+}
+.inpusz{
+  letter-spacing:0;
+
+}
+.phone{
+  width: 7.8125rem;
+
+}
+.phones{
+  width: 100%;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+  color: #fff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #fff;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #fff;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: #fff;
+}
+
+.input_vlar{
+  padding:0 1.093rem;
+}
+.code{
+  margin: 0.468rem 0;
+
+}
+.code_inp{
+  text-align: center;
+  width: 2.6rem;
+  top: 0;
+  right: 0;
+}
+.invitation{
+  height: 1.375rem;
+  width: 6.25rem;
+  margin: 0 auto;
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.375rem;
+  background-color: #fff;
+  color: #ff8300;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-top: 0.906rem;
+
+
+}

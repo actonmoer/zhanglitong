@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商家管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+</head>
+<body>
+{template "room_head","mobile"}
+<style>
+    .bodyBox {
+
+        position: static;
+
+        margin-top: 50px;
+
+    }
+    .showList {
+
+        top: 48px;
+
+        left: 110px;
+
+    }
+    .showList .showLi {
+
+        border: none;
+
+    }
+    .showLi span {
+
+        margin-left: 0;
+
+        text-align: left;
+
+    }
+    .showLi b {
+
+        padding-top: 0;
+
+    }
+    .fourBtn {
+
+        box-shadow: 0 0.125rem 0.25rem 0 rgba(51, 51, 51, 0.1);
+
+    }
+    .kBtn {
+
+        padding: 0;
+
+    }
+    .head-bar-title {
+
+        font-size: 16px;
+
+    }
+    .headBox span {
+
+        font-size: 14px;
+
+    }
+    .showLi {
+
+        padding: 0;
+
+    }
+    .fourBtn a:nth-of-type(4) {
+
+        background: none;
+
+    }
+    .showThumb .swiper-slide img {
+
+        width: 90px;
+
+        height: 75px;
+
+    }
+    .showList .showLi {
+        font-size: 12px;
+    }
+
+    /*打印设备*/
+    .print-box {
+
+        background: #fff;
+
+    }
+    .top {
+
+        font-size: 16px;
+
+        padding: 10px 0;
+
+        border-bottom: 1px solid #eee;
+
+    }
+    .print-item {
+        position: relative;
+
+        margin-top: 10px;
+
+        padding-bottom: 10px;
+
+    }
+    .print-img-box {
+
+        width: 90px;
+
+        height: 75px;
+
+        background: #eee;
+
+    }
+    .print-img-box img {
+
+        width: 100%;
+
+        height: 100%;
+
+    }
+    .print-cont-box {
+
+        position: absolute;
+
+        top: 0;
+
+        left: 110px;
+
+        border-bottom: 1px solid #eee;
+
+        padding-bottom: 9px;
+
+    }
+    .print-cont-box p:nth-child(1) {
+
+        margin: 16px 0 10px;
+
+    }
+    .print-btn {
+
+        position: absolute;
+
+        top: 0;
+
+        right: 0;
+
+        font-size: 14px;
+
+    }
+    .print-btn a {
+        color: #3d95e5;
+    }
+    #printer {
+        background: #fff;
+
+        margin: 10px 14px;
+
+        padding: 0 10px;
+    }
+    .sale{
+        border:1px solid #eee;
+    }
+    .sale span {
+        position:fixed;
+        bottom:30px;
+        right:15px;
+        display:inline-block;
+        padding:5px;
+        border-radius:4px;
+        color:#fff;
+        font-size:16px;
+        background:#3d95e5;
+    }
+
+</style>
+<div class="headBox">
+    <!--<div class="head-bar-back">
+        <a href="javascript:window.location.href='my.php'">
+            <img src="static/room/images/admin/icon-back.png" width="16" height="16"><span></span>
+        </a>
+    </div>-->
+    <div class="head-bar-back">
+        <a href="javascript:window.history.back();">
+            <i class="iconfont icon-left"></i>
+        </a>
+    </div>
+    <div class="head-bar-title">商家管理</div>
+    <div class="head-bar-right"><a href="reserve_home.php?act=loginout"><span>退出</span></a></div>
+</div>
+<div class="bodyBox clear">
+    <style>.fourBtn a {
+        width: 25%;
+    }</style>
+    <div class="fourBtn  clear">
+        <?php if(isset($_SESSION['waiter_id'])){ ?>
+        {loop $auths $r}
+        <a href="?act={$r['url']}" rel="external"><i></i><span>{$r['menu']}</span></a>
+        {/loop}
+        <?php }else{ ?>
+        <a href="?act=waiter_list" rel="external"><span>人员管理</span></a>
+        <a href="?act=show_desk" rel="external"><span>桌房管理</span></a>
+        <a href="?act=order_list" rel="external"><span>订单管理</span></a>
+        <a href="backstatge/goodsManage.html" rel="external"><span>商品管理</span></a>
+        <?php }?>
+    </div>
+    <div class="catsBox" style="margin:10px 14px;padding:0 10px;">
+			<span class="top">{$company['company']}
+                <?php if(is_have_auth("商家信息修改")){?>
+                <a href="?act=info_get" rel="external" class="kBtn blue">编辑</a>
+                <?php } ?>
+			</span>
+        <div class="swiper-container showThumb" id="showThumb_1">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><span><img src="{$company['thumb']}" alt="商家缩略图"></span></div>
+            </div>
+        </div>
+        <div class="showList" style="width:60%;">
+            <div class="showLi" style="position:absolute;bottom:-6px;right:0;background:#ccc;color:#fff;padding:6px 10px;">
+                <b style="color:#fff;display:inline-block;">营业中:</b>
+                <span style="display:inline-block;">{$business}</span>
+            </div>
+            <div class="showLi" style="height:32px;line-height:32px;">
+                <b style="color:#e23b3b;">月销量：</b>
+                <span>{$month_sell}</span>
+            </div>
+            <div class="showLi" style="height:20px;line-height:20px;">
+                <b>今日订单：</b>
+                <span>{$todays}</span>
+            </div>
+            <div class="showLi" style="height:20px;line-height:20px;">
+                <b>未处理订单：</b>
+                <span>{$onorders}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footBox"></div>
+<?php if(is_have_auth("商家信息修改")){?>
+<div id="printer">
+    <h4 class="top">打印设备</h4>
+    <?php if($print_data){		?>
+    <?php foreach($print_data as $k=>$v){ ?>
+    <div class="print-box">
+        <div class="print-item">
+            <div class="print-img-box">
+                <img src="/mobile/images/printer.jpg" alt="">
+            </div>
+            <div class="print-cont-box">
+                <p>部门：<?php
+					if($v['department']){
+						echo $v['department'];
+					}else{
+						echo "暂无";
+					}
+					?></p>
+                <p>设备号：<?php echo $v['machinecode']; ?></p>
+            </div>
+            <div class="print-btn">
+                <a href="?act=print_form&code=<?php echo $v['id']; ?>">编辑</a>
+            </div>
+
+        </div>
+    </div>
+    <?php } ?>
+    <?php } ?>
+</div>
+<?php } ?>
+
+<div class="sale">
+    <span>财务统计</span>
+</div>
+</body>
+<script src="https://www.zhanglitong.com/mobile/js/jquery.min.js"></script>
+<script>
+    $(function(){
+        $('.sale').click(function(){
+            window.location.href = '../mobile/Turnover/sale.html';
+        })
+    })
+</script>
+</html>

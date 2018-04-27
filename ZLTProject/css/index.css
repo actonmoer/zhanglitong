@@ -1,0 +1,197 @@
+/*头部样式开始*/
+div,p{
+    font-size: .14rem;
+}
+header{
+    background-color: #0093dd;
+    color: #fff;
+}
+header div,header{
+    height: 50px;
+}
+.h-left,.h-center,.h-right{
+    flex: 1;
+}
+.h-left a{
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    font-size: .14rem;
+    color: #fff;
+    text-align: center;
+}
+.h-center{
+    flex-grow:4;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: .24rem;
+}
+
+/*广告图样式*/
+.banner img{
+    width: 100%;
+    display: block;
+}
+
+/*图标列表*/
+.index-img{
+    background: url("../img/iconfont.png") no-repeat;
+    height: 36px;
+    width: 36px;
+    margin: 0 auto;
+}
+.index-item{
+    display: flex;
+}
+.index-item>li{
+    flex: 1;
+    text-align: center;
+}
+.index-item p{
+    margin-top: 7px;
+    color: #282725;
+}
+
+/*广告提示*/
+.tips{
+    height: .4rem;
+    background-color: #fff;
+    margin: 5px 0 0;
+    padding: 0 10px;
+    position: relative;
+}
+.h-tips{
+    padding: 0 40px;
+    line-height: .4rem;
+    font-size: .14rem;
+    background: url("../img/laba.png") no-repeat left center;
+    background-size: 29px 20px;
+}
+.h-tips-p{
+    position: absolute;
+    right: .08rem;
+    top: .09rem;
+
+}
+.h-tips-more{
+    background-color: #0094e2;
+}
+
+/*菜单分类*/
+.navList{
+    position: relative;
+}
+.ulnav>li{
+    width: 25%;
+    float: left;
+    height: 50px;
+    border-bottom: 1px solid #ddd;
+}
+.ulnav>li>a{
+    display: block;
+    line-height: 50px;
+    text-align: center;
+    font-size: .16rem;
+}
+.navList:before,.navList:after{
+    content: '';
+    position: absolute;
+    width: 25%;
+    left: 25%;
+    height: 100%;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    top: 0;
+    z-index: 1;
+}
+.navList:after{
+    left: 75%;
+    border-left: 1px solid #ddd;
+    border-right: 0;
+}
+.caret1{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-left: 4px dashed;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}
+.ulnav-l>li{
+    width: 20%;
+    float: left;
+    height: .65rem;
+    text-align: center;
+}
+.ulnav-l>li>a{
+    line-height: .65rem;
+    display: block;
+    font-size: .16rem;
+}
+.ulnav-s>li{
+    width: 25%;
+    float: left;
+    height: .5rem;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+.ulnav-s>li>a{
+    line-height: .5rem;
+    display: block;
+    font-size: .16rem;
+}
+.navListSecond{
+    position: relative;
+    border: 1px solid #ddd;
+}
+.navListSecond:before,.navListSecond:after{
+    content: '';
+    position: absolute;
+    width: 25%;
+    left: 25%;
+    height: 100%;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    top: 0;
+    z-index: 1;
+}
+.ulnav-s{
+    margin-bottom: -1px;
+}
+.navListSecond:after{
+    width: 25%;
+    left: 75%;
+    border-left: 1px solid #ddd;
+    border-right: 0;
+}
+
+/*底部菜单样式*/
+.navMenu{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: #f8f8f8;
+    border-top: #b2b2b2 1px solid;
+    z-index: 99;
+    height: .48rem;
+    overflow: hidden;
+}
+.navMenuUl>li{
+    width: 25%;
+    text-align: center;
+    float: left;
+    height: .48rem;
+}
+.navMenuUl>li>a{
+    display: block;
+    line-height: .75rem;
+    font-size: .12rem;
+    background: 50% 5% no-repeat;
+    background-size: 24px 24px;
+}
+.on{
+    color: #007aff;
+}

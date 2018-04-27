@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单输入检测</title>
+</head>
+<body>
+<input type="number" required value="" onkeyup="keyupinput()" id="m" name="m">
+<div></div>
+<div 速度></div>
+<div sd></div>
+<div sd></div>
+<!--<script type="text/javascript">-->
+    <!--function keyupinput(){-->
+        <!--var stratTime=new Date().getTime();-->
+        <!--if(nowTime - stratTime > 2000){-->
+            <!--var nowTime=new Date().getTime();-->
+           <!--// console.log(new Date().getTime() - stratTime);-->
+            <!--console.log("2s之后显示");-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+<script type="text/javascript">
+    window.onload=function(){
+        var nowTime=0,sTime=0;
+        var timer=null;
+        var m=document.getElementById("m");
+        m.onkeyup=function(){
+            clearInterval(timer);
+            nowTime=new Date();
+            timer=setInterval(function(){
+                sTime=new Date();
+                if(sTime - nowTime > 1000){
+                    console.log("2s完成");
+                    clearInterval(timer);
+                    console.log("定时器停止");
+                }
+            },100);
+        };
+    };
+</script>
+</body>
+</html>

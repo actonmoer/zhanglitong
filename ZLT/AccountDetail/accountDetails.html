@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账户明细</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_6ej3pm25ln154s4i.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Account.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <!--<script src="../js/myjs.js"></script>-->
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">账户明细</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div class="recharge-details details clearb">
+        <!--<div>
+            <p><span>在线支付</span><span>-108.00</span></p>
+            <p><span>充值成功</span><span>手续费：￥1.00</span></p>
+        </div>
+        <div class="clearb">
+            <p><span>交易编号</span><span>20170614152417001</span></p>
+            <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型</span><span>在线支付</span></p>
+            <p><span>下单时间</span><span>2017-06-14&nbsp;15:24:10</span></p>
+            <p><span>支付时间</span><span>2017-06-14&nbsp;15:24:10</span></p>
+            <p><span>支付方式</span><span>余额支付</span></p>
+            <p><span>账户余额</span><span>￥1,200.00</span></p>
+        </div>-->
+    </div>
+</section>
+<script>
+    $(function(){
+        $.getScript("../js/myjs.js", function(s){
+            var obj = strUrl(window.location.search);
+            var itemid = obj.itemid;
+            var stateVal = decodeURI(obj.stateVal);
+            if(obj && stateVal){
+                $.ajax({
+                    url:"../usercenter.php",
+                    type:"POST",
+                    dataType:"JSON",
+                    data:{"action":"show_one_account",itemid:itemid},
+                    success:function(data){
+                        console.log(data);
+                        var d = data.data;
+                        var bank;
+                        if(d.bank == "站内"){
+                            bank = "余额支付"
+                        }else{
+                            bank = d.bank;
+                        }
+                        if(data.code == 200){
+                            $(".recharge-details").append(rechargeDetails(d.amount,d.reason,d.itemid,mtime(d.addtime),bank,d.money,stateVal));
+
+                            var money = parseFloat($("#amount").html());
+                            if( money >= 0){
+                                if(d.reason == "付款给商家"){
+                                    $("#amount").prepend("-");
+                                    $(".color").addClass("orange");
+                                }else{
+                                    $("#amount").prepend("+");
+                                    $(".color").addClass("green");
+                                }
+                            }else{
+                                $(".color").addClass("orange");
+                            }
+                        }
+                    }
+                });
+            }else{
+                location.href = "accountList.html";
+            }
+        });
+
+    });
+
+    function rechargeDetails(amount,reason,itemid,addtime,bank,money,stateVal){
+        var detail = '<div>\n' +
+            '<p><span>'+stateVal+'</span><span id="amount">'+amount+'</span></p>\n' +
+            '<p><span class="color">'+reason+'</span><span>手续费：￥0.00</span></p>\n' +
+            '</div>\n' +
+            '<div class="clearb">\n' +
+            '<p><span>交易编号</span><span>'+itemid+'</span></p>\n' +
+            '<p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型</span><span>'+stateVal+'</span></p>\n' +
+            '<p><span>下单时间</span><span>'+addtime+'</span></p>\n' +
+            '<p><span>支付时间</span><span>'+addtime+'</span></p>\n' +
+            '<p><span>支付方式</span><span>'+bank+'</span></p>\n' +
+            '<p><span>账户余额</span><span>￥'+money+'</span></p>\n' +
+            '</div>';
+        return detail;
+    }
+</script>
+</body>
+</html>

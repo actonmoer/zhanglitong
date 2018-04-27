@@ -1,0 +1,4 @@
+<!-- pages/yd-video/yd-video.wxml-->
+  <!-- <web-view src="https://www.zhanglitong.com/mobile/Video/video.html"></web-view>   
+  <view class="section tc"> -->
+  <video id="myVideo" src="{{url}}" danmu-list="{{danmuList}}" enable-danmu danmu-btn controls objectFit='cover'></video>

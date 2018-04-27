@@ -1,0 +1,61 @@
+{
+  "pages": [
+    
+    "pages/index/index",
+    "pages/yd-home/yd-home",
+    "pages/yd-order/yd-orderDetail/yd-orderDetail",
+    "pages/yd-tenants/yd-tenants",
+    "pages/yd-choose-pay/yd-choose-pay",
+    "pages/yd-search/yd-search",
+    "pages/yd-discountcard/yd-discountcard",
+    "pages/yd-invitation/yd-invitation",
+    "pages/yd-menu/yd-menu",
+    "pages/yd-order/yd-order",
+    "pages/pay/pay",
+    "pages/yd-roomList/yd-roomList",
+    "pages/yd-menu/addReduce/addReduce",
+    "pages/yd-menu/specBox/specBox",
+    "pages/yd-roomList/yd-stars/yd-stars",
+    "pages/yd-public-btn/yd-public-btn",
+    "pages/yd-roomList/yd-box/yd-box",
+    "pages/yd-video/yd-video"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4fc08d",
+    "navigationBarTitleText": "掌里通美食城",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#4fc08d",
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home-normal.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/yd-discountcard/yd-discountcard",
+        "text": "优惠",
+        "iconPath": "images/recharge-normal.jpg",
+        "selectedIconPath": "images/recharge-active.jpg"
+      },
+      {
+        "pagePath": "pages/yd-order/yd-order",
+        "text": "订单",
+        "iconPath": "images/order-normal.png",
+        "selectedIconPath": "images/order-active.png"
+      },
+      {
+        "pagePath": "pages/yd-home/yd-home",
+        "text": "我的",
+        "iconPath": "images/my-normal.png",
+        "selectedIconPath": "images/my-active.png"
+      }
+    ]
+  }
+}

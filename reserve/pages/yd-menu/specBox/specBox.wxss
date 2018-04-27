@@ -1,0 +1,108 @@
+/* pages/yd-menu/specBox/specBox.wxss */
+
+.spec-box {
+  position: absolute;
+  bottom: 10rpx;
+  right: 20rpx;
+  background-color: #4fc08d;
+  font-size: 22rpx;
+  color: #fff;
+  padding: 8rpx 15rpx;
+  border-radius: 30rpx;
+}
+
+.spec-mask {
+  position: fixed;
+  top: 0;
+  left: 0; 
+  height: 100%;
+  width: 100%;
+  z-index: 110; 
+   background: rgba(0, 0, 0, 0.6); 
+}
+.text-mask{
+  position:fixed;
+  top:0;
+  left:0;
+}
+.spec-container {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  margin-left: -300rpx;
+  background-color: #fff;
+  width: 600rpx;
+  border-radius: 8rpx;
+}
+
+.spec-head {
+  display: inline-block;
+  width: 100%;
+  line-height: 88rpx;
+  font-size: 32rpx;
+  text-align: center;
+}
+
+.spec-item-box {
+  padding: 20rpx 30rpx 0;
+}
+
+.spec-item-head {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+.spec-item{
+  padding-left:30rpx;
+}
+.spec-text{ 
+  display: inline-block;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+  padding: 8rpx 30rpx;
+  border-radius: 10rpx;
+  border: 1px solid #ccc;
+  color: #666;
+}
+.spec-text-active{
+  border: 1px solid #4fc08d !important;
+  color: #4fc08d !important;
+}
+
+.spec-bottom {
+  height: 100rpx;
+  background-color: #eee;
+  border-radius: 4px;
+  margin-top:40rpx;
+}
+
+.spec-price {
+  font-size: 40rpx;
+  line-height: 100rpx;
+  color: #fe4d3d;
+  padding-left: 30rpx;
+}
+
+.spec-cart {
+  float: right;
+  height: 64rpx;
+  line-height: 64rpx;
+  margin: 18rpx 30rpx 0 0;
+  font-size: 22rpx;
+  border-radius: 30rpx;
+  background-color: #4fc08d;
+  padding: 0 30rpx;
+  color: #fff;
+}
+.spec-close{
+  position:absolute;
+  top:20rpx;
+  right:30rpx;
+  width:36rpx;
+  height:36rpx;
+}
+.spec-close image{
+  width:100%;
+  height:100%;
+}

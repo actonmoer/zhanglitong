@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}人员</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+	{template "room_head","mobile"}
+	<style>
+		.showLi span{
+			margin-left:95px;
+		}
+	</style>
+</head>
+<body>
+	<div class="headBox">
+		<div class="head-bar-back">
+			<a href="javascript:window.history.back();">
+				<i class="iconfont icon-left"></i>
+			</a>
+		</div>
+		<div class="head-bar-title">{$title}人员</div>
+		<div class="head-bar-right"><a onclick="$('#ds_form').submit();"><span>保存</span></a></div>
+	</div>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<form action="?act={$act}" id="ds_form" method="post" enctype="multipart/form-data">
+			<div class="showList showForm">
+				<?php if(!empty($_GET["waiterid"])){?>
+				<input type="hidden" name="waiterid" value="{$item['id']}">
+				<?php }?>
+				<div class="showLi">
+					<b>用户名</b>
+					<span><input type="text" value="{$item['username']}" name="username"></span>
+				</div>
+				<div class="showLi">
+					<b>密码</b>
+					<span><input type="text" value="{$item['password']}" name="password"></span>
+				</div>
+
+				<div class="showLi">
+					<b>部门</b>
+					<span><input type="text" value="{$item['department']}" name="department"></span>
+				</div>
+
+				<div class="showLi">
+					<b>职称</b>
+					<span><input type="text" value="{$item['job_name']}" name="job_name"></span>
+				<!--<span style="color:#999;font-size:12px;margin:8px 0 0 0;background: #eee;padding:8px 0 0 20px;text-align:left">*例如"传菜部"，多个用","号隔开</span>-->
+				</div>
+				<div class="showLi">
+					<b>掌里通会员</b>
+					<span><input type="text" value="{$item['zlt_username']}" name="zlt_username"></span>
+				</div>
+
+				<div class="showLi" style="border-top:10px solid #eee;border-bottom:none;">
+					<b>使用中</b>
+					<span style="text-align:left;padding-top:2px;">
+					    <input type="radio" style="height:22px;" name="is_use" value="1" <?php if($item['is_use']) echo 'checked';?>/> <i style="height:22px;line-height:22px">是</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" style="height:22px;" name="is_use" value="0" <?php if(!$item['is_use']) echo 'checked';?>/> <i style="height:22px;line-height:22px">否</i>
+					</span>
+				</div>
+
+				<div class="showLi">
+					<b>权限：</b>
+					<span style="text-align:left;margin-left:80px;">
+						<ul>
+							<?php echo  $authStr; ?>
+						</ul>
+				    </span>
+				 </div>
+			    
+			</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="footBox"></div>
+</body>
+<script>
+</script>
+</html>

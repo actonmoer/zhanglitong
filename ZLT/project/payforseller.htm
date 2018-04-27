@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付方式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/mobile/js/layer.js"></script>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <style type="text/css">
+        .bor{
+            border: 2px solid #e7e7e7;
+            height: 46px;
+            border-radius: 4px;
+        }
+        ul{
+            list-style: none;
+        }
+        .inputm{
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            border: 0 none;
+            margin-top: 5px;
+            outline: none;
+        }
+        header{
+            height: 37px;
+        }
+        .header{
+            position: fixed;
+            top:0;
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            height: 37px;
+            -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            z-index: 10;
+        }
+        .h-left{
+            width: 17%;
+            text-align: right;
+        }
+        .h-left a,.h-right a,.h-center{
+            display: block;
+            line-height: 37px;
+            color: #333;
+        }
+        .h-right{
+            text-align: left;
+            width:18%;
+        }
+        .h-center{
+            width: 65%;
+            text-align: center;
+        }
+        label{margin-bottom: 0;}
+        .in-pay-type{position: relative;}
+        .in-pay-type>label{position: absolute;width: 100%;top: 0;left: 0;bottom: 0;z-index: 1;}
+    </style>
+    <script type="text/javascript" src="../mobile/js/myjs.js"></script>
+</head>
+<body id="bodya" style="background-color: #f7f7f7;">
+<header>
+    <div class="header">
+        <div class="h-left"><a href="javascript:HistoryURL();" style="font-size: 13px;"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>返回</a></div>
+        <div class="h-center" style="font-size: 16px;"></div>
+        <div class="h-right"><a href="/mobile/my.php" style="font-size: 13px;">我的</a></div>
+    </div>
+</header>
+<div style="width:100%;">
+    <div id="Login" style="background:#fe0000;text-align:center;padding:15px 0;margin:0 15px;border:1px solid #d3d3d3">
+        <span style="color:#fff;font-size:16px;display:block;">掌里通支付单单立减</span>
+        <!--<span style="color:#ffc760;display:block;"></span>-->
+    </div>
+    <div id="noLogin" onclick="window.location.href='../mobile/registertype.htm'" style="display:none;background:#fe0000;text-align:center;padding:15px 0;margin:0 15px;border:1px solid #d3d3d3">
+        <span style="color:#fff;font-size: 16px;padding: 0 20px;">登录每笔享优惠</span>
+    </div>
+</div>
+<form id="myform" method="post" onsubmit="return checkFrom()">
+    <input type="hidden" name="money" value="" />
+    <input type="hidden" name="bank" value="" />
+    <input type="hidden" name="payid" value="" />
+    <div style="position:relative;background-color: #fff;padding:10px 15px;">
+        <span style="position: absolute;top: 25px;left: 40px;">收款方：</span>
+        <div id="company" style="text-align:center;font-size: 16px;height:50px;line-height:50px;white-space: nowrap;text-overflow:ellipsis;overflow: hidden;">Loading...</div>
+        <div class="bor">
+            <input type="text" autocomplete="off" class="inputm" style="display: none;">
+            <input type="text" autocomplete="off" placeholder="请输入付款金额" onkeyup="getMoney(this)" onfocus="if(this.value == 0){this.value='';}" class="inputm" name="m" id="m">
+        </div>
+        <div id="ActualPay" style="padding-left: 10px;color: red;font-size: 16px;margin-top: 5px;display: none;">实付金额：<span style="font-size: 16px;">正在计算优惠中...</span></div>
+        <div id="error" style="padding-left: 10px;color: red;font-size: 16px;margin-top: 5px;display: none;">您输入的金额有误，且小数点最多保留两位数</div>
+    </div>
+    <div style="line-height: 35px;font-size: 14px;padding-left: 16px;color: #666;">支付方式</div>
+    <div class="payContainer">
+        <style type="text/css">
+            .payContainer{display:-webkit-box;display:-webkit-flex;display:flex;margin:0 15px;justify-content:space-around;  }
+            .cell,.cell-access{background:#fff;border:1px solid #d3d3d3;padding: 10px 0 0;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-flex:1;-webkit-flex:1;flex: 1;border-radius:7px;}
+            .cell-icon,.cell-icon img{width:2rem;height:2rem}
+            .cell-left{color:#555}
+            .cell-ellipsis{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align: center;}
+            .checkbox{margin-top:0;}
+            .checkbox input[type=checkbox],.checkbox input[type=radio]{opacity:0;z-index:9;width:100%;height:100%;-webkit-appearance:none}
+            .checkbox-icon,.checkbox-icon-round{position:relative;display:block;width:20px;height:20px;background:#fff;-webkit-transition:background .1s;transition:background .1s;border:1px solid #d3d3d3}
+            .checkbox-icon-round:after,.checkbox-icon:after{position:absolute;content:"";top:3px;right:6px;width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;-webkit-transform:rotate(45deg) scale(0);transform:rotate(45deg) scale(0);-webkit-transition:-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:transform .2s cubic-bezier(.18,.89,.32,1.28) .1s,-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s}
+            .checkbox-icon-round{border-radius: 50%;margin: 0 auto;}
+            .cell-icon{margin: 0 auto;}
+            input:checked+.checkbox-icon,input:checked+.checkbox-icon-round{background:#00cab7;border-color:#00cab7;background-clip:padding-box}input:checked+.checkbox-icon-round:after,input:checked+.checkbox-icon:after{-webkit-transform:rotate(45deg) scale(1);transform:rotate(45deg) scale(1)}
+            .greenBorder{border:2px solid #4cae4c;}
+        </style>
+        <!--余额-->
+        <div id="yue" class="in-pay-type cell-access zhanglitong">
+            <label for="zhanglitong"></label>
+            <div class="cell-icon">
+                <img src="http://www.zhanglitong.com/member/static/takeout/img/unionpaynew.png" alt="余额支付">
+            </div>
+            <div class="cell-left">
+                <div class="in-pay-title cell-ellipsis">余额支付</div>
+                <div class="in-pay-info cell-ellipsis">
+                    <span class="in-amount-info"></span>
+                </div>
+            </div>
+            <div class="checkbox">
+                <input type="radio" id="zhanglitong" name="bank" value="zhanglitong">
+                <span class="checkbox-icon-round"></span>
+            </div>
+        </div>
+        <!--微信-->
+        <div class="in-pay-type cell-access weixin" style="margin:0 10px;">
+            <label for="weixin"></label>
+            <div class="cell-icon">
+                <img src="http://www.zhanglitong.com/member/static/takeout/img/weixin2-2.png" alt="微信支付">
+            </div>
+            <div class="cell-left">
+                <div class="in-pay-title cell-ellipsis">微信支付 </div>
+                <div class="in-pay-info cell-ellipsis">
+                    <span class="in-amount-info"></span>
+                </div>
+            </div>
+            <div class="checkbox">
+                <input type="radio" id="weixin" name="bank" value="weixin">
+                <span class="checkbox-icon-round"></span>
+            </div>
+        </div>
+        <!--支付宝-->
+        <div class="in-pay-type cell-access alipay greenBorder">
+            <label for="alipay"></label>
+            <div class="cell-icon">
+                <img src="http://www.zhanglitong.com/member/static/takeout/img/alipay2-2.png" alt="支付宝支付">
+            </div>
+            <div class="cell-left">
+                <div class="in-pay-title cell-ellipsis">支付宝支付</div>
+                <div class="in-pay-info cell-ellipsis">
+                    <span class="in-amount-info"></span>
+                </div>
+            </div>
+            <div class="checkbox">
+                <input type="radio" id="alipay" name="bank" value="alipay">
+                <span class="checkbox-icon-round"></span>
+            </div>
+        </div>
+    </div>
+    <div id="pass" style="padding: 10px 25px;background-color: #fff;margin-top: 10px;display: none;">
+        <input type="password" class="form-control" name="password" placeholder="请输入支付密码">
+    </div>
+    <div style="margin: 10px 15px 0;"><input type="submit" id="submitBtn" class="btn btn-success" style="width: 100%;" value="立即支付"></div>
+    <div style="padding: 15px;">
+        <a href="http://www.zhanglitong.com/mobile/index.php?moduleid=4" style="color: #333;float: left;font-weight: bold;" target="_blank">优惠商家列表</a>
+        <a href="http://www.zhanglitong.com/mobile/index.php?moduleid=4&username=zltzs&action=mall&homepage=1&storeConsumption=1" style="color: red;float: right;" target="_blank">充30当50用</a>
+        <p style="clear: both;"></p>
+    </div>
+    <!--<div style="margin: 10px 15px 0;"><a href="http://www.zhanglitong.com/member/charge.php?action=pay" style="font-size: 14px;color: #333;">立即充值</a></div>-->
+</form>
+<script type="text/javascript">
+    var nowTime=0,sTime=0,obj = strUrl();
+    var timer,timer1,iValue,finsh,pWay;
+    //提交表单数据
+    function checkFrom(){
+        var sbtn=document.getElementById("submitBtn");
+        var money=document.getElementById("m");
+        pWay=document.getElementsByName("bank")[0];
+        var pWord=document.getElementsByName("password")[0];
+        var s = randomNumber();
+        $("input[name='payid']").val("pay-"+s);
+        if(money.value < 0 || money.value == ""){
+            alert("请输入金额");
+            return false;
+        }
+        if(pWay.value == ""){
+            alert("选择支付方式");
+            return false;
+        }else if(pWay.value == "zhanglitong"){
+            if(pWord.value == ""){
+                alert("请输入密码");
+                return false;
+            }
+        }
+        if(!finsh){
+            return false;
+        }
+        if(checkCookie("cpk_auth")){
+            $("#myform").attr("action","charge.php?action=payforseller");
+            sbtn.submit();
+        }else{
+            $("#myform").attr("action","nonuser_pay.php?action=payforseller");
+            sbtn.submit();
+        }
+
+
+    }
+
+    //获得金额
+    function getMoney(s){
+        var money;
+        var t=$("input[name='touser']").val();
+        var m=document.getElementsByTagName("input");
+        money = parseFloat($(s).val());
+        clearInterval(timer);
+        nowTime=new Date();
+        $("input[name='money']").val(money);
+        if(checkCookie("cpk_auth")){
+            if(money){
+                clearTimeout(timer1);
+                $("#error").hide();
+                $("#ActualPay").show().find("span").html("正在计算优惠中...");
+                timer=setInterval(function(){
+                    sTime=new Date();
+                    $("#ActualPay").show();
+                    if(sTime - nowTime > 1000){
+                        clearInterval(timer);
+                        $("input[name='money']").val(money);
+                        $(s).val(money);
+                        $.post("charge.php?action=paymoney",{money:money,touser:t},function(data){
+                            $("#ActualPay span").text(data);
+                            finsh=true;
+                        });
+                    }
+                },1000);
+            }else{
+
+                finsh=false;
+                $("#ActualPay").hide();
+                setTimeout(function(){
+                    money ? $("#error").show() : $("#error").hide();
+                },1000);
+            }
+        }else{
+            if(money){
+                $("#ActualPay").show().find("span").html(money+"元");
+            }else{
+                $("#ActualPay").hide().find("span").html("正在计算优惠中...");
+            }
+        }
+    }
+    var payType;
+    //随机数
+    function randomNumber(){
+        var d=new Date().getTime();
+        return d;
+    }
+
+    $(document).ready(function(){
+        $("#myform").append("<input type='hidden' name='company' value='"+obj.company+"'>");
+        $("#myform").append("<input type='hidden' name='touser' value='"+obj.touser+"'>");
+        //判断用户是否登录
+        if(checkCookie("cpk_auth")){
+            console.log("登录了");
+            ajaxCompany("charge.php?action=company");
+        }else{
+            $("#noLogin").show();
+            console.log("没有登录");
+            $("#yue,#Login").hide();
+            ajaxCompany("nonuser_pay.php?action=company");
+            $("#yue, #pass").remove();
+        }
+        //订单号
+        if(!$("input[name='payid']").val()){
+            $("input[name='payid']").val("pay-"+randomNumber());
+        }
+        $(".in-pay-type").each(function(i){
+            $(this).find("label").click(function(){
+                var inputType=$(".in-pay-type").eq(i).find("input");
+                inputType.attr("checked",true);
+                $("input[name='bank']").val($(this).attr("for"));
+                if($(this).attr("for") == "zhanglitong"){
+                    $("#pass").show();
+                }else{
+                    $("#pass").hide();
+                }
+                finsh = true;
+                if($(".checkbox input").is(':checked')){
+                    $(this).parent(".in-pay-type").addClass("greenBorder").siblings(".in-pay-type").removeClass("greenBorder");;
+
+                }
+            });
+        });
+        if(isWeiXin()){
+            $(".weixin").find("input").attr("checked",true);
+            $("input[name='bank']").val("weixin");
+            $(".alipay").remove();
+        }else{
+            $(".alipay").find("input").attr("checked",true);
+            $("input[name='bank']").val("alipay");
+        }
+        finsh = true;
+    });
+
+    function ajaxCompany(curl){
+        var t=$("input[name='touser']").val();
+        var c=$("input[name='company']").val();
+        $.ajax({
+            url:curl,
+            type:"POST",
+            data:{touser:t,company:c},
+            dataType:"JSON",
+            success:function(d){
+                if(d.code == 200){
+                    $("#company").html(decodeURI(c));
+                }else{
+                    alert(d.msg);
+                    setTimeout(function(){
+                        HistoryURL();
+                    },1000);
+                }
+            },
+            error:function(d){
+                alert("网络延时，请稍后再试");
+                setTimeout(function(){
+                    HistoryURL();
+                },1000);
+            }
+        });
+    }
+</script>
+</body>
+</html>

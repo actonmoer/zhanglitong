@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>评论管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_k73qtma3ig5mte29.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/menu.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body ng-app="OrderComment" ng-init="index1=0" style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L">
+            <a href="javascript:window.history.go(-1);" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a>
+        </div>
+        <div class="h-C">评论管理</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section ng-controller="OrderCommentCon">
+    <div class="bfff">
+        <div class="comment m20-lr" style="padding: 1.25rem 0;border-bottom: 1px solid #f2f2f2;">
+            <img class="comment-img" ng-src="{{thumb}}" alt="商家头像"><span>{{shopname}}</span>
+        </div>
+        <!--评分星星-->
+        <div style="padding: .875rem 0 1.125rem;">
+            <div class="comment-xing text-center">
+                <i class="iconfont icon-xing" ng-click="index1=1"></i>
+                <i class="iconfont icon-xing" ng-click="index1=2"></i>
+                <i class="iconfont icon-xing" ng-click="index1=3"></i>
+                <i class="iconfont icon-xing" ng-click="index1=4"></i>
+                <i class="iconfont icon-xing" ng-click="index1=5"></i>
+            </div>
+            <div ng-switch="index1">
+                <div class="text-center" ng-switch-when="0" style="font-size: .75rem;color: #888;padding-top: .25rem">0-1星为差评</div>
+                <div class="text-center" ng-switch-when="1" style="font-size: .75rem;color: #888;padding-top: .25rem">0-1星为差评</div>
+                <div class="text-center" ng-switch-when="2" style="font-size: .75rem;color: #888;padding-top: .25rem">2-3星为中评</div>
+                <div class="text-center" ng-switch-when="3" style="font-size: .75rem;color: #888;padding-top: .25rem">2-3星为中评</div>
+                <div class="text-center" ng-switch-when="4" style="font-size: .75rem;color: #888;padding-top: .25rem">4-5星为好评</div>
+                <div class="text-center" ng-switch-when="5" style="font-size: .75rem;color: #888;padding-top: .25rem">4-5星为好评</div>
+            </div>
+        </div>
+        <div class="m20-lr">
+            <textarea class="form-control comment-tex" ng-model="sellercomment" maxlength="100" rows="5" placeholder="请对这次订单的评价"></textarea>
+            <div style="font-size: .75rem;color: #888;padding: .4375rem 0 1.125rem;">还可以输入{{100 - sellercomment.length}}字</div>
+        </div>
+    </div>
+    <div class="m20-lr m20-t">
+        <input type="button" ng-click="SubmitForm(restaurantid,seller,buyer,index,sellercomment)" class="btn comment-btn" value="提交评论">
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    var obj=strUrl();
+    var app = angular.module('OrderComment', []);
+    app.controller('OrderCommentCon', function($scope,$http,$rootScope) {
+        $scope.index1=0;
+        $http({
+            url:"../usercenter.php",
+            method:"POST",
+            data:{action:"show_comment",order_id:obj.oid,namestatus:obj.state},
+            headers:{ 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+            transformRequest:function(obj){
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function(d){
+            console.log(d);
+            if(d.status == 200){
+                d=d.data;
+                if(d.code == 200){
+                    $scope.buyer=d.data.buyer;
+                    $scope.restaurantid=d.data.restaurant_id;
+                    $scope.seller=d.data.seller;
+                    $scope.shopname=d.data.take_out_shop_name;
+                    $scope.thumb=d.data.thumb;
+                }
+            }
+        },function(d){});
+        angular.element(".comment-img").attr("href",obj.shopImg);
+        angular.element(".icon-xing").click(function(){
+            $scope.index=$(this).index();
+            $(".icon-xing").removeClass("on");
+            for(var i=0;i<$scope.index+1;i++){
+                $(".icon-xing").eq(i).addClass("on");
+            }
+        });
+        $scope.SubmitForm=function(restaurantid,seller,buyer,index,sellercomment){
+            //console.log(a+","+b+","+c+","+d);
+            console.log(sellercomment.trim());
+            if(sellercomment.replace(/\s+/g,"") != "" && sellercomment != undefined){
+                $http({
+                    url:"../usercenter.php",
+                    method:"POST",
+                    data:{action:"buyer_comment",restaurant_id:restaurantid,seller:seller,buyer:buyer,seller_star:$scope.index1,seller_comment:sellercomment,namestatus:obj.state,order_id:obj.oid},
+                    headers:{ 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+                    transformRequest:function(obj){
+                        var str = [];
+                        for(var p in obj){
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function(d){
+                    console.log(d);
+                    if(d.status == 200){
+                        d=d.data;
+                        if(d.code == 200){
+                            alert("感谢您的评价");
+                            window.location.href="Order.html";
+                        }
+                    }
+                },function(d){});
+            }else{
+                alert("评论内容不能为空");
+            }
+        }
+    });
+</script>
+</html>

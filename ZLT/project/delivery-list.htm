@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>外卖列表</title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">	
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-touch-fullscreen" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="address=no">
+		<link rel="stylesheet" type="text/css" href="static/takeout/css/common.css?v1.0">
+		<link rel="stylesheet" type="text/css" href="static/takeout/css/index.css?v1.0">
+		<link rel="stylesheet" type="text/css" href="static/takeout/css/mui.min.css"/>
+		<link rel="stylesheet" href="static/takeout/css/reset.css">
+		<script src="static/takeout/js/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+		<script type="text/javascript" src="static/takeout/js/Map.js"></script>
+		<script src="static/takeout/js/hmt.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		var lng = '';
+		var lat = '';
+		mMap.watchPosition(locationFunc);
+	    function locationFunc(data){
+	        //var _data =JSON.parse(data, null, 4);
+	        lng = data.lng;
+	        lat = data.lat;
+			
+			$(function(){
+				takeout_restaurant(function(){
+					takeout_cart_show('firstAjax');
+				});
+				takeout_shopCarThumb();
+		   });
+	    }
+		var restaurantOpen = 0;
+
+		
+			
+		
+
+
+		function category (obj,id) {
+			$(obj).closest('li').addClass("active").siblings('li').removeClass("active");
+			$.ajax({
+				data:{"for_ajax":"takeout_dishes_list",'takeout_id':"<?php echo $_GET[id];?>","cuisine_id":id},
+				type:"post",
+				dataType:"json",
+				url:"for_ajax.php",
+				success:function(data){
+				    //console.log(data);
+					list_html='';
+					cuisine_list='';
+					if (data.success) {
+						list_html='';
+						for(i in data['data']){
+							list_html+="<div class=\"list-box cate_1 cateFood_"+data.data[i]['id']+"\"><div class=\"list-img\"><img src=\""+data['data'][i]['thumb']+"\"></div>";
+							list_html+="<div class=\"list-content\"><p class=\"overflow_clear\">"+data.data[i]['dishes']+"</p>";
+										// <p class="overflow_clear">在线支付满20元立减5元</p>
+						
+							
+
+                            
+							if(data.data[i]['is_spec']==1){	
+                                specStr=data.data[i]['spec_attr'].split(",");	
+                                specArr=specStr[0].split("|");								
+							    list_html+="<p class=\"price fontcl1\">"+specArr[1]+"元</p><div class=\"num-input\">";
+							}else{
+							    list_html+="<p class=\"price fontcl1\">"+data.data[i]['sell_price']+"元</p><div class=\"num-input\">";	
+							}
+							
+							
+							
+							
+							
+							
+							list_html+="<div class=\"btn jq_jian\" data-val=\""+data.data[i]['id']+"\" did=\"2\" onclick=\"dec(this,0);\">-</div>";
+							list_html+="<div class=\"input\"><input type=\"text\" class=\"ordernum\" readonly=\"readonly\" value=\"0\"></div>";
+							list_html+="<div class=\"btn active jq_addcart\" data-val=\""+data.data[i]['id']+"\" did=\"2\" onclick=\"addcart(this,0);\">+</div><input class=\"isSpec\" type=\"hidden\" value=\""+data.data[i]['is_spec']+"\" /></div>";
+							//多规格属性
+							if(data.data[i]['is_spec']==1){
+						
+							   list_html+='<div class="num-input">';
+							    specStr=data.data[i]['spec_attr'].split(",");
+								classStr="";
+								for(var j=0;j<specStr.length;j++){
+								    specArr=specStr[j].split("|");
+									if(j==0){classStr=" activeSpec";}else{classStr="";}
+									list_html+='<div class="btnSpec '+classStr+'"   data-val="'+specArr[1]+'" did="'+data.data[i]['id']+'" onclick="specClick(this);">'+specArr[0]+'</div>';
+								}
+							   list_html+='</div>';
+							}
+							
+							list_html+="</div></div>";
+						}
+						$("#container .eleList_box").html(list_html);
+						takeout_cart_show('firstAjax');
+					};
+				},
+				error:function(){}
+			})
+		}
+
+		function takeout_cart_show(st){
+			$.ajax({
+				data:{"for_ajax":"takeout_cart_show",'takeout_id':"<?php echo $_GET[id];?>"},
+				type:"post",
+				dataType:"json",
+				url:"for_ajax.php",
+				success:function(data){
+					if (data.success) {
+						if (data.data==false) {
+							$('#num').text(0);
+							$('#total_price').text('0.00');
+							$('#cart_2').css("background-color","#dedede");
+						}else{
+							// console.log(data);
+							if(st&&st=='firstAjax'){
+								$.each(data.data.cart_data,function(){
+									$('.eleList_box .cateFood_'+this.dishes_id+' .ordernum').val(this.goods_number||0);
+								})
+							}
+
+							$('#num').text(data.data['num']);
+							$('#total_price').text(data.data['detail_cash']);
+
+							if(data.data['num']>0 && $("#total_price").text()>=Number($('#start_price_hidden').val())){
+								$('#cart_2').css("background-color","#ff5f32");
+							}else{
+								$('#cart_2').css("background-color","#dedede");
+							}
+						}
+						takeout_shopCarThumb();
+					}
+				}
+			})
+		}
+
+		//加载商品
+		function takeout_restaurant(scallback){
+			$.ajax({
+				data:{"for_ajax":"takeout_restaurant",'id':"<?php echo $_GET[id];?>","lat":lat,"lng":lng},
+				type:"post",
+				dataType:"json",
+				url:"for_ajax.php",
+				success:function(data){
+					// console.log(data);
+					if(data.message=='你的地址不在配送范围'){
+					    alert(data.message);
+						location.href="takeout.php";
+					}
+					list_html='';
+					cuisine_list='';
+					if(data.success){
+						restaurantOpen = data.data['is_open'] || 0;
+                        $('#golink').attr("href","http://www.zhanglitong.com/mobile/index.php?moduleid=4&username="+data.data['username']);
+						$('#restaurant_name').text(data.data['restaurant']['take_out_shop_name']);
+						$('#restaurant_thumb').attr('src',data.data['restaurant']['thumb']);
+						$('#start_price_hidden').val(data.data['restaurant']['start_price']);
+						$("#total_price").next().text("("+data.data['restaurant']['start_price']+"元起送,配送费:￥"+data.data['restaurant']['distribution_price']+")");
+						$("#start_price").attr('data-val',data.data['restaurant']['start_price']);
+						$('#scroll_begin').text(data.data['restaurant']['shop_tip']);
+						 ScrollImgLeft();
+						for(i in data['data']['dishes_list']){
+							list_html+="<div class=\"list-box cate_1 cateFood_"+data.data['dishes_list'][i]['dishes_id']+"\"><div class=\"list-img\" onclick='openUrl("+data.data['dishes_list'][i]['dishes_id']+")'><img src=\""+data['data']['dishes_list'][i]['thumb']+"\"></div>";
+							list_html+="<div class=\"list-content\"><p class=\"overflow_clear\">"+data.data['dishes_list'][i]['dishes']+"</p>";
+							if(data.data['dishes_list'][i]['is_spec']==1){
+                                specStr=data.data['dishes_list'][i]['spec_attr'].split(",");	
+                                specArr=specStr[0].split("|");								
+							    list_html+="<p class=\"price fontcl1\">"+specArr[1]+"元</p><div class=\"num-input\">";
+							}else{
+							    list_html+="<p class=\"price fontcl1\">"+data.data['dishes_list'][i]['sell_price']+"元</p><div class=\"num-input\">";
+							}
+							list_html+="<div class=\"btn jq_jian\" data-val=\""+data.data['dishes_list'][i]['dishes_id']+"\" did=\"2\" onclick=\"dec(this,0);\">-</div>";
+							list_html+="<div class=\"input\"><input type=\"text\" class=\"ordernum\" readonly=\"readonly\" value=\"0\"></div>";
+							list_html+="<div class=\"btn active jq_addcart\" data-val=\""+data.data['dishes_list'][i]['dishes_id']+"\" did=\"2\" onclick=\"addcart(this,0);\">+</div><input class=\"isSpec\" type=\"hidden\" value=\""+data.data['dishes_list'][i]['is_spec']+"\" /></div>";
+							//多规格属性
+							if(data.data['dishes_list'][i]['is_spec']==1){
+							   list_html+='<div class="num-input">';
+							    specStr=data.data['dishes_list'][i]['spec_attr'].split(",");
+								classStr="";
+								for(var j=0;j<specStr.length;j++){
+								    specArr=specStr[j].split("|");
+									if(j==0){classStr=" activeSpec";}else{classStr="";}
+									list_html+='<div class="btnSpec '+classStr+'"   data-val="'+specArr[1]+'" did="'+data.data['dishes_list'][i]['dishes_id']+'" onclick="specClick(this);">'+specArr[0]+'</div>';
+								}
+							   list_html+='</div>';
+							}
+							
+							list_html+="</div></div>";
+						}
+						for(i in data['data']['cuisine_category']){ 
+							cuisine_list+="<li rel=\"cate_1\"><a href=\"javascript:;\" onclick=\"category(this,"+data['data']['cuisine_category'][i]['category_id']+")\">"+data['data']['cuisine_category'][i]['cuisine']+"</a></li>";
+						}
+
+						$("#container .frame-set-left").find('ul').append(cuisine_list);
+						$("#container .eleList_box").html(list_html);
+						if(scallback){ scallback(); }
+					};
+				}
+			})
+		}
+        function specClick(obj){
+		
+		     $(obj).parent().find('.btnSpec').attr('class','btnSpec');
+			 $(obj).attr('class','btnSpec activeSpec');
+			 price=$(obj).attr("data-val");
+			 id=$(obj).attr("did");
+		
+			 $('.cateFood_'+id).find('.price').html(price+'.00元');
+		   
+		}
+		function takeout_shopCarThumb(scallback){
+			$.ajax({
+				data:{"for_ajax":"takeout_cart_show",'takeout_id':"<?php echo $_GET[id];?>"},
+				type:"post",
+				dataType:"json",
+				url:"for_ajax.php",
+				success:function(data){
+					//console.log(data);
+					list_html='';
+					
+					if (data.success) {
+					
+						for(i in data['data']['cart_data']){
+							list_html+="<div class=\"list-box cate_1 cateFood_"+data.data['cart_data'][i]['dishes_id']+"\"><div class=\"list-img\"><img src=\""+data['data']['cart_data'][i]['thumb']+"\"></div>";
+							if(data.data['cart_data'][i]['is_spec']==1){
+						        
+									list_html+="<div class=\"list-content\"><p class=\"overflow_clear\">"+data.data['cart_data'][i]['dishes_name']+"</p>";
+									for(j in data.data['cart_data'][i]['spec_list']){
+										list_html+="<p class=\"price fontcl1\">("+data.data['cart_data'][i]['spec_list'][j]['spec_name']+")"+data.data['cart_data'][i]['spec_list'][j]['sell_price']+"元</p><div class=\"num-input\">";
+										list_html+="<div class=\"btn jq_jian\" data-val=\""+data.data['cart_data'][i]['dishes_id']+"\" did=\"2\" onclick=\"dec(this,1);\">-</div><input class=\"cart_spec\" type=\"hidden\" value=\""+data.data['cart_data'][i]['spec_list'][j]['spec_name']+"|"+data.data['cart_data'][i]['spec_list'][j]['sell_price']+"\" />";
+										list_html+="<div class=\"input\"><input type=\"text\" class=\"ordernum\" readonly=\"readonly\" value=\""+data.data['cart_data'][i]['spec_list'][j]['goods_number']+"\"></div>";
+										list_html+="<div class=\"btn active jq_addcart\" data-val=\""+data.data['cart_data'][i]['dishes_id']+"\" did=\"2\" onclick=\"addcart(this,1);\">+</div><input class=\"isSpec\" type=\"hidden\" value=\""+data.data['cart_data'][i]['is_spec']+"\" /></div>";
+									
+									}
+							
+								list_html+="</div></div>";
+							}else{
+							    list_html+="<div class=\"list-content\"><p class=\"overflow_clear\">"+data.data['cart_data'][i]['dishes_name']+"</p>";
+								// <p class="overflow_clear">在线支付满20元立减5元</p>
+								list_html+="<p class=\"price fontcl1\">"+data.data['cart_data'][i]['sell_price']+"元</p><div class=\"num-input\">";
+								list_html+="<div class=\"btn jq_jian\" data-val=\""+data.data['cart_data'][i]['dishes_id']+"\" did=\"2\" onclick=\"dec(this,1);\">-</div>";
+								list_html+="<div class=\"input\"><input type=\"text\" class=\"ordernum\" readonly=\"readonly\" value=\""+data.data['cart_data'][i]['goods_number']+"\"></div>";
+								list_html+="<div class=\"btn active jq_addcart\" data-val=\""+data.data['cart_data'][i]['dishes_id']+"\" did=\"2\" onclick=\"addcart(this,1);\">+</div></div></div></div>";
+							}
+							
+							
+						}
+
+						$("#shopCarThumb .eleList_box").html(list_html);
+						if(scallback){ scallback(); }
+					};
+				}
+			
+			
+			})
+		}
+
+		function addcart(obj,isCart){
+			if(restaurantOpen==0){ alert('店铺已打烊');return false; }
+			//以下判断为是否多规格商品，判断用户加入购物车的商品时哪个规格
+            var inputObj = $(obj).siblings('.input').find('.ordernum');
+		
+		    currentAttr='';//传输的多规格属性，格式为"属性|价钱"
+		    var isSpec=$(obj).next().val();
+			if(isSpec==1){
+			  
+			   
+			   if(isCart==1){
+			        currentAttr=$(obj).parent().find('.cart_spec').val();
+				  
+			   }else{
+			       currentAttrObj=$(obj).parent().next().find('.activeSpec');
+				   currentAttr= currentAttrObj.html()+"|"+currentAttrObj.attr('data-val');
+			   }
+			 
+			}
+		
+			$.ajax({
+				data:{"for_ajax":"takeout_cart_add",'dishes_id':$(obj).attr("data-val"),'goods_number':'1','is_spec':isSpec,'spec_attr':currentAttr},
+				type:"post",
+				dataType:"json",
+				url:"for_ajax.php",
+				success:function(data){
+					if (data.success) {
+						
+						inputObj.val(Number(inputObj.val())+1);
+						//$('#ele li.active a').click();
+						takeout_cart_show('firstAjax');
+					};
+				}
+			})
+
+		}
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		function dec(obj,isCart){
+			if(restaurantOpen==0){ alert('店铺已打烊');return false; }
+            var isSpec=$(obj).parent().find('.isSpec').val();
+			var num=0;
+			if(isSpec==1&isCart==1){
+			   num=$(obj).next().next().find('.ordernum').val();
+			}else{
+			   num=$(obj).next().find('.ordernum').val();
+			}
+			
+			if(num>0){
+			
+				//以下判断为是否多规格商品，判断用户加入购物车的商品时哪个规格
+				var inputObj = $(obj).siblings('.input').find('.ordernum');
+			
+				price='';//传输的多规格属性，格式为"属性|价钱"
+				spec='';
+				
+				
+				if(isSpec==1){
+				  
+				   if(isCart==1){			     
+					   attrArr= $(obj).next().val().split('|');
+					   price=attrArr[1];
+				       spec=attrArr[0];		
+				   }else{
+				       currentAttrObj=$(obj).parent().next().find('.activeSpec');
+	                   price=currentAttrObj.attr('data-val');
+				       spec=currentAttrObj.html();			      
+				   }
+				
+				}
+			
+			
+			
+			
+				$.ajax({
+					data:{"for_ajax":"takeout_cart_decrease",'dishes_id':$(obj).attr("data-val"),'goods_number':'1','is_spec':isSpec,'spec_price':price,'spec':spec},
+					type:"post",
+					dataType:"json",
+					url:"for_ajax.php",
+					success:function(data){
+						// console.log(data);
+						if (data.success) {
+							var inputObj = $(obj).siblings('.input').find('.ordernum');
+							inputObj.val(Number(inputObj.val())-1);
+							$('#ele li.active a').click();
+							takeout_cart_show('firstAjax');
+						};
+					}
+				})
+			}
+		}
+
+
+		function enorder (obj) {
+			if(restaurantOpen==0){ alert('店铺已打烊');return false; }
+			if ($("#num").text()>0 && $("#total_price").text()>=Number($('#start_price_hidden').val()) ) {
+				window.location.href="takeout.php?act=takeout_order_add&id=<?php echo $_GET[id] ?>"; 
+			};
+		}
+
+		function openUrl(id){
+
+		    window.location.href = "/mobile/Takeout/goodsDetails.html?id="+id+"&lat="+lat+"&lng="+lng;
+		}
+</script>
+	</head>
+	<body>
+		<header class="hasManyCity hasManyCitytwo" id="header" style="height: 30px;overflow: hidden;position: relative;">
+			<a href="javascript:history.go(-1)" class="fanhui" style="padding-top: 3px;padding-left: 10px;"><i class="iconfont icon-fanhui"></i></a>
+		</header>
+		
+		<div id="container">
+			<div id="main">
+				<!--店铺头部开始-->
+				<div class="store-header clearfix">
+					<div class="tu">
+						<span></span>
+						<input type="hidden" id="start_price_hidden" value="">
+						<img id="restaurant_thumb" src="static/takeout/img/tou.png"/>
+					</div>
+					<a class="right fl" style="width:31%;" >
+						<p id="restaurant_name">---</p>
+					</a>
+					<a class="right fl" style="width:15%;"  id="golink">
+						<p id="restaurant_name">官网</p>
+					</a>
+					<a class="right fl" style="width:15%;" href="takeout.php?act=order_list">
+						<p id="restaurant_name">订单</p>
+					</a>
+					<!--粉-->
+				<style type="text/css"> 
+				#gongao{width:100%;height:25px;overflow:hidden;line-height:25px;font-size:12px;font-family:'宋体';color:#fff;}
+				#gongao #scroll_begin, #gongao #scroll_end{display:inline} 
+				</style> 
+<script  type="text/javascript">
+  	//滚动
+	function ScrollImgLeft(){
+		var speed=50;
+		var scroll_begin = document.getElementById("scroll_begin");
+		var scroll_end = document.getElementById("scroll_end");
+		var scroll_div = document.getElementById("scroll_div");
+		scroll_end.innerHTML=scroll_begin.innerHTML;
+
+	function Marquee(){
+		if(scroll_end.offsetWidth-scroll_div.scrollLeft<=0)
+			scroll_div.scrollLeft-=scroll_begin.offsetWidth;
+		else
+			scroll_div.scrollLeft++;
+		}
+		var MyMar=setInterval(Marquee,speed);
+		scroll_div.onmouseover=function() {
+			clearInterval(MyMar);
+		}
+		scroll_div.onmouseout=function() {
+			MyMar=setInterval(Marquee,speed);
+		}
+	}
+</script>
+				
+
+				<div class="tit">
+
+
+				<div id="gongao"> 
+				<div style="width:100%;height:25px;background:rgba(0,0,0,0.4);line-height:25px;color:#fff;z-index:1;margin:0 auto;white-space: nowrap;overflow:hidden;" id="scroll_div" class="scroll_div">
+				<div id="scroll_begin"> 
+				
+				</div> 
+				<div id="scroll_end"></div> 
+				</div>
+				</div> 
+				
+				</div> 
+
+				</div>
+				<!--粉 end-->
+				</div>
+				<!--店铺头部结束-->
+				<!--头部切换开始-->
+				<ul id="shangjia_tab" style="position: absolute;">
+					<li>
+						<a href="takeout.php?act=restaurant&id=<?php echo $_GET['id'] ?>" class="on">菜单</a>
+					</li>
+					<li>
+						<a href="takeout.php?act=takeout_comment&id=<?php echo $_GET['id'] ?>">评价</a>
+					</li>
+					<li> 
+						<a href="takeout.php?act=details&id=<?php echo $_GET['id'] ?>">详情</a>
+					</li>
+				</ul>
+				<!--头部切换结束-->
+				<div id="ele" class="shop_page page-center-box">
+					<div class="frame-set-left">
+						<ul>
+							<li class="active" rel="all">
+								<a href="javascript:;" onclick="category(this,0);">全部分类</a>
+							</li>
+						</ul>
+					</div>
+					<div class="frame-set-right">
+						<div class="list-have-pic list-have-pictwo">
+							<div class="eleList_box">
+								
+							</div>		
+						</div>
+					</div>
+				</div>
+				<footer class="footer-cart eleFooter-cart" id="footer">
+					<div class="cart">
+						<a id="cart_1" onclick="shopCarThumb()">
+							<div class="cart-num" id="num">-</div>
+						</a>
+					</div>
+					<div class="price">￥<span id="total_price">0.00</span>
+						<p id="start_price" data-val=''>(--元起送,配送费:￥--)</p>
+					</div>
+					<div id="cart_2" class="disable">
+						<a href="javascript:;" onclick="enorder(this);"style="color:#FFFFFF;">确认下单</a>
+					</div>
+				</footer>
+			</div>
+		</div>
+		
+		<!-- 购物车列表 -->
+		<div class="shopCarThumb" id="shopCarThumb">
+			<div class="layer" onclick="shopCarThumb();"></div>
+			<div class="frame-set-right">
+				<div class="clearCartBtn"><span onclick="clearCart();">清空购物车</span></div>
+				<div class="list-have-pic list-have-pictwo">
+					<div class="eleList_box"></div>
+				</div>
+			</div>
+		</div>
+		<!-- 购物车列表 -->
+		<script>
+			//清空购物车
+			function clearCart() {
+				var store_id = "<?php echo intval($_GET['id']);?>";
+				$.ajax({
+					data:{"for_ajax":"takeout_cart_clear","takeout_id":store_id},
+					dataType:"json",
+					type:"post",
+					url:"for_ajax.php",
+					success:function(mes){
+						if (mes.success) {
+							//清空购物车成功
+							shopCarThumb();
+							$('#ele li.active a').click();
+						}
+					}
+				})
+			}
+			function shopCarThumb(){
+				$('#shopCarThumb .frame-set-right').css('height','auto');
+				if($('#cart_1').hasClass('shopThumb')){
+					$('#cart_1').removeClass('shopThumb');
+					$('#shopCarThumb').removeClass('shopCarThumbDrop');
+					var height = 'auto';
+				}else{
+					$('#cart_1').addClass('shopThumb');
+					$('#shopCarThumb').addClass('shopCarThumbDrop');
+					if($('#shopCarThumb .list-box').length<=4){
+						var height = $('#shopCarThumb .eleList_box').outerHeight()+36;
+					}else{
+						var height = '266';
+					}
+				}
+				$('#shopCarThumb .frame-set-right').css('height',height);
+			}
+		</script>
+		<style>
+			.shopCarThumb{position: fixed;top: 0;bottom: 0.5rem;left:0;right: 0;z-index: 9999;transition: all 0.4s;-moz-transition: all 0.4s; /* Firefox 4 */-webkit-transition: all 0.4s; /* Safari 和 Chrome */-o-transition: all 0.4s; /* Opera */display: none;}
+			.shopCarThumbDrop{display: block;}
+			.shopCarThumb .layer{position: absolute;top: 0;bottom: 0;left:0;right: 0;z-index: 999;background: #000;opacity: 0.5;}
+			.shopCarThumb .clearCartBtn{position: absolute;text-align: right;height: 36px;left: 0;top:0;right: 0;padding: 0 8px;border-bottom: 1px solid #dcdddd;}
+			.shopCarThumb .clearCartBtn span{padding: 0 8px;font-size: 12px;color:#fff;background: #ed4948;display: inline-block;line-height: 24px;margin-top: 6px;height: 24px;border-radius: 3px;}
+			.shopCarThumb .frame-set-right{left: 0;z-index: 1000;width: 100%;overflow-y: scroll;bottom:0;top: auto;padding-top: 36px;}
+			.shopCarThumb .frame-set-right .list-have-pictwo{border:0;}
+			.shopCarThumb .frame-set-right .list-have-pic .list-img{width: 0.6rem;height:0.46rem;}
+			.shopCarThumb .frame-set-right .list-have-pic .list-content{margin-left: 0.8rem;min-height: 0.46rem}
+			.shopCarThumb .list-have-pic .list-content p{line-height: 0.23rem}
+			.shopCarThumb .fontcl1{float: left;}
+			.shopCarThumb .list-have-pic .num-input{padding: 0.03rem 0.1rem;text-align: right;}
+			.shopCarThumb .list-have-pic .num-input div{float: none;display: inline-block;}
+		</style>
+	</body>	
+</html>

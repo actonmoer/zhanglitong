@@ -1,0 +1,116 @@
+.search-container{
+    position:relative;
+    padding-top:.4375rem;
+    color:#666;
+}
+.search-input{
+    border-radius:1rem;
+    font-size:.875rem;
+    padding:0 0 0 3.5rem;
+}
+.search-container .spread{
+    position:absolute;
+    top:0;
+    left:.625rem;
+    font-size:.875rem;
+}
+.search-container .spread select{
+    border:none;
+    background-color:transparent;
+    border-color:transparent;
+    height:3rem;
+    width:2.5rem;
+    appearance: none;
+    -webkit-appearance: none;
+}
+.search-container .spread select option{
+    background:#eee;
+}
+.search-container .search-icon{
+    position:absolute;
+    top:0;
+    left:2.5rem;
+    font-size:.75rem;
+}
+.recent-search {
+    margin:1.875rem 1.25rem 0;
+}
+.hot-search p,.recent-search p{
+    margin:0 0 .875rem;
+    font-size:.875rem;
+    color:#444;
+}
+.search-ul{
+    display:-webkit-flex;
+    display:flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    width:100%;
+    font-size:.75rem;
+}
+.search-ul li{
+    margin:0 0 .875rem;
+    width:25%;
+    display: inline-block;
+    text-align: center;
+
+}
+.search-ul li a{
+    display:inline-block;
+    background:#eee;
+    border-radius:.375rem;
+    color:#999;
+    letter-spacing:.0625rem;
+    width:90%;
+    padding:.25rem;
+}
+.clear-record{
+    position:fixed;
+    bottom:1rem;
+    width:100%;
+    margin:0 auto;
+    text-align:center;
+}
+.clear-record button{
+    display:inline-block;
+    border:1px solid #e44949;
+    font-size:.75rem;
+    padding:.5rem 1.375rem;
+    color:#e44949;
+    background:#fff;
+    letter-spacing:.0625rem;
+}
+.search-list .search-list-ul .search-item{
+    position:relative;
+    padding:.625rem 0 .625rem 1.25rem;
+    border-bottom:1px solid #eee;
+    height:5.8125rem;
+}
+.search-list .search-list-ul .search-item p:nth-child(1){
+    font-size:.875rem;
+}
+.search-list .search-list-ul .search-item p{
+    line-height:1.5rem;
+    font-size:.75rem;
+    color:#666;
+    padding:0 6.875rem 0 0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.search-list .search-list-ul .search-item p i{
+    color:#ff552e;
+    margin-right:.25rem;
+}
+.search-list .search-list-ul .search-item .search-img{
+    position:absolute;
+    top:0;
+    right:1.25rem;
+    width:5rem;
+    height:5rem;
+    margin-top:.375rem;
+}
+.search-list .search-list-ul .search-item img{
+    width:100%;
+    height:100%;
+}

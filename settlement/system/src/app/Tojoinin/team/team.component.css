@@ -1,0 +1,20 @@
+.team{
+  background: #f1f1f1;
+  padding: 0.468rem 0;
+  height: 100%;
+}
+.earnings-lis{
+  background: #fff;
+  height: 2.34375rem;
+  border-bottom: 1px solid #eeeeee;
+  font-size: 16px;
+  color: #333333;
+  line-height: 2.34375rem;
+  box-shadow: 0px 4px 7px #f1e6dc;
+  padding: 0 0.891rem;
+  margin-bottom: 20px;
+}
+
+.earnings-lis-div{
+  width: 4.156rem;
+}

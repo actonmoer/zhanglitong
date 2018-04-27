@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>会员服务</title>
+    <style>
+        @font-face {font-family: "iconfont";
+            src: url('font/iconfont.eot'); /* IE9*/
+            src: url('font/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('font/iconfont.woff') format('woff'), /* chrome, firefox */
+            url('font/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+            url('font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+        }
+        .iconfont {
+            font-family:"iconfont" !important;
+            font-size:16px;
+            font-style:normal;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke-width: 0.2px;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        *{box-sizing:border-box;}
+        body{font-size: 100%;font-family: "Microsoft YaHei";line-height: 120%;background-color: #f2f2f2;}
+        img{vertical-align: middle;border: 0;}
+        a{text-decoration: none;color: #333;}
+        body,div{padding: 0;margin: 0;}
+        .header {
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            background-color: #3d95e5;
+            box-shadow: 0 2px 4px 0 rgba(0, 17, 33, 0.1);
+        }
+        .header div{
+            color: #fff;
+            text-align: center;
+            height: 3rem;
+            line-height: 3rem;
+            background-color: #3d95e5;
+        }
+        .h-left,.h-right{
+            width: 15%;
+        }
+        .h-center{
+            width: 70%;
+            font-size: 1.125rem;
+        }
+        .h-right a{
+            display: block;
+        }
+        .nav-menu{
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+            width: 100%;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-menu:after{
+            content: '';
+            position: absolute;
+            left: 33.33333333%;
+            width: .0625rem;
+            height: 100%;
+            background-color: #e2e2e2;
+        }
+        .nav-menu:before{
+            content: '';
+            position: absolute;
+            right: 33.33333333%;
+            width: .0625rem;
+            height: 100%;
+            background-color: #e2e2e2;
+        }
+        .nav-menu div{
+            width: 33.33333333%;
+        }
+        .nav-list{
+            border-bottom: .0625rem solid #e2e2e2;
+        }
+        .nav-list:last-child{
+            border-bottom: 0;
+        }
+        .nav-list-a{
+            display: block;
+            text-align: center;
+            padding: 1.0625rem 0 .875rem;
+        }
+        .nav-list-iconf{
+            display: block;
+            width: 3.125rem;
+            height: 3.125rem;
+            margin: 0 auto;
+            border: 1px solid #3d95e5;
+            border-radius: 100%;
+        }
+        .iconfont{
+            display: inline-block;
+            color: #3d95e5;
+            font-size: 1.5625rem;
+            margin-top: .8125rem;
+        }
+        .nav-list-name{
+            color: #333;
+            display: block;
+            font-size: .875rem;
+            margin-top: .3125rem;
+        }
+        .subnav-list{background-color: #fff;height: 3.375rem;}
+        .subnav-list a{display: block;color: #333;font-size: .875rem;padding: 0 1.25rem;line-height: 3.375rem;position: relative;}
+        .subnav-list-i{
+            display: inline-block;
+            margin-right: .625rem;
+        }
+        .subnav-list-arrow{
+            float: right;
+            width: .625rem;
+            position: relative;
+            height: 3.375rem;
+        }
+        .subnav-list-arrow i{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            display: inline-block;
+            border-top: 1px solid #888;
+            width: 100%;
+        }
+        .subnav-list-arrow i.subnav-list-arrow-i1{
+            transform:rotate(45deg);
+            -ms-transform:rotate(45deg);
+            -webkit-transform:rotate(45deg);
+            top: 45%;
+        }
+        .subnav-list-arrow i.subnav-list-arrow-i2{
+            transform:rotate(-225deg);
+            -ms-transform:rotate(-225deg);
+            -webkit-transform:rotate(-225deg);
+            top: 57%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header">
+        <div class="h-left"></div>
+        <div class="h-center">会员服务</div>
+        <div class="h-right"><a href="javascript:;"><img src="img/Message.png" alt="消息"></a></div>
+    </div>
+</header>
+<section>
+    <!--功能选择-->
+    <div style="margin: 1.25rem 0">
+        <div class="nav-menu">
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="javascript:;" class="nav-list-a">
+                    <span class="nav-list-iconf"><i class="iconfont">&#xe60e;</i></span>
+                    <span class="nav-list-name">我的商友</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--在线客服-->
+    <div class="subnav-list" style="margin: 0 0 1.25rem;">
+        <a href="javascript:;">
+            <i class="subnav-list-i"><img src="img/kf.png" alt="客服"></i>客服中心<span class="subnav-list-arrow"><i class="subnav-list-arrow-i1"></i><i class="subnav-list-arrow-i2"></i></span>
+        </a>
+    </div>
+</section>
+</body>
+</html>

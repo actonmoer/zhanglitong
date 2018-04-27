@@ -1,0 +1,164 @@
+.indent-nav {
+    display: flex;
+    display: -webkit-flex;
+    width: 100%;
+    background-color: #fff;
+    padding:0 1.25rem;
+    box-shadow: 0 .125rem .25rem 0 rgba(51, 51, 51, 0.1);
+}
+.indent-nav div {
+    flex: 1;
+    -webkit-flex: 1;
+    height: 2.375rem;
+    text-align: center;
+}
+.indent-nav .on {
+    border-bottom: .125rem solid #3d95e5;
+    color: #3d95e5;
+}
+.indent-a {
+    color: #666;
+    font-size: .75rem;
+    display: inline-block;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    padding: 0 .625rem;
+}
+.indent-tip p {
+    font-size: .75rem;
+    margin: .625rem 1.25rem;
+    line-height: 1.25rem;
+    color: #666;
+}
+.indent-tip p span {
+    color: #f67716;
+}
+.indent {
+    padding:0 1.25rem;
+    background-color:#fff;
+    margin-bottom:1.25rem;
+}
+.indent div p {
+    font-size:.75rem;
+    color:#666666;
+    padding-top:1.25rem;
+}
+.indent div p:first-child {
+    font-size:.875rem;
+    color:#333333;
+    padding-bottom:1.25rem;
+    border-bottom:1px solid #f2f2f2;
+}
+.indent div p:last-child {
+    position:relative;
+    padding:1.25rem 0;
+}
+.indent div p:last-child input{
+    position:absolute;
+    right:0;
+    top:0.75rem;
+}
+.indent div p:nth-child(2) span:nth-child(2) {
+    color:#3d95e5;
+    font-size:.875rem;
+}
+.indent input {
+    background-color: #fff;
+    color: #4097e3;
+    font-size: .75rem;
+    border-color: #4097e3;
+    float: right;
+    margin: 0 .25rem;
+}
+
+.indent-details {
+    background-color:#fff;
+    margin:1.25rem 0;
+    font-size:.75rem;
+    color:#666666;
+}
+.indent-number {
+    padding:1.25rem;
+    border-bottom:1px solid #f2f2f2;
+}
+.indent-number p {
+    font-size:.875rem;
+    color:#333333;
+}
+.indent-goodsname {
+    border-bottom:1px solid #f2f2f2;
+    padding:1.25rem 1.25rem 0;
+}
+.indent-goodsname p {
+    margin-bottom:1.25rem;
+}
+.indent-goodsname p:last-child span:nth-child(2){
+    margin-left:1.25rem;
+}
+.indent-goodsname p span:last-child {
+    font-size:.875rem;
+}
+.indent-goodsname p:last-child {
+    border-top:1px solid #f2f2f2;
+    padding-top:1.25rem;
+}
+.indent-address {
+    padding: 1.25rem 1.25rem 0;
+    border-bottom: 1px solid #fff;
+}
+.indent-address p {
+    margin-bottom:1.25rem;
+}
+.indent-address p:last-child {
+    margin-bottom:0;
+}
+.indent-address p:last-child span:last-child {
+    margin-left:.625rem;
+}
+.indent-address .reason {
+    padding: 1.25rem 0;
+    border-top: 1px solid #f2f2f2;
+    font-size: 0.75rem;
+    color:#dc8327;
+    word-break:break-all;
+}
+.white-btn {
+    background-color: #fff;
+    color: #333;
+    font-size: 1rem;
+    height: 3.125rem;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(51, 51, 51, 0.1);
+}
+.indent-await,.indent-aleadly,.indent-finish,.indent-invalid,.indent-new1 {
+    margin-top:1.25rem;
+}
+.right-btn {
+    position:absolute;
+    width:1.25rem;
+    height:10rem;
+    line-height:10rem;
+    right:0;
+    top:3.5rem;
+    text-align:right;
+}
+
+.blue {
+    color:#3d95e5;
+    font-size:.75rem;
+}
+.green {
+    color:#63cbb2;
+    font-size:.75rem;
+}
+.gray{
+    color:#676767;
+    font-size:.75rem;
+}
+.orange {
+    color:#f0790f;
+    font-size:.75rem;
+}
+.right {
+    float:right;
+    font-size:.75rem;
+}

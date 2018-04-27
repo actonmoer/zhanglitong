@@ -1,0 +1,203 @@
+.m-form-subnav a,.errorMsg span{
+    font-size: .14rem;
+}
+.errorMsg,.r-btn{
+    font-size: 0;
+}
+/*--------------------------------登录样式开始*/
+.hnav{
+    height: 0.37rem;
+    background-color: rgb(33, 156, 214);
+    position: fixed;
+    top:0;
+    width: 100%;
+    z-index:1;
+}
+.h-left,.h-title,.h-right{
+    line-height: 0.37rem;
+    color: #fff;
+}
+.h-left{
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 13px;
+    padding-left: 12px;
+}
+.h-left a,.h-right a{
+    color: #fff;
+    display: inline-block;
+}
+.h-center{
+    margin: 0 25%;
+}
+.h-title{
+    font-size: 0.14rem;
+    margin: 0 1rem;
+}
+.h-right{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 13px;
+    padding-right: 16px;
+}
+.t-logo{
+    margin-top: 0.37rem;
+    padding: .40rem 0 .44rem;
+}
+.t-logo-box{
+    width: .77rem;
+    height: .77rem;
+    margin: 0 auto;
+    -webkit-border-radius:50%;
+    -moz-border-radius:50%;
+    border-radius:50%;
+}
+.m-form{
+    margin: 0 .32rem;
+}
+.m-form-bg{
+    background-color: #fff;
+    height: 1rem;
+    border-radius: .06rem;
+}
+.m-form-inp{
+    border: 0 none;
+    outline: none;
+}
+.btn-orange{
+    background-color: #f0790f;
+    height: .36rem;
+    width: 100%;
+    color: #fff;
+    font-size: .16rem;
+    letter-spacing: .08rem;
+    padding-right: .08rem;
+}
+.btn-orange:hover,.btn-orange:focus{
+    color: #fff;
+}
+.btn-white{
+    background-color: #fff;
+    height: .36rem;
+    width: 100%;
+    color: #000;
+    font-size: .16rem;
+    letter-spacing: .08rem;
+    padding-right: .08rem;
+}
+.m-form-btn,.m-form-subnav{
+    font-size: 0;
+}
+.errorMsg span{
+    line-height: .23rem;
+}
+
+/*--------------------------------登录样式结束*/
+
+
+
+
+
+
+/*--------------------------------注册样式开始*/
+.h-nav{
+    height: .38rem;
+    position: fixed;
+    background-color: #fff;
+    top:0;
+    width: 100%;
+    z-index:1;
+    border-bottom: 1px solid #d9d9d9;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+.h-nav .h-left,.h-nav .h-title,.h-nav .h-right{
+    color: #333;
+}
+.r-type{
+    text-align: center;
+}
+.r-type a{
+    display: inline-block;
+    width: .83rem;
+    height: .83rem;
+    margin: 0 .15rem;
+}
+.r-type-div{
+    display: inline-block;
+    color: #666;
+}
+.r-type-p{
+    background: url("../img/iconfont.png") no-repeat 0 0;
+}
+.r-type-c{
+    background: url("../img/iconfont.png") no-repeat -168px 0;
+}
+.r-bor{
+    border: 1px solid #999;
+    border-radius: .06rem;
+    height: .34rem;
+    overflow: hidden;
+}
+.r-form-input{
+    border: 0 none;
+    outline: none;
+}
+.btn-disabled{
+    width: 100%;
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+.SMS{
+    width: .85rem;
+    display: inline-block;
+    color: #333;
+    font-size: .14rem;
+}
+.SMS:focus.SMS:hover{
+    text-decoration: none;
+    color: #333;
+}
+/*--------------------------------注册样式结束*/
+
+/*忘记密码*/
+.m-form-code{
+    position: absolute;
+    right: 0;
+    top:1px;
+}
+input[type="button"].disabled{
+    background-color: #b7b7b7;
+}
+.findPass{
+    margin: 0 31px;
+}
+.findPass-p{
+    color: #da251d;
+    font-size: 12px;
+    margin-top: 21px;
+}
+.btn-red{
+    color: #da251d;
+    border-color: #da251d;
+    font-size: 12px;
+}
+.findPass-tips{
+    font-size: 12px;
+    color: #da251d;
+    margin-bottom: 13px;
+}
+.findPass-username{
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 21px;
+}
+.m-form-forget{
+
+}
+/*忘记密码*/

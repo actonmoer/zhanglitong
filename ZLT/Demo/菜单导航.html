@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单导航</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style type="text/css">
+        *{margin: 0;padding: 0;}
+        ul{list-style: none;}
+        .bg0{
+            background: rgba(0,0,0,.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .bg-menu{
+            position: fixed;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 101;
+            width: 100%;
+        }
+        a{
+            text-decoration: none;
+        }
+        a:focus{
+            color: #666;
+        }
+        .bg-menu{
+            transition: bottom 1s;
+            -webkit-transition: bottom 1s; /* Safari */
+        }
+
+        .bg-menu-ul li{
+            border-bottom: 1px solid #e2e2e2;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+        .bg-menu-ul li:last-child{
+            border-bottom: 0;
+        }
+        .bg-menu-ul a{
+            color: #666;
+            display: block;
+            height: 54px;
+            line-height: 54px;
+            text-align: center;
+            white-space:nowrap;
+        }
+        .bg-menu-ul li:last-child a{
+            color: #3d95e5;
+            letter-spacing: 12px;
+            padding-left: 12px;
+        }
+    </style>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+    var arr1=["菜单2","菜单4","菜单5"];
+    function addMenu(arrMenu){
+        var reg=/[<'>.;:*-+\/]/g;
+        var count=0;
+        arrMenu=arrMenu.reverse();
+        var str='<div id="bg-menu"><div class="bg0"></div>'+
+        '<div class="bg-menu"><ul class="bg-menu-ul">'+
+        '<li><a href="javascript:closeMenu();">取消</a></li>'+
+        '</ul></div></div>';
+        $("body").append(str);
+        for(var i=0;i<arrMenu.length;i++){
+            $(".bg-menu-ul").prepend('<li><a>'+arrMenu[i].replace(reg,"%ABC")+'</a></li>');
+        }
+        var h=$(".bg-menu").hide().height();
+        $(".bg-menu").css({
+            potistion:"absolute",
+            bottom:-h+"px"
+        });
+        this.timer=setInterval(function(){
+            count += 100;
+            if(count >= h){
+                count=h; clearInterval(this.timer);
+            }
+            $(".bg-menu").show().css("bottom",-h+count);
+        },13);
+    }
+    function closeMenu(){
+        $("#bg-menu").remove();
+    }
+
+    $(function(){
+        var url=["https://www.baidu.com"];
+        addMenu(arr1);
+        var len=$(".bg-menu-ul li").length;
+        console.log();
+        for(var i=0;i<len;i++){
+            $(".bg-menu-ul li").eq(i).find("a").attr("href",url);
+        }
+    });
+</script>
+</html>

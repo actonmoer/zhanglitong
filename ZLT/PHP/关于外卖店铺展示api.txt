@@ -1,0 +1,10 @@
+url:for_ajax_test
+传值形式：post
+返回参数：json
+必传参数：action:takeout_restaurant_list;lat;lng
+选填参数：order：1离我最近，2好评优先，3最新发布，4人气优先，5价格最低，6价格最高
+          catid（分类id） 与 search(搜索)       输出  
+	  null                null            全部商铺
+	  UNnull              null            分类商铺
+	  null              UNnull            搜索商铺
+	  UNnull            UNnull            Unknow_mistake

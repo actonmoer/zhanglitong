@@ -1,0 +1,25 @@
+.head{
+    height: 30px;
+    background-color: #3d95e5;
+}
+.shop-message p{
+    line-height: 28px;
+}
+
+
+
+#container{
+    margin: 0 10px;
+}
+.store-header{
+    position: static;
+    padding-left: 0;
+}
+#restaurant_thumb{
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+}
+.tu{
+    position: relative;
+}

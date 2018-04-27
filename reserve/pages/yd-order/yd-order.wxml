@@ -1,0 +1,53 @@
+  <view class="order-container">
+  <!-- 导航 -->
+  <view class="nav">
+    <text data-status="0" class="{{ orderStatus==0 ? 'nav-active' : ' ' }}" catchtap='orderStatus'>全部</text> 
+    <text data-status="2" class="{{ orderStatus==2 ? 'nav-active' : ' ' }}" catchtap='orderStatus'>支付成功</text>
+    <text data-status="3" class="{{ orderStatus==3 ? 'nav-active' : ' ' }}" catchtap='orderStatus'>进行中</text>
+    <text data-status="6" class="{{ orderStatus==6 ? 'nav-active' : ' ' }}" catchtap='orderStatus'>已完成</text>
+    <text data-status="8" class="{{ orderStatus==8 ? 'nav-active' : ' ' }}" catchtap='orderStatus'>已退款</text>
+  </view>
+  <!-- 订单列表 -->
+  <scroll-view scroll-y class='order-list' wx:if="{{ isLogin }}">
+    <block wx:for="{{ arrStatus }}" wx:key="item">
+      <view class='order-item' catchtap='orderDetail' data-id="{{ item.order_id }}">
+        <view class='order-top'>
+          <text class='order-num'>订单号：{{ item.order_id }}</text>
+          <text class='order-status'>{{ item.status_text }}</text>
+        </view>
+        <view class='order-bottom'>
+          <view class='order-img'>
+            <image src="{{ item.thumb }}"></image>
+          </view>
+          <view class='order-content'>
+            <text class='order-contact'>{{ item.company }} - {{ item.telephone }}</text>
+             <text class='order-time'>{{ item.addtime }}</text> 
+            <!-- <text class='invitation-price'>订金：¥{{ item.cash }}</text> -->
+            <text class='order-price'>总计：¥{{ item.this_top_price }}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 没有订单时显示 -->
+    <view wx:if="{{ arrStatus.length == 0 }}">
+      <empty></empty>
+    </view>
+  </scroll-view>
+
+  <!-- 没登录时显示 -->
+  <view class="no-login" wx:else>
+    <text class="login-text">登录后查看订单</text>
+    <text class="login-btn" catchtap='toLogin'>立即登录</text>
+  </view>
+</view> 
+
+
+
+
+
+
+
+
+
+ 

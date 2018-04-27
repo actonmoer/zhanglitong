@@ -1,0 +1,17 @@
+<add-reduce>
+  <view class="add-reduce">
+    <block wx:for='{{cartDataStorage[1]}}' wx:key="item">
+      <view class="add" catchtap='reduceCart' wx:if="{{ item.is_spec == 0 && item.itemid == goodsItem.itemid && item.num != 0 }}">
+        <image src="/images/reduce.png"></image>
+      </view>
+      <view class="add" catchtap='reduceCart' wx:elif="{{ item.is_spec == 1 && item.itemid == goodsItem.itemid && item.spec_attr_old[0] == goodsItem.spec_attr_old[0] && item.spec_attr_old[1] == goodsItem.spec_attr_old[1] && item.num != 0 }}">
+        <image src="/images/reduce.png"></image>
+      </view>
+      <text class="number" wx:if='{{ item.is_spec == 0 && item.itemid == goodsItem.itemid}}'>{{ item.num }}</text>
+      <text class="number" wx:elif='{{ item.is_spec == 1 && item.itemid == goodsItem.itemid && item.spec_attr_old[0] == goodsItem.spec_attr_old[0] && item.spec_attr_old[1] == goodsItem.spec_attr_old[1]}}'>{{item.num}}</text>
+    </block>
+    <view class="reduce" catchtap='addCart'>
+      <image src="/images/add.png"></image>
+    </view>
+  </view>
+</add-reduce>

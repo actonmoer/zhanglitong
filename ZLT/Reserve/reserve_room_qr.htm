@@ -1,0 +1,92 @@
+	{template 'header', 'member'}
+<script type="text/javascript">c(3);</script>
+	<script>
+	   function del(wid) {
+		var msg = "您真的确定要删除吗？\n\n请确认！";
+		if (confirm(msg)==true){
+		     location.href="?act=waiter_del&waiterid="+wid;
+		}else{
+		     return false;
+		}
+		}
+		function goinfo(wid) {
+		      location.href="?act=waiter_form&waiterid="+wid;
+		}
+	</script>
+<div class="menu">
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td class="tab"><a href="?act=show_mes"><span>商家信息</span></a></td>
+			<td class="tab"><a href="?act=waiter_list"><span>人员管理</span></a></td>
+			<td class="tab_on"><a href="?act=show_desk"><span>桌房管理</span></a></td>
+			<td class="tab"><a href="?act=order_list"><span>订单管理</span></a></td>
+			<td class="tab"><a href="?act=food_list"><span>商品管理</span></a></td>
+		</tr>
+	</table>
+</div>
+
+    <div class="smallMain clear">
+		<a href="reserve_home.php?act=show_desk" style="width: 50%;" ><span>餐桌实时</span></a>
+		<a href="reserve_home.php?act=show_room" style="width: 50%;" class="select"><span>房间实时</span></a>
+		<a href="reserve_home.php?act=show_desk_qr" style="width: 50%;" ><span>餐桌二维码</span></a>
+		<a href="reserve_home.php?act=show_room_qr" style="width: 50%;" ><span>房间二维码</span></a>
+		<div style="float:right;margin-right:20%;">
+			<?php if(is_have_auth("包房添加")){?>
+			<div class="head-bar-right"><a href="reserve_home.php?act=room_form"><span>添加</span></a></div>
+			<?php }else{?>
+			<div class="head-bar-right"><a href="reserve_home.php?act=loginout"><span>退出</span></a></div>
+			<?php }?>
+		</div>
+	</div>
+
+		<div class="bodyBox clear">
+		<style>.fourBtn a{width:33.3%;}
+         .room{width:30%;height:100px;float:left;margin:5px 5px;}
+         .room .desk_title{width:100%;padding:10px 10%;}
+         .room .desk_status{width:100%;padding-left:20%;}
+		 .room .desk_act{width:100%;padding-left:30%;}
+		 .room .desk_act a{width:100%;font-size:25px;color:blue;}
+		.QRitem{
+			margin:20px;
+			width:150px;
+			height:150px;
+			float:left;
+			border:1px solid #333;
+			padding:0 10px 10px;
+			text-align:center;
+		}
+        </style>
+		<div class="fourBtn  clear" style="height:25px;">
+
+
+		</div>
+		<div class="catsBox">
+		<?php if ($rooms) { ?>
+		     <?php foreach($rooms as $k=>$v){
+				 $url = "http://www.zhanglitong.com/mobile/qrcode_go.php?type=room&id=".$v[id];
+			 ?>
+			<div class="desk_title">
+				<div class="QRitem" id="desk_act<?php echo $k; ?>">
+					<b style="font-size:16px;margin:5px 0;display:block;">{$v[room_name]}</b>
+				</div>
+
+				<script>
+                    $(function(){
+                        $.getScript("/mobile/js/QRcode.js",function(){
+                            var qrcode = new QRCode(document.getElementById("desk_act<?php echo $k; ?>"), {
+                                text: '{$url}',
+                                width:120,
+                                height:120,
+                                colorDark : "#000000",
+                                colorLight : "#ffffff",
+                                correctLevel : QRCode.CorrectLevel.H
+                            });
+                        });
+                    })
+				</script>
+	   <?php } ?>
+				<?php } ?>
+		</div>
+	</div>
+
+{template 'footer', 'member'}

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_7b7b94cryrjm7vi.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/order.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body ng-app="Order"  style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="/mobile/User/usercenter.html" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">我的订单</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section ng-controller="MyOrderList">
+    <div class="order-nav">
+        <div><a onclick="sMenu($(this))" class="order-nav-a on">全部</a></div>
+        <div><a onclick="sMenu($(this),'takeout')" class="order-nav-a">配送订单</a></div>
+        <div><a onclick="sMenu($(this),'mall')" class="order-nav-a">商城订单</a></div>
+        <div><a onclick="sMenu($(this),'reserve')" class="order-nav-a">预定订单</a></div>
+        <!--<div><a onclick="sMenu($(this))" class="order-nav-a">待付款</a></div>-->
+        <!--<div><a onclick="sMenu($(this))" class="order-nav-a">待收货</a></div>-->
+        <!--<div><a onclick="sMenu($(this))" class="order-nav-a">待评价</a></div>-->
+        <!--<div><a onclick="sMenu($(this))" class="order-nav-a">退款</a></div>-->
+    </div>
+    <div class="m20-lr">
+        <p style="color: #666;font-size: .75rem;line-height:1.25rem;padding: .3125rem 0;">温馨提示：下单后，请您在<span style="color: #f0790f;">十分钟</span>之内付款，否则系统将自动关闭订单</p>
+    </div>
+    <div class="order-list" style="display: none;">
+        <div class="order-content bfff p20-lr" ng-repeat="o in myoder track by $index" ng-class="cName[$index]">
+            <div class="clearb" style="height: 3.25rem;">
+                <p class="fl order-number" ng-if="o.namestatus == 'takeout'">订单号：{{o.order_id.slice(8)}}</p>
+                <p class="fl order-number" ng-if="o.namestatus == 'mall'">订单号：{{o.order_id}}</p>
+                <p class="fl order-number" ng-if="o.namestatus == 'reserve'">订单号：{{o.order_id.slice(19)}}</p>
+                <div class="fr" ng-if="o.namestatus == 'takeout'" ng-switch="o.status">
+                    <p class="fr order-state" ng-switch-when="1">待付款</p>
+                    <p class="fr order-state" style="color:#2acaaa;" ng-switch-when="2">支付成功</p>
+                    <p class="fr order-state" style="color:#3d95e5;" ng-switch-when="3">待发货</p>
+                    <p class="fr order-state" style="color:#3d95e5;" ng-switch-when="4">待收货</p>
+                    <p class="fr order-state" style="color:#2acaaa;" ng-switch-when="5">待评价</p>
+                    <p class="fr order-state" style="color:#2acaaa;" ng-switch-when="6">订单完成</p>
+                    <p class="fr order-state" style="color:#888;" ng-switch-when="7">退款中</p>
+                    <p class="fr order-state" style="color:#888;" ng-switch-when="8">退款完成</p>
+                </div>
+                <div class="fr" ng-if="o.namestatus == 'mall'" ng-switch="o.status">
+                    <p class="fr order-state" ng-switch-when="1">待付款</p>
+                    <p class="fr order-state" style="color:#3d95e5;" ng-switch-when="2">待发货</p>
+                    <p class="fr order-state" style="color:#3d95e5;" ng-switch-when="3">待收货</p>
+                    <p class="fr order-state" style="color:#2acaaa;" ng-switch-when="4">交易成功</p>
+                    <p class="fr order-state" style="color:#888;" ng-switch-when="5">申请退款</p>
+                    <p class="fr order-state" style="color:#2acaaa;" ng-switch-when="6">已退款</p>
+                    <p class="fr order-state" ng-switch-when="7">货到付款</p>
+                    <p class="fr order-state" style="color:#888;" ng-switch-when="8">买家关闭</p>
+                    <p class="fr order-state" style="color:#888;" ng-switch-when="9">卖家关闭</p>
+                </div>
+                <div class="fr" ng-if="o.namestatus == 'reserve'" ng-switch="o.status">
+                    <p class="fr order-state" ng-switch-when="1">待支付</p>
+                    <p class="fr order-state" style="color:#2acaaa;" ng-switch-when="2">支付成功</p>
+                    <p class="fr order-state" style="color:#3d95e5;" ng-switch-when="3">进行中</p>
+                    <p class="fr order-state" style="color:#3d95e5;" ng-switch-when="4">订单关闭</p>
+                    <p class="fr order-state" style="color:#2acaaa;" ng-switch-when="5">退款中</p>
+                    <p class="fr order-state" style="color:#2acaaa;" ng-switch-when="6">已确认，未评价</p>
+                    <p class="fr order-state" style="color:#888;" ng-switch-when="7">订单完成</p>
+                    <p class="fr order-state" style="color:#888;" ng-switch-when="8">退款完成</p>
+                    <p class="fr order-state" style="color:#888;" ng-switch-when="9">商家不同意退款</p>
+                </div>
+            </div>
+            <div ng-if="o.namestatus == 'reserve'" style="border-top: 1px solid #f2f2f2;border-bottom: 1px solid #f2f2f2;">
+                <a ng-href="/resver_app/index.html#/orderDetail?param={{ {'oid':o.order_id.slice(19),'isReserve':'1'} | encodeURIComponent }}" class="order-link">
+                    <img ng-src="{{o.thumb}}" class="order-shop-img" alt="店铺图片">
+                    <p class="order-shop">{{o.name}}</p>
+                    <p class="order-time">下单时间：{{o.addtime*1000 | date:'yyyy-MM-dd HH:mm'}}</p>
+                    <p class="order-price">总计：<span style="font-size: .875rem;color: #333;">￥{{o.actual_payment}}</span><!--（共3件商品）--></p>
+                    <i class="iconfont icon-xiangyou order-right"></i>
+                </a>
+            </div>
+            <div ng-if="o.namestatus == 'takeout' || o.namestatus == 'mall'" style="border-top: 1px solid #f2f2f2;border-bottom: 1px solid #f2f2f2;">
+                <a ng-href="OrderDetails.html?{{o.namestatus}}={{o.order_id}}&shopName={{o.name}}" class="order-link">
+                    <img ng-src="{{o.thumb}}" class="order-shop-img" alt="店铺图片">
+                    <p class="order-shop">{{o.name}}</p>
+                    <p class="order-time">下单时间：{{o.addtime*1000 | date:'yyyy-MM-dd HH:mm'}}</p>
+                    <p class="order-price">总计：<span style="font-size: .875rem;color: #333;">￥{{o.actual_payment}}</span><!--（共3件商品）--></p>
+                    <i class="iconfont icon-xiangyou order-right"></i>
+                </a>
+            </div>
+            <div ng-if="o.namestatus == 'takeout'" ng-switch="o.status">
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="1">
+                    <a href="javascript:;" class="all-btn">取消订单</a>
+                    <a ng-href="../Pay/ShoppingPay.html?oid={{o.order_id}}&state={{o.namestatus}}"  class="all-btn">立即支付</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="2">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                    <a ng-href="OrderDetails.html?takeout={{o.order_id}}&shopName={{o.name}}&state={{o.namestatus}}&apply=refund" class="all-btn">申请退款</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="3">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="4">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                    <a ng-click="ConfirmOrder(o.order_id,'takeout',$index)" class="all-btn">确认收货</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="5">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                    <a ng-href="../takeout.php?act=restaurant&id={{o.id}}" class="all-btn">再来一单</a>
+                    <a ng-href="OrderComment.html?oid={{o.order_id}}&state={{o.namestatus}}" class="all-btn all-btn2">评价</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="6">
+                    <a ng-click="delOrder(o.order_id,o.namestatus,$event)" class="all-btn">删除订单</a>
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                    <a ng-href="../takeout.php?act=restaurant&id=213" class="all-btn">再来一单</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="7">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="8">
+                    <a ng-click="delOrder(o.order_id,o.namestatus,$event)" class="all-btn">删除订单</a>
+                </div>
+            </div>
+            <div ng-if="o.namestatus == 'mall'" ng-switch="o.status">
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="1">
+                    <a ng-href="../Pay/ShoppingPay.html?oid={{o.order_id}}&state={{o.namestatus}}"  class="all-btn">立即支付</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="2">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                    <a href="javascript:;"  class="all-btn">申请退款</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="3">
+                    <a ng-click="ConfirmOrder(o.order_id,'mall',$index)" class="all-btn">确认收货</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="4">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                    <!--<a ng-click="ConfirmOrder(o.order_id,'takeout')" class="all-btn">确认收货</a>-->
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="5">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                    <a href="javascript:;"  class="all-btn">再来一单</a>
+                    <a ng-href="OrderComment.html?oid={{o.order_id}}&state={{o.namestatus}}" class="all-btn all-btn2">评价</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="6">
+                    <a ng-click="delOrder(o.order_id,o.namestatus,$event)" class="all-btn">删除订单</a>
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="7">
+                    <a ng-href="OrderProgress.html?mid={{o.order_id}}&state={{o.namestatus}}" class="all-btn">查看进度</a>
+                    <a href="javascript:;"  class="all-btn all-btn2">退款</a>
+                </div>
+                <div class="order-btn-d" style="text-align: right;padding: .625rem 0;" ng-switch-when="8">
+                    <a ng-click="delOrder(o.order_id,o.namestatus,$event)" class="all-btn">删除订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+
+<script type="text/javascript">
+    loading();
+    var app = angular.module('Order', []);
+    app.filter('encodeURIComponent', function() {
+        return function(v1){
+            var v = "";
+            v1 = JSON.stringify(v1);
+            v = encodeURIComponent(v1);
+            console.log(JSON.stringify(v));
+            return v;
+        };
+    });
+    app.controller('MyOrderList', function($scope,$http) {
+        $http({
+            method:"POST",
+            url:"../usercenter.php",
+            data:{action:"my_order"},
+            headers:{ 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+            transformRequest:function(obj){
+                var str = [];
+                for (var p in obj) {
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function(d){
+            if(d.data.code == -200){
+                window.location.href="../login.php?Callback="+encodeURI(window.location.href);
+            }else{
+                $scope.myoder=d.data;
+                $scope.cName=new Array($scope.myoder);
+                angular.forEach($scope.myoder,function(v,k){
+                    if(v.namestatus == "takeout"){
+                        $scope.cName[k] = "takeout";
+                    }else if(v.namestatus == "mall"){
+                        $scope.cName[k] = "mall";
+                    }else if(v.namestatus == "reserve"){
+                        $scope.cName[k] = "reserve";
+                    }
+                });
+            }
+            angular.element(".order-list").show();
+            loading("loading");
+        },function errorCallback(d){
+            console.log(d);
+        });
+
+        $scope.isSelect=function(s){
+            console.log(s);
+        };
+
+        //确认收货
+        $scope.ConfirmOrder=function(id,state,index){
+            console.log(id+","+state);
+            $http({
+                method:"POST",
+                url:"../usercenter.php",
+                data:{action:"order_ok",order_id:id,namestatus:state},
+                headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                transformRequest:function(obj){
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function(d){
+                //var data=d.data.data;
+                console.log(d);
+                if(d.status == 200){
+                    if(state == "mall"){
+                        if(d.data.code == 200){
+                            console.log($scope.myoder[index]);
+                            $scope.myoder[index].status=4;
+                            alert("确认收货成功");
+                        }
+                    }else if(state == "takeout"){
+                        if(d.data.code == 200){
+                            $scope.myoder[index].status=5;
+                            alert("确认收货成功");
+                        }
+                    }
+                }
+            },function(){
+                alert("服务器出现错误，技术人员正在修复中，请稍后");
+            });
+        };
+
+        //申请退款
+        $scope.ApplyRefund=function(mid,state,index){
+            console.log(mid+","+state+","+index);
+            var tip=confirm("确认退款");
+            if(tip){
+                $http({
+                    method:"POST",
+                    url:"../usercenter.php",
+                    data:{action:"backout_order",order_id:mid,namestatus:state},
+                    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                    transformRequest:function(obj){
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function(d){
+                    console.log(d);
+                    if(d.status == 200){
+                        if(d.data.code == 200){
+                            $scope.myoder[index].status=7;
+                            alert("等待商家确认");
+                        }
+                    }
+                },function(d){
+                    alert("服务器出现错误，技术人员正在修复中，请稍后");
+                });
+            }
+        };
+
+        //删除订单
+        $scope.delOrder=function(oid,state,s){
+            console.log(oid);
+            console.log(s.currentTarget);
+            $http({
+                url:"../usercenter.php",
+                method:"POST",
+                data:{action:"del_order_id",order_id:oid,namestatus:state},
+                headers:{ 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+                transformRequest:function(obj){
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function(d){
+                console.log(d);
+                if(d.status == 200){
+                    d=d.data;
+                    if(d.code == 200){
+                        angular.forEach($scope.myoder,function(v,k){
+                            if(v.order_id == oid){
+                                $scope.myoder.splice(k,1);
+                            }
+                        });
+                        alert(d.msg);
+                    }
+                }
+            });
+        };
+
+    });
+
+    function sMenu(s,status){
+        s.parent().siblings().find("a").removeClass("on");
+        s.addClass("on");
+        $(".order-content").show(200);
+        switch(status){
+            case "takeout":
+                $(".order-content").hide().filter(".takeout").show(200);
+                break;
+            case "mall":
+                $(".order-content").hide().filter(".mall").show(200);
+                break;
+            case "reserve":
+                $(".order-content").hide().filter(".reserve").show(200);
+                break;
+            default:
+                $(".order-content").show(200);
+        }
+    }
+</script>
+</html>

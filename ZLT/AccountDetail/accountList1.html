@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账户明细</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_8bbljbkhfl4k7qfr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Account.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <style type="text/css">
+        #loadingList{
+            height: 2.5rem;background-color: #d3d3d3;text-align: center;
+        }
+        #loadingList>i{
+            -webkit-animation:load 2s linear infinite;
+            animation:load 2s linear infinite;
+            line-height: 2.5rem;
+        }
+        -webkit-@keyframes load{
+                    from {-webkit-transform: rotate(0deg);}
+                    to {-webkit-transform: rotate(360deg);}
+                }
+        @keyframes load{
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">账户明细</div>
+        <div class="h-R" style="font-size:.75rem;color:#fff;"></div>
+    </div>
+</header>
+<section>
+    <div class="listBox">
+        <!--<div class="recharge-list list">
+            <p><span>提现</span><span class="status orange">处理中</span></p>
+            <p><span class="time">2017-06-14&nbsp;15:24:17</span><span class="amount">+2,308.00</span></p>
+        </div>-->
+    </div>
+    <!--<div id="loadingList"><i class="iconfont icon-shuaxin"></i></div>-->
+</section>
+<script>
+    var isEnd = true;
+    var abc1 = function(num){
+        $.ajax({
+            url:"../usercenter.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{"action":"account_detail",pf:num},
+            success:function(data){
+                console.log(data);
+                if(data.code == 200){
+                    var d = data.data;
+                    $(".listBox").append(rechargeList1(d,function(){
+                        isEnd = true;
+                    }));
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后!");
+            }
+        });
+    };
+
+    //数据渲染
+    function rechargeList1(d, fun){
+        var list = "", addStr = "", state = "", stateColor = "";
+        for(var i=0;i<d.length;i++){
+            if(d[i].amount > 0){
+                addStr = "+"+d[i].amount;
+                state = "收入";
+                stateColor = "color: #2acaaa;";
+            }else{
+                addStr = d[i].amount;
+                state = "支出";
+                stateColor = "color: #f0790f;";
+            }
+            list += '<div class="recharge-list list" onclick="linkBtn('+d[i].itemid+',\''+d[i].reason+'\')">';
+            list += '<p><span>'+state+'</span><span class="status" style="'+stateColor+'">'+d[i].reason+'</span></p>';
+            list += '<p><span class="time">'+mtime(d[i].addtime)+'</span><span class="amount">'+addStr+'</span></p></div>';
+        }
+        if(d.length < 10){
+            isEnd = false;
+        }else{
+            if(typeof fun === "function"){
+                fun();
+            }
+        }
+        return list;
+    }
+
+    $(function(){
+        var num = 0;
+        var doc = $(document),win = $(window);
+        abc1(num);
+        doc.scroll(function(){
+            //abc = null;
+//            console.log(doc.scrollTop());
+//            console.log(doc.height());
+//            console.log(win.height());
+            if(isEnd){
+                if(doc.scrollTop() + win.height() >= doc.height()){
+                    isEnd = false;
+                    if($("#loadingList").length > 0){
+                        loadList(0);
+                    }else{
+                        $("section").append(loadList(1));
+                    }
+                    num += 10;
+                    console.log(num);
+                    setTimeout(function(){
+                        abc1(num);
+                        loadList(0);
+                    },2000);
+                }
+            }
+        });
+    });
+
+    function loadList(i){
+        if(i){
+            var str = '<div id="loadingList"><i class="iconfont icon-shuaxin"></i></div>';
+            return str;
+        }else{
+            $("#loadingList").remove();
+        }
+    }
+
+    function linkBtn(id, state){
+        if(id){
+            location.href = "accountDetails.html?itemid="+id+"&stateVal="+state;
+        }
+    }
+</script>
+</body>
+</html>

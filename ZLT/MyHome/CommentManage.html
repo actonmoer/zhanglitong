@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>评论管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_6ej3pm25ln154s4i.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/comment.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <style type="text/css">
+        .comment-img>img{
+            width: 100%;
+            border-radius: 100%;
+        }
+        .comment-details>span{
+            word-wrap:break-word ;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">评论管理</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div id="comment-manage">
+        <!--<div class="comment-manage">-->
+           <!--<div class="comment-content clearb">-->
+               <!--<div class="comment-img"></div>-->
+               <!--<p class="comment-name"><span>会员名称</span><span class="right">17:15</span></p>-->
+               <!--<p class="comment-star"><span><i class="iconfont icon-xing" style="color:#f0ce0f;"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i></span><span>30分钟送达</span></p>-->
+               <!--<p class="comment-details"><span>评价的内容评价的内容评价的内容评价的内容评价的内容评价的内容</span></p>-->
+               <!--<p class="comment-btn"><a href="javascript:;">举报</a><a href="javascript:;">回复</a></p>-->
+           <!--</div>-->
+        <!--</div>-->
+        <!--<div class="comment-manage">-->
+            <!--<div class="comment-content clearb">-->
+            <!--<div class="comment-img"></div>-->
+            <!--<p class="comment-name"><span>会员名称</span><span class="right">17:15</span></p>-->
+            <!--<p class="comment-star"><span><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i></span><span>30分钟送达</span></p>-->
+            <!--<p class="comment-details"><span>评价的内容评价的内容评价的内容评价的内容评价的内容评价的内容</span></p>-->
+            <!--<p class="comment-btn"><a href="javascript:;">举报</a><a href="javascript:;">回复</a></p>-->
+            <!--<div class="merchant-reply-gray clearb">-->
+                <!--<p><span>商家回复：</span><span class="right">2017.06.12</span></p>-->
+                <!--<p><span>回复内容回复内容回复内容回复内容回复内容回复内容回复内容回复内容回复内容回复内容回复内容回复内容回复内容回复内容回复内容</span></p>-->
+                <!--<p><span class="right">删除</span></p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //var str="";
+        var imgUrl="";
+        $.ajax({
+            url: "../BusinessHome.php",
+            type: "post",
+            data: {action:"s_comment"},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                if(d.code == 200){
+                    console.log(d.msg);
+                    for(var i=0;i<d.msg.length;i++){
+                        console.log(i);
+                        imgUrl='/api/avatar/show.php?username='+d.msg[i].username+'&size=large';
+                        $("#comment-manage").append(strM(imgUrl, mtime(d.msg[i].seller_ctime), d.msg[i].username, d.msg[i].seller_comment, d.msg[i].id));
+                        for(var j=0;j<d.msg[i].seller_star;j++){
+                            $(".comment-manage").eq(i).find("i").eq(j).css("color","#f0ce0f");
+                        }
+                        if(d.msg[i].seller_reply){
+                            $(".comment-manage").eq(i).find(".comment-content").append(strS(mtime(d.msg[i].seller_rtime), d.msg[i].seller_reply));
+                            $(".comment-manage").eq(i).find(".comment-btn-reply").html("查看");
+                        }
+                    }
+                }
+            },
+            error:function(d){
+                alert("网络延时，请稍后再试");
+                window.history.go(-1);
+            }
+        });
+    });
+    function strM(imgUrl, timer, userName, conent, id){
+        var str = '<div class="comment-manage">\n' +
+                  '<div class="comment-content clearb">\n' +
+                  '<div class="comment-img"><img src='+imgUrl+'></div>\n' +
+                  '<p class="comment-name"><span>'+userName+'</span><span class="right">'+timer+'</span></p>\n' +
+                  '<p class="comment-star"><span><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i></span></p>\n' +
+                  '<p class="comment-details"><span>'+conent+'</span></p>\n' +
+                  '<p class="comment-btn"><a href="javascript:jubao();">举报</a><a class="comment-btn-reply" href="CommentReply.html?id='+id+'">回复</a></p>\n' +
+                  '</div>\n'+
+                  '</div>';
+        return str;
+    }
+
+    function strS(timer, content){
+        var str='<div class="merchant-reply-gray clearb">\n' +
+                '<p><span>'+getCookie("cpk_username")+'：</span><span class="right">'+timer+'</span></p>\n' +
+                '<p><span>'+content+'</span></p>\n' +
+                '<p><span class="right">删除</span></p>\n' +
+                '</div>';
+        return str;
+    }
+
+    function jubao(){
+        alert("此功能正在完善中!");
+    }
+</script>
+</html>

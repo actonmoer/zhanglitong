@@ -1,0 +1,1021 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+	<title>预订页面</title>
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_1039nte8kuunxw29.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="../js/myjs.js"></script>
+	<style>
+		header{
+			height: 3rem;
+		}
+		.head{
+			position: fixed;
+			top:0;
+			display: flex;
+			display: -webkit-flex;
+			width: 100%;
+			background-color: #4fc08d;
+			box-shadow: 0 2px 4px 0 rgba(0, 17, 33, 0.1);
+			height: 3rem;
+			z-index: 1;
+		}
+		.head div{
+			text-align: center;
+			line-height: 3rem;
+			overflow: hidden;
+		}
+		.h-C{
+			color: #fff;
+			font-size: 1.125rem;
+			width: 60%;
+		}
+		.h-L,.h-R{
+			width: 20%;
+		}
+		.iconfont{
+			font-size: 1rem;
+			display: inline-block;
+		}
+		.icon-home,
+		.icon-bd,
+		.icon-hy,
+		.icon-gwc,
+		.icon-my{
+			margin-top: .625rem;
+			display: block;
+		}
+		.icon-home,
+		.icon-my,
+		.icon-gwc{
+			font-size: 1.375rem;
+		}
+		.icon-bd{
+			font-size: 1.5625rem;
+		}
+		.icon-hy{
+			font-size: 1.5rem;
+		}
+		.h-bgimg{
+			background: url("../img/bg .png") no-repeat 50%;
+			height: 11.125rem;
+			background-size: cover;
+		}
+		.h-L-a{
+			display: block;
+			line-height: 3rem;
+			height: 3rem;
+		}
+		.icon-return{
+			font-size: 1rem;
+			color: #fff;
+		}
+		.h-R-a{
+			display: block;
+			line-height: 3rem;
+			color: #fff;
+			font-size: .875rem;
+		}
+
+		html,body,div,p,form,label,ul,li,dl,dt,dd,ol,img,button,b,em,strong,small,h1,h2,h3,h4,h5,h6{margin:0;padding:0;border:0;list-style:none;font-style:normal;}
+		body{font-family:SimHei,'Helvetica Neue',Arial,'Droid Sans',sans-serif;font-size:14px;color:#333;padding: 0;min-width: 300px; max-width: 640px; margin: 0 auto;}
+		a, a.link{color:#666;text-decoration:none;font-weight:500;}
+		a, a.link:hover{color:#666;}
+		h1,h2,h3,h4,h5,h6{font-weight: normal;}
+
+		.indent-nav {
+			display: flex;
+			display: -webkit-flex;
+			background-color: #fff;
+			padding:0 1.25rem;
+			box-shadow: 0 .125rem .25rem 0 rgba(51, 51, 51, 0.1);
+			border-bottom:1px solid #d3d3d3;
+		}
+		.indent-nav div {
+			flex: 1;
+			-webkit-flex: 1;
+			height: 2.375rem;
+			text-align: center;
+		}
+		.indent-nav .on {
+			border-bottom: .125rem solid #3d95e5;
+			color: #3d95e5;
+		}
+		.indent-a {
+			color: #666;
+			font-size: 1rem;
+			display: inline-block;
+			height: 2.375rem;
+			line-height: 2.375rem;
+			padding: 0 .625rem;
+		}
+
+		.left-menu::-webkit-scrollbar {width: 0px;}
+		.main{overflow:hidden;margin:0 0 43px;}
+		.left-menu{width:24%;float:left;position:relative;overflow-y:scroll;padding-right:5px;}
+		.left-menu ul li{background:#eee;height:44px;line-height:44px;width:100%;text-align:center;font-size:14px;padding:3px 0;color:#777;border-bottom:1px solid #d3d3d3;}
+		.left-menu ul li.active{color:#333 !important;background-color:#fff;}
+		.right-con{display:none;width:76%;float:left;overflow-y:scroll;background:#fff;position:relative;}
+		.con .con-active{display:block;}
+		.right-con li{position:relative;height:90px;padding:5px 0;}
+		.right-con li .menu-img{position:absolute;border-radius:3px;width:78px;height:78px;cursor:pointer;}
+		.right-con li .menu-img img{height:100%;width:100%;vertical-align:middle;border:0;border-radius:4px;}
+		.right-con li .menu-txt{margin:0 0 0 88px;height:78px;}
+		.right-con li .menu-txt h3{font-size:14px;margin-bottom:10px;margin-top:8px;}
+		.right-con li .menu-txt p{font-style:normal;line-height:20px;font-size:13px;vertical-align:bottom;}
+		.right-con li .menu-txt p.list2 b{font-size:16px;color:#f00;}
+		.right-con li .btn{background-color:transparent;position:absolute;top:58px; right:10px;cursor:pointer;padding:3px;}
+		.right-con li .add{top:58px; right:10px;}
+		.right-con li .reduce{top:58px; right:50px;}
+		.right-con li .btn button.minus{margin-right:-10px;display:none;}
+		.right-con li .btn button{width:40px;height:40px;border:0;background:transparent;padding:0;}
+		.right-con li .btn button strong{padding:5px 10px;font-size:15px;display:inline-block;text-indent:-100px;padding:5px 11px;height:12px;}
+		.right-con li .btn button.minus strong{background:url(img/down.png) no-repeat;background-size:22px 22px;}
+		.right-con li .btn i{display:inline-block;color:#4fc08d;text-align:center;font-style:16px;vertical-align:top;}
+		.right-con li .btn button.add{margin-left:-10px;}
+		.right-con li .btn button.add strong{background:url(img/up.png) no-repeat;background-size:22px 22px;}
+		.right-con li .btn .price{display:none;}
+		.footer{display:block;height:45px;position:fixed;width:100%;z-index:3;bottom:0;background:#eee;font-size:15px;}
+		.footer .left{float:left;margin-left:15px;}
+		.footer .right{float:right;width:85px;}
+		.footer .right .disable{background:#4fc08d;}
+		.footer .xhlbtn{display:block;text-align:center;line-height:45px;background-color:#F03C03;color:#fff;font-size:16px;}
+	</style>
+	<style>
+		.btn a{
+			color:#fff;
+			border-radius:12px;
+		}
+		.bk{
+			position:fixed;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			background: rgba(0,0,0,.5);
+			z-index:100;
+		}
+		.menu-wrap{
+			width: 220px;
+			margin: 40% auto;
+			background: #fff;
+			border-radius: 5px;
+		}
+		.menu-title{
+			text-align: center;
+			font-size:14px;
+			height:40px;
+			line-height:40px;
+			position: relative;
+			padding:0 24px;
+			margin-bottom:6px;
+		}
+		.menu-title .close-bk{
+			position: absolute;
+			top:0;
+			right: 12px;
+			font-size: 15px;
+			color: #333;
+		}
+		.menu-cont{
+			/*padding:0 10px 10px 10px;*/
+		}
+		.menu-list{
+			position: relative;
+			overflow: hidden;
+			padding:0 24px;
+		}
+		.menu-list ul{
+			overflow: hidden;
+			font-size: 1rem;
+			width:100%;
+			color:#666;
+		}
+		.menu-list ul li{
+			display:inline-block;
+			text-align:center;
+			font-size:12px;
+			width:30%;
+			padding:4px 0;
+		}
+		.menu-bottom{
+			overflow: hidden;
+			padding:0 24px;
+			height:40px;
+			line-height:40px;
+		}
+		.menu-bottom .goods-money{
+			color: #db2222;
+			font-size:18px;
+		}
+		.menu-bottom .addCar-btn{
+			display:inline-block;
+			float:right;
+			color:#fff;
+		}
+		.footer .left .cartN span{
+			font-size:18px;
+			color:#f31717;
+		}
+		.car-mask{
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,.3);
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		.car-list{
+			position:absolute;
+			bottom:45px;
+			background:#fff;
+			width: 100%;
+		}
+		.car-list-head{
+			border-bottom:1px solid #eee;
+			font-size:14px;
+			margin-left:18px;
+			height: 24px;
+			line-height: 24px;
+		}
+		.car-list-head span{
+			border-left: 3px solid #4fc08d;
+			padding-left: 5px;
+		}
+		.car-list-content{
+			/*padding-top:10px;*/
+			border-bottom:1px solid #eee;
+		}
+		.car-list-item{
+			position:relative;
+			font-size:14px;
+		}
+		.car-list-left{
+			position:absolute;
+			top:0;
+			left:95px;
+			display: inline-block;
+			height:60px;
+		}
+		.car-list-left p{
+			line-height:16px;
+		}
+		.car-list-left p:nth-of-type(2){
+			color:#999;
+		}
+		.car-list-right{
+			position:absolute;
+			top:0;
+			right:23px;
+			display: inline-block;
+			line-height:16px;
+			text-align:right;
+		}
+		.car-list-right span:nth-of-type(2){
+			margin:0 15px;
+		}
+		.footer .mark{
+			position:absolute;
+			left:25px;
+			bottom:30px;
+			display:inline-block;
+			width:15px;
+			height:15px;
+			background:red;
+			border-radius:50%;
+		}
+		.footer .mark a{
+			position: absolute;
+			top: -10px;
+			left: 4px;
+			color: #fff;
+		}
+		.normal{
+			color: #666;
+			border:1px solid #666;
+		}
+		.active1{
+			color: #4fc08d;
+			border:1px solid #4fc08d;
+		}
+		.goodsNum{
+			position: fixed;
+			left: 38px;
+			bottom: 32px;
+			z-index: 10;
+			background: red;
+			border-radius: 50%;
+			color: #fff;
+			width:15px;
+			height:15px;
+			text-align:center;
+		}
+	</style>
+	<!--新添加-->
+	<style>
+		nav{
+			position:relative;
+			width:100%;
+			height:2.1875rem;
+			font-size:.875rem;
+			background:#fff;
+			border-bottom:1px solid #eee;
+		}
+		nav p{
+			position:absolute;
+			width:33.333%;
+			height:2.1875rem;
+			line-height:2.1875rem;
+			text-align:center;
+			font-size:.9375rem;
+		}
+		nav p:nth-child(1){
+			top:0;
+			left:0;
+		}
+		nav p:nth-child(2){
+			top:0;
+			left:33.333%;
+		}
+		nav p:nth-child(3){
+			top:0;
+			left:66.666%;
+		}
+		nav p .icon-youhui,nav p .icon-huo,nav p .icon-te{
+			font-size:12px;
+			margin-right: 2px;
+		}
+		nav p .icon-youhui{
+			color:#ffe931;
+		}
+		nav p .icon-huo{
+			color:#f31717;
+		}
+		nav p .icon-te{
+			color:#3d95e5;
+		}
+		.moreBtn{
+			position:fixed;
+			top:70px;
+			right:18px;
+			background:#fff;
+			width:34px;
+			height:34px;
+			line-height:34px;
+			border-radius:50%;
+			color:#4fc08d;
+			border:1px solid #eee;
+			text-align:center;
+		}
+		.spanCar{
+			display:inline-block;
+			height:34px;
+			line-height:34px;
+			width:34px;
+			background:#fff;
+			text-align:center;
+			border-radius:50%;
+		}
+		.carImg{
+			width:60px;
+			height:60px;
+			margin:16px 0 7px 18px;
+		}
+		.carImg img{
+			width:100%;
+			height:100%;
+			border-radius:5px;
+		}
+		.spec{
+			font-size:12px;
+			color:#666;
+			height:25px;
+			line-height:25px;
+		}
+		.menu-list ul li:nth-child(1),.menu-list ul li:nth-child(2){
+			margin-right:5%;
+		}
+		.num-box{
+			position:absolute;
+			top:62px;
+			right:40px;
+		}
+		.navGreen{
+			color:#4fc08d;
+		}
+	</style>
+</head>
+<header>
+	<div class="head">
+		<div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+		<div class="h-C">菜谱</div>
+		<div class="h-R" style="color:#fff;" onclick="window.location.href = '/mall/lotterywap.php'">抽奖</div>
+	</div>
+</header>
+<body>
+<section>
+	<nav>
+		<p><i class="iconfont icon-youhui"></i><span>今日优惠</span></p>
+		<p><i class="iconfont icon-huo"></i><span>店长推荐</span></p>
+		<p><i class="iconfont icon-te"></i><span>特色热卖</span></p>
+	</nav>
+	<div class="main" id="main">
+		<div class="left-menu">
+			<ul id="left-ul"></ul>
+		</div>
+		<div class="con">
+		</div>
+		<div class="footer">
+			<div class="car-list" style="display:none;">
+				<div class="car-list-head">
+					<span>已选商品</span>
+				</div>
+			</div>
+			<div class="left">
+				<p id="cartN" class="cartN">
+					<span class="spanCar" style="margin:5px 5px 0 0;">
+						<i class="iconfont icon-gouwuche open-bk" onclick="openBk()" style="font-size:22px;color:#3d95e5"></i>
+					</span>
+					<span style="letter-spacing:2px;font-size:12px;">¥</span><span id="totalpriceshow">0</span>
+				</p>
+			</div>
+			<div class="right">
+				<span id="btnselect" class="xhlbtn disable" onclick="addDish(this)">请点菜</span>
+			</div>
+		</div>
+	</div>
+	<div class="car-mask" style="display:none;"></div>
+	<div class="goodsNum">0</div>
+	<div class="moreBtn" onclick="moreBtn()"><i class="iconfont icon-gengduo1"></i></div>
+</section>
+<script type="text/javascript" src="/mobile/js/layer.js"></script>
+<script>
+	var obj = strUrl();
+	if(getCookie("desks")){
+        manyOrder(obj.commonid,obj.reserve_type);	//第二次下单
+	}else{
+        checkRoom();	//检查房间是否被使用中，true没有，false被使用
+	}
+	function checkRoom(){
+	    var str = false;
+        $.ajax({
+            url:"/mobile/check_reserve.php",
+            data:{commomid:obj.commonid,type:obj.reserve_type,rid:obj.rid},
+            type:"POST",
+            dataType:"JSON",
+            success:function(d){
+//                console.log(d);
+//                alert(JSON.stringify(d, null, 4));
+                if(d.code == 200){
+                    if(d.data){		//true是没有订单
+                        str = false;
+                        //setCookie("desks",obj.commonid,1,"/");	//设置cookies Desk为1天时间，结账之后清除Desk
+                    }else{	//false有订单
+
+                        str = true;
+					}
+                }else if(d.code == -400){
+                    alert("你还没有登录!");
+                    location.href = "/mobile/login.php?Callback="+encodeURIComponent(window.location.href);
+                }else if(d.code == 201){
+                    manyOrder(obj.commonid,obj.reserve_type);
+                    //alert("加菜成功");
+                    str = false;
+                    //location.href = "/mobile/login.php?Callback="+encodeURIComponent(window.location.href);
+                }else if(d.code == -777){
+                    alert("温馨提示:待服务员开台后方可点菜");
+                    location.href = "/mall/lotterywap.php";
+                    //alert("加菜成功");
+                    //str = true;
+                    //location.href = "/mobile/login.php?Callback="+encodeURIComponent(window.location.href);
+                }else{
+                    alert("温馨提示:待服务员开台后方可点菜");
+                    location.href = "/mall/lotterywap.php";
+                }
+            },
+            error:function(){
+                alert("网络延时，请稍后！");
+            }
+        });
+        return str;
+	}
+
+    var i1=i2=i3=0,
+		allmoney=m=m1=m2=0,
+		waitercode=null!=getUrlParam('waiter_code')?getUrlParam('waiter_code'):'',
+		rid = getUrlParam('rid'),
+		commonid = getUrlParam('commonid'),
+		reserve_type=getUrlParam('reserve_type'),
+		catid,
+		ddLength,
+		arrSpec = [],
+		changeValue,
+		orderId,
+		Rd,
+	    videoId;
+    var itemNum=0;
+
+    $(function(){
+        roomNum();
+		/*菜的类型*/
+        $.ajax({
+            url:"../ajax_reserve.php?for_ajax=cuisinecate&rid="+rid,
+            type:"GET",
+            dataType:"json",
+            async:false,
+            success:function(data){
+                var d = data.data;
+                for(var i=0;i<d.length;i++){
+                    $("#left-ul").append(leftMenu(d[i].typeid,d[i].typename));
+                    $(".left-menu #left-ul").children("li").eq(0).addClass("active");
+                }
+                catid = parseFloat($("#left-ul").children("li").eq(0).data("typeid"));
+            }
+        });
+		/*菜品详情*/
+        rightUl({rid:rid,cuisine_catid:catid});
+		/*购物车*/
+        $.ajax({
+            url:"http://www.zhanglitong.com/mobile/ajax_reserve.php?for_ajax=get_shoppingcart",
+            type:"POST",
+            data:JSON.stringify({rid:rid,waiter_code:waitercode}),
+            dataType:"json",
+            async:false,
+            success:function(data){
+                if(data.msg != "购物车为空"){
+                    var d = data.data.cuisines;
+                    $("#totalpriceshow").html(data.data.detial_price);
+                    if(data.code==200){
+                        console.log(data);
+                        Ochange(d);
+                    }
+                }
+            }
+        });
+		/*遮盖层*/
+        $(".car-mask").click(function(){
+            $(".car-mask,.car-list").hide();
+        });
+    });
+    //打开页面，判断是否多次下单
+    function manyOrder(c,r){
+        $.ajax({
+            url: "/mobile/ajax_reserve.php?for_ajax=check_order2&commonid="+c+"&reserve_type="+r,
+            type: "get",
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == -400 || d.code == 201){
+                    changeValue = d.code;
+                    orderId = d.data;
+                    $("#btnselect").html("确认加菜");
+                }
+            },
+            error: function(){
+                alert("网络延时,请稍后!");
+            }
+        });
+    }
+    /*多规格选择*/
+    function openBox(price,index,itemid,elite){
+        console.log(Rd);
+        $("body").append(bk(price,Rd[index].title,itemid,elite));
+        var dd=Rd[index].spec_attr;
+        var price = Rd[index].price;
+        ddLength = dd.length;
+        for(var i=0;i<dd.length;i++){
+            $(".menu-list").append('<h6 class="spec" id="spec'+i+'">'+dd[i].title+':</h6><ul class="spec-ul spec'+i+'"></ul>');
+            if($.isArray(dd[i].cont)){
+                for(var j=0;j<dd[i].cont.length;j++){
+                    $(".spec-ul").eq(i).append("<li class='spec-li normal'>"+dd[i].cont[j].name+"</liid>");
+                    $(".spec-ul").eq(i).children("li").eq(j).attr({money:dd[i].cont[j].money,index1:j});
+                }
+            }else{
+                $(".spec-ul").eq(i).append("<li class='spec-li normal'>"+dd[i].cont.name+"</li>");
+                $(".spec-ul").eq(i).children("li").attr({money:dd[i].cont.money,index1:0});
+            }
+        }
+        /*默认选中多规格的第一个*/
+        var monkey01 = 0;
+		var total = $(".goods-money").html();
+        for(var i=0;i<$(".spec-ul").length;i++){
+           $(".spec-ul").eq(i).children("li").eq(0).addClass("active1");
+           if($(".spec-ul").eq(i).children("li").eq(0).hasClass("active1")){
+               monkey01 += parseFloat($(".spec-ul").eq(i).children("li").eq(0).attr("money"));
+		   }
+		   if(i == 0){
+               m = parseFloat($(".spec-ul").eq(i).children("li").eq(0).attr("money"));
+               i1 = parseFloat($(".spec-ul").eq(i).children("li").eq(0).attr("index1"))+1;
+		   }else if(i == 1){
+		       m1 = parseFloat($(".spec-ul").eq(i).children("li").eq(0).attr("money"));
+               i2 = parseFloat($(".spec-ul").eq(i).children("li").eq(0).attr("index1"))+1;
+		   }else if(i == 2){
+		       m2 = parseFloat($(".spec-ul").eq(i).children("li").eq(0).attr("money"));
+               i3 = parseFloat($(".spec-ul").eq(i).children("li").eq(0).attr("index1"))+1;
+		   }
+           $(".goods-money").html(monkey01);
+	   }
+		$(".spec-li").click(function(){
+            $(this).addClass("active1").siblings("li").removeClass("active1");
+            if($(this).parent("ul").hasClass("spec0")){
+                m = parseFloat($(this).attr("money"));
+                i1 = parseFloat($(this).attr("index1")) + 1;
+            }else if($(this).parent("ul").hasClass("spec1")){
+                m1= parseFloat($(this).attr("money"));
+                i2 = parseFloat($(this).attr("index1")) + 1;
+            }else{
+                m2= parseFloat($(this).attr("money"));
+                i3 = parseFloat($(this).attr("index1")) + 1;
+            }
+//            allmoney=m + m1 + m2 + parseFloat(price);
+            allmoney=m + m1 + m2;
+            $(".goods-money").html(allmoney);
+        });
+        $(".close-bk").click(function(){
+            $(".bk").remove();
+        });
+    }
+	/*渲染left分类*/
+    function leftMenu(typeid,typename){
+        var menu = '<li onclick="leftActive(this,'+typeid+')" data-typeid=\''+typeid+'\'>'+typename+'</li>';
+        return menu;
+    }
+	/*渲染right分类*/
+    function rightDiv(){
+        var rightDiv = '<div class="right-con con-active">'+
+            '<ul id="right-ul">'+
+            '</ul>'+
+            '</div>';
+        return rightDiv;
+    }
+    function rightMenu(title,price,thumb,amount){
+        var menu = '<li>'+
+            '<div class="menu-img"><img src="'+thumb+'" width="55" height="55" /></div>'+
+            '<div class="menu-txt">'+
+            '<h4 style="margin:5px 0 10px 0;">'+title+'</h4>'+
+            '<p class="list1" style="color:#4fc08d;margin-bottom:6px;">月销：'+amount+'</p>'+
+            '<p class="list2">'+
+            '<b id="price" style="color:#f31717;">￥'+price+'</b>'+
+            '</p>'+
+            '</div>'+
+            '</li>';
+        return menu;
+    }
+	/*渲染选取规格*/
+    function bk(price,title,itemid,elite){
+        var goodsPrice = price;
+        var size = '<div class="bk" style="display:block">'+
+            '<div class="menu-wrap">'+
+            '<div class="menu-title" >'+
+            '<h6 style="font-size:16px;border-bottom:1px solid #eee;">'+title+'</h6>'+
+            '<a href="javascript:;" class="close-bk"><i class="iconfont icon-guanbi" style="font-size:22px;color:#999;"></i></a>'+
+            '</div>'+
+            '<div class="menu-cont">'+
+            '<div class="menu-list">'+
+            '</div>'+
+            '<div class="menu-bottom">'+
+            '<span style="font-size:12px;color:#db2222;">¥</span><span class="goods-money">'+goodsPrice+'</span>'+
+            '<a href="javascript:;" class="addCar-btn" onclick="addCar(\''+itemid+'\',\''+elite+'\',\''+price+'\')"><i class="iconfont icon-jia" style="font-size:22px;color:#4fc08d;"></i></a>'+
+            '</div></div></div></div>';
+        return size;
+    }
+	/*加入购物车*/
+    function joinCar(cPrice,itemid,t){
+        $.post("http://www.zhanglitong.com/mobile/ajax_reserve.php?for_ajax=add_shoppingcart",
+            JSON.stringify({action:"add_shoppingcart",rid:rid,cuisine_id:itemid,num:1,cash:cPrice,is_spec:0,waiter_code:waitercode}),
+            function(data){
+                console.log(data);
+                var d = data.data.cuisines;
+                if(data.code==200){
+                    $(t).siblings(".num-box").children("span").text(++itemNum);
+                    if($(".car-list").children("div").hasClass("car-list-content")){
+                        $(".car-list-content").remove();
+                        Ochange(d);
+                    }else{
+                        Ochange(d);
+                    }
+                    $("#totalpriceshow").html(data.data.detial_price);
+                }
+            },"json");
+    }
+    function addCar(itemid,elite,cPrice){
+        if(ddLength == 1){
+            arrSpec.push(i1);
+        }else if(ddLength == 2){
+            arrSpec.push(i1);
+            arrSpec.push(i2);
+        }else{
+            arrSpec.push(i1);
+            arrSpec.push(i2);
+            arrSpec.push(i3);
+        }
+        $.post("http://www.zhanglitong.com/mobile/ajax_reserve.php?for_ajax=add_shoppingcart",
+            JSON.stringify({action:"add_shoppingcart",rid:rid,cuisine_id:itemid,num:1,cash:cPrice,spec_attr:arrSpec,is_spec:1,waiter_code:waitercode}),
+            function(data){
+                var d = data.data.cuisines;
+                $("#totalpriceshow").html((data.data.detial_price));
+                console.log(data);
+                if(data.code==200){
+                    if($(".car-list").children("div").hasClass("car-list-content")){
+                        $(".car-list-content").remove();
+                        Ochange(d);
+                    }else{
+                        Ochange(d);
+                    }
+                }
+            },"json");
+        arrSpec.splice(0,arrSpec.length);
+        $(".bk").remove();
+    }
+	/*购物车遮盖层*/
+    function openBk(){
+        $(".car-mask,.car-list").toggle();
+    }
+	/*渲染购物车列表*/
+    function carList(title,total_price,num,placeid,thumb,itemid){
+        var list = '<div class="car-list-content" data-itemid="'+itemid+'">'+
+            '<div class="car-list-item">'+
+			'<div class="carImg"><img src="'+thumb+'" alt="购物车图片"></div>'+
+            '<div class="car-list-left">'+
+            '<p>'+title+'</p>'+
+            '<p class="menuSpec">规格：无</p>'+
+            '<span style="display:inline-block;margin-top:10px;color:#d72626;letter-spacing:1px;">¥'+total_price+'</span>'+
+            '</div>'+
+            '<div class="car-list-right">'+
+            '<a id="delBtn" onclick="delCarItem(\''+placeid+'\')"><i class="iconfont icon-icon_delete" style="font-size:20px;color:#4fc08d;"></i></a>'+
+            '<span class="amount" style="display:block;margin-top:23px;letter-spacing:2px;">x'+num+'份</span>'+
+            '</div> </div> </div>';
+        return list;
+    }
+	/*删除购物车中的列表*/
+    function delCarItem(placeid,t){
+        $.post("http://www.zhanglitong.com/mobile/ajax_reserve.php?for_ajax=del_shoppingcart_cuisine",
+            JSON.stringify({rid:rid,num:1,placeid:placeid,waiter_code:waitercode}),
+            function(data){
+                var d = data.data.cuisines;
+                $("#totalpriceshow").html(data.data.detial_price);
+                $(".car-list-content").remove();
+                if(data.code==200){
+                    if($(t).siblings(".num-box").children("span").text() > 0){
+                        $(t).siblings(".num-box").children("span").text(--itemNum);
+					}
+                    if(d.length == 0){
+                        $(".car-mask").hide();
+                        $(".goodsNum").text("0");
+                    }else{
+                        Ochange(d);
+                    }
+                }
+            },"json");
+    }
+	/*获取url中的参数*/
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+	/*Object转Array*/
+    function Ochange(d){
+        var arr = [ ];
+        var goodsNum = 0;
+        for ( var i in d ){
+            var str = d[ i ];
+            arr.push( str );
+        }
+        for(var i=0;i<arr.length;i++){
+			goodsNum += arr[i].num;
+            $(".car-list").append(carList(arr[i].title,arr[i].total_price,arr[i].num,arr[i].placeid,arr[i].thumb,arr[i].itemid));
+            if(arr[i].spec_attr){
+                if(arr[i].spec_attr.length == 1){
+                    var taste = arr[i].spec_attr[0].cont[0].name;
+                    $(".car-list-content").eq(i).find(".menuSpec").text("规格："+taste);
+                }else if(arr[i].spec_attr.length == 2){
+                    var taste = arr[i].spec_attr[0].cont[0].name;
+                    var weight = arr[i].spec_attr[1].cont[1].name;
+                    $(".car-list-content").eq(i).find(".menuSpec").text("规格："+taste+","+weight);
+                }else{
+                    var taste = arr[i].spec_attr[0].cont[0].name;
+                    var weight = arr[i].spec_attr[1].cont[1].name;
+                    var color1 = arr[i].spec_attr[2].cont[2].name;
+                    $(".car-list-content").eq(i).find(".menuSpec").text("规格："+taste+","+weight+","+color1);
+                }
+            }
+
+            console.log($(".num-box").attr("data-itemid"));
+            console.log($(".car-list-content").attr("data-itemid"));
+//            if($(".num-box").attr("data-itemid") == $(".car-list-content").attr("data-itemid")){
+//                console.log("成功");
+//			}
+
+        }
+		$(".goodsNum").html(goodsNum);
+    }
+	/*加载left分类*/
+    function leftActive(t,typeid){
+        $(t).addClass("active").siblings().removeClass("active");
+        rightUl({rid:rid,cuisine_catid:typeid});
+    }
+	/*加菜到订单*/
+    function addDish(s){
+        var a = checkRoom();
+        if(a){
+            alert("房间已被使用");
+            return false;
+		}
+        var number = $(".goodsNum").html();
+        if(number != 0){
+            if($(s).html() == "确认加菜"){
+                $.ajax({
+                    url: "/mobile/ajax_reserve.php?for_ajax=add_cuisines2",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: JSON.stringify({rid:rid,commonid:commonid,reserve_type:reserve_type,order_id:orderId,status:3}),
+                    success: function(data){
+//                        alert(JSON.stringify(data, null, 4));
+//                        alert(JSON.stringify(data.data, null, 4));
+//                        console.log(data.data);
+                        window.location.href = data.data;
+                    },
+                    error: function(){
+                        alert("网络延时,请稍后!");
+                    }
+                });
+            }else{
+                layer.open({
+                    content: '订单正在提交，请稍后',
+                    time: 2 //3秒后自动关闭
+                });
+                setTimeout(function(){
+                    $.ajax({
+                        url:"../ajax_reserve.php?for_ajax=add_order2",
+                        type:"POST",
+                        dataType:"json",
+                        data:JSON.stringify({rid:rid,commonid:commonid,reserve_type:reserve_type}),
+                        success:function(data){
+                            console.log(data);
+                            if(data.code == 200){
+                                setCookie("desks",obj.commonid,0.2/24,"/");
+                                setTimeout(function(){
+                                    window.location.href =  data.url;
+                                },1000);
+                            }else if(data.code == -444){
+                                alert(data.d);
+                                location.reload();
+                            }
+                        },
+                        error: function(){
+                            alert("网络延时，请稍后!");
+                        }
+                    });
+                },1000);
+            }
+        }else{
+            alert("请点菜！");
+        }
+    }
+    /*点击更多(重复的代码)*/
+    function moreBtn(){
+        var url=window.location.search;
+        var cutUrl = url.slice(1);
+        addMenu(["厨房直播","美食视频","我的订单","叫服务员"],function(a){
+            var menuUl = $(".bg-menu-ul").children("li");
+            for(var i=0;i<a.length;i++){
+                switch (i){
+					case 0:
+                        menuUl.eq(0).click(function(){
+                            window.location.href = "../Video/video.html";
+                        });
+						break;
+                    case 1:
+                        menuUl.eq(1).click(function(){
+                            if(videoId != null){
+                                window.location.href = "../Video/videoDetail.html?moduleid=14&itemid=" + videoId;
+                            }else{
+                                alert("此商家暂无美食视频！");
+                            }
+                        });
+                        break;
+                    case 2:
+                        menuUl.eq(2).click(function(){
+                            window.location.href = "/mobile/newdemo/ROrderList.html";
+                        });
+                        break;
+                    case 3:
+                        menuUl.eq(3).click(function(){
+                            $.get("../call_small_two.php?"+cutUrl,function(data){
+                                alert(data.data);
+                            },"json")
+                        });
+                        break;
+					default:
+					    return false;
+
+				}
+			}
+		});
+	}
+	/*监听购物车数量变化*/
+	$(".goodsNum").on("DOMNodeInserted",function(){
+        var number = $(".goodsNum").text();
+        if(number == 0){
+            $("#btnselect").html("请点菜");
+        }else{
+            if(changeValue == -400){
+                $("#btnselect").html("确认加菜");
+			}else{
+                $("#btnselect").html("确认下单");
+			}
+        }
+	});
+	/*房间号*/
+	function roomNum(){
+	    $.ajax({
+			url: "/mobile/go_to_desk.php",
+			type: "POST",
+			data: {type:obj.reserve_type,commomid:obj.commonid},
+			dataType: "JSON",
+			success: function(d){
+			    if(d.code == 200){
+                    videoId = d.data.video_id;
+			        $(".h-C").html(d.data[0]);
+			        $("title").html(d.data[1]);
+				}
+			},
+			error: function(){
+			    alert("网络延时，请稍后!");
+			}
+		});
+	}
+	/*增减购物车*/
+	/*function ARgoods(price,itemid){
+	    var goods = '<div class="btn add" onclick="joinCar('+price+','+itemid+',this)">'+
+			'<a class="join-car" href="javascript:;">'+
+			'<i class="iconfont icon-jia" style="font-size:22px;color:#4fc08d;">'+
+			'</i></a></div>'+
+			'<div class="num-box" data-itemid="'+itemid+'"><span>0</span></div>'+
+            '<div class="btn reduce" onclick="delCarItem(0,this)">'+
+            '<a class="reduce-car" href="javascript:;">'+
+            '<i class="iconfont icon-jian" style="font-size:22px;color:#666;">'+
+            '</i></a></div>';
+	    return goods;
+	}*/
+    function ARgoods(price,itemid){
+        var goods = '<div class="btn add" onclick="joinCar('+price+','+itemid+')">'+
+            '<a class="join-car" href="javascript:;">'+
+            '<i class="iconfont icon-jia" style="font-size:22px;color:#4fc08d;">'+
+            '</i></a></div>';
+        return goods;
+    }
+    /*切换nav*/
+    $("nav p").click(function(){
+        var index = $(this).index();
+        switch (index){
+			case 0:
+                rightUl({rid:rid,is_weekday:1});
+                break;
+			case 1:
+                rightUl({rid:rid,is_feature_hot:1});
+                break;
+			default:
+                rightUl({rid:rid,is_level:1});
+		}
+	});
+	/*加载right-ul列表数据*/
+	function rightUl(itemParam){
+        $.ajax({
+            url:"../ajax_reserve.php?for_ajax=cuisine",
+            type:"POST",
+            data:JSON.stringify(itemParam),
+            dataType:"json",
+            async:false,
+            success:function(data){
+                console.log(data.data);
+                Rd = data.data.restaurant;    //给openBox()
+                $("#right-ul").children("li").remove();
+                $(".con").append(rightDiv());
+                for(var i=0;i<Rd.length;i++){
+                    $("#right-ul").append(rightMenu(Rd[i].title,Rd[i].price,Rd[i].thumb,Rd[i].amount));
+                    if(Rd[i].spec_attr.length > 0){
+                        var price = Rd[i].price;
+                        $(".list2").eq(i).append('<div class="btn" id="choose-spec"><a style="background-color:#4fc08d;padding:5px 10px;font-size:12px;" class="choose-spec" onclick="openBox('+price+', '+i+', '+Rd[i].itemid+','+Rd[i].elite+')">选规格</a></div>');
+                    }else{
+                        $(".list2").eq(i).append(ARgoods(Rd[i].price,Rd[i].itemid));
+                        var IId = $(".num-box").attr("data-itemid");
+                        console.log(IId);
+                    }
+                }
+            }
+        });
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单--物流详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_kv927g0p9s51xlxr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/order.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body ng-app="Order"  style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">我的订单</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section ng-controller="MyOrderList" class="p20-lr m20-t bfff">
+    <div class="p20-t"></div>
+    <div class="order-line">
+        <!--<div class="order-line-state on" style="padding-top: 0;"><i class="order-line-i"></i>支付成功1 <p style="font-size: .875rem;">2017-08-10</p></div>-->
+        <div ng-repeat="o in orderState track by $index" class="order-line-state" ng-class="{'on':$index==0}" ng-style="{paddingTop:($index == 0)?'0':'',borderBottom:($last)?'0':''}"><i class="order-line-i"></i>{{o.note}}<p ng-if="state1 != 'mall'" style="font-size: .875rem;">{{o.addtime*1000 | date:'yyyy-MM-dd HH:mm'}}</p></div>
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    var u=strUrl(window.location.search);
+    var app = angular.module('Order', []);
+    app.controller('MyOrderList', function($scope,$http) {
+        $scope.state1=u.state;
+        $http({
+            method:"POST",
+            url:"../usercenter.php",
+            data:{action:"show_order_status",order_id:u.mid,namestatus:u.state},
+            headers:{ 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+            transformRequest:function(obj){
+                var str = [];
+                for (var p in obj){
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function(d){
+            var result=d.data;
+            if(d.status == 200){
+                if(result.code == 200){
+                    $scope.orderState=result.data.reverse();
+                }
+            }else if(d.status == 500){
+                alert("服务器出现错误，技术人员正在修复中，请稍后");
+            }
+        },function errorCallback(d){
+            alert("服务器出现错误，技术人员正在修复中，请稍后");
+        });
+    });
+</script>
+</html>

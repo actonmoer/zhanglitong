@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通智慧城市</title>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="掌里通智慧城市">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileImage" content="apple-touch-icon-precomposed.png">
+    <meta name="msapplication-TileColor" content="#007AFF">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_5vq4zivnz34sra4i.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="bookmark" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/mobile/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="/mobile/css/style.css">
+    <link rel="stylesheet" href="/mobile/css/index1.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/mobile/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="https://apis.map.qq.com/tools/geolocation/min?key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp"></script>
+    <script type="text/javascript" src="/mobile/js/myjs.js"></script>
+    <script>
+        //定位
+        var geolocation = new qq.maps.Geolocation();
+        function showWatchPosition() {
+            geolocation.watchPosition(function(position){   //开始监听位置
+                geolocation.clearWatch();
+                document.getElementById("areaSelect").innerHTML = position.city;
+                //alert(JSON.stringify(position));
+                var obj = {};
+                obj.lat = position.lat;
+                obj.lng = position.lng;
+                obj.city = encodeURI(position.city);
+                obj = JSON.stringify(obj);
+                setCookie("userLocation", obj, null, "/");
+            });
+        }
+    </script>
+</head>
+<style type="text/css">
+    #areaSelect{
+        font-size: .875rem;
+        display: block;
+        line-height: 1.875rem;
+        white-space: nowrap
+    }
+</style>
+<body style="background-color: #f1f1f1;">
+<!--头部-->
+<header style="height: 1.875rem;">
+    <div style="height: 1.875rem;background-color: #f1f1f1;">
+        <div class="h-L text-center">
+            <a id="areaSelect">正在定位中...</a>
+        </div>
+        <div class="h-C">
+            <div class="h-sousou" style="margin-top: .1875rem;">
+                <a href="javascript:;" class="h-sousou-a">
+                    <i class="icon-sousuo iconfont i-sousou"></i>
+                </a>
+                <input type="text" class="form-control h-sousou-input" name="" placeholder="搜索">
+            </div>
+        </div>
+        <div class="h-R"></div>
+    </div>
+</header>
+
+<section>
+    <!--轮播图-->
+    <div class="swiper-container" id="swiper1" style="height: 150px;">
+        <!--城市概况-->
+        <div style="position: absolute;left: 0;top: 0;z-index: 2;margin: .3125rem;">
+            <a href="javascript:;" style="color: #fff;font-size: .8125rem;">城市概况</a>
+        </div>
+        <!--时间-->
+        <div style="position: absolute;left: 0;bottom: 0;z-index: 2;margin: .3125rem;">
+            <div id="timer" style="color: #fff;font-size: .75rem;"></div>
+        </div>
+        <!--天气情况-->
+        <div style="position: absolute;right: 0;top: 0;z-index: 2;margin: .3125rem;">
+            <div id="weather" style="color: #fff;font-size: .75rem;"></div>
+        </div>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img height="150" style="width: 100%;" src="/mobile/img/lb01.png" alt=""></div>
+            <div class="swiper-slide"><img height="150" style="width: 100%;" src="/mobile/img/lb02.png" alt=""></div>
+            <div class="swiper-slide"><img height="150" style="width: 100%;" src="/mobile/img/lb03.png" alt=""></div>
+            <div class="swiper-slide"><img height="150" style="width: 100%;" src="/mobile/img/lb04.png" alt=""></div>
+        </div>
+        <div class="swiper-pagination" style="bottom: 5px;"></div>
+    </div>
+    <!--菜单栏-->
+    <div class="menu-swiper-item">
+        <a href="/mobile/takeout_test.php"><img src="/mobile/img/dw.png" alt=""><p>外卖服务</p></a>
+        <a href="/resver_app/#/"><img src="/mobile/img/yuding.png" alt=""><p>生活预定</p></a>
+        <a href="/mall/lotterywap.php"><img src="/mobile/img/choujiang.png" alt=""><p>每日抽奖</p></a>
+        <a href="/mobile/Video/video.html"><img src="/mobile/img/zhibo.png" alt=""><p>欢乐直播</p></a>
+        <a href="javascript:alert('正在开发中');"><img src="/mobile/img/chongzhi.png" alt=""><p>缴费充值</p></a>
+        <a href="http://m.kuaidi100.com/"><img src="/mobile/img/wuliu.png" alt=""><p>查寄快递</p></a>
+        <a href="javascript:alert('正在开发中');"><img src="/mobile/img/che.png" alt=""><p>智能泊车</p></a>
+        <a href="javascript:alert('正在开发中');"><img src="/mobile/img/guanjia.png" alt=""><p>智能管家</p></a>
+        <a href="/sitemap/category.php?mid=16"><img src="/mobile/img/shangdian.png" alt=""><p>移动超市</p></a>
+        <a href="/mobile/bianmin.php"><img src="/mobile/img/more.png" alt=""><p>更多</p></a>
+    </div>
+    <!--需求服务-->
+    <div>
+        <div class="index-title"><i class="index-line"></i><span>城市实体</span><a class="more">更多>></a></div>
+        <div id="subnav" style="margin-top: .25rem;">
+            <div class="index-service">
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=331">
+                        <img src="/mobile/img/government.png" alt="政府机关">
+                        <p style="color: #333;font-size: .875rem;">政府机关</p>
+                        <p style="color: #333;font-size: .75rem;line-height: .625rem;">organ</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4">
+                        <img src="/mobile/img/qiyezaixian.png" alt="企业在线">
+                        <p style="color: #333;font-size: .875rem;">企业在线</p>
+                        <p style="color: #333;font-size: .75rem;line-height: .625rem;">online</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=259">
+                        <img src="/mobile/img/jiaoyu.png" alt="培训教育">
+                        <p style="color: #333;font-size: .875rem;">培训教育</p>
+                        <p style="color: #333;font-size: .75rem;line-height: .625rem;">education</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="index-service" style="margin-top: 1px;">
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=156" style="height: 4.5rem;">
+                        <img src="/mobile/img/foot.png" alt="餐饮美食">
+                        <p style="color: #333;font-size: .875rem;">餐饮美食</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=320" style="height: 4.5rem;">
+                        <img src="/mobile/img/lvyou.png" alt="旅游景点">
+                        <p style="color: #333;font-size: .875rem;">旅游景点</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=320" style="height: 4.5rem;">
+                        <img src="/mobile/img/yule.png" alt="娱乐休闲">
+                        <p style="color: #333;font-size: .875rem;">娱乐休闲</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="javascript:alert('正在开发中');" style="height: 4.5rem;">
+                        <img src="/mobile/img/shequ.png" alt="社区团队">
+                        <p style="color: #333;font-size: .875rem;">社区团队</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div>-->
+        <!--<div class="index-title"><i class="index-line"></i><span>城市实体</span></div>-->
+        <!--<div class="index-service">-->
+            <!--<div onclick="window.location.href='/mobile/index.php?moduleid=4&catid=331'">-->
+                <!--<div class="index-service-L"><img src="/mobile/img/government.png" alt=""></div>-->
+                <!--<div class="index-service-R" style="margin-top: .625rem;padding-left: .625rem;">-->
+                    <!--<p style="color: #333;font-size: .875rem;margin-bottom: .1875rem;">政府机关</p>-->
+                    <!--<p style="color: #333;font-size: .75rem;">organ</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div onclick="window.location.href='/mobile/index.php?moduleid=4&catid=259'">-->
+                <!--<div class="index-service-L"><img src="/mobile/img/jiaoyu.png" alt=""></div>-->
+                <!--<div class="index-service-R" style="margin-top: .625rem;padding-left: .625rem;">-->
+                    <!--<p style="color: #333;font-size: .875rem;margin-bottom: .1875rem;">培训教育</p>-->
+                    <!--<p style="color: #333;font-size: .75rem;">education</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div onclick="window.location.href='/mobile/index.php?moduleid=4'">-->
+                <!--<div class="index-service-L"><img src="/mobile/img/qiyezaixian.png" alt=""></div>-->
+                <!--<div class="index-service-R" style="margin-top: .625rem;padding-left: .625rem;">-->
+                    <!--<p style="color: #333;font-size: .875rem;margin-bottom: .1875rem;">企业在线</p>-->
+                    <!--<p style="color: #333;font-size: .75rem;">online</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div onclick="window.location.href='/mobile/index.php?moduleid=4&catid=178'">-->
+                <!--<div class="index-service-L"><img src="/mobile/img/fuwu.png" alt=""></div>-->
+                <!--<div class="index-service-R" style="margin-top: .625rem;padding-left: .625rem;">-->
+                    <!--<p style="color: #333;font-size: .875rem;margin-bottom: .1875rem;">商务服务</p>-->
+                    <!--<p style="color: #333;font-size: .75rem;">business</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--休闲娱乐-->
+    <!--<div>-->
+        <!--<div class="index-title"><i class="index-line"></i><span>掌里通生活</span></div>-->
+        <!--<div class="swiper-container" id="swiper2">-->
+            <!--<div class="swiper-wrapper">-->
+                <!--<div class="index-entertainment">-->
+                    <!--<div>-->
+                        <!--<a href="/mobile/index.php?moduleid=4&catid=156" style="display: block;">-->
+                            <!--<img src="/mobile/img/foot.png" alt="">-->
+                            <!--<p>餐饮美食</p>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<a href="/mobile/index.php?moduleid=4&catid=320">-->
+                            <!--<img src="/mobile/img/lvyou.png" alt="">-->
+                            <!--<p>旅游景点</p>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<a href="/mobile/index.php?moduleid=4&catid=320">-->
+                            <!--<img src="/mobile/img/yule.png" alt="">-->
+                            <!--<p>娱乐休闲</p>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<a href="javascript:alert('正在开发中');">-->
+                            <!--<img src="/mobile/img/shequ.png" alt="">-->
+                            <!--<p>社区团队</p>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--综合-->
+    <div>
+        <div class="index-title"><i class="index-line"></i><span>综合</span></div>
+        <div class="index-comprehensive">
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=21&catid=3645">新闻资讯</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=9">人才对接</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=4">在线实体</a></div>
+            <div class="index-comprehensive-item"><a href="/sitemap/category.php?mid=17">优惠折扣</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/Video/video.html">直播视频</a></div>
+            <div class="index-comprehensive-item"><a href="/sitemap/category.php?mid=16">商城超市</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=8&catid=3839">组织活动</a></div>
+            <div class="index-comprehensive-item"><a href="javascript:alert('正在开发中');">商业联盟</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=5">提供服务</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=6">需要帮助</a></div>
+        </div>
+    </div>
+    <!--政务在线-->
+    <div class="index-governmentAffairs">
+        <div>政务在线</div>
+        <div><a href="https://common.diditaxi.com.cn/general/webEntry?channel=1262#/" style="color: #666;">车主服务</a></div>
+        <div><a href="http://zuoche.com/touch/searincityrotoute.jspx" style="color: #666;">交通出行</a></div>
+        <div>办证大厅</div>
+        <div>线上医疗</div>
+        <div>其他</div>
+    </div>
+    <!--新闻-->
+    <div class="index-news" style="margin-bottom: 3.75rem;">
+        <div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>新闻</span><a href="mobile/index.php?moduleid=21&catid=3645" class="more">更多>></a></div>
+        <!--<div class="index-Intelligence">-->
+            <!--<div class="index-Intelligence-item">-->
+                <!--<div class="index-Intelligence-item-L"><img src="../img/123.png" width="85" height="85" alt=""></div>-->
+                <!--<div class="index-Intelligence-item-R">-->
+                    <!--<p style="font-size: .875rem;color: #666;margin-bottom: .5rem;">标题</p>-->
+                    <!--<p style="color: #999;font-size: .75rem;margin-bottom: .875rem;">内容介绍内容介绍内容介绍内容介绍内容介绍内容介绍内容介绍</p>-->
+                    <!--<p style="color: #999;font-size: .75rem;text-align: right;">2017-10-17 18:00</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</section>
+<footer>
+    <div>
+        <a href="/">
+            <img src="/mobile/img/home.png" alt="">
+            <p>首页</p>
+        </a>
+    </div>
+    <div>
+        <a href="/member/alert.php">
+            <img src="/mobile/img/pipei.png" width="19" height="19" alt="">
+            <p>匹配</p>
+        </a>
+    </div>
+    <div>
+        <a href="/mobile/chat.php">
+            <img src="/mobile/img/goutong.png" width="19" height="19" alt="">
+            <p>沟通</p>
+        </a>
+    </div>
+    <div>
+        <a href="/mobile/my.php">
+            <img src="/mobile/img/wode.png" width="19" height="19" alt="">
+            <p>我的</p>
+        </a>
+    </div>
+    <div>
+        <a href="/mobile/more.php">
+            <img src="/mobile/img/more1.png" style="margin: 15px 0 8px 0;" alt="">
+            <p>更多</p>
+        </a>
+    </div>
+</footer>
+<style type="text/css">
+    footer{
+        z-index: 2;
+    }
+    footer>div>a{
+        display: block;
+        height: 3.125rem;
+    }
+    footer>div>a img{
+        margin-top: .375rem;
+        margin-bottom: .125rem;
+    }
+    footer>div>a p{
+        font-size: .75rem;
+    }
+</style>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        footState(0);
+        if(getCookie("userLocation")){
+            var o = JSON.parse(getCookie("userLocation"));
+            document.getElementById("areaSelect").innerHTML = decodeURI(o.city);
+        }else{
+            showWatchPosition();
+        }
+        var mySwiper = new Swiper ('#swiper1', {
+            autoplay: 3000,
+            pagination: '.swiper-pagination'
+        });
+        //天气
+        $.ajax({
+            url: "http://wthrcdn.etouch.cn/weather_mini",
+            type: "get",
+            data: {city:"广州"},
+            dataType: "JSONP",
+            success: function(d){
+                //console.log(d);
+                $("#timer").html(d.data.forecast[0].low+"~"+d.data.forecast[0].high);
+                $("#weather").html(d.data.forecast[0].type);
+            }
+        });
+
+        $.ajax({
+            url: "/mobile/index_news.php",
+            type: "get",
+            dataType: "JSON",
+            success: function(d){
+                //console.log(d);
+                for(var i=0;i<d.length;i++){
+                    $(".index-news").append('<div class="index-news-item"><a href="/mobile/index.php?moduleid=21&itemid='+d[i].itemid+'"><span>'+d[i].title+'</span><i class="iconfont icon-right" style="font-size: .875rem;height:inherit;float: right;"></i><span>'+mtime1(d[i].edittime)+'</span></a></div>');
+                }
+            }
+        });
+
+
+    });
+
+
+</script>
+</body>
+</html>

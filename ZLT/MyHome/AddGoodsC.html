@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加商品</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_5z981uclhh9tfbt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/add-goods.css">
+    <link rel="stylesheet" href="../css/menu.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/myjs.js"></script>
+    <script src="../js/layer.js"></script>
+    <style type="text/css">
+        .spec-descript{
+            position: fixed;
+            top: 2.5rem;
+            left: 100%;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            padding-top: 1.25rem;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;overflow-x: hidden;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">添加商品</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <form id="myform" onsubmit="return update()">
+        <div class="add-goods">
+            <div class="m20-lr" style="padding:1.25rem 0;">
+                <div class="m20-b">
+                    <input type="text" class="form-control" name="name" placeholder="请输入商品名称" required>
+                </div>
+                <div class="m20-b">
+                    <select class="form-control goods-classify" name="cuisine" required>
+                        <option>请选择所属分类</option>
+                    </select>
+                </div>
+                <!-- <div class="m20-b">
+                        <select class="form-control goods-classify" name="cuisine" required>
+                            <option>请选择所属分类</option>
+                        </select>
+                    </div>-->
+                <div class="m20-b clearb">
+                    <div class="goods-title">商品缩略图：</div>
+
+
+                    <div class="goods-upimg" id="thelist" style="float: left;">
+                        <i class="iconfont icon-tianjia" onclick="document.getElementById('thumb').click()" style="font-size: 2.5rem;color: #3d95e5;margin: 1.75rem 0 1.1875rem;line-height: initial;"></i>
+                        <input type="file" name="thumb" id="thumb" style="display: none;">  <!--onchange="upImg($(this))"-->
+                        <p style="color: #666;font-size: .875rem;">商品缩略图</p>
+                    </div>
+
+
+                    <div style="display: inline-block;margin-left: .6875rem;">
+                        <p style="font-size: .75rem;color: #666;margin-top: 2.75rem;">大小不超过10M，<br>jpg,png等格式均可</p>
+                    </div>
+                </div>
+                <div class="m20-b">
+                    <input type="text" class="form-control" name="sell_price" placeholder="请填写在售价格" required>
+                </div>
+                <div class="m20-b">
+                    <div class="goods-norms">
+                        <div class="on-off-norms">
+                            <span>开启多规格选项</span>
+                            <div class="onoff" id="isspecifications" onclick="onoff($(this))">
+                                <i class="offbtn"></i><!--  is_spec -->
+                            </div>
+                            <input type="hidden" name="is_spec" value="0">
+                        </div>
+                        <div class="goods-more-write">
+                            <!--<div class="clearb goods-write" style="display: none;">-->
+                            <!--<input type="text" class="form-control write-norms" name="spec_attr[]"  placeholder="请填写规格" required>-->
+                            <!--<input type="text" class="form-control write-price" name="spec_price[]" placeholder="请输入价格" required>-->
+                            <!--<i class="iconfont icon-tianjia" onclick="addWrite($(this))"></i>-->
+                            <!--<i class="iconfont icon-quxiao" onclick="reductWrite($(this))"></i>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="m20-b">
+                    <div class="goods-norms">
+                        <div class="on-off-discount">
+                            <span>是不是打折商品</span>
+                            <div class="onoff" id="discount">  <!--onclick="discount($(this))"-->
+                                <i class="offbtn"></i>
+                            </div>
+                            <input type="hidden" name="is_discount" id="is_discount" value="0">
+                        </div>
+                        <div class="discount-more-write" style="display:none;">
+                            <div class="clearb discount-write">
+                                <input type="text" class="form-control write-price" style="width:100%" name="discount" placeholder="请输入折扣!如0.90">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="m20-b">
+                    <div class="goods-putaway">
+                        <span>确认上架</span>
+                        <div class="onoff" id="isshelves" onclick="onoff($(this))">
+                            <i class="onbtn"></i><!--  is_spec -->
+                        </div>
+                        <input type="hidden" name="isup" value="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin: 1.25rem;">
+            <input type="submit" class="btn menu-btn" style="width: 100%;" value="保&nbsp;&nbsp;存">
+        </div>
+    </form>
+</section>
+<div class="spec-descript" style="background-color: #f5f5f5;">
+    <form>
+        <div style="padding: 1.25rem;background-color: #fff;">
+            <div class="m20-b">
+                <input type="text" class="form-control" name="spec_descript_foot[]" placeholder="请输入包含的食物" required>
+            </div>
+            <div class="m20-b">
+                <input type="number" class="form-control" name="spec_descript_number[]" placeholder="请输入数量" required>
+            </div>
+        </div>
+        <div class="m20-lr" style="margin-top: 1.25rem;">
+            <input type="submit" class="btn menu-btn" style="width: 100%;" value="保&nbsp;&nbsp;存">
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="../js/webuploader.js"></script>
+<script>
+    $(function(){
+        /* init webuploader*/
+        var $list=$("#thelist");   //几个初始化全局
+        var thumbnailWidth = 130;   //缩略图高度和宽度（单位是像素）
+        var thumbnailHeight = 130;
+        var uploader = WebUploader.create({
+            auto: true,    // 选完文件后，是否自动上传
+            swf: '/webupload/Uploader.swf',   // swf文件路径
+            server: '../fileupload.php',    // 文件接收服务端
+            pick: '.shop-upimg',  // 选择文件的按钮,可选
+            multiple:false,       //是否开起同时选择多个文件能力
+            noCompressIfLarger: false,    // 如果发现压缩后文件大小比原来还大,则使用原来图片,此属性可能会影响图片自动纠正功能
+            fileNumLimit:1,   //验证文件总数量, 超出则不允许加入队列
+            accept: {        // 只允许选择图片文件
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            },
+            method:'POST'
+        });
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {  // webuploader事件.当选择文件后，文件被加载到文件队列中，触发该事件。等效于 uploader.onFileueued = function(file){...} ，类似js的事件定义。
+            var $li = $(
+                    '<div id="' + file.id + '" class="file-item thumbnail" style="margin:-108px 0 0;padding:0;">' +
+                    '<img>' +
+                    '</div>'
+                ),
+                $img = $li.find('img');
+            $list.append( $li );    // $list为容器jQuery实例
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            uploader.makeThumb( file, function( error, src ) {   //webuploader方法
+                if ( error ) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+                $img.attr( 'src', src );
+            }, thumbnailWidth, thumbnailHeight );
+            uploader.upload();
+        });
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', function( file,response ) {
+            //var imgUrl =  response.data;
+            $("#imgUrl").val(response.data);
+            console.log($("#imgUrl"));
+            $( '#'+file.id ).addClass('upload-state-done');
+        });
+
+        // 文件上传失败，显示上传出错。
+        uploader.on( 'uploadError', function( file ) {
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+            // 避免重复创建
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
+            $error.text('上传失败');
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var obj = strUrl();
+        var url=window.location.search;
+        $.ajax({
+            url: "../BusinessHome.php",
+            type: "POST",
+            data: {action:"show_cuisine"},
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    for(var i=0;i<d.data.length;i++){
+                        $("select[name='cuisine']").append("<option value='"+d.data[i].id+"'>"+d.data[i].cuisine+"</option>");
+                    }
+                }else if(d.code == -201){
+                    layer.open({
+                        content: '个人用户不被支持此操作！',
+                        btn: '我知道了',
+                        shadeClose:false,
+                        yes:function(){window.location.href = '/mobile/index.html';}
+                    });
+
+                }
+            }
+        });
+
+        if(obj.modify){
+            $(".h-C").html("修改商品");
+            for(o in obj){
+                $("#myform").append("<input type='hidden' name='"+o+"' value='"+obj[o]+"'>");
+            }
+            var mid=$("input[name='modify']").val();
+            $.ajax({
+                url: "../BusinessHome.php",
+                type: "POST",
+                data: {action:"so_dishes",id:mid},
+                dataType: "JSON",
+                success: function(d){
+                    setTimeout(function(){
+                        $("select[name='cuisine']").find("option[value='"+d.data.cuisine_id+"']").attr("selected",true);
+                    },300);
+                    $("input[name='name']").val(d.data.dishes);
+                    $(".goods-upimg").html("<img src='https://"+d.data.thumb+"' alt='商品图像' onclick='upclick($(this))' style='width:100%;height:8.125rem;'><input type='file' name='thumb' id='thumb' onchange='upImg($(this))' style='display: none;'>");
+                    $("#myform").append("<input type='hidden' id='thumbid' name='thumb' value='"+d.data.thumb+"'>");
+                    $("input[name='sell_price']").val(d.data.sell_price);
+                    if(d.data.is_spec == 1){    //1是开启多规格
+                        $("input[name='is_spec']").val(1);
+                        $("#isspecifications").find("i").removeClass("offbtn").addClass("onbtn");
+                        for(var i=0;i<d.data2.length;i++){
+                            $(".goods-more-write").append(addWrite1(d.data2[i][0],d.data2[i][1]));
+                        }
+                    }
+                    if(d.data.isup == 0){    //1是已上架，0是未上架
+                        $("input[name='isup']").val(0);
+                        $("#isshelves").find("i").removeClass("offbtn").addClass("onbtn");
+                    }
+                }
+            });
+        }
+    });
+
+    function addWrite(){
+        var str='<div class="clearb goods-write"><input type="text" class="form-control write-norms" name="spec_attr[]" placeholder="请填写规格" required><input type="text" class="form-control write-price" name="spec_price[]" placeholder="请输入价格" required><i class="iconfont icon-tianjia" onclick="addWrite()"></i><i class="iconfont icon-quxiao" onclick="reductWrite($(this))"></i><div style="clear: both;"><a href="javascript:isShow();" style="padding: .25rem 0;font-size: .75rem;">点我</a></div></div>';
+        $(".goods-more-write").append(str);
+    }
+
+    function addWrite1(g_Specifications, g_Price){
+        var str='<div class="clearb goods-write"><input type="text" class="form-control write-norms" name="spec_attr[]" value="'+g_Specifications+'" placeholder="请填写规格" required><input type="text" class="form-control write-price" name="spec_price[]" value="'+g_Price+'" placeholder="请输入价格" required><i class="iconfont icon-tianjia" onclick="addWrite()"></i><i class="iconfont icon-quxiao" onclick="reductWrite($(this))"></i></div>';
+        return str;
+    }
+
+    function reductWrite(s){
+        if($(".goods-write").length >1){
+            s.parents(".goods-write").remove();
+        }
+    }
+
+    //图片上传
+    /*function upImg(s){
+        $.ajax({
+            url: '../imagenew.php',
+            method: 'POST',
+            cache: false,
+            data:new FormData($("#myform")[0]),
+            processData: false,
+            contentType: false
+        }).done(function(res) {
+            var d=$.parseJSON(res);
+            //alert(JSON.stringify(d));
+            s.parent().html("<img src='"+d.thumb+"' style='width:100%;height:8.125rem;' onclick='upclick($(this))'><input type='file' name='thumb' id='thumb' onchange='upImg($(this))' style='display: none;'>");
+
+            if($("#thumbid").length > 0){
+                if($("#thumbid").val() != d.thumb){
+                    $("#thumbid").val(d.thumb);
+                }
+            }else{
+                $("#myform").append("<input type='hidden' id='thumbid' name='thumb' value='"+d.thumb+"'>");
+            }
+        }).fail(function(res) {alert("上传遇到问题"+res);});
+    }*/
+
+    //开启多规格
+    function onoff(s){
+        var ht=s.siblings().html();
+        if(ht == "确认上架"){
+            if(s.find("i").hasClass("offbtn")){
+                s.find("i").removeClass("offbtn").addClass("onbtn");
+                $("input[name='isup']").val(0);
+            }else{
+                s.find("i").removeClass("onbtn").addClass("offbtn");
+                $("input[name='isup']").val(1);
+            }
+        }else if(ht == "开启多规格选项"){
+            if(s.find("i").hasClass("offbtn")){
+                s.find("i").removeClass("offbtn").addClass("onbtn");
+                $(".goods-more-write").append(addWrite());
+                $("input[name='is_spec']").val(1);
+            }else{
+                s.find("i").removeClass("onbtn").addClass("offbtn");
+                $(".goods-more-write").html("");
+                $("input[name='is_spec']").val(0);
+            }
+        }
+    }
+
+    //提交数据
+    function update(){
+        var g_name=$("input[name='name']").val();
+        var g_cuisine=$("select[name='cuisine']").val();
+        var g_img=$("#thumbid").val();
+        var g_spec_attr=[];
+        var g_spec_price=[];
+        var g_sell_price=$("input[name='sell_price']").val();
+        var g_isup=$("input[name='isup']").val();
+        var sattr=$("input[name='spec_attr[]']");
+        var sprice=$("input[name='spec_price[]']");
+        var g_is_spec=$("input[name='is_spec']").val();
+        var g_id=$("input[name='modify']").val();
+        var is_discount=$("input[name='is_discount']").val();
+        var g_discount=$("input[name='discount']").val();
+
+        if(sattr.length>0){
+            $("input[name='spec_attr[]']").each(function(){
+                g_spec_attr.push($(this).val());
+            });
+        }
+        if(sprice.length>0){
+            $("input[name='spec_price[]']").each(function(){
+                g_spec_price.push($(this).val());
+            });
+        }
+        if(window.location.search.indexOf("modify") != -1){
+            if(g_img != ""){
+                if(g_is_spec == 0){
+                    if(is_discount == 0){
+                        $.post("../BusinessHome.php",{action:"e_dishes",id:g_id,name:g_name,cuisine:g_cuisine,thumb:g_img,isup:g_isup,sell_price:g_sell_price,is_spec:g_is_spec},function(data){
+                            console.log(data);
+                            var d=$.parseJSON(data);
+                            if(d.msg == "ok"){
+                                window.location.href="MenuManager.html";
+                            }else{
+                                alert(d.msg);
+                            }
+                        });
+                    }else{
+                        $.post("../BusinessHome.php",{action:"e_dishes",id:g_id,name:g_name,cuisine:g_cuisine,thumb:g_img,isup:g_isup,sell_price:g_sell_price,is_spec:g_is_spec,dishes_discount:g_discount},function(data){
+                            console.log(data);
+                            var d=$.parseJSON(data);
+                            if(d.msg == "ok"){
+                                window.location.href="MenuManager.html";
+                            }else{
+                                alert(d.msg);
+                            }
+                        });
+                    }
+                }else{
+                    if(is_discount == 0){
+                        $.post("../BusinessHome.php",{action:"e_dishes",id:g_id,name:g_name,cuisine:g_cuisine,thumb:g_img,isup:g_isup,sell_price:g_sell_price,is_spec:g_is_spec,spec_attr:g_spec_attr,spec_price:g_spec_price},function(data){
+                            console.log(data);
+                            var d=$.parseJSON(data);
+                            if(d.msg == "ok"){
+                                window.location.href="MenuManager.html";
+                            }else{
+                                alert(d.msg);
+                            }
+                        });
+                    }else{
+                        $.post("../BusinessHome.php",{action:"e_dishes",id:g_id,name:g_name,cuisine:g_cuisine,thumb:g_img,isup:g_isup,sell_price:g_sell_price,is_spec:g_is_spec,spec_attr:g_spec_attr,spec_price:g_spec_price,dishes_discount:g_discount},function(data){
+                            console.log(data);
+                            var d=$.parseJSON(data);
+                            if(d.msg == "ok"){
+                                window.location.href="MenuManager.html";
+                            }else{
+                                alert(d.msg);
+                            }
+                        });
+
+                    }
+                }
+            }
+        }else{
+            if(g_img != ""){
+                if(g_is_spec == 0){
+                    if(is_discount == 0){
+                        $.post("../BusinessHome.php",{action:"add_dishes",name:g_name,cuisine:g_cuisine,thumb:g_img,isup:g_isup,sell_price:g_sell_price,is_spec:g_is_spec},function(data){
+                            console.log(data);
+                            var d=$.parseJSON(data);
+                            if(d.msg == "ok"){
+                                window.location.href="MenuManager.html";
+                            }else{
+                                alert(d.msg);
+                            }
+                        });
+                    }else{
+                        $.post("../BusinessHome.php",{action:"add_dishes",name:g_name,cuisine:g_cuisine,thumb:g_img,isup:g_isup,sell_price:g_sell_price,is_spec:g_is_spec,dishes_discount:g_discount},function(data){
+                            console.log(data);
+                            var d=$.parseJSON(data);
+                            if(d.msg == "ok"){
+                                window.location.href="MenuManager.html";
+                            }else{
+                                alert(d.msg);
+                            }
+                        });
+                    }
+                }else{
+                    if(is_discount == 0){
+                        $.post("../BusinessHome.php",{action:"add_dishes",name:g_name,cuisine:g_cuisine,thumb:g_img,isup:g_isup,sell_price:g_sell_price,is_spec:g_is_spec,spec_attr:g_spec_attr,spec_price:g_spec_price},function(data){
+                            console.log(data);
+                            var d=$.parseJSON(data);
+                            if(d.msg == "ok"){
+                                window.location.href="MenuManager.html";
+                            }else{
+                                alert(d.msg);
+                            }
+                        });
+                    }else{
+                        $.post("../BusinessHome.php",{action:"add_dishes",name:g_name,cuisine:g_cuisine,thumb:g_img,isup:g_isup,sell_price:g_sell_price,is_spec:g_is_spec,spec_attr:g_spec_attr,spec_price:g_spec_price,dishes_discount:g_discount},function(data){
+                            console.log(data);
+                            var d=$.parseJSON(data);
+                            if(d.msg == "ok"){
+                                window.location.href="MenuManager.html";
+                            }else{
+                                alert(d.msg);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    //上传表单
+    function upclick(s){
+        s.next().click()
+    }
+
+    /*打折商品*/
+    $('#discount').click(function(){
+        if($(this).find("i").hasClass("offbtn")){
+            $(this).find("i").removeClass("offbtn").addClass("onbtn");
+            $(".discount-more-write").css("display","block");
+            $("#is_discount").val("1");
+        }else{
+            $(this).find("i").removeClass("onbtn").addClass("offbtn");
+            $(".discount-more-write").css("display","none");
+            $("#is_discount").val("0");
+        }
+    });
+
+    function isShow(){
+        $(".spec-descript").css("left",0);
+    }
+</script>
+</body>
+</html>

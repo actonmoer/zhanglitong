@@ -1,0 +1,146 @@
+{if $action == 'ajax'}
+<?php
+/*
+*取广告位资料 首页推荐大图
+广告位ID = 33
+*/
+
+$ads1 = array();
+$pid = 33;
+if($areaid==0) $ARE['arrchildid']='0';
+//先取指定地区，如果没取到，则取全国。因此全国要准备一组默认数据
+$sql = "SELECT * FROM destoon_ad WHERE areaid IN (" . $ARE['arrchildid'] . ") AND pid=$pid AND status=3 AND totime>$DT_TIME ORDER BY listorder ASC";
+$result = $db->query($sql, '');
+while ($r = $db->fetch_array($result)) {
+    //$r['image_src'] = linkurl($r['image_src']);
+    $r['url'] = $r['stat'] ? DT_PATH . '/api/redirect.php?aid=' . $r['aid'] : linkurl($r['url']);
+    $ads1[] = $r;
+    break;
+}
+if(empty($ads1) && $areaid){
+    $sql = "SELECT * FROM destoon_ad WHERE areaid=0 AND pid=$pid AND status=3 AND totime>$DT_TIME ORDER BY listorder ASC";
+    $result = $db->query($sql, '');
+    while ($r = $db->fetch_array($result)) {
+        //$r['image_src'] = linkurl($r['image_src']);
+        $r['url'] = $r['stat'] ? DT_PATH . '/api/redirect.php?aid=' . $r['aid'] : linkurl($r['url']);
+        $ads1[] = $r;
+        break;
+    }
+}
+
+$ads2 = array();
+$pid = 34;
+$sql = "SELECT * FROM destoon_ad WHERE areaid IN (" . $ARE['arrchildid'] . ") AND pid=$pid AND status=3 AND totime>$DT_TIME ORDER BY listorder ASC";
+$result = $db->query($sql, '');
+while ($r = $db->fetch_array($result)) {
+    //$r['image_src'] = linkurl($r['image_src']);
+    $r['url'] = $r['stat'] ? DT_PATH . '/api/redirect.php?aid=' . $r['aid'] : linkurl($r['url']);
+    $ads2[] = $r;
+}
+if(empty($ads2) && $areaid){
+    $sql = "SELECT * FROM destoon_ad WHERE areaid=0 AND pid=$pid AND status=3 AND totime>$DT_TIME ORDER BY listorder ASC";
+    $result = $db->query($sql, '');
+    while ($r = $db->fetch_array($result)) {
+        //$r['image_src'] = linkurl($r['image_src']);
+        $r['url'] = $r['stat'] ? DT_PATH . '/api/redirect.php?aid=' . $r['aid'] : linkurl($r['url']);
+        $ads2[] = $r;
+    }
+}
+//        $condition .= $ARE['child'] ? " AND areaid IN (" . $ARE['arrchildid'] . ")" : " AND areaid=$areaid";
+
+$groups = array();
+//$sql = "SELECT * FROM destoon_group where areaid=$areaid AND status = '3' ORDER BY itemid DESC";
+//修改为包含所在地区及下属地区
+$sql = "SELECT * FROM destoon_group where areaid IN (" . $ARE['arrchildid'] . ") AND status = '3' ORDER BY itemid DESC";
+$result = $db->query($sql, '');
+$i=0;
+while ($r = $db->fetch_array($result)) {
+    $groups[] = $r;
+    $i++;
+    if($i==6) break;
+}
+//if(empty($groups) && $areaid){
+if(empty($groups)){
+    $sql = "SELECT * FROM destoon_group where areaid=398 AND status = '3' ORDER BY itemid DESC";
+    $result = $db->query($sql, '');
+    $i=0;
+    while ($r = $db->fetch_array($result)) {
+        $groups[] = $r;
+        $i++;
+        if($i==6) break;
+    }
+}
+?>
+<link rel="stylesheet" type="text/css" href="/mobile/tuijian/css/tuijian.css"/>
+
+<!--<div class="chop_hand_price" id="chopHandPrice">
+    <div class="chop_hand_price" data-tpa="CHOP_HAND_PRICE">
+        <div class="head_box">
+            <div class="touchweb_components-indexTitle" style="display:none;">
+                <h3 class="title">特惠</h3>
+            </div>-->
+            <!--<div class="time_left" id="lowPriceRemainTime"> <span class="text">还剩</span><span class="num hour">16</span><span class="dot"></span><span class="num min">45</span><span class="dot"></span><span class="num second">30</span> </div>-->
+       <!-- </div>-->
+      <!--  <div class="product_list" id="chopHandList">
+            {loop $groups $v}
+            <div class="product_item ">
+                <a class="product_box" href="/mobile/index.php?moduleid=17&itemid={$v[itemid]}" target="_blank">
+                    <div class="pic"> <img class="" src="{$v[thumb]}" alt="" height="120" width="120"> </div>
+                    <h3>{$v[title]}</h3>
+                    <div class="price_box" style="display:none;"> <span class="price" data-pmid="54795071">￥{$v[price]}</span><span class="old_price"><span class="reference_price">参考价</span><del>￥{$v[marketprice]}</del></span> </div>
+                    <div class="price_box"><span><del>￥{$v[marketprice]}</del></span><br /><span class="price" data-pmid="54795071">￥{$v[price]}</span></div>
+                </a>
+                <a class="icon_add_cart icon-shop_cart" href="/mobile/cart.php" target="_blank"><img src="/mobile/tuijian/images/car.png"  /></a>
+            </div>
+            {/loop}-->
+            <!--
+                        <div class="product_item "> <a class="product_box" href="">
+                                <div class="pic"> <img class="" src="/mobile/tuijian/images/2.jpg" alt="" height="120" width="120"> </div>
+                                <h3>雕牌 全渍净洗衣液 薰衣草馨香 1kg/袋</h3>
+                                <div class="price_box"> <span class="price" data-pmid="59789258">￥9.9</span><span class="old_price"><span class="reference_price">参考价</span><del>￥19.9</del></span> </div>
+                            </a><a class="icon_add_cart icon-shop_cart" href=""><img src="/mobile/tuijian/images/car.png"  /></a> </div>
+                        <div class="product_item "> <a class="product_box" href="">
+                                <div class="pic"> <img class="" src="/mobile/tuijian/images/3.jpg" alt="" height="120" width="120"> </div>
+                                <h3>亲净 洗护袋3件套 J5150 方形 丸型 文胸护洗袋</h3>
+                                <div class="price_box"> <span class="price" data-pmid="24012696">￥9.9</span><span class="old_price"><span class="reference_price">参考价</span><del>￥19.9</del></span> </div>
+                            </a><a class="icon_add_cart icon-shop_cart" href=""><img src="/mobile/tuijian/images/car.png"  /></a> </div>
+                        <div class="product_item "> <a class="product_box" href="">
+                                <div class="pic"> <img class="" src="/mobile/tuijian/images/4.jpg" alt="" height="120" width="120"> </div>
+                                <h3>汇源 早啊 100%复合果蔬汁 200ml/盒×16整箱装</h3>
+                                <div class="price_box"> <span class="price" data-pmid="58563917">￥36</span><span class="old_price"><span class="reference_price">参考价</span><del>￥71.9</del></span> </div>
+                            </a><a class="icon_add_cart icon-shop_cart" href=""><img src="/mobile/tuijian/images/car.png"  /></a> </div>
+                        <div class="product_item ">
+                            <a class="product_box" href="">
+                                <div class="pic"> <img class="" src="/mobile/tuijian/images/5.jpg" alt="" height="120" width="120"> </div>
+                                <h3>Walch/威露士 有氧倍净洗衣液袋装 双效有氧 清露水香 2kg 补充装</h3>
+                                <div class="price_box"> <span class="price" data-pmid="10810911">￥15.9</span><span class="old_price"><span class="reference_price">参考价</span><del>￥29.9</del></span> </div>
+                            </a>
+                            <a class="icon_add_cart icon-shop_cart" href=""><img src="/mobile/tuijian/images/car.png"  /></a> 
+                        </div>
+                        <div class="product_item ">
+                            <a class="product_box" href="">
+                                <div class="pic"> <img class="" src="/mobile/tuijian/images/6.jpg" alt="" height="120" width="120"> </div>
+                                <h3>L’OREAL 欧莱雅 控油炭爽双效洁面膏 100ml+50ml</h3>
+                                <div class="price_box"> <span class="price" data-pmid="48850246">￥29.8</span><span class="old_price"><span class="reference_price">参考价</span><del>￥58.5</del></span> </div>
+                            </a>
+                            <a class="icon_add_cart icon-shop_cart" href=""><img src="/mobile/tuijian/images/car.png"  /></a>
+                        </div>
+            -->
+       <!-- </div>
+    </div>
+    <div class="chop_hand_price" id="chopHandPrice"> </div>
+</div>
+<div class="cl" style="margin-top:1rem;"></div>
+<div class="index_tuijian">
+    <div class="index_tuijian_con">
+        <div class="groupad1">
+            <a href="<?= $ads1[0]['url'] ?>" target="_blank"><img src="<?= $ads1[0]['image_src'] ?>"  /></a>
+        </div>
+        <div class="group_cl">
+            <div class="groupad2"> <a href="<?= $ads2[0]['url'] ?>" target="_blank"><img src="<?= $ads2[0]['image_src'] ?>"  /></a> </div> 
+            <div class="groupad2_r"> <a href="<?= $ads2[1]['url'] ?>" target="_blank"><img src="<?= $ads2[1]['image_src'] ?>"  /></a></div> 
+        </div>
+    </div>
+</div>-->
+
+{/if}

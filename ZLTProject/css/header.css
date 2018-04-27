@@ -1,0 +1,88 @@
+/*头部样式开始*/
+header{
+    height: 2.3125rem;
+}
+.header{
+    position: fixed;
+    top:0;
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    height: 2.3125rem;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    z-index: 10;
+}
+.h-left{
+    width: 17%;
+    text-align: right;
+}
+.h-left a,.h-right a,.h-center{
+    display: block;
+    line-height: 2.3125rem;
+}
+.h-right{
+    text-align: left;
+    width:18%;
+}
+.h-center{
+    width: 65%;
+    text-align: center;
+}
+/*身份验证样式开始*/
+.myform-i{
+    border: 1px solid #c9c9c9;
+    display: inline-block;
+    width: 100%;
+    height: 6.5625rem;
+    border-radius: 4px;
+}
+.myform-i a{
+    display: block;
+    height: 77px;
+    margin: 0 auto;
+    width: 126px;
+    background: url("../img/iconfont.png") no-repeat 0 -258px;
+    margin-top: 12px;
+
+}
+
+/*银行卡设置*/
+.roundbor{
+    display: inline-block;
+    width: .875rem;
+    height: .875rem;
+    border:1px solid #6d6d6d;
+    border-radius: 100%;
+    background-color: #fff;
+    position: relative;
+    top:.125rem;
+}
+input:checked+.roundbor{
+    border-color: #569aff;
+}
+.f-card-bor{
+    margin-top: .5625rem;
+    border-bottom: 1px solid #eaeaea;
+}
+input:checked+.roundbor span{
+    display: inline-block;
+    width: .3125rem;
+    height: .3125rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -.125rem 0 0 -.125rem;
+    border-radius: 100%;
+    background-color: #569aff;
+}
+.btn-orange{
+    background-color: #f0790f;
+    color: #fff;
+    font-size: .875rem;
+}
+.btn-orange:focus{
+    color: #fff;
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>桌房管理</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+</head>
+<body style="background:#f1f1f1;">
+	{template "room_head","mobile"}
+	<style>
+		.smallMain{
+			box-shadow: 0 0.125rem 0.25rem 0 rgba(51, 51, 51, 0.1);
+		}
+		.catsBox{
+			margin-top:20px;
+			padding-bottom:42px;
+		}
+	</style>
+	<div class="headBox">
+		<div class="head-bar-back">
+			<a href="javascript:window.history.back();">
+				<i class="iconfont icon-left"></i>
+			</a>
+		</div>
+		<div class="head-bar-title">桌房管理</div>
+		<?php if(is_have_auth("餐桌添加")){?>
+		<div class="head-bar-right"><a href="reserve_home.php?act=desk_form"><span>添加</span></a></div>
+		<?php }else{?>
+		<div class="head-bar-right"><a href="reserve_home.php?act=loginout"><span>退出</span></a></div>
+		<?php }?>
+	</div>
+    <div class="smallMain clear">
+		<a href="reserve_home.php?act=show_desk" style="width: 50%;border-right:none;font-size:14px;" class="select"><span style="border-bottom:none;">餐桌实时</span></a>
+		<a href="reserve_home.php?act=show_room" style="width: 50%;border-right:none;font-size:14px;" ><span style="border-bottom:none;">房间实时</span></a>
+	</div>
+	
+		<div class="bodyBox clear">
+		<style>.fourBtn a{width:33.3%;}
+         .room{position:relative; height:40px;line-height:40px;margin:0 10px;border-bottom:1px solid #f1f1f1;}
+         .room .desk_title{position: absolute;top:0;left:10px;}
+         .room .desk_status{position: absolute;top:0;left:50%;}
+		 .room .desk_act{position: absolute;top:0;right:10px;}
+		 .room .desk_act a{width:100%;color:#6daee8;}
+        </style>
+		<div class="fourBtn  clear" style="height:25px;"></div>
+		<div class="catsBox">
+		<?php if ($desks) { ?>
+		     <?php foreach($desks as $k=>$v){?>
+               <!--<div class="room" style="background-color:<?php if($v["is_use"]==1){echo 'red;';}else{echo 'green;';}?>">-->
+			   <div class="room">
+			      <div class="desk_title"><span>{$v[desk]}&nbsp;{$v[desk_id]}号桌</span></div>
+			      <div class="desk_status"><span><?php if($v["is_use"]==1){echo '用餐中';}else{echo '空闲中';}?></span></div>
+			      <div class="desk_act">
+				  <?php if($v["is_use"]==1){
+				     if(is_have_auth("餐桌操作")){
+				          //echo '<a href="#">操作</a>';
+						  echo '<a href="?act=desk_form&rid='.$rid.'&deskid='.$v["id"].'">操作</a>';
+					 }
+				  }else{
+				      if(is_have_auth("餐桌修改")){
+				          echo '<a href="?act=desk_form&rid='.$rid.'&deskid='.$v["id"].'">修改</a>';
+					  }
+				  }?></div>
+			   
+               </div>  
+             <?php
+			    } 
+			?>
+		<?php } else { ?>
+		<div class="fixedInfoBox css3-center" id="fixedInfoBox">您还没有餐桌<br>
+		<?php if(is_have_auth("餐桌添加")){?>
+		     <a class="kBtn blue" rel="external" href="reserve_home.php?act=desk_form">创建餐桌</a>
+		<?php } ?>
+		
+		</div>
+	   <?php } ?>
+		
+		</div>
+	</div>
+	
+	<div class="footBox"></div>
+	<script>
+        $(function(){
+            $(".room:odd").css("background-color","#f1f1f1");
+
+            var status = $(".desk_status").children("span").text();
+            var statusArr = new Array();
+            statusArr=status.split("中");
+            for(var i=0;i<statusArr.length;i++){
+				if(statusArr[i] == "用餐"){
+                    $(".room").eq(i).children(".desk_status").css("color","#e53d3d");
+                }else{
+                    $(".room").eq(i).children(".desk_status").css("color","#55a1e7");
+                }
+			}
+        })
+	</script>
+</body>
+<script>
+	/*function EndRestaurant()
+	{
+		changeBusiness(2);
+		
+	}
+	function StartRestaurant()
+	{
+		changeBusiness(1);
+	}
+	function changeBusiness(status)
+	{
+		$.ajax({
+			data:{"for_ajax":"changeBusiness_takeout","status":status},
+			url:"for_ajax_restaurant.php",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if (data.success) {
+					alertMsg(data.message);
+					window.setTimeout("window.location.href=window.location.href",3000);
+				} else {
+					alertMsg(data.message);
+				}
+			}
+		})
+	}*/
+</script>
+<!-- 5 -->
+</html>

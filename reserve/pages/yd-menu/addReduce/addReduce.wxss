@@ -1,0 +1,21 @@
+/* pages/addReduce/addReduce.wxss */
+.add-reduce{
+  position:absolute;
+  bottom:10rpx;
+  right:20rpx;
+}
+.reduce,.add{
+  display:inline-block;
+  vertical-align: middle;
+  width:50rpx;
+  height:50rpx;
+}
+.reduce image,.add image{
+  width:100%;
+  height:100%;
+}
+.number{
+  display:line-block;
+  font-size:24rpx;
+  margin:0 10rpx;
+}

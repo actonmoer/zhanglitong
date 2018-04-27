@@ -1,0 +1,104 @@
+<view class='all'>
+  <view class='one sitem1 {{ num == 1 ? "in" : "" }}' bind:touchstart='movestart' bind:touchend='moveend'>
+    <view class='sitem1-view'>
+        <view class='invit-title'>{{invitData.invitation_title}}</view>
+        
+        <!-- <view class='title-name'>酒店名:{{invitData.company}}</view>
+
+        <view class='invit-time'>到店时间：{{invitData.arrive_time}}</view> -->
+        <!-- <view class='title-name'>联系人：{{invitData.username}}</view> -->
+        
+      </view>
+  </view>
+  <view class='one sitem2 {{ num == 2 ? "in" : "" }}' bind:touchstart='movestart' bind:touchend='moveend'>
+    <view class='sitem2-view'>
+        <view class='invit1-title' style=''>诚意邀请</view>
+        <view class='invit1-title1'>尊敬的先生/小姐</view>
+        <view class='invit1-title2'>{{invitData.invitation_content}}！诚挚的邀请您来参加聚餐，期待您的到来。</view>
+        <block wx:for="{{invitData.room}}" wx:for-item='yd' wx:key='item'>
+          <!-- <view class='invit1-title4'>酒店名称：{{invitData.company}}</view> -->
+          <view class='invit1-title3'>已定：{{invitData.company}}，房间名：{{yd.room_name}}</view>
+        </block>
+        
+        <view class='invit1-title4' bindtap="tels">餐厅电话：{{invitData.company_telephone}}</view>
+        <view class='invit1-title4'>到店时间：{{invitData.arrive_time}}</view>
+        <view class='invit1-title5'>餐厅地址：{{invitData.company_address}}</view>
+      </view>
+
+      <view class='invit1-title6'>
+        <view>诚邀人：{{invitData.contact_name}}</view>
+        <view bindtap="tel" >联系电话：{{invitData.mobile}}</view>  
+        <view>到点时间:{{invitData.addtime}}</view>
+      </view>
+  </view>
+  <view class='one sitem3 {{ num == 3 ? "in" : "" }}' bind:touchstart='movestart' bind:touchend='moveend'>
+    <view style='margin: 140rpx 110rpx 0;'>
+      <view class='sitem3-title'>联系方式</view>
+        <view class='sitem3-title1'>地图导航：</view>
+        <view class='map-view'>
+         <map 
+         id="map" 
+         longitude="{{invitData.lng}}" 
+         latitude="{{invitData.lat}}" 
+         scale="18" 
+         controls="{{controls}}" 
+         bindcontroltap="controltap" 
+         markers="{{markers}}" 
+         bindmarkertap="markertap" 
+         polyline="{{polyline}}" 
+         bindregionchange="regionchange" 
+         show-location style="width: 100%; height: 500rpx;">
+         </map> 
+          <!-- <map id="map" longitude="{{invitData.lng}}" latitude="{{invitData.lat}}" scale="16" show-location style=""></map> -->
+        </view>
+      
+        <view>
+          <view bindtap='clickMap' class='sitem3-title2-left'>点击导航</view>
+          <view bindtap='lookB' class='sitem3-title2-right'>查看商家</view>
+        </view>
+    </view>
+  </view>
+</view>
+
+<!-- <swiper vertical='true'>
+    <swiper-item class='sitem1'>
+      <view class='sitem1-view'>
+        <view class='invit-title'>{{invitData.invitation_title}}</view>
+        <view class='invit-time'>{{invitData.arrive_time}}</view>
+        <view class='title-name'>{{invitData.company}}</view>
+      </view>
+    </swiper-item>
+    <swiper-item class='sitem2'>
+      <view class='sitem2-view'>
+        <view class='invit1-title' style=''>诚意邀请</view>
+        <view class='invit1-title1'>尊敬的先生/小姐</view>
+        <view class='invit1-title2'>{{invitData.invitation_content}}</view>
+        <block wx:for="{{invitData.room}}" wx:for-item='yd' wx:key='item'>
+          <view class='invit1-title3'>已定：{{yd.room_name}}</view>
+        </block>
+        <view class='invit1-title4'>到店时间：{{invitData.arrive_time}}</view>
+        <view class='invit1-title5'>酒店地址：{{invitData.company_address}}</view>
+      </view>
+
+      <view class='invit1-title6'>
+        <view>{{invitData.contact_name}}</view>
+        <view>{{invitData.arrive_time}}</view>
+      </view>
+    </swiper-item>
+    <swiper-item class='sitem2'>
+    <view style='margin: 140rpx 110rpx 0;'>
+      <view class='sitem3-title'>联系方式</view>
+        <view class='sitem3-title1'>地图导航：</view>
+        <view class='map-view'>
+        <map id="map" longitude="{{invitData.lng}}" latitude="{{invitData.lat}}" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
+          <!-- <map id="map" longitude="{{invitData.lng}}" latitude="{{invitData.lat}}" scale="16" show-location style=""></map> -->
+        <!-- </view>
+        <view class='sitem3-title2'>电话：{{invitData.mobile}}</view>
+        <view>
+          <view bindtap='clickMap'>点击导航</view>
+          <view bindtap='lookB'>查看商家</view>
+        </view>
+    </view>
+    </swiper-item>
+</swiper>  -->
+<view class='icon'></view>

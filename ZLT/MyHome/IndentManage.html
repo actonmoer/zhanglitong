@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_7b7b94cryrjm7vi.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/indent.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">订单管理</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <nav class="indent-nav">
+        <div class="indent-nav-on"><a href="javascript:;" class="indent-a on">新订单</a></div>
+        <div class="indent-nav-on"><a href="javascript:;" class="indent-a">待配送</a></div>
+        <div class="indent-nav-on"><a href="javascript:;" class="indent-a">已发货</a></div>
+        <div class="indent-nav-on"><a href="javascript:;" class="indent-a">已完成</a></div>
+        <div class="indent-nav-on"><a href="javascript:;" class="indent-a">无效单</a></div>
+    </nav>
+    <!--新订单-->
+    <div class="indent-tip">
+        <p>温馨提示：买家下单后，请你在<span class="orange">十分钟</span>之内接单，否则系统将自动关闭订单</p>
+    </div>
+    <div id="indent-new">
+       <!-- <div class="indent" >
+            <div class="clearb">
+                <p><span>订单号：</span><span id="order_id"></span><span class="orange right">待接单</span></p>
+                <p><span>订单总计：</span><span id="amount"></span><span>（共3件商品）</span></p>
+                <p><span>下单人：</span><span id="buyer"></span></p>
+                <p><span>送货地址：</span><span id="buyer_address"></span></p>
+                <p><span>备注：</span><span id="note"></span></p>
+                <p><span>下单时间&：</span><span id="addtime"></span><span><input type="submit" class="btn indent-btn" name="indent-btn" value="立即接单"></span></p>
+            </div>
+        </div>
+        <div class="indent">
+            <div class="clearb">
+                <p><span>订单号&nbsp;：</span><span>20176281521184</span><span class="orange right">等待付款</span></p>
+                <p><span>订单总计&nbsp;：</span><span>￥999.00</span><span>（共3件商品）</span></p>
+                <p><span>下单人&nbsp;：</span><span>某某某某，17075259541</span></p>
+                <p><span>送货地址&nbsp;：</span><span>广东省广州市花都区厉害街道什么鬼小区几栋楼几号房</span></p>
+                <p><span>备注&nbsp;：</span><span></span></p>
+                <p><span>下单时间&nbsp;：</span><span>2017-06-28&nbsp;&nbsp;15:21</span></p>
+            </div>
+        </div>-->
+    </div>
+</section>
+<script>
+    function addIndent(id,amount,name,phone,address,note,addtime,status,color1,indentStatus){
+        var indent = '<div class="indent '+indentStatus+'">' +
+            '<div class="clearb">' +
+            '<div onclick="linkDetails(\''+id+'\')" style="position:relative">'+
+            '<p><span>订单号：</span><span>'+id.slice(8)+'</span><span class="right state" style="'+color1+'">'+status+'</span></p>'+
+            '<p><span>订单总计：</span><span>￥'+amount+'</span><span></span></p>'+
+            '<p><span>下单人：</span><span>'+name + "，" + phone+'</span></p>'+
+            '<p style="margin-right:1.5625rem;"><span>送货地址：</span><span>'+address+'</span></p>'+
+            '<p style="margin-bottom:1.25rem;"><span>备注：</span><span>'+note+'</span></p>'+
+            '<div class="right-btn"><i class="iconfont icon-xiangyou" style="font-size:1.5rem;"></i></div>'+
+            '</div>'+
+            '<p style="border-top:1px solid #f2f2f2;"><span>下单时间：</span><span style="font-size:.625rem;color:#666;">'+addtime+'</span><span><input type="button" class="btn indent-btn" onclick="TakeOrders($(this),'+id.slice(8)+')" name="indent-btn"  value="立即接单"></span></p>'+
+            '</div>'+
+            '</div>';
+        return indent;
+    };
+
+    $(document).ready(function(){
+        $.ajax({
+            type:"POST",
+            url:"../BusinessHome.php",
+            dataType:"json",
+            data:{"action":"n_order"},
+            success:function(data){
+                console.log(data);
+                for(var i=0;i<data.length;i++){
+                    switch (parseInt(data[i].status)){
+                        case 1:
+                            data[i].status="等待付款";
+                            break;
+                        case 2:
+                            data[i].status="待接单";
+                           break;
+                        case 3:
+                            data[i].status="待配送";
+                           break;
+                        case 4:
+                            data[i].status="配送中";
+                            break;
+                        case 5:
+                            data[i].status="已完成";
+                            break;
+                        case 6:
+                            data[i].status="已完成";
+                            break;
+                        case 7:
+                            data[i].status="申请退款";
+                            break;
+                        case 8:
+                            data[i].status="订单关闭";
+                            break;
+                        default:
+                            data[i].status="订单关闭";
+                    }
+                    $("#indent-new").append(addIndent(data[i].order_id,
+                                             data[i].amount,
+                                             data[i].buyer_name,
+                                             data[i].buyer_phone,
+                                             data[i].buyer_address,
+                                             data[i].note,
+                                             mtime(data[i].addtime),
+                                             data[i].status,
+                                             ifont(data[i].status),
+                                             ifont1(data[i].status)));
+                    if(data[i].status == "申请退款"){
+                        $(".indent").eq(i).filter(".indent-new1").find("input[type='button']").val("同意退款");
+                    }
+                    $(".indent").eq(i).filter(".indent-new,.indent-aleadly,.indent-finish,.indent-invalid").find("input").remove();
+                    $(".indent").eq(i).filter(".indent-await").find("input[type='button']").val("立即配送");
+                }
+                    $(".indent-new1").show();
+                    $(".indent-new,.indent-await,.indent-aleadly,.indent-finish,.indent-invalid").hide();
+            }
+        });
+    });
+    $(function(){
+        $(".indent-nav-on").click(function(){
+            var AHtml = $(this).children("a").html();
+            $(this).children("a").addClass("on");
+            $(this).siblings().children("a").removeClass("on");
+            if(AHtml == "新订单"){
+                $(".indent").filter(".indent-new1").show();
+                $(".indent").filter(".indent-new,.indent-await,.indent-aleadly,.indent-finish,.indent-invalid").hide();
+            }else if(AHtml == "待配送"){
+                $(".indent").filter(".indent-await").show();
+                $(".indent").filter(".indent-new,.indent-new1,.indent-aleadly,.indent-finish,.indent-invalid").hide();
+            }else if(AHtml == "已发货"){
+                $(".indent").filter(".indent-aleadly").show();
+                $(".indent").filter(".indent-new,.indent-new1,.indent-await,.indent-finish,.indent-invalid").hide();
+            }else if(AHtml == "已完成"){
+                $(".indent").filter(".indent-finish").show();
+                $(".indent").filter(".indent-new,.indent-new1,.indent-await,.indent-aleadly,.indent-invalid").hide();
+            }else if(AHtml == "无效单"){
+                $(".indent").filter(".indent-invalid").show();
+                $(".indent").filter(".indent-new,.indent-new1,.indent-await,.indent-aleadly,.indent-finish").hide();
+            }
+        });
+    });
+    //样式css
+    function ifont(str){
+       if(str == "待接单" || str == "等待付款"){
+           return "color:#dc8327;";
+       }else if(str == "待配送"){
+           return "color:#dc8327;";
+       }else if(str == "配送中"){
+           return "color:#4596e5;";
+       }else if(str == "已完成"){
+           return "color:#26c6a2;";
+       }else if(str == "申请退款" || str == "订单关闭"){
+           return "color:#666;";
+       }
+     }
+    function ifont1(str){
+        if(str == "等待付款"){
+            return "indent-new";
+        }else if(str == "待接单" || str == "申请退款"){
+            return "indent-new1";
+        }else if(str == "待配送"){
+            return "indent-await";
+        }else if(str == "配送中"){
+            return "indent-aleadly";
+        }else if(str == "已完成"){
+            return "indent-finish";
+        }else if(str == "订单关闭"){
+            return "indent-invalid";
+        };
+    }
+    //点击事件
+    function TakeOrders(s,id){
+       if(s.val() == "立即接单"){
+           $.post("../BusinessHome.php",{action:"g_order",orderid:"takeout-"+id},function(data){
+               console.log(data);
+               var d=$.parseJSON(data);
+               if(d.code == 200){
+                   s.parents(".indent").removeClass("indent-new1").addClass("indent-await").hide();
+                   s.val("立即配送");
+                   s.parents(".indent").find("span.state").html("待配送");
+                   $(".indent-a").parent().siblings().find("a").removeClass("on");
+                   $(".indent-a").eq(1).addClass("on");
+                   $(".indent").filter(".indent-await").show();
+               }
+           });
+       }else if(s.val() == "立即配送"){
+           $.post("../BusinessHome.php",{action:"t_order",orderid:"takeout-"+id},function(data){
+               console.log(data);
+               var d=$.parseJSON(data);
+               if(d.code == 200){
+                   s.parents(".indent").removeClass("indent-await").addClass("indent-aleadly").hide();
+                   s.parents(".indent").find("span.state").html("配送中").css("color","#4596e5");
+                   s.parent().remove();
+                   $(".indent-a").parent().siblings().find("a").removeClass("on");
+                   $(".indent-a").eq(2).addClass("on");
+                   $(".indent").filter(".indent-aleadly").show();
+               }
+       });
+       }else if(s.val() == "同意退款"){
+           $.post("../BusinessHome.php",{action:"b_order",order_id:"takeout-"+id},function(data){
+               console.log(data);
+               var d=$.parseJSON(data);
+               if(d.code == 200){
+                   s.parents(".indent").removeClass("indent-new1").addClass("indent-invalid").hide();
+                   s.parents(".indent").find("span.state").html("退款完成");
+                   s.parent().remove();
+                   $(".indent-a").parent().siblings().find("a").removeClass("on");
+                   $(".indent-a").eq(4).addClass("on");
+                   $(".indent").filter(".indent-invalid").show();
+               }
+           });
+       };
+    };
+    //页面跳转
+    function linkDetails(id){
+        console.log(id);
+        window.location.href="IndentDetails.html?id="+id;
+    };
+</script>
+</body>
+</html>

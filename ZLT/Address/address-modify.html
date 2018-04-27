@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改收货地址</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_k73qtma3ig5mte29.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/address.css">
+    <link rel="stylesheet" href="../css/LArea.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">修改收货地址</div>
+        <div class="h-R" onclick="delAddress()" style="font-size:.75rem;color:#fff;">删除</div>
+    </div>
+</header>
+<section>
+    <form>
+       <!-- <div class="address">
+            <div class="address-common">
+                <span>&nbsp;&nbsp;&nbsp;收货人</span>
+                <div>
+                    <input type="text" name="name" value="">
+                    <input type="hidden" name="itemid" value="">
+                </div>
+            </div>
+            <div class="address-common">
+                <span>手机号码</span>
+                <div><input type="tel" name="mobile" value=""></div>
+            </div>
+            <div class="address-common">
+                <span>所在地区</span>
+                <div class="select-area content-block">
+                    <input id="demo1" type="text" name="area" readonly="" placeholder="请选择所在地区"  value="">
+                    <input id="value1" type="hidden" value="20,234,504">
+                </div>
+                <i class="iconfont icon-right"></i>
+            </div>
+            <div class="address-common">
+                <span>详细地址</span>
+                <div><input type="text" name="address" value=""></div>
+            </div>
+            <div class="address-common">
+                <span>邮政编码</span>
+                <div><input type="text" name="postcode" value=""></div>
+            </div>
+        </div>
+        <div style="margin: 1.25rem;">
+            <input type="button" class="btn white-btn" onclick="addrModify()" style="width: 100%;" value="保&nbsp;&nbsp;存">
+        </div>-->
+    </form>
+</section>
+<script src="../js/myjs.js"></script>
+<script src="../js/LArea.js"></script>
+<script src="../js/LAreaData1.js"></script>
+<script src="../js/LAreaData2.js"></script>
+<script>
+    /*渲染页面*/
+    var itemid;
+    $(document).ready(function(){
+        var obj = strUrl(window.location.search);
+        itemid = obj.itemid;
+        $.post("../usercenter.php",{action:"show_one_address",itemid:itemid},
+        function(data){
+            var d = data.data,
+                addr = d.address,
+                len = addr.length;
+            /*选取地址*/
+            for(var i=0;i<LAreaData.length;i++) {
+                var PAddr = LAreaData[i].name,
+                    province = LAreaData[i];
+                for (var j = 0; j < province.child.length; j++) {
+                    var CAddr = province.child[j].name,
+                        city = province.child[j];
+                    if (city.child) {
+                        for (var k = 0; k < city.child.length; k++) {
+                            var TAddr = city.child[k].name,
+                                county = city.child[k],
+                                threeAddr = PAddr + CAddr + TAddr,
+                                area1 = addr.slice(0, threeAddr.length),
+                                address1 = addr.slice(threeAddr.length);
+                            if (threeAddr == area1) {
+                                $("form").append(addressForm(d.truename, d.mobile, area1, address1, d.postcode, d.listorder));
+                            }
+                        }
+                    } else {
+                        var twoAddr = PAddr + CAddr,
+                            area2 = addr.slice(0, twoAddr.length),
+                            address2 = addr.slice(twoAddr.length);
+                        if (twoAddr == area2) {
+                            $("form").append(addressForm(d.truename, d.mobile, area2, address2, d.postcode, d.listorder));
+                        }
+                    }
+                }
+            }
+            /*调用函数*/
+            defaultSelect(d.listorder);
+            plugIn();
+        },"json");
+    });
+    function addressForm(name,mobile,area,address,postcode,listorder){
+        var addrForm = '<div class="address">'+
+            '<div class="address-common">'+
+            '<span>&nbsp;&nbsp;&nbsp;收货人</span>'+
+            '<div><input type="text" id="truename" name="truename" value="'+name+'" state="true" required></div>'+
+            '</div>'+
+            '<div class="address-common">'+
+            '<span>手机号码</span>'+
+            '<div><input type="tel" id="mobile" name="mobile" value="'+mobile+'" state="true" required></div>'+
+            '</div>'+
+            '<div class="address-common">'+
+            '<span>所在地区</span>'+
+            '<div class="select-area content-block">'+
+            '<input id="demo1" type="text" name="area" readonly="" value="'+area+'" required>'+
+            '<input id="value1" type="hidden" value="20,234,504">'+
+            '</div>'+
+            '<i class="iconfont icon-right area-icon"></i>'+
+            '</div>'+
+            '<div class="address-common">'+
+            '<span>详细地址</span>'+
+            '<div><input type="text" name="address" value="'+address+'" required></div>'+
+            '</div>'+
+            '<div class="address-common">'+
+            '<span>邮政编码</span>'+
+            '<div><input type="text" id="postcode" name="postcode" value="'+postcode+'" state="true" required></div>'+
+            '</div>'+
+            '<div class="address-common" style="height:3.75rem;line-height:3.75rem;">'+
+            '<span>设置为默认地址</span>'+
+            '<div class="list-order" onclick="list(this)">'+
+            '<i class="round"></i>'+
+            '<i class="rectangle"></i>'+
+            '<input type="hidden" name="listorder" value="'+listorder+'">'+
+            '</div>'+
+            '</div>'+
+            '</div>'+
+            '<div style="margin: 1.25rem;">'+
+            '<input type="button" class="btn white-btn" onclick="addrModify()" style="width: 100%;" value="保&nbsp;&nbsp;存">'+
+            '</div>';
+        return addrForm;
+    }
+    /*发送到后台*/
+    function addrModify(){
+        var truename = $("input[name='truename']").val(),
+            mobile = $("input[name='mobile']").val(),
+            area = $("input[name='area']").val(),
+            address = $("input[name='address']").val(),
+            postcode = $("input[name='postcode']").val(),
+            listorder = $("input[name='listorder']").val(),
+            submitAddress = "edit_addressnew";
+        validateForm();
+        sendMsg(submitAddress,truename,mobile,area,address,postcode,listorder,itemid);
+    }
+    /*删除地址*/
+    function delAddress(){
+        var msg = confirm("您确定要删除此地址吗？");
+        if(msg == true){
+            $.post("../usercenter.php",{action:"del_address",itemid:itemid},
+                function(data){
+                    var d = $.parseJSON(data);
+                    if(d.code == 200){
+                        window.location.href="address.html";
+                    }
+                });
+        }
+    }
+    /*触发地址控件*/
+    function plugIn(){
+        var area1 = new LArea();
+        area1.init({
+            'trigger': '#demo1', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+            'valueTo': '#value1', //选择完毕后id属性输出到该位置
+            'keys': {
+                id: 'id',
+                name: 'name'
+            }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+            'type': 1, //数据源类型
+            'data': LAreaData //数据源
+        });
+        area1.value=[1,22,5];//控制初始位置，注意：该方法并不会影响到input的value
+    }
+    /*表单验证*/
+    function validateForm() {
+        if($("#truename").val() == "" || $("#truename").val().length < 2){
+            $("#truename").attr("state",false);
+            alert("请输入至少2位的用户名！");
+        }else{
+            $("#truename").attr("state",true);
+        }
+
+        var rMobile = parseInt($("#mobile").val());
+        if(!(/^1[0-9]{10}$/.test(rMobile))){
+            $("#mobile").attr("state",false);
+            alert("手机号码有误，请重填！");
+        }else{
+            $("#mobile").attr("state",true);
+        }
+
+        var rPostcode = parseInt($("#postcode").val());
+        if(!(/^[1-9]\d{5}$/.test(rPostcode))){
+            $("#postcode").attr("state",false);
+            alert("邮编号码有误，请重填！")
+        }else{
+            $("#postcode").attr("state",true);
+        }
+    }
+    /*验证并发送数据给后台*/
+    function sendMsg(submitAddress,truename,mobile,area,address,postcode,listorder,itemid){
+        var tState = $("input[name='truename']").attr("state"),
+            mState = $("input[name='mobile']").attr("state"),
+            pState = $("input[name='postcode']").attr("state"),
+            obj = strUrl();
+        if(tState == "true" && mState == "true" && pState == "true"){
+            $.post("../usercenter.php",{action:submitAddress,truename:truename,mobile:mobile,area:area,address:address,postcode:postcode,listorder:listorder,itemid:itemid},
+                function(data){
+                    var d = $.parseJSON(data);
+                    if(d.code == 200){
+                        if(obj.hasOwnProperty('Callback')){
+                            window.location.href = decodeURIComponent(obj.Callback);
+                        }else{
+                            window.location.href="address.html";
+                        }
+                    }
+                });
+        }else{
+            alert("请填写正确的信息");
+            return false;
+        }
+    }
+    /*默认地址*/
+    function list(t){
+        if($(".round").hasClass("round-open")){
+            $(".round").removeClass("round-open").addClass("round-close");
+//            $(".list-order input").attr("value","0");
+            $(t).children("input").val("1");
+        }else{
+            $(".round").removeClass("round-close").addClass("round-open");
+//            $(".list-order input").attr("value","1");
+            $(t).children("input").val("0");
+        }
+    }
+    /*默认选中*/
+    function defaultSelect(listorder){
+        if(listorder == 0){
+            $(".round").addClass("round-open");
+        }else{
+            $(".round").addClass("round-close");
+        }
+    }
+</script>
+</body>
+</html>

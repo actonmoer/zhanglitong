@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>银行卡</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_kv927g0p9s51xlxr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bankcard.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">银行卡</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div id="bankcard-add" class="bankcard bankcard-add clearb" onclick="checkBankCard()">
+        <span><i class="iconfont icon-tianjia"></i></span>
+        <span>添加银行卡</span>
+        <span><i class="iconfont icon-right"></i></span>
+    </div>
+</section>
+<script type="text/javascript">
+    function checkBankCard(){
+        $.ajax({
+            method:"POST",
+            url:"../usercenter.php",
+            data:{action:"s_truename"},
+            success:function(data){
+                console.log(data);
+                data=$.parseJSON(data);
+                if(data.code == 200){
+                    if(data.status == 3){
+                        $.ajax({
+                            method:"POST",
+                            url:"../usercenter.php",
+                            data:{action:"show_bank"},
+                            success:function(data){
+                                console.log(data);
+                                data=$.parseJSON(data);
+                                if(data.code == 200){
+                                    if(data.data == 0){
+                                        window.location.href="BindBankcard.html";
+                                    }else{
+                                        window.location.href="ShowBankcard.html";
+                                    }
+                                }
+                            }
+                        });
+                        //window.location.href="BindBankcard.html";
+                    }else if(data.status == 2){
+                        alert("您的实名正在审核中，审核通过后才可添加银行卡");
+                    }else{
+                        alert("请您先实名验证，验证通过后才可以添加银行卡");
+                        window.location.href="BindBankcard.html";
+                    }
+                }else if(data.code == -200){
+                    alert(data.msg);
+                    window.location.href="../Authentication/TruenameValidate.html";
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

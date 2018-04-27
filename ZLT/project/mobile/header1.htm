@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html><head>
+        <meta charset="UTF-8"/>
+        <title>
+            {if $seo_title}{$seo_title}
+            {else}
+            {if $head_title}{$head_title}{/if}
+            {if isset($COM[company])}{/if}
+            {/if}
+        </title>
+        {if $head_keywords}<meta name="keywords" content="{$head_keywords}"/>{/if}
+        {if $head_description}<meta name="description" content="{$head_description}"/>{/if}
+        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width"/>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+        <meta http-equiv="Cache-Control" content="no-siteapp"/>
+        <meta name="generator" content="DESTOON B2B - www.destoon.com"/>
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-title" content="{$site_name}"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="msapplication-TileImage" content="apple-touch-icon-precomposed.png">
+        <meta name="msapplication-TileColor" content="#007AFF">
+        <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png"/>
+        <link rel="shortcut icon" type="image/x-icon" href="{DT_PATH}favicon.ico"/>
+        <link rel="bookmark" type="image/x-icon" href="{DT_PATH}favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="/mobile/static/lib/jquery/jquery.mobile.custom.structure.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/mobile/static/style.css"/>
+        <!--<link rel="stylesheet" type="text/css" href="/mobile/static/css/head1.css"/> -->
+        {if $CSS}
+        {loop $CSS $css}
+        <link rel="stylesheet" type="text/css" href="/mobile/static/{$css}.css"/>
+        {/loop}
+        {/if}
+        <script type="text/javascript" src="/mobile/static/lib/jquery/jquery-2.1.1.min.js"></script>
+        <!--<script type="text/javascript">-->
+            <!--$(document).bind("mobileinit", function() {-->
+                <!--$.mobile.defaultPageTransition = "slide";-->
+            <!--});-->
+            <!--var AJPath = 'ajax.php';-->
+            <!--var Dbrowser = '{$DT_MOB[browser]}';-->
+            <!--{if !DT_DEBUG}-->
+            <!--if (!('ontouchend' in document) && window.location.href.indexOf('device.php') == - 1) window.location = 'device.php';-->
+            <!--{/if}-->
+        <!--</script>-->
+        <!--<script type="text/javascript" src="/mobile/static/lib/jquery/jquery.mobile.custom.min.js"></script>-->
+        <script type="text/javascript" src="/mobile/static/js/common.js"></script>
+        <!--{if $JS}-->
+        <!--{loop $JS $js}-->
+        <!--<script type="text/javascript" src="/mobile/static/{$js}.js"></script>-->
+        <!--{/loop}-->
+        <!--{/if}-->
+        <!--<script type="text/javascript" src="/mobile/static/js/fix.js"></script>-->
+    </head>
+    <body onload="inviter()">
+        <div data-role="page">

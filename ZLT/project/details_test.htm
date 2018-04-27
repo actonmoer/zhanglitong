@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>外卖列表</title>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="format-detection" content="address=no">
+	<link rel="stylesheet" type="text/css" href="static/takeout/css/common.css">
+	<link rel="stylesheet" type="text/css" href="static/takeout/css/index.css">
+	<link rel="stylesheet" type="text/css" href="static/takeout/css/mui.min.css"/>
+	<link rel="stylesheet" href="static/takeout/css/reset.css">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_gnc1ecglbpxecdi.css">
+	<link rel="stylesheet" href="/mobile/takeoutList.css">
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="static/takeout/js/hmt.js" type="text/javascript"></script>
+</head>
+<body>
+	<header>
+		<div class="head">
+			<div class="h-L"><a href="javascript:history.go(-1);" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+			<div class="h-C">我的订单</div>
+			<div class="h-R"></div>
+		</div>
+	</header>
+		<!--<header class="hasManyCity hasManyCitytwo" id="header">-->
+			<!--<a href="javascript:history.go(-1)" class="fl fanhui"><i class="iconfont icon-fanhui"></i></a>-->
+			<!--<div class="header-tit">-->
+				<!--店铺菜单-->
+			<!--</div>-->
+			<!--<a href="#" class="fr shoucang sousuo">&lt;!&ndash; <i class="iconfont icon-fenxiang"> &ndash;&gt;</i></a>						-->
+		<!--</header>-->
+		
+		<div id="container">		
+			<div id="main">
+				<!--店铺头部开始-->
+				<div class="store-header clearfix">
+					<div class="tu">
+						<span></span>
+						<img src="<?php echo $data['restaurant']['thumb'];?>"/>
+						
+					</div>
+			       <a class="right fl" style="width:31%;">
+						<p>{$data['restaurant']['take_out_shop_name']}</p>
+						<a href="#" class="fl shoucang"><i class="iconfont icon-xihuan1"></i></a>
+					</a>
+					
+					<a class="right fl" style="width:10%;"  href="http://www.zhanglitong.com/mobile/index.php?moduleid=4&username={$data['username']}" id="golink">
+						<p id="restaurant_name">官网123123</p>
+					</a>
+					<a class="right fl" style="width:17%;" href="takeout.php?act=order_list">
+						<p id="restaurant_name">订单</p>
+					</a>
+					
+							<!--粉-->
+				<style type="text/css"> 
+				#gongao{width:100%;height:35px;overflow:hidden;line-height:30px;font-size:13px;font-family:'宋体';color:#fff;font-weight:bold;} 
+				#gongao #scroll_begin, #gongao #scroll_end{display:inline} 
+				</style> 
+				<script  type="text/javascript">
+				  //滚动
+					function ScrollImgLeft(){ 
+						var speed=50; 
+						var scroll_begin = document.getElementById("scroll_begin"); 
+						var scroll_end = document.getElementById("scroll_end"); 
+						var scroll_div = document.getElementById("scroll_div"); 
+						scroll_end.innerHTML=scroll_begin.innerHTML; 
+
+					function Marquee(){ 
+						if(scroll_end.offsetWidth-scroll_div.scrollLeft<=0) 
+							scroll_div.scrollLeft-=scroll_begin.offsetWidth; 
+						else 
+							scroll_div.scrollLeft++; 
+						} 
+						var MyMar=setInterval(Marquee,speed); 
+						scroll_div.onmouseover=function() {
+							clearInterval(MyMar);
+						}
+						scroll_div.onmouseout=function() {
+							MyMar=setInterval(Marquee,speed);
+						} 
+					} 
+				</script>
+
+				<div class="tit">
+
+
+				<div id="gongao"> 
+				<div style="width:100%;height:35px;background:rgba(0,0,0,0.4);line-height:35px;color:#fff;z-index:1;margin:0 auto;white-space: nowrap;overflow:hidden;" id="scroll_div" class="scroll_div"> 
+				<div id="scroll_begin"> 
+				    {$data['restaurant']['shop_tip']}
+				</div> 
+				<div id="scroll_end"></div> 
+				</div>
+				</div> 
+				
+				</div> 
+                <script  type="text/javascript"> ScrollImgLeft();</script>
+				</div>
+				<!--粉 end-->
+					
+				</div>
+				<!--店铺头部结束-->
+				<!--头部切换开始-->
+				<ul id="shangjia_tab">
+					<li>
+						<a href="takeout_test.php?act=restaurant&id=<?php echo $_GET['id'] ?>">菜单</a>
+					</li>
+					<li>
+						<a href="takeout_test.php?act=takeout_comment&id=<?php echo $_GET['id'] ?>">评价</a>
+					</li>
+					<li>
+						<a href="takeout_test.php?act=details&id=<?php echo $_GET['id'] ?>" class="on">详情</a>
+					</li>
+				</ul>
+				<!--头部切换结束-->
+				<div id="shangjia_detail" class="page-center-box dldetail">          
+		            <div class="imgInfor mb10">
+		                <img src="{$data['restaurant']['thumb_banner1']}">
+		                <div class="nr">
+		                    <h2 class="overflow_clear">{$data['restaurant']['take_out_shop_name']}</h2>
+		                    <p>月售<b class="fontcl1">{$data['restaurant']['month_sell_count']}</b>份&nbsp;&nbsp;</p>
+		                </div>
+		            </div>
+		            <div class="detailNr">
+		                <h3>商家信息</h3>
+		                <div class="nr mb10">
+		                    <p>店铺地址：{$dizhi}</p>
+		                    <p>营业时间：{$data['restaurant']['opentime']}</p>
+		                </div>
+		            </div>
+			    </div>				
+			</div>
+		</div>		
+	</body>
+</html>

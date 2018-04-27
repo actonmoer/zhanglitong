@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style type="text/css">
+        html,body{
+            font-size: 100px;
+        }
+        .tab_payOrder tr td{
+            font-size: .14rem;
+        }
+    </style>
+</head>
+<body>
+<table class="table table-bordered tab_payOrder">
+    <tr>
+        <td class="text-right" style="width: 35%;vertical-align: middle;">当前操作：</td>
+        <td style="width: 65%;" colspan="2">订单支付</td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">订单单号：</td>
+        <td style="vertical-align: middle;" colspan="2">11111</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;" class="text-right">商品名称：</td>
+        <td style="vertical-align: middle;" colspan="2">回锅肉</td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">商品图片：</td>
+        <td style="vertical-align: middle;" colspan="2"><img src="http://www.zhanglitong.com/file/upload/201705/12/114938245326.jpg.thumb.jpg" width="60" height="60"></td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">卖家：</td>
+        <td style="vertical-align: middle;" colspan="2">
+            <img src="http://www.zhanglitong.com/api/online.png.php?username=15011991562&amp;style=0" title="点击交谈/留言" alt="" align="absmiddle" onerror="this.src=DTPath+'file/image/web-off.gif';">
+            123456
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">下单时间：</td>
+        <td style="vertical-align: middle;" colspan="2">2017-05-12 16:22</td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">我的备注：</td>
+        <td style="vertical-align: middle;" colspan="2"></td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">商品单价：</td>
+        <td style="vertical-align: middle;" colspan="2">￥25.00</td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">购买数量：</td>
+        <td style="vertical-align: middle;" colspan="2">1</td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">实付金额：</td>
+        <td style="vertical-align: middle;" colspan="2">￥25.00</td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;">帐户余额：</td>
+        <td style="vertical-align: middle;" colspan="2">￥180.25</td>
+    </tr>
+    <tr>
+        <td class="text-right" rowspan="4" colspan="1" style="vertical-align: middle;" colspan="3">支付方式：</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="bank" id="yue" value="yue" checked>
+                    <img src="http://www.zhanglitong.com/api/pay/chinapay/logo.gif" alt="">
+                </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="bank" id="weixin" value="weixin">
+                    <img src="http://www.zhanglitong.com/api/pay/weixin/logo.gif" alt="">
+                </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="bank" id="zhifubao">
+                    <img src="http://www.zhanglitong.com/api/pay/alipay/logo.gif" alt="">
+                </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;"><div style="margin-top: .06rem;"><span style="color: red;">*</span> 支付密码：</div></td>
+        <td style="vertical-align: middle;" colspan="2"><input type="password" name="payPassword" class="form-control" id="payPassword"></td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;"></td>
+        <td style="vertical-align: middle;" colspan="2">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> 短信通知卖家发货(我的可用短信0条)
+                </label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right" style="vertical-align: middle;"></td>
+        <td style="vertical-align: middle;" colspan="2">
+            <input type="button" class="btn btn-info" style="margin-right: 15px;" onclick="" value="下一步"><input type="button" class="btn btn-info" value="返回">
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+jQuery(function(){
+	var passW=jQuery("input:[name='payPassword']").val();
+	jQuery.post("for_trade",{password:passW,action:"pay"},function(data){
+		alert(data);
+	});
+});
+</script>
+</body>
+</html>

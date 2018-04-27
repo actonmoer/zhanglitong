@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通-智慧城市一卡通</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_e3sqzi8btrv5z5mi.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/mobile/js/myjs.js"></script>
+    <script src="../js/layer.js"></script>
+    <script type="text/javascript">
+        /*var obj = strUrl(),
+            user = getCookie('cpk_username'),
+            w = window;
+        if(checkCookie("cpk_auth")){
+            if(obj.referee){
+                if(obj.referee != user){
+                    w.location.href = 'discountCard.html?referee='+user+'&to='+obj.referee;
+                }
+            }else{
+                w.location.href = 'discountCard.html?referee='+user;
+            }
+        }else{
+            window.location.href="/mobile/login.php?Callback="+encodeURIComponent(window.location.href);
+        }*/
+        var obj = strUrl(),
+            //user = getCookie('cpk_username'),
+            w = window;
+
+        if(checkCookie("cpk_auth")){
+            var user = getCookie('cpk_username');
+            if(obj.referee){
+                if(obj.referee != user){
+                    w.location.href = 'discountCard.html?referee='+user+'&to='+obj.referee;
+                }
+            }else{
+                if(!checkCookie("cpk_auth")){
+                    w.location.href = 'discountCard.html?referee=xxx';
+                }else{
+                    w.location.href = 'discountCard.html?referee='+user;
+                }
+            }
+        }else{
+            $.getScript("/mobile/js/layer.js",function(){
+                var askCont = "您还没有登录！";
+                askLogin(askCont);
+            })
+        }
+        // if(!checkCookie("cpk_auth")){
+        //     user = 'xxx';
+        // }
+        //
+        // if(obj.referee){
+        //     if(obj.referee != user){
+        //         w.location.href = 'discountCard.html?referee='+user+'&to='+obj.referee;
+        //     }
+        // }else{
+        //     if(!checkCookie("cpk_auth")){
+        //         w.location.href = 'discountCard.html?referee=xxx';
+        //     }else{
+        //         w.location.href = 'discountCard.html?referee='+user;
+        //     }
+        // }
+
+    </script>
+    <!--通用样式-->
+    <style>
+        body,html{
+            font-family: "Helvetica";
+        }
+        a:hover,a:focus{
+            text-decoration: none;
+        }
+        p,h1,h2,h3{
+            margin: 0;
+            padding: 0;
+        }
+        .col-xs-3,
+        .col-xs-6,
+        .col-xs-4{
+            padding: 0;
+        }
+    </style>
+    <!--头部-->
+    <style type="text/css">
+        header{
+            height: .88rem;
+            background-color: #3d95e5;
+        }
+        .h-back{
+
+        }
+        .h-title,
+        .h-share,
+        .h-back{
+            color: #fff;
+            text-align: center;
+        }
+        .h-back,
+        .h-share{
+            display: block;
+            line-height: .88rem;
+            height: .88rem;
+        }
+        .h-title{
+            font-size: .32rem;
+            line-height: .88rem;
+        }
+        .h-back i{
+            font-size: .32rem;
+        }
+        .h-share{
+            font-size: .28rem;
+        }
+    </style>
+    <!--中间内容-->
+    <style type="text/css">
+        .dc-Notice{
+            position:relative;
+            width: 100%;
+            height: .6rem;
+            line-height: .6rem;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        .dc-Notice-d{
+            position: absolute;
+            left:.55rem;
+            font-size: .2rem;
+            padding: 0 .25rem;
+            color: #999;
+            white-space: nowrap;
+            text-overflow:ellipsis;
+        }
+        .dc-Notice i{
+            position:absolute;
+            left:0;
+            font-size: .3rem;
+            color: #e82727;
+            margin-right: .2rem;
+            z-index:2;
+            width: 10%;
+            background: #fff;
+            text-align: center;
+        }
+        .dc-Notice-d a{
+            color: #666;
+            font-size: .28rem;
+        }
+        .dc-main{
+            margin: .2rem .25rem 0;
+        }
+        .dc-card-5 img{
+            width: 100%;
+        }
+        .dc-card-c{
+            width: 100%;
+            background-color: #fff;
+            height: 1.22rem;
+            line-height: 1.22rem;
+            border-bottom-left-radius: .1rem;
+            border-bottom-right-radius: .1rem;
+            color: #eb4848;
+            font-size: .42rem;
+            text-align: center;
+        }
+        .dc-business{
+            background-color: #fff;
+            border-radius: .1rem;
+            margin-top: .5rem;
+        }
+        .dc-business-title{
+            color: #3d95e5;
+            font-size: .3rem;
+            margin-left: .2rem;
+            height: .69rem;
+            line-height: .69rem;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        .dc-business-list a{
+            display: block;
+            text-align: center;
+            font-size: .28rem;
+            color: #666;
+            margin-bottom: .28rem;
+        }
+        .dc-btn{
+            margin: .68rem 0;
+        }
+        .dc-btn a{
+            color: #fff;
+            background-color: #3d95e5;
+            border-color: #3d95e5;
+            height: .8rem;
+            padding: 0;
+            line-height: .8rem;
+            width: 4rem;
+            font-size: .32rem;
+        }
+        .dc-btn a:hover,.dc-btn a:focus,
+        .h-back:hover,.h-back:focus,
+        .h-share:hover,.h-share:focus{
+            color: #fff;
+            text-decoration: none;
+        }
+        strong{
+            color:#3d95e5;
+        }
+        .cont-p{
+            text-indent: .32rem;
+            text-align:left;
+        }
+    </style>
+</head>
+<body style="background-color: #f1f1f1;">
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-3"><a class="h-back" href="javascript:HistoryURL();"><i class="iconfont icon-left"></i></a></div>
+            <div class="col-xs-6 h-title">智慧城市一卡通</div>
+            <div class="col-xs-3"><a href="/mobile" class="h-share">首页</a></div>
+        </div>
+    </div>
+</header>
+<section>
+    <!--公告-->
+    <!--<div class="dc-Notice">
+        <i class="iconfont icon-icon1"></i>
+        <div class="dc-Notice-d">
+            <a href="javascript:;">
+                为让大众享受到智慧城市生活带来的好处，平台斥资千万发行限量优惠打折卡10000张；此卡为无门槛使用优惠打折卡，购买后在各大商家均可使用，绝无隐形消费；每人限购一张，先购先得！
+            </a>
+        </div>
+    </div>-->
+    <div id="notice"></div>
+    <div class="dc-main">
+        <!--打折卡-->
+        <div>
+            <div class="dc-card-5" data-card="500" style="margin-bottom: .3rem;">
+                <img src="img/500.jpg" alt="500打折卡">
+                <div class="dc-card-c">充400享500</div>
+            </div>
+            <div class="dc-card-5" data-card="1000" style="margin-bottom: .3rem;">
+                <img src="img/1000.jpg" alt="1000打折卡">
+                <div class="dc-card-c">充850享1000</div>
+            </div>
+        </div>
+        <!--分享-->
+        <div>
+            <a href="javascript:;" onclick="shareCard()" id="shareCard" class="btn btn-info" style="width: 100%;background-color: #3d95e5;border-color:#3d95e5;">登陆后推广，拿奖励</a>
+        </div>
+        <!--商家信息-->
+        <div class="dc-business">
+            <div class="dc-business-title">商家列表</div>
+            <div class="dc-business-list">
+                <div class="container-fluid" style="margin-top: .24rem;">
+                    <div class="row">
+                        <div class="col-xs-4"><a class="" href="/mobile/takeout_test.php">外卖服务</a></div>
+                        <div class="col-xs-4"><a href="http://www.zhanglitong.com/resver_app/#/">餐饮预定</a></div>
+                        <div class="col-xs-4"><a href="/mobile/index.php?moduleid=4&catid=252">汽车维修</a></div>
+                        <div class="col-xs-4"><a href="/mobile/index.php?moduleid=4&catid=245">美容美发</a></div>
+                        <!--<div class="col-xs-4"><a href="javascript:;">更多</a></div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center dc-btn">
+        <a href="/mobile/register.htm?action=post&regid=6" class="btn">商家免费入驻</a>
+    </div>
+</section>
+<!--悬浮-->
+<style>
+    .use-explain{
+        position: fixed;
+        width: .8rem;
+        height: .8rem;
+        background-color: rgba(0,0,0,.5);
+        border-radius: 100%;
+        right: .46rem;
+        bottom: .4rem;
+    }
+    .use-explain a{
+        display: block;
+        font-size: .18rem;
+        color: #fff;
+        text-align: center;
+        line-height: .3rem;
+        padding-top: .11rem;
+    }
+</style>
+<div class="use-explain">
+    <a href="javascript:;">使用<br>说明</a>
+</div>
+
+<style>
+    .bg{
+        background: rgba(0,0,0,.5);
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+    .bg-jiantou{
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        text-align: right;
+    }
+</style>
+<div id="bg" style="display: none;">
+    <div class="bg" onclick="$('#bg').hide();"></div>
+    <div class="bg-jiantou" onclick="$('#bg').hide();">
+        <img src="img/4.png" alt="">
+        <div class="text-center" style="font-size: .52rem;color: #fff;margin-top: .3rem;">点击右上角分享</div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/rem.js"></script>
+<script type="text/javascript">
+
+    /*$(document).ready(function(){
+        var obj = strUrl(),
+            user1 = obj.referee;
+        $(".dc-card-5").click(function(){
+            var price = $(this).attr('data-card');
+            if(price == 500 || price == 1000 || price == 800){
+                if(obj.to){
+                    window.location.href = '/mobile/Pay/CardPay.html?money='+price+'&to='+obj.to;
+                }else{
+                    window.location.href = '/mobile/Pay/CardPay.html?money='+price+'&to=xxx';
+                }
+            }
+        });
+    });*/
+
+    var obj = strUrl(),
+        user1 = obj.referee;
+    $(".dc-card-5").click(function(){
+        var price = $(this).attr('data-card');
+        if(checkCookie("cpk_auth")){
+            if(price == 500 || price == 1000 || price == 800){
+                if(obj.to){
+                    window.location.href = '/mobile/Pay/CardPay.html?money='+price+'&to='+obj.to;
+                }else{
+                    window.location.href = '/mobile/Pay/CardPay.html?money='+price+'&to=xxx';
+                }
+            }
+        }else{
+            var cardCont = "登录后才能买一卡通！";
+            askLogin(cardCont);
+        }
+    });
+
+    function shareCard(){
+        var sharCont = "登录后推广才能拿奖励！";
+        if(!checkCookie("cpk_auth")){
+            askLogin(sharCont);
+        }else{
+            $("#bg").show();
+        }
+    }
+
+    /*使用说明弹出层*/
+    $(".use-explain").click(function(){
+        layer.open({
+            title: [
+                '一卡通说明',
+                'background-color: #3d95e5; color:#fff;'
+            ]
+            ,content: '<p class="cont-p">掌里通“智慧餐饮预定系统”上线试运营，为提高知名度及使用率，特推出钜惠活动。</p><p class="cont-p">充<strong>400</strong>元享<strong>500</strong>元。</p><p class="cont-p">充<strong>850</strong>元享<strong>1000</strong>元。</p><p class="cont-p">充值金额即时到账，不可提现，无期限，掌里通平台所有商家均可使用，每人每种类型的卡只能充值一次。每种卡发行数量仅限<strong>10000</strong>张！先充先得！</p>'
+        });
+    });
+
+    /*公告*/
+    $(function() {
+        var notice = '';
+        notice += '<div class="dc-Notice">';
+        notice += '<i class="iconfont icon-icon1"></i>';
+        notice += '<div class="dc-Notice-d">';
+        notice += '<a href="javascript:;"> 为让大众享受到智慧城市生活带来的好处，平台斥资千万发行限量优惠打折卡10000张；此卡为无门槛使用优惠打折卡，购买后在各大商家均可使用，绝无隐形消费；每人限购一张，先购先得！</a>';
+        notice += '</div></div>';
+        $("#notice").prepend(notice);
+        //字体滚动
+        var num = 0;
+        function goLeft() {
+            //750是根据你给的尺寸，可变的
+            if (num == -900) {
+                num = 0;
+            }
+            num -= 1;
+            $(".dc-Notice-d").css({
+                left: num
+            })
+        }
+        //设置滚动速度
+        var timer = setInterval(goLeft, 40);
+        //设置鼠标经过时滚动停止
+        $(".dc-Notice").hover(function() {
+                clearInterval(timer);
+            },
+            function() {
+                timer = setInterval(goLeft, 40);
+            })
+        /*公告弹出窗*/
+        $(".dc-Notice").click(function(){
+            layer.open({
+                content: '为让大众享受到智慧城市生活带来的好处，平台斥资千万发行限量优惠打折卡<strong>10000</strong>张；此卡为无门槛使用优惠打折卡，购买后在各大商家均可使用，绝无隐形消费；每人限购一张，先购先得！'
+                ,btn: '我知道了'
+            });
+        });
+    });
+
+
+    /*询问登录框*/
+    function askLogin(cont){
+        layer.open({
+            content: cont
+            ,btn: ['登录', '不登录']
+            ,yes: function(index){
+                window.location.href="/mobile/login.php?Callback="+encodeURIComponent(window.location.href);
+                layer.close(index);
+            }
+        });
+    }
+</script>
+</body>
+</html>

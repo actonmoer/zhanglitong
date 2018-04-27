@@ -1,0 +1,118 @@
+.top{
+
+    width: 100%;
+}
+.top img{
+    width: 100%;
+}
+.content{
+    padding:1.146rem  0.627rem 0 0.627rem;
+    background: #e9502b;
+
+}
+.director{
+    height: 1.427rem;
+    border-bottom: 1px solid #ef7c56;
+}
+.text1{
+    color: #fce1bb;
+    font-size: 14px;
+}
+
+.list{
+    height: 2.077rem;
+    padding-top: 0.870rem;
+}
+
+.listimg{
+    width: 1.333rem;
+    height: 1.333rem;
+    float:left;
+
+
+}
+.listimg img {
+    width: 100%;
+    height: 100%;
+
+}
+
+.listtext{
+    color: #fce1bb;
+    font-size: 15px;
+    line-height: 0.613rem;
+    float: right;
+}
+.list-p{
+    width: 4.32rem;
+    padding-right: 0.53rem;
+}
+
+.list-p2{
+    width: 5.6rem;
+    line-height: 0.8rem;
+}
+
+.directorse{
+    height: 5.067rem;
+}
+
+.list-3{
+    border-bottom: 0px solid;
+}
+.lists{
+    float: left;
+    color: #fce1bb;
+    font-size: 15px;
+    padding-left: 50px;
+    padding-top: 10px;
+}
+
+.note{
+    /*5.627*/
+    height: 5.627rem;
+}
+.note-content-p1{
+    text-align: center;
+}
+.note-content{
+    height: 4.053rem;
+    background: #fce1bb;
+    font-size: 15px;
+    line-height: 0.72rem;
+    padding: 0.4rem;
+
+}
+
+.bose{
+    padding: 0 0 0 0.333rem;
+    height: 1.333rem;
+    background: #fff;
+}
+
+.bose-span{
+    font-size: 14px;
+    color: #333333;
+}
+.bose-i{
+    font-size: 16px;
+    color: #d81b1b;
+}
+
+.bose-span2{
+    font-size: 21px;
+    color: #d81b1b;
+}
+.bose-p{
+    float: right;
+    width: 3.0667rem;
+    height: 100%;
+    background: #fce1bb;
+    font-size: 19px;
+    color: #e9502b;
+    text-align: center;
+    line-height: 1.306rem;
+}
+.bose-cs{
+    height: 100%;
+}

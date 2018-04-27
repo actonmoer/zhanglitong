@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_rts01uhg6kmrhpvi.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <script src="../js/layer.js"></script>
+    <style>
+        .money {
+            width: 100%;
+            height: auto;
+            text-align: center;
+            background: #ccc url(../img/turnover.jpg) no-repeat;
+            background-size: cover;
+            color: #fff;
+            font-size: 0;
+        }
+        .money div span {
+            display: block;
+        }
+        .month span:nth-child(1) {
+            padding: .875rem 0 0;
+            line-height: 2.375rem;
+            font-size: 1.875rem;
+        }
+        .month span:nth-child(2) {
+            line-height: 2.1875rem;
+            font-size: 1.125rem;
+        }
+        .receive, .unreceive {
+            display: inline-block;
+            padding: .625rem 0;
+            width: 50%;
+        }
+        .receive span:nth-child(1), .unreceive span:nth-child(1) {
+            line-height: 1.375rem;
+            font-size: 1.125rem;
+        }
+        .receive span:nth-child(2), .unreceive span:nth-child(2) {
+            line-height: 1.0625rem;
+            font-size: .9375rem;
+        }
+        .sale {
+            padding: 1rem .8125rem;
+            background-color: #fcfcfc;
+        }
+        .sale table {
+            width: 100%;
+            height: auto;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+        .sale table tr {
+            line-height: 2.25rem;
+            font-size: .8125rem;
+        }
+        .sale table tr:nth-child(1) {
+            background: #eee;
+        }
+        .sale table tr th {
+            text-align: center;
+            font-size: .9375rem;
+        }
+        form input{
+            height:30px;
+            line-height:30px;
+            margin:10px 0;
+            border-radius:4px;
+            background:#fff;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a>
+        </div>
+        <div class="h-C">销售情况</div>
+        <div class="h-R" style="font-size:.75rem;color:#fff;">筛选</div>
+    </div>
+</header>
+<section>
+    <div class="money">
+        <div class="month">
+            <span class="reserve-receivable">0.00</span>
+            <span class="time">12月份(元)</span>
+        </div>
+        <div class="receive">
+            <span>已收(元)</span>
+            <span class="reserve-received">0.00</span>
+        </div>
+        <div class="unreceive">
+            <span>未收(元)</span>
+            <span class="reserve-uncollected">0.00</span>
+        </div>
+    </div>
+    <div class="sale">
+        <table border="1">
+            <tr>
+                <th>商品名</th>
+                <th>月售(份)</th>
+                <th>总计(元)</th>
+            </tr>
+        </table>
+    </div>
+</section>
+<script>
+    var action = {};
+    $(function () {
+        action = {action: 'reserve'};
+        saleAjax(action);
+    });
+
+    /*筛选时间*/
+    $('.h-R').click(function(){
+        layer.open({
+            content: '<form><p>开始时间：</p><input type="date" name="bTime" required></br><p>结束时间：</p><input type="date" name="eTime" required></form>'
+            ,btn: ['确定', '取消']
+            ,yes: function(index){
+                filterTime($('input[name="bTime"]').val(),$('input[name="eTime"]').val());
+                layer.close(index);
+            }
+        });
+    });
+    function filterTime(bTime,eTime){
+        var begin_time = Date.parse(bTime)/1000 - 28800,
+            end_time = Date.parse(eTime)/1000 + 57600;
+        action = {action:'reserve',time:'select',begin_time:begin_time,end_time:end_time};
+        saleAjax(action);
+    }
+
+    function saleAjax(action){
+        $.ajax({
+            url: '../sells_profit.php',
+            type: 'post',
+            dataType: 'json',
+            data: action,
+            success: function (data) {
+                console.log(data);
+                $('table').html('');
+                var money = data.money,
+                    sells = data.sells,
+                    time = data.time,
+                    count = 0,
+                    detialCash = 0;
+                if(data.code == 200){
+                    $('.time').text(mtime1(time[0]) + '~' + mtime1(time[1]));
+                    $('.reserve-receivable').text(money.reserve_receivable + '(元)');
+                    $('.reserve-received').text(money.reserve_received);
+                    $('.reserve-uncollected').text(money.reserve_uncollected);
+                    $('table').append('<tr><th>商品名</th><th>销量(份)</th><th>总计(元)</th></tr>');
+
+                    for(var i in sells){
+                        for(var j=0;j<sells[i].length;j++){
+                            count += +sells[i][j].num;
+                            detialCash += +sells[i][j].detial_cash;
+                        }
+                        $('table').append('<tr><td>'+ i +'</td><td>'+ count +'</td><td>'+ detialCash +'</td></tr>');
+                        count = 0;
+                        detialCash = 0;
+                    }
+                }
+            },
+            error: function () {
+                console.log("网络出错，请稍后再试！");
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>修改物种</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	{template "room_head","mobile"}
+	<script type="text/javascript" src="<?php echo DT_STATIC;?>file/script/config.js"></script>
+    <script type="text/javascript" src="<?php echo DT_STATIC;?>file/script/common.js"></script>
+	<style>
+	.showForm .autoShowLi{position: relative;}
+	.showForm .autoShowLi span{padding-right: 50px;}
+	.showForm .autoShowLi i{position: absolute;right: 18px;top: 0;line-height: 30px;}
+	.showForm .sendShowLi span{border: none;text-align: right;padding:3px 0;}
+	.showForm .sendShowLi span em{line-height: 28px;display: inline-block;vertical-align: top;padding: 0 14px;border-radius: 4px;background: #007AFF;color:#fff;}
+	.showForm .sendTime_li{position: relative;}
+	.showForm .sendTime em.line{position: absolute;width: 7px;height: 36px;border:1px solid #dcdddd;border-right: 0;top:14px;left: 62px;}
+	.showForm .sendTime em.del1{position: absolute;line-height: 20px;padding: 0 10px;border-radius: 4px;color:#ed4948;border:1px solid #ed4948;top:21px;left: 6px;font-size: 12px;}
+	.showForm .sendTime span{padding-left: 70px;position: relative;}
+	.showForm .sendTime i{position: absolute;left: 6px;top: 0;line-height: 30px;}
+</style>
+</head>
+<script>
+   
+   del=null;
+    add=null;
+	empty=null;
+   $(function(){
+   
+       del=function(obj){
+	       $("#specPanel").find($(obj).parent()).remove();
+       }
+	   
+	   
+	   add=function(){
+		   html='</span><span style="border:none;">属性:<input type="text" name="spec_attr[]" style="width:50px;border: 1px solid hsl(180, 1%, 86%);" value="">';
+		   html+='价钱:<input type="text"  name="spec_price[]"  style="width:50px;border: 1px solid hsl(180, 1%, 86%);" value="0">';
+		   html+='<a style="color:blue;" onclick="del(this);" href="javascript:void(0);"> 删除</a></span>';
+		   $("#specPanel").html( $("#specPanel").html()+html);
+   
+       }
+	   
+	   
+	   empty=function(){
+	 
+	       $("input[name^='spec_attr']").val('');
+		   $("input[name^='spec_price']").val(0);
+	   }
+	   
+      if($("#is_spec").is(":checked")){
+	      $("#specPanel").show();
+	  }else{
+	      $("#specPanel").hide();	  
+	  }
+	  
+	  
+	  
+		$("#is_spec").click(function(){
+			 if($(this).is(":checked")) {
+				 $("#specPanel").show();
+			 }else{
+				  $("#specPanel").hide();
+			 }
+		
+		})
+   
+   })
+</script>
+
+<body>
+	<div class="headBox">
+		<div class="head-bar-back"><a href="javascript:history.go(-1)"><img src="static/room/images/admin/icon-back.png" width="24" height="24"><span>返回</span></a></div>
+		<div class="head-bar-title">修改菜品</div>
+		<div class="head-bar-right"><a onclick="$('#ds_form').submit();"><span>保存</span></a></div>
+	</div>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<form action="user_takeout_home.php?act=update_food" id="ds_form" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
+			<div class="showList showForm">
+				<div class="showLi">
+					<b>配送分类</b>
+					<span>
+						<select name="cuisine_id">
+							<option>请选择</option>
+							{loop $data $r}
+								<option value="{$r['id']}" <?php if ($r['id'] == $dishes['cuisine_id']){ echo "selected=selected";}?>>{$r['cuisine']}</option>
+							{/loop}
+						</select>
+					</span>	
+				</div>
+				<input type="hidden" name="id" value="{$dishes['id']}">
+				
+				
+				<?php if($dishes_times) { ?>
+				<!-- 配送时间段 -->
+				<div class="showLi sendShowLi">
+					<b>销售时间段</b><span><em onclick="addSendTime()">添加</em></span>
+				</div>			
+				
+				  <div class="sendTime" id="sendTime">
+				    <?php foreach($dishes_times as $k=>$v) { ?>
+					<div class="sendTime_li">
+						<em class="line"></em>
+						<em class="del1" onclick="delSendTime(this)">删除</em>
+						       <input type="hidden" name="times[]" value="<?php echo $v['id']; ?>"/>
+								<div class="showLi">
+									<span><i>开始时间</i><input type="text" name="start[]" id="startTm_<?php echo $k+1;?>" class="startTm" value="{$v['begun_time']}" readonly></span>
+								</div>
+								<div class="showLi">
+									<span><i>结束时间</i><input type="text" name="end[]" id="endTm_<?php echo $k+1;?>" class="endTm" 
+									value="<?php echo $v['over_time'];?>" readonly></span>
+								</div>
+						</div>
+				
+							<?php } ?>
+					</div>								
+						<?php } else if($_GET[ 'id' ]){ ?>
+						<!-- 配送时间段 -->
+						<div class="showLi sendShowLi">
+							<b>销售时间段</b><span><em onclick="addSendTime()">添加</em></span>
+						</div>
+						<div class="sendTime" id="sendTime">
+						<div class="sendTime_li">
+						    <em class="line"></em>
+					    	<em class="del1" onclick="delSendTime(this)">删除</em>
+						       <div class="showLi">
+								<span><i>开始时间</i><input type="text" name="start[]" id="startTm_1" class="startTm" value="" readonly></span>
+							</div>
+							<div class="showLi">
+								<span><i>结束时间</i><input type="text" name="end[]" id="endTm_1" class="endTm" value="" readonly></span>
+							</div>
+						</div>
+					</div>
+						<?php } ?>
+				<!-- 配送时间段 -->
+				<div class="showLi">
+					<b>配送物名</b>
+					<span><input type="text" value="{$dishes['dishes']}" name="dishes"></span>
+				</div>
+				<div class="showLi">
+					<b>是否下架</b>
+					<span style="width:6%;border:none;"><input type="checkbox" <?php if($dishes['isup']==1){?>
+      					checked="checked" 
+						<?php }?> name="isup" value="1"></span>
+				</div>
+				<div class="showLi">
+					<b>是否打折</b>
+					<span style="width:6%;border:none;">
+						<input type="checkbox" id="DInput" name="discount" onclick="discountBtn()">
+					</span>
+					<input type="text" class="inputDiscount" name="dishes_discount" value="" placeholder="请输入折扣！&nbsp;&nbsp;如：0.60"  style="display:none;border:1px solid #d3d3d3;margin: 0 0 0 70px;width: 70%;">
+				</div>
+				<div class="showLi">
+					<b>是否多规格</b>
+					<span style="width:6%;border:none;"><input id="is_spec" type="checkbox" <?php if($dishes['is_spec']==1){?>
+      					checked="checked" 
+						<?php }?> name="is_spec" value="1"></span>
+				</div>
+				<div class="showLi" id="specPanel">
+					<b>规格属性</b>
+					<?php 
+					
+					if($dishes['spec_attr']!=''){
+                       		$arr=explode(',',$dishes['spec_attr']);			
+					        foreach ($arr as $k=>$v){  
+					        $specarr=explode('|',$v);?>
+					  <?php if($k==0){  ?>
+						<span style="border:none;">属性:<input type="text" name="spec_attr[]" style="width:50px;border: 1px solid hsl(180, 1%, 86%);" value="<?php echo $specarr[0];?>" >
+						价钱:<input type="text" name="spec_price[]" style="width:50px;border: 1px solid hsl(180, 1%, 86%);" value="<?php echo $specarr[1];?>" >
+						  <a style="color:blue;" onclick="add();" href="javascript:void(0);">增加</a><a style="color:blue;" onclick="empty()" href="javascript:void(0);">清空</a>
+						  
+						
+					  <?php }else{ ?>
+					    </span><span style="border:none;">属性:<input type="text" name="spec_attr[]"  style="width:50px;border: 1px solid hsl(180, 1%, 86%);" value="<?php echo $specarr[0];?>">
+						价钱:<input type="text" name="spec_price[]" style="width:50px;border: 1px solid hsl(180, 1%, 86%);" value="<?php echo $specarr[1];?>" >
+						<a style="color:blue;" onclick="del(this);" href="javascript:void(0);">删除</a>
+					    </span>
+					  
+					<?php } ?>  
+				  <?php } 
+				     }else{
+				  ?>
+				     	<span style="border:none;">属性:<input type="text" name="spec_attr[]" style="width:50px;border: 1px solid hsl(180, 1%, 86%);" value="" >
+						价钱:<input type="text" name="spec_price[]" style="width:50px;border: 1px solid hsl(180, 1%, 86%);" value="0" >
+						  <a style="color:blue;" onclick="add();" href="javascript:void(0);">增加</a><a style="color:blue;" onclick="empty()" href="javascript:void(0);">清空</a>
+				  
+				  <?php
+				    }
+				  ?>
+			   </div>
+				<div class="showLi">
+					<b>缩略图</b>
+					<span><input type="file" name="thumb"></span>
+				</div>
+				<div class="showLi">
+					<b>市场价</b>
+					<span><input type="text" value="{$dishes['price']}" name="price"></span>
+				</div>
+				<div class="showLi">
+					<b>店面价</b>
+					<span><input type="text" value="{$dishes['sell_price']}" name="sell_price"></span>
+				</div>
+				<div class="showLi">
+					<b>商品介绍</b>
+					<span><input type="text" value="{$dishes['description']}" name="description"></span>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<div class="footBox"></div>
+</body>
+<script type="text/javascript">
+
+     function checkForm(){
+		var cuisine = $('#ds_form select[name="cuisine_id"]').find('option:selected').text();
+		var dishes_discount = $('input[name=dishes_discount]').val();
+		var patt = /0\.[0-9]{1,2}/;
+
+         if(cuisine=='请选择'){
+             alert('配送分类不能为空！');
+//             return false;
+         }else{
+//             return true;
+         };
+
+
+		if($("#DInput").is(':checked')){
+            console.log("选中");
+             if(!(patt.test(dishes_discount))){
+                 alert('请输入正确的折扣！');
+                 return false;
+             }else{
+                 return true;
+             }
+		 }
+
+
+	}
+	// 添加配送时间段
+	setTimeout(function(){
+	
+	    $('.startTm').each(function(){
+		    setIcm($(this).attr("id"),'start');
+		 });
+		 $('.endTm').each(function(){
+		    setIcm($(this).attr("id"),'end');
+		 }); 
+		 
+	},500)
+	var addTimeNum = 1;
+	function addSendTime(){
+		addTimeNum++;
+		$('#sendTime').append('<div class="sendTime_li">'+
+								'<em class="line"></em>'+
+								'<em class="del1" onclick="delSendTime(this)">删除</em>'+
+								'<div class="showLi">'+
+									'<span><i>开始时间</i><input type="text" name=start[] id="startTm_'+addTimeNum+'" class="startTm" readonly></span>'+
+								'</div>'+
+								'<div class="showLi">'+
+									'<span><i>结束时间</i><input type="text" name=end[] id="endTm_'+addTimeNum+'" class="endTm" readonly></span>'+
+								'</div>'+
+							'</div>');
+		setIcm('startTm_'+addTimeNum,'start');
+		setIcm('endTm_'+addTimeNum,'end');
+	}
+	// 删除配送时间段
+	function delSendTime(obj){
+	   if($(obj).next().attr("name")=="times[]"){
+	    $.ajax({
+			data:{"for_ajax":"takeout_dishes_time_del","id":$(obj).next().val()},
+			type:"post",
+			dataType:"json",
+			url:"for_ajax_restaurant.php",
+	        success:function(data){
+				   if (data.success) {
+		             $(obj).closest('.sendTime_li').remove();
+				   }
+			}
+			
+			});
+		}else{
+		      $(obj).closest('.sendTime_li').remove();
+		
+		}
+	}
+
+	function setIcm(tid,type){
+		var icaTime = new lCalendar();
+	    if(type=='start'){
+		    icaTime.init({
+		        'trigger': '#'+tid,
+		        'type': 'time',
+		        callback :function(kh,km){
+		        	var num = Number(kh)*60+Number(km);
+		        	var par = $('#'+tid).closest('.sendTime_li');
+		        	if(par.attr('data-end')&&num>Number(par.attr('data-end'))){
+		        		alert('开始时间不能大于结束时间');
+		        	}else{
+			        	par.attr('data-start',num);
+			        	par.find('.startTm').val((kh.length<2?"0":"")+kh+(km.length<2?":0":":")+km);
+			        }
+		        }
+		    });
+	    }else{
+	    	icaTime.init({
+		        'trigger': '#'+tid,
+		        'type': 'time',
+		        callback :function(kh,km){
+		        	// console.log(kh,km);
+		        	var num = Number(kh)*60+Number(km);
+		        	var par = $('#'+tid).closest('.sendTime_li');
+		        	if(par.attr('data-start')&&num<Number(par.attr('data-start'))){
+		        		alert('结束时间不能小于开始时间');
+		        	}else{
+			        	console.log(par.attr('data-end',num));
+			        	par.find('.endTm').val((kh.length<2?"0":"")+kh+(km.length<2?":0":":")+km);
+		        	}
+		        }
+		    });
+	    }
+	}
+	/*商品折扣*/
+	function discountBtn(t){
+	    var dishes_discount = $("input[name='dishes_discount']").val();
+	    if($("#DInput").is(':checked')){
+	        $(".inputDiscount").css("display","block");
+	        console.log("成功");
+	        /*$.post("BusinessHome.php",{action:"e_dishes",dishes_discount:dishes_discount},
+				function(data){
+	            console.log(data);
+	        });*/
+		}else{
+            $(".inputDiscount").css("display","none");
+		}
+	}
+</script>
+</html>

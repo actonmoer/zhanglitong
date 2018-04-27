@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>收货地址</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_hkw9ma7qx5b138fr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/address.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">收货地址</div>
+        <div class="h-R" style="font-size:.875rem;color:#fff;"></div>
+    </div>
+</header>
+
+<section>
+    <div id="address"></div>
+    <div class="addAddress" onclick="newAddress()">
+        <span>新增收货地址</span>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="/mobile/js/myjs.js"></script>
+<script>
+    /*获取数据*/
+    $(document).ready(function(){
+        $.ajax({
+            url:"../usercenter.php",
+            type:"POST",
+            dataType:"json",
+            data:{"action":"show_address"},
+            success:function(data){
+                var a = data.data;
+                for(var i=0;i<a.length;i++){
+                    $("#address").append(addressDetails(a[i].truename,a[i].mobile,a[i].address,a[i].postcode,a[i].itemid,a[i].listorder));
+                    if(a[i].listorder == "0"){
+                        $("input").attr("checked","checked");
+                    }
+                }
+            },
+            error: function(data){
+                alert("网络延时，请稍后!");
+            }
+        });
+    });
+    /*渲染页面*/
+    function addressDetails(name,number,address,postcode,itemid,listorder){
+        var address =  '<div class="address">'+
+            '<div class="address-details clearb">'+
+            '<p><span style="font-size:1rem;color:#333;">'+name+'</span><span style="color:#333;float:right">'+number+'</span></p>'+
+            '<p>'+address+'</p>'+
+            '</div>'+
+            '<div class="address-btn clearb">'+
+            '<div class="default">' +
+            '<label>'+
+            // '<input type="radio" name="square" value="" onclick="addressDefault(\''+itemid+'\',\''+listorder+'\')">'+
+            '<input type="radio" name="square" value="" onchange="isSelectAddress(\''+itemid+'\')">'+
+            '<span class="square">√</span>'+
+            '<span class="square-font">默认地址</span>'+
+            '</label>' +
+            '</div>'+
+            '<div class="delete" onclick="delAddress('+itemid+')"><i class="iconfont icon-icon_delete"></i><span>删除</span></div>'+
+            '<div class="edit" onclick="addressModify( '+itemid+')"><i class="iconfont icon-icon"></i><span>编辑</span></div>'+
+            '</div>'+
+            '</div>';
+        return address;
+    }
+
+    /*默认地址*/
+    function addressDefault(id){
+        if($(".address").length > 1){
+            $.ajax({
+                url: "../bobotest.php",
+                type: "POST",
+                data: {action:"default_address",itemid:id},
+                dataType: "JSON",
+                success: function(data){
+                }
+            });
+        }
+    }
+
+    //选择默认地址
+    function isSelectAddress(id){
+        var obj = strUrl();
+        if(obj.hasOwnProperty('Callback')){
+            $.ajax({
+                url: "../bobotest.php",
+                type: "POST",
+                data: {action:"default_address",itemid:id},
+                dataType: "JSON",
+                success: function(data){
+                    console.log(data);
+                    if(data.code == 200){
+                        window.location.href = decodeURIComponent(obj.Callback);
+                    }
+                }
+            });
+        }else{
+            if($(".address").length > 1){
+                $.ajax({
+                    url: "../bobotest.php",
+                    type: "POST",
+                    data: {action:"default_address",itemid:id},
+                    dataType: "JSON",
+                    success: function(data){}
+                });
+            }
+        }
+    }
+
+    /*编辑地址*/
+    function addressModify(itemid){
+        var obj = strUrl();
+        window.location.href="address-modify.html?itemid="+itemid+"&Callback="+obj.Callback;
+    }
+
+    /*删除地址*/
+    function delAddress(id){
+        var msg = confirm("您确定要删除此地址吗？");
+        if(msg == true){
+            $.ajax({
+                url: "../usercenter.php",
+                type: "POST",
+                data: {action:"del_address",itemid:id},
+                dataType: "JSON",
+                success: function(data){
+                    if(data.code == 200){
+                        window.location.href="address.html";
+                    }
+                },
+                error: function(data){
+                    alert("网络延时，请稍后!");
+                }
+            });
+        }
+    }
+
+    //新增收货地址
+    function newAddress(){
+        var obj = strUrl();
+        if(obj.hasOwnProperty('Callback')){
+            window.location.href='address-add.html?Callback='+obj.Callback;
+        }else{
+            window.location.href='address-add.html'
+        }
+
+    }
+</script>
+</html>

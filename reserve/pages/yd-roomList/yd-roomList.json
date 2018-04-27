@@ -1,0 +1,7 @@
+{
+  "usingComponents":{
+    "stars": "yd-stars/yd-stars",
+    "boxmsg": "yd-box/yd-box",
+    "empty": "/pages/yd-empty/yd-empty"
+  }
+}

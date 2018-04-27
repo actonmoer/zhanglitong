@@ -1,0 +1,22 @@
+.yd-stars{
+  margin-top: 4rpx;
+}
+.yd-stars .item{
+  background: url('https://www.zhanglitong.com/smallprogram/img/star.png') no-repeat;
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  float: left;
+}
+.yd-stars .active{
+  background: url('https://www.zhanglitong.com/smallprogram/img/star1.png') no-repeat;
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  float: left;
+}
+.clearfix::after{
+  content: ' ';
+  display:table;
+  clear: both;
+}

@@ -1,0 +1,2 @@
+<button open-type="contact" bindcontact>点击我</button>
+<view bindtap='select'>12346</view>

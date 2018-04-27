@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单支付</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_t4d6ts6aj0q0vn29.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/mobile/js/angular.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <style>
+        /*shoppingCart-empty*/
+        .shoppingCart{
+            maregin:0 auto;
+            text-align:center;
+        }
+        .shoppingCart p i {
+            font-size:4.875rem;
+            color:#3d95e5;
+            margin-top:4rem;
+        }
+        .shoppingCart p:nth-child(2){
+            font-size:.875rem;
+            margin:1.25rem 0 .875rem;
+        }
+        .shoppingCart p:nth-child(3){
+            font-size:.75rem;
+            color:#666;
+        }
+        .white-btn {
+            background-color: #fff;
+            color: #333;
+            font-size: 1rem;
+            height: 3.125rem;
+            box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.1);
+        }
+        /*shoppingCart-order*/
+        .shoppingCart-order{
+            margin-top:1.25rem;
+            background-color:#fff;
+            padding:0 1.25rem;
+        }
+        .shoppingCart-title{
+            border-bottom:1px solid #f2f2f2;
+            padding:1.375rem 0 .75rem;
+            font-size:.875rem;
+        }
+        .shoppingCart-title .right {
+            float:right;
+            color:#3d95e5;
+        }
+        .shoppingCart-center {
+            position:relative;
+            height:6.25rem;
+            border-bottom:1px solid #f2f2f2;
+        }
+        .shoppingCart-icon {
+            position:absolute;
+            height:6.25rem;
+            padding:2.625rem .4375rem;
+        }
+        .shoppingCart-img {
+            position:absolute;
+            top:1.25rem;
+            left:1.875rem;
+            width:3.75rem;
+            height:3.75rem;
+            background-color:#f2f2f2;
+        }
+        .shoppingCart-number {
+            position:absolute;
+            height:3.75rem;
+            top:1.25rem;
+            left:6.25rem;
+        }
+        .shoppingCart-number p:first-child i{
+            color:#3d95e5;
+            font-size:1.25rem;
+            font-weight:bold;
+        }
+        .shoppingCart-number p:first-child span{
+            display:inline-block;
+            width:2.5rem;
+            text-align:center;
+            border-bottom:1px solid #3d95e5;
+            margin:0 .3125rem;
+        }
+        .shoppingCart-number p:last-child {
+            font-size:.75rem;
+            color:#666;
+            padding-top:1.6875rem;
+        }
+        .shoppingCart-number p:last-child i{
+            float:right;
+        }
+        .shoppingCart-btn {
+            position:absolute;
+            top:0;
+            right:0;
+            height:6.25rem;
+            line-height:6.25rem;
+            width:3.75rem;
+            background-color:#3d95e5;
+            text-align:center;
+            color:#fff;
+        }
+        .shoppingCart-tip {
+            padding:.625rem 0 1.25rem;
+            font-size:.75rem;
+            color:#666;
+        }
+        .shoppingCart-amount{
+            position:absolute;
+            height:3.75rem;
+            top:1.25rem;
+            right:0;
+            width:100%;
+            padding-left:6.25rem;
+        }
+        .shoppingCart-amount p:nth-child(1) {
+            font-size:.875rem;
+        }
+        .shoppingCart-amount p:nth-child(2) {
+            font-size:.625rem;
+            color:#666;
+            margin:.375rem 0;
+        }
+        .shoppingCart-amount p:nth-child(3) span:nth-child(1){
+            font-size:.875rem;
+            color:#f0790f;
+        }
+        .shoppingCart-amount p:nth-child(3) span:nth-child(2){
+            font-size:.875rem;
+            color:#333;
+            float:right;
+        }
+        footer{
+            position:fixed;
+            width:100%;
+            height:3.125rem;
+            bottom:0;
+            border-top:1px solid #d3d3d3;
+            background-color:#fff;
+        }
+        .foot-select{
+            height:3.125rem;
+            font-size:.875rem;
+            padding:1.0625rem 0 1.0625rem 1.25rem;
+        }
+        .foot-select i {
+            margin-right:.25rem;
+        }
+        .foot-select span {
+            color:#666;
+        }
+        .foot-amount{
+            position:absolute;
+            top:0;
+            right:7.25rem;
+            font-size:.625rem;
+        }
+        .foot-amount p {
+            height:1.375rem;
+            line-height:1.375rem;
+        }
+        .foot-amount p:first-child span:nth-child(2){
+            font-size:1rem;
+            color:#f0790f;
+        }
+        .foot-amount p:nth-child(2) span{
+            color:#666;
+            float:right;
+        }
+        .foot-btn{
+            position:absolute;
+            top:0;
+            right:0;
+            width:6.625rem;
+            height:3.125rem;
+            line-height:3.125rem;
+            text-align:center;
+            font-size:.875rem;
+            color:#fff;
+            background-image:linear-gradient( 130deg,rgb(61,195,229) 0%,rgb(61,149,229) 100%);
+        }
+        .checked {
+            display:inline-block;
+            width:1rem;
+            height:1rem;
+            background-color:#3d95e5;
+            color:#fff;
+        }
+        .no-checked {
+            display:inline-block;
+            width:1rem;
+            height:1rem;
+            border:1px solid #d3d3d3;
+            color:#fff;
+        }
+        /*shoppingCart-confirm*/
+        .order-message {
+            position:relative;
+            margin-top:1.25rem;
+            background-color:#fff;
+            padding:0 1.25rem;
+            font-size:.875rem;
+        }
+        .order-address {
+            margin-right:1.875rem;
+        }
+        .order-address p:nth-child(1){
+            padding:1.25rem 0 .625rem 0;
+        }
+        .order-address p:nth-child(2){
+            color:#666;
+            line-height:1.25rem;
+            padding-bottom:1rem;
+        }
+        .order-icon{
+            position:absolute;
+            top:0;
+            right:1.25rem;
+            width:1.875rem;
+            height:6.25rem;
+            line-height:6.25rem;
+            text-align:right;
+        }
+        .order-icon i{
+            font-size:.875rem;
+        }
+        .order-details {
+            margin-top:1.25rem;
+            margin-bottom:4.375rem;
+            padding:0 1.25rem;
+            background-color:#fff;
+            font-size:.875rem;
+            color:#666;
+        }
+        .shop-name {
+            border-bottom:1px solid #f2f2f2;
+        }
+        .shop-name i {
+            display:inline-block;
+            width:1.25rem;
+            height:1.25rem;
+            border-radius:50%;
+            background-color:#d3d3d3;
+            vertical-align:middle;
+            margin-right:.625rem;
+        }
+        .shop-name span {
+            height:2.5rem;
+            line-height:2.5rem;
+            color:#333;
+        }
+        .goods-name {
+            border-bottom:1px solid #f2f2f2;
+            padding:.625rem 0;
+        }
+        .goods-name p{
+            padding: 4px 0;
+        }
+        .goods-name p span:nth-child(1){
+            font-size:.625rem;
+        }
+        .goods-name p span:nth-child(2){
+            float:right;
+        }
+        .distribution-money,.discount-money,.remark {
+            height:3.25rem;
+            line-height:3.25rem;
+            border-bottom:1px solid #f2f2f2;
+        }
+        .remark{
+            position:relative;
+            border-bottom:1px solid #f2f2f2;
+        }
+        .remark div {
+            position:absolute;
+            top:0;
+            right:0;
+            width:100%;
+            padding-left:2.75rem;
+        }
+        .remark div input{
+            height:2.5rem;
+            width:100%;
+            border:none;
+        }
+        .amount {
+            height:3.375rem;
+            line-height:3.375rem;
+            text-align:right;
+        }
+        .amount p span:nth-child(1){
+            color:#333;
+        }
+        .amount p span:nth-child(2){
+            color:#f28f49;
+        }
+        .right{
+            float:right;
+            color:#333;
+            font-size:1rem;
+        }
+        /*shoppingCart-pay*/
+        .pay-way {
+            margin-top:1.25rem;
+            padding:0 1.25rem;
+            background-color:#fff;
+        }
+        .choose p{
+            font-size:.875rem;
+            height:3.25rem;
+            line-height:3.25rem;
+            border-bottom:1px solid #f2f2f2;
+        }
+        .choose p span:nth-child(3){
+            float:right;
+        }
+        .choose p span:nth-child(2){
+            color:#f0790f;
+            float:right;
+        }
+        .pay-container {
+            position:relative;
+            height:4.875rem;
+            border-bottom:1px solid #f2f2f2;
+        }
+        .pay-icon{
+            position:absolute;
+            left:0;
+            height:4.87rem;
+            line-height:4.875rem;
+            color:#6eb0ec;
+        }
+        .pay-type{
+            position:absolute;
+            top:0;
+            left:1.875rem;
+            height:4.875rem;
+        }
+        .pay-type p:nth-child(1){
+            font-size:.875rem;
+            margin:1.25rem 0 .375rem 0;
+        }
+        .pay-type p:nth-child(2){
+            font-size:.75rem;
+            color:#666;
+            margin-bottom:1.25rem;
+        }
+        .pay-checked {
+            position:absolute;
+            height:4.87rem;
+            line-height:4.875rem;
+            right:0;
+            width:2.5rem;
+            text-align:right;
+        }
+        .pay-checked span{
+            position:relative;
+            display:inline-block;
+            width:1rem;
+            height:1rem;
+            border:1px solid #bcbcbc;
+            border-radius:50%;
+        }
+        .pay-checked span i{
+            position:absolute;
+            display:inline-block;
+            top:.09375rem;
+            left:.09375rem;
+            width:.625rem;
+            height:.625rem;
+            border-radius:50%;
+            text-align:center;
+            background-color:#fff;
+        }
+        .pay-checked input:checked+span {
+            border-color:#3d95e5;
+        }
+        .pay-checked input:checked+span>i {
+            background-color:#3d95e5;
+        }
+        .pay-checked label{
+            display:inline-block;
+            width:2.5rem;
+        }
+        /*shoppingCart-success*/
+        .blue-btn {
+            background-color:#3d95e5;
+            color:#fff;
+            font-size:1rem;
+            height:3.125rem;
+            box-shadow:0 2px 4px 0 rgba(51, 51, 51, 0.1);
+        }
+
+
+        .order-number{
+            font-size: .875rem;
+            color: #333;
+            height: 3.25rem;
+            line-height: 3.25rem;
+        }
+        .order-state{
+            color: #f0790f;
+            font-size: .75rem;
+            height: 3.25rem;
+            line-height: 3.25rem;
+        }
+        .order-link{
+            display: block;
+            position: relative;
+            padding: 1.125rem 0 1.125rem 4.375rem;
+        }
+        .order-shop-img{
+            width: 3.75rem;
+            height: 3.75rem;
+            border-radius: 100%;
+            position: absolute;
+            left: 0;
+            top: 1.1875rem;
+        }
+        .order-shop{
+            font-size: .875rem;
+            color: #333;
+            margin-bottom: .5rem;
+        }
+        .order-time,.order-price{
+            font-size: .75rem;
+            color: #666;
+        }
+        .order-time{
+            margin-bottom: .375rem;
+        }
+        .all-btn{
+            display: inline-block;
+            font-size: .875rem;
+            color: #3d95e5;
+            border: 1px solid #3d95e5;
+            border-radius: .25rem;
+            /*padding: .6875rem 1.25rem;*/
+            margin-left: .3125rem;
+            width: 5rem;
+            height: 1.875rem;
+            text-align: center;
+            line-height: 1.875rem;
+        }
+        .all-btn:focus{
+            color: #3d95e5;
+        }
+        .all-btn2{
+            letter-spacing: .5rem;
+            /*padding: .6875rem 1.375rem .6875rem 1.875rem;*/
+            padding-left: .625rem;
+        }
+        .order-content{
+            margin-bottom: 1.25rem;
+        }
+        .order-item{
+            padding: 10px 0;
+        }
+        .order-discount-msg{
+            line-height:1.5625rem;
+        }
+        .order-contact-way{
+            height: 2.5rem;
+            text-align: center;
+        }
+        .order-btn:focus{
+            color:#fff;
+        }
+        .order-btn2:focus{
+            color:#333;
+        }
+        .order-btn{
+            width: 100%;
+            font-size:1rem;
+            height: 3.125rem;
+            color:#fff;
+            background-color: #3d95e5;
+        }
+        .order-btn2{
+            color:#333;
+            background-color:#fff;
+            box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.1);
+            letter-spacing: .75rem;
+            padding-left: 1.5rem;
+        }
+        .pay-container .pay-label{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4.875rem;
+            z-index: 1;
+        }
+
+        .order-item-li{
+            padding: 7px 0 0;
+        }
+        .order-item-li-i{
+            position: absolute;
+            right: -22px;
+            color: #f0790f;
+            font-weight: normal;
+            top: 0;
+            font-size: 12px;
+        }
+        .order-item-li span{
+            position: relative;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body ng-app="PayApp" style="background-color: #f2f2f2;overflow-x: hidden;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">订单支付</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<div ng-controller="PayController" ng-show="isShow1">
+    <form action="/member/nonuser_pay.php" ng-submit="payOrder()" method="post">
+        <input type="hidden" name="action" value="payfor_takeout_order">
+        <input type="hidden" name="takeout_id" ng-value="takeoutId" required>
+        <input type="hidden" name="buyer_name" ng-value="buyerName" required>
+        <input type="hidden" name="buyer_phone" ng-value="buyerPhone" required>
+        <input type="hidden" name="buyer_address" ng-value="buyerAddress" required>
+        <input type="hidden" name="desk_room" ng-value="deskRoom" required>
+        <input type="hidden" name="note" ng-value="note" required>
+        <!--<input type="hidden" name="data1[detail_cash]" ng-value="data1.detail_cash" required>-->
+        <!--<input type="hidden" name="data1.num" ng-value="data1.num" required>-->
+        <section >
+            <div class="m20-t">
+                <div class="bfff">
+                    <!--<div class="p20-lr" style="border-bottom:1px solid #f2f2f2;">-->
+                    <!--<div class="clearb" style="height: 3.25rem;">-->
+                    <!--<p class="fl order-number" ng-if="State == 'takeout'">订单号：{{OrderId.slice(8)}}</p>-->
+                    <!--<p class="fl order-number" ng-if="State == 'mall'">订单号：{{OrderId}}</p>-->
+                    <!--<p class="fr order-state">待付款</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="p20-lr" style="border-bottom:1px solid #f2f2f2;">
+                        <ul class="order-item">
+                            <li class="clearb order-item-li" ng-repeat="g in message.data.cart_data">
+                                <div class="clearfix" ng-if="g.is_spec == 0">
+                                    <span class="fl" style="font-size:.75rem;color:#666;max-width: 75%;">{{g.dishes_name}} <b class="order-item-li-i">{{'x'+g.goods_number}}</b></span>
+                                    <span class="fr" style="font-size:.875rem;color:#666;">￥{{g.sell_price | pFloat}}</span>
+                                </div>
+                                <div class="clearfix" ng-if="g.is_spec == 1" ng-repeat="g1 in g.spec_list" style="margin-bottom: 7px;">
+                                    <span class="fl" style="font-size:.75rem;color:#666;max-width: 75%;">{{g.dishes_name}} ({{g1.spec_name}})<b class="order-item-li-i">x{{g1.goods_number}}</b></span>
+                                    <span class="fr" style="font-size:.875rem;color:#666;">￥{{g1.sell_price | pFloat}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <div class="row" style="padding: 0 20px;">
+                            <div class="col-xs-3" style="font-size: 12px;color: #666;">备注：</div>
+                            <div class="col-xs-9" style="padding: 0 10px 0 0;"><textarea class="form-control" rows="3" ng-model="note" placeholder="加饭、加辣、加菜、打包"></textarea></div>
+                        </div>
+                    </div>
+                    <div class="p20-lr" style="border-bottom:1px solid #f2f2f2;padding:.8125rem 1.25rem;">
+                        <!--<div class="clearb order-discount-msg">-->
+                        <!--<span class="fl" style="font-size:.75rem;color:#666;">配送费</span>-->
+                        <!--<span class="fr order-discount-Distribution" style="font-size:.75rem;color:#666;">{{"￥"+Distribution}}</span>-->
+                        <!--</div>-->
+                        <div class="clearb order-discount-msg">
+                            <span class="fl" style="font-size:.75rem;color:#666;">优惠金额</span>
+                            <span class="fr order-discount-discount" style="font-size:.75rem;color:#666;">{{"￥"+message.subsidy}}</span>
+                        </div>
+                        <div class="clearb order-discount-msg">
+                            <span class="fl" style="font-size:.875rem;color:#333;">总计</span>
+                            <span class="fr order-discount-total" style="font-size:.875rem;color:#f0790f;">{{"￥"+message.data.detail_cash}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pay-way">
+                <div class="choose clearb">
+                    <p><span>选择支付方式</span><span>{{"￥"+message.data.detail_cash}}</span><span>需支付</span></p>
+                </div>
+                <div class="pay-container">
+                    <label for="yue" class="pay-label"></label>
+                    <div class="pay-icon"><i class="iconfont icon-qiandaizi" style="font-size:1.375rem;"></i></div>
+                    <div class="pay-type">
+                        <p>余额支付</p>
+                        <p>用账号余额支付</p>
+                    </div>
+                    <div class="pay-checked">
+                        <label>
+                            <input type="radio" name="bank" id="yue" ng-model="pay" ng-change="payType()" value="zhanglitong" class="hide">
+                            <span><i></i></span>
+                        </label>
+                    </div>
+                </div>
+                <div ng-if="isShow" class="bfff" style="padding: 0 0 1.25rem;border-bottom: 1px solid #f2f2f2;">
+                    <input type="password" name="password" class="form-control" placeholder="请输入支付密码" required>
+                </div>
+                <div class="pay-container">
+                    <label for="alipay" class="pay-label"></label>
+                    <div class="pay-icon"><i class="iconfont icon-zhifubao" style="font-size:1.375rem;"></i></div>
+                    <div class="pay-type">
+                        <p>支付宝支付</p>
+                        <p>推荐安装支付宝10.0.0及以上版本</p>
+                    </div>
+                    <div class="pay-checked">
+                        <label>
+                            <input type="radio" id="alipay" name="bank" ng-model="pay" ng-change="payType()" value="alipay" class="hide">
+                            <span><i></i></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="pay-container">
+                    <label for="weixin" class="pay-label"></label>
+                    <div class="pay-icon"><i class="iconfont icon-weixinzhifu" style="font-size:1.375rem;"></i></div>
+                    <div class="pay-type">
+                        <p>微信支付</p>
+                        <p>推荐安装微信6.0.2及以上版本</p>
+                    </div>
+                    <div class="pay-checked">
+                        <label>
+                            <input type="radio" id="weixin" name="bank" ng-model="pay" ng-change="payType()" value="weixin" class="hide">
+                            <span><i></i></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="order-btn-d" style="margin: 1.25rem;">
+                <input type="submit" class="btn order-btn" style="margin-bottom:.625rem;" value="立即支付">
+            </div>
+        </section>
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+    var obj=strUrl();
+    $(document).ready(function(){
+        if(obj.state == "mall"){
+            $("form").append("<input type='hidden' name='orderid' value='mall-"+obj.oid+"'>");
+        }else if(obj.state == "takeout"){
+            $("form").append("<input type='hidden' name='orderid' value='"+obj.oid+"'>");
+        }
+        if(!checkCookie('cpk_auth')){
+            $("label[for='yue']").parent().remove();
+        }
+    });
+    var app = angular.module('PayApp', []);
+
+    app.filter('pFloat',function(){
+        return function(num){
+            return parseFloat(num);
+        }
+    });
+
+    app.controller('PayController',function($scope,$http){
+        $scope.isShow = false;
+        $scope.isShow1 = false;
+        $scope.takeoutId = 0;
+        // $scope.isLogin = false;
+        $http({
+            url:"/mobile/takeout.php?act=takeout_order_add&id="+obj.id+"&new_takeout=true",
+            // data: {act:"takeout_order_add", id:obj.id, new_takeout:true},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },    //参数序列化
+            transformRequest:function(obj){
+                var str = [];
+                for (var p in obj) {
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function(d){
+            console.log(d);
+            if(d.data.code == 200){
+                $scope.message = d.data;
+                $scope.isShow1 = true;
+            }
+        });
+        //判断是否微信浏览器，是默认微信支付，不是默认支付宝支付
+
+        $scope.pay = isWeiXin() ? 'weixin' : 'alipay';
+        $scope.isLogin = checkCookie('cpk_auth') ? true : false;
+        // if(!checkCookie('cpk_auth')){
+        //     //angular.element('label[for="yue"]').parent().remove();
+        // }
+
+        $scope.payType = function(){
+            console.log($scope.pay);
+
+            $scope.pay == "zhanglitong" ? $scope.isShow = true : $scope.isShow = false
+        };
+
+        //支付
+        $scope.payOrder=function(){
+
+            $scope.takeoutId = obj.id;
+            $scope.buyerName = $scope.message.lists.truename;
+            $scope.deskRoom = obj.desk;
+            $scope.buyerPhone = $scope.message.lists.mobile;
+            $scope.buyerAddress = $scope.message.lists.address;
+
+            for(var i in $scope.message.data){
+                console.log(i);
+                if(i == 'cart_data'){
+                    for(var j=0;j<$scope.message.data[i].length;j++){
+                        if($scope.message.data[i][j].is_spec == 0){
+                            angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][sell_price]" value="'+$scope.message.data[i][j]["sell_price"]+'">');
+                        }else{
+                            for(var k=0;k<$scope.message.data[i][j].spec_list.length;k++){
+                                angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][spec_list]['+k+'][detail_cash]" value="'+$scope.message.data[i][j]["spec_list"][k]["detail_cash"]+'">');
+                                angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][spec_list]['+k+'][goods_number]" value="'+$scope.message.data[i][j]["spec_list"][k]["goods_number"]+'">');
+                                angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][spec_list]['+k+'][sell_price]" value="'+$scope.message.data[i][j]["spec_list"][k]["sell_price"]+'">');
+                                angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][spec_list]['+k+'][spec_name]" value="'+$scope.message.data[i][j]["spec_list"][k]["spec_name"]+'">');
+                            }
+                        }
+                        angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][detail_cash]" value="'+$scope.message.data[i][j]["detail_cash"]+'">');
+                        angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][dishes_id]" value="'+$scope.message.data[i][j]["dishes_id"]+'">');
+                        angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][dishes_name]" value="'+$scope.message.data[i][j]["dishes_name"]+'">');
+                        angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][goods_number]" value="'+$scope.message.data[i][j]["goods_number"]+'">');
+                        angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][thumb]" value="'+$scope.message.data[i][j]["thumb"]+'">');
+                        angular.element('form').append('<input type="hidden" name="data['+i+']['+j+'][is_spec]" value="'+$scope.message.data[i][j]["is_spec"]+'">');
+                    }
+                }else{
+                    angular.element('form').append('<input type="hidden" name="data['+i+']" value="'+$scope.message.data[i]+'">')
+                }
+
+            }
+            console.log($scope.pay);
+        }
+    });
+</script>
+</html>

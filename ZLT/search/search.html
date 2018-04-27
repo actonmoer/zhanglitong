@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_4x35h862f1o1dcxr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/search.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #fff;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">
+            <div class="m20-b search-container">
+                <input type="text" name="content" class="form-control search-input" placeholder="&nbsp;&nbsp;搜索" required>
+                <div class="spread">
+                    <select class="spread-select"></select>
+                </div>
+                <i class="iconfont icon-xiala search-icon"></i>
+            </div>
+        </div>
+        <div class="h-R" style="font-size:.875rem;color:#fff;" id="search">搜索</div>
+    </div>
+</header>
+<section>
+    <div class="search-box">
+        <div class="recent-search">
+            <p>最近搜索</p>
+            <div>
+                <ul class="search-ul"></ul>
+            </div>
+        </div>
+        <div class="clear-record">
+            <button>清空历史记录</button>
+        </div>
+    </div>
+    <div class="search-list">
+        <ul class="search-list-ul"></ul>
+    </div>
+</section>
+<script>
+    var arrContent = new Array(),
+        searchCookie = getCookie("search"),
+        listData;
+    $(function(){
+        $.ajax({     //加载分类的数据
+            url:"../new_search.php",
+            type:"post",
+            dataType:"json",
+            data:{action:"s_category"},
+            success:function(data){
+                console.log(data);
+                var d = data.data;
+                if(data.code == 200){
+                    for(var i=0;i<d.length;i++){
+                        $(".spread-select").append("<option value='"+d[i].moduleid+"'>"+d[i].name+"</option>");
+                    }
+                }
+            },
+            error:function(){
+                alert("网络延迟，请稍后！");
+            }
+        });
+        $("input[name=content]").focus();   //输入框获取焦点
+
+        /*获取cookie*/
+        gainCookie();
+    });
+
+    /*搜索按钮*/
+    $("#search").on("click",function(){
+        var moduleid = $(".spread-select").find("option:selected").val(),
+            content = $("input[name=content]").val(),
+            classifyIndex = $('.spread-select').prop('selectedIndex');
+        $(".search-list-ul").children(".search-item").remove();
+
+        /*存取cookie*/
+        var repeatCookie = false;    //定义变量存储不存在的cookie状态
+        if(content != ""){
+            if(searchCookie !== ""){
+                for(var i=0;i<arrContent.length;i++){
+                    var arrId = JSON.parse(arrContent[i]).id,
+                        arrCont = decodeURI(JSON.parse(arrContent[i]).cont);
+                    if(moduleid == arrId && content == arrCont){
+                        listAjax(content,moduleid);  //加载列表数据
+                        return false       //跳出循环
+                    }else{
+                        repeatCookie = true;  //不重复的话存储同一个状态
+                    }
+                }
+                if(repeatCookie){      //如果输入的字符跟cookie不匹配
+                    listAjax(content,moduleid);  //加载列表数据
+                    if(listData.length != 0){    //请求的数据长度不等于0
+                        addCookie(moduleid,content,classifyIndex);   //添加进cookie
+                    }
+                }
+            }else{
+                listAjax(content,moduleid);  //加载列表数据
+                if(listData.length != 0){    //请求的数据长度不等于0
+                    addCookie(moduleid,content,classifyIndex);   //添加进cookie
+                }
+            }
+        }else{
+            alert("请输入需要搜索的内容");
+        }
+    });
+    $(".clear-record button").on("click",function(){
+        $(".search-ul").children("li").remove();
+        delCookie("search","/mobile/Search");
+    });
+
+    /*渲染列表*/
+    function classifyList(first,second,third,four,five){
+        var list = '<li class="search-item" onclick="itemLink('+third+',\''+four+'\')">'+
+            '<p>'+first+'</p>'+
+            '<p>'+second+'</p>'+
+            '<p>'+five+'</p>'+
+            '</li>';
+        return list;
+    }
+
+    /*跳转链接*/
+    function itemLink(third,four){
+        if(third == 4){
+            window.location.href = "../index.php?moduleid="+third+"&username="+four;
+        }else{
+            window.location.href = "../index.php?moduleid="+third+"&itemid="+four;
+        }
+    }
+
+    /*cookie链接*/
+    function cookieLink(t){
+        var cookieId = $(t).attr("cookieId"),
+            cookieContent = $(t).text(),
+            cookieIndex = $(t).attr("index");
+        $(".spread-select").children("option").eq(cookieIndex).attr("selected",true);
+        listAjax(cookieContent,cookieId);    //加载列表数据
+    }
+
+    /*请求列表数据*/
+    function listAjax(content,moduleid){
+        $.ajax({
+            url:"../new_search.php",
+            type:"post",
+            dataType:"json",
+            async: false,
+            data:{action:"search",content:content,moduleid:moduleid},
+            success:function(data){
+                listData = data.data;
+                console.log(data);
+                if(data.code == 200){
+                    if(listData.length > 0){
+                        $(".search-box").remove();
+                        for(var i=0;i<listData.length;i++){
+                            var thumb;
+                            if(listData[i].thumb && listData[i].thumb != ""){  //如果没图像的话添加一张默认
+                                thumb = listData[i].thumb;
+                            }else{
+                                thumb = "http://www.zhanglitong.com/file/upload/201509/20/154613541.jpg";
+                            }
+                            switch(parseFloat(moduleid)){
+                                case 4:
+                                    $(".search-list-ul").append(classifyList(listData[i].company,listData[i].business,listData[i].moduleid,listData[i].username,listData[i].address));
+                                    $(".search-item").eq(i).children("p:nth-child(1)").prepend('<i class="iconfont icon-VIP"></i>');
+                                    $(".search-item").eq(i).children("p:nth-child(2)").prepend("主营：");
+                                    $(".search-item").eq(i).append('<span class="search-img"><img src="'+thumb+'" alt="'+listData[i].title+'"></span>');
+                                    break;
+                                case 5:
+                                    $(".search-list-ul").append(classifyList(listData[i].title,listData[i].company,listData[i].moduleid,listData[i].itemid,mtime1(listData[i].addtime)));
+                                    $(".search-item").eq(i).append('<span class="search-img"><img src="'+thumb+'" alt="'+listData[i].title+'"></span>');
+                                    break;
+                                case 8:
+                                    var time = mtime1(listData[i].fromtime) + "&nbsp;~&nbsp;" +mtime1(listData[i].totime);
+                                    $(".search-list-ul").append(classifyList(listData[i].title,time,listData[i].moduleid,listData[i].itemid,listData[i].sponsor));
+                                    $(".search-item").eq(i).children("p:nth-child(3)").prepend("主办方：");
+                                    $(".search-item").eq(i).children("p").css("padding","0 1.25rem 0 0");
+                                    break;
+                                case 9:
+                                    var wage;
+                                    if(listData[i].maxsalary == 0){
+                                        wage = "面议";
+                                    }else{
+                                        wage = listData[i].minsalary + "&nbsp;~&nbsp;" + listData[i].maxsalary +"&nbsp;元/月";
+                                    }
+                                    $(".search-list-ul").append(classifyList(listData[i].title,wage,listData[i].moduleid,listData[i].itemid,listData[i].company));
+                                    $(".search-item").eq(i).children("p:nth-child(2)").css("color","#ff552e");
+                                    $(".search-item").eq(i).children("p:nth-child(3)").prepend('<i class="iconfont icon-VIP"></i>');
+                                    $(".search-item").eq(i).children("p").css("padding","0 1.25rem 0 0");
+                                    break;
+                                case 14:
+                                    $(".search-list-ul").append(classifyList(listData[i].title,listData[i].hits,listData[i].moduleid,listData[i].itemid,mtime1(listData[i].addtime)));
+                                    $(".search-item").eq(i).children("p:nth-child(2)").append("&nbsp;次播放");
+                                    $(".search-item").eq(i).append('<span class="search-img"><img src="'+thumb+'" alt="'+listData[i].title+'"></span>');
+                                    break;
+                                case 16:
+                                    $(".search-list-ul").append(classifyList(listData[i].title,listData[i].price,listData[i].moduleid,listData[i].itemid,mtime1(listData[i].addtime)));
+                                    $(".search-item").eq(i).children("p:nth-child(2)").prepend("￥").css("color","#ff552e");
+                                    $(".search-item").eq(i).append('<span class="search-img"><img src="'+thumb+'" alt="'+listData[i].title+'"></span>');
+                                    break;
+                                case 17:
+                                    $(".search-list-ul").append(classifyList(listData[i].title,listData[i].price,listData[i].moduleid,listData[i].itemid,listData[i].company));
+                                    $(".search-item").eq(i).children("p:nth-child(2)").prepend("￥").css("color","#ff552e").append("<del style='color:#999;margin-left:.625rem;'>￥"+listData[i].marketprice+"</del>");
+                                    $(".search-item").eq(i).append('<span class="search-img"><img src="'+thumb+'" alt="'+listData[i].title+'"></span>');
+                                    break;
+                                case 21:
+                                    $(".search-list-ul").append(classifyList(listData[i].title,mtime1(listData[i].addtime),moduleid,listData[i].itemid));
+                                    $(".search-item").eq(i).children("p:nth-child(3)").css("display","none");
+                                    $(".search-item").eq(i).children("p").css("padding","0 1.25rem 0 0");
+                                    break;
+                                default:
+                                    console.log("其他");
+                            }
+                        }
+                    }else{
+                        alert("您搜索的内容不存在!");
+                    }
+                }
+            },
+            error:function(){
+                alert("网络延迟，请稍后！");
+            }
+        });
+    }
+
+    /*添加进cookie*/
+    function addCookie(moduleid,content,classifyIndex){
+        var objContent = new Object();
+        objContent.id = moduleid;
+        objContent.cont = encodeURI(content);
+        objContent.index = classifyIndex;
+        arrContent.push(JSON.stringify(objContent));
+        setCookie("search",arrContent);
+    }
+
+    /*获取cookie*/
+    function gainCookie(){
+        if(searchCookie != ""){
+            var RSearch = searchCookie.replace(/},/g,"}/");
+            arrContent = RSearch.split("/");
+            if(arrContent.length > 8){     //删除前面一个cookie
+                arrContent.splice(0,1);
+            }
+            for(var i=0;i<arrContent.length;i++){
+                if(arrContent.length > 0){
+                    $(".search-ul").append('<li onclick="cookieLink(this)" index="'+JSON.parse(arrContent[i]).index+'" cookieId="'+JSON.parse(arrContent[i]).id+'"><a href="javascript:;">'+decodeURI(JSON.parse(arrContent[i]).cont)+'</a></li>');
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

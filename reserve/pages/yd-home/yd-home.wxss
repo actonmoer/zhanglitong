@@ -1,0 +1,196 @@
+.home-head{
+  position:relative;
+  width:100%;
+  height:320rpx;
+  background-color:#4fc08d;
+} 
+.home-title{
+  position:relative;
+  text-align:center;
+  z-index:50;
+}
+.home-img{
+  margin:0 auto;
+  width:130rpx;
+  height:130rpx;
+}
+.home-img image{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+}
+.user-name{
+  display:block;
+  font-size:28rpx;
+  color:#fff;
+}
+.price-box{
+  display:flex;
+  flex-direction: row;
+  color:#fff;
+}
+.balance-box{
+  flex:0 0 50%;
+  text-align:center;
+}
+
+.balance{
+  display:block;
+  font-size:48rpx;
+  font-weight:bold;
+}
+.balanceText{
+  display:block;
+  font-size:32rpx;
+}
+.recharge{
+  flex:0 0 50%;
+  text-align:center;
+  line-height:102rpx;
+  font-size:36rpx;
+}
+
+.no-login{
+  margin-top:60rpx;
+  font-size:40rpx;
+  color:#666;
+}
+.home-info{
+  margin-top:56rpx;
+  background-color:#fff;
+}
+
+.item-info{
+  display:flex;
+  flex-direction: row;
+  height:80rpx;
+  line-height:80rpx;
+  width:100%;
+  border-bottom:1px solid #f1f1f1;
+}
+.item-img{
+  flex:0 0 36rpx;
+  width:36rpx;
+  height:36rpx;
+  margin-left:25rpx;
+  margin-top:-4rpx;
+  border-radius:50%;
+  vertical-align: middle;
+}
+.item-img image{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  vertical-align: middle;
+}
+.item-cont{
+  margin-left:10rpx;
+  font-size:32rpx;
+  color:#666;
+}
+.tip{
+  display:line-block;
+  margin-left:15rpx;
+  font-size:26rpx;
+  color:#4fc08d;
+}
+.logOff{
+  margin-top:100rpx;
+  text-align:center;
+  height:80rpx;
+  line-height:80rpx;
+  width:100%;
+  background-color:#fff;
+  font-size:30rpx;
+}
+.btn{
+  position:fixed;
+  top:270rpx;
+  left:235rpx;
+  margin-left:-140rpx;
+  width:280rpx;
+  height:97rpx;
+  line-height:97rpx;
+  padding:10rpx;
+  margin:0 auto;
+  box-sizing: border-box;
+  border-radius:200rpx;
+  background-color:#f1f1f1;
+}
+.bindPhone{
+  width:260rpx;
+  height:75rpx;
+  line-height:75rpx; 
+  font-size:26rpx;
+  color:#4fc08d;
+  background-color:#fff;
+  border-radius:200rpx; 
+  box-shadow: 0px 4px 8px 0px rgba(79, 192, 141, 0.3);   
+}
+/* 不登录状态 */
+.no-login-bg{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:99;
+}
+.login-logout{
+  position:absolute;
+  top:140rpx;
+  left:0;
+  width:100%;
+  text-align:center;
+}
+.login-logout text:nth-child(1){
+  display:block;
+  margin-top:10rpx;
+  font-size:36rpx;
+}
+.login-logout text:nth-child(2){
+  display:block;
+  font-size:22rpx;
+  color:#999;
+}
+
+.bg-image-box{
+  width:100%;
+  height:320rpx;
+}
+.bg-image-box image{
+  width:100%;
+  height:100%;
+}
+
+
+/* 二维码 */
+/* .qrcode-mask{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:90;
+}
+.qrcode-mask .mask{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+   background-color:rgba(0,0,0,1); 
+  z-index:99;
+}
+.qrcode-img{
+  position:absolute;
+  top:250rpx;
+  left:50%;
+  width:400rpx;
+  height:400rpx;
+  margin-left:-200rpx;
+  z-index:100;
+}
+.qrcode-img image{
+  width:100%;
+  height:100%;
+} */

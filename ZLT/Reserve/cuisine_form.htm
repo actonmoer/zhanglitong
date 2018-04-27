@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>编辑菜式</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+	{template "room_head","mobile"}
+</head>
+<body>
+	<div class="headBox">
+		<div class="head-bar-back">
+			<a href="javascript:window.history.back();">
+				<i class="iconfont icon-left"></i>
+			</a>
+			<!--<a href="?act=order_info&oid={$item['order_id']}">
+				<i class="iconfont icon-left"></i>
+			</a>-->
+		</div>
+		<div class="head-bar-title">编辑菜式</div>
+		<div class="head-bar-right"><a onclick="$('#ds_form').submit();"><span>保存</span></a></div>
+	</div>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<form action="?act=order_cuisine_edit" id="ds_form" method="post" enctype="multipart/form-data">
+			<div class="showList showForm">
+				<input type="hidden" name="cuisineid" value="{$item['id']}">
+				<input type="hidden" name="oid" value="{$item['order_id']}">
+				
+				<div class="showLi">
+					<b>菜式名</b>
+					<span>{$item['title']}-{$item['add_title']}</span>
+				</div>
+				<div class="showLi">
+					<b>数量</b>
+					<span><input type="text" value="{$item['num']}" name="num"></span>
+					 <!-- <i style="color:red">*当菜式数量为零时菜式自动取消</span> -->
+				</div>
+				<div class="showLi">
+					<b>单价</b>
+					<span><input type="text" value="{$item['singel_price']}" name="singel_price"></span>
+				</div>
+		        <div class="showLi">
+					<b>特别单价</b>
+					<span>
+					    <input type="radio" name="is_special_price" value="1" <?php if($item['is_special_price']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="is_special_price" value="0" <?php if(!$item['is_special_price']) echo 'checked';?>/> 否
+					</span>
+				   <!-- <i style="color:red">*当菜式的单价要另外定价的时候启用</span> -->
+				</div> 
+				
+				<div class="showLi">
+					<b>改价理由</b>
+					<span>
+					    <input type="text" value="{$item['reason']}" name="reason">
+					</span>
+					<!-- <i style="color:red">*当"特别单价"为是的时候启用</span> -->
+				</div>
+				
+				
+				<div class="showLi">
+					<b>所属部门</b>
+					<span>
+					    <input type="text" value="{$item['department']}" name="department">
+					</span>
+					<!-- <i style="color:red">*如"点心部"，多个用","号隔开，用于菜式既上时通知其他部门的工作人员</span> -->
+				</div>
+				<div class="showLi">
+					<b>是否赠送</b>
+					<span style="text-align: left;">
+					    <input type="radio" style="height:22px;" name="is_presented" value="1" <?php if($item['presented_num'] > 0){ echo "checked"; }	?>/>是 &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" style="height:22px;" name="is_presented" value="0" <?php if($item['presented_num'] == 0){ echo "checked"; }	?> />否
+					</span>
+				</div>
+				<div class="showLi">
+					<b>赠送数量</b>
+					<span>
+					    <input type="text" value="{$item['presented_num']}" name="presented_num">
+					</span>
+					<!-- <i style="color:red">*如"点心部"，多个用","号隔开，用于菜式既上时通知其他部门的工作人员</span> -->
+				</div>
+				<div class="showLi">
+					<b>状态</b>
+					<span>
+					   <select name="status">
+					      <option {if $item['status']==1}selected="selected"{/if}value="1">即上</option>
+						  <option {if $item['status']==2}selected="selected"{/if}value="2">叫起</option>
+						  <option {if $item['status']==3}selected="selected"{/if}value="3">已上</option>
+
+					   </select>
+					</span>
+					
+				</div>
+				
+			    
+			</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="footBox"></div>
+</body>
+</html>

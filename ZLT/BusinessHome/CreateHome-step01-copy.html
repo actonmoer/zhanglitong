@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建商铺--信息填写</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnse94jdj7lrqkt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/business.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">创建商铺</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+
+<section>
+    <!--路径导航-->
+    <nav class="path-nav">
+        <ul class="clearb path-ul">
+            <li><a href="javascript:;" class="path-color">1.基本信息</a></li>
+            <li>2.配送信息</li>
+            <li>3.创建成功</li>
+        </ul>
+    </nav>
+    <!--路径导航-->
+    <form id="myform" action="../BusinessHome.php" method="post" onsubmit="return submitdata(this)" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="create_home">
+        <input type="hidden" name="areaid" value="0">
+        <input type="hidden" name="month_sell" value="0">
+        <div class="shop-message bfff">
+            <div class="m20-lr" style="padding-top: 1.25rem;">
+                <div class="m20-b">
+                    <input type="text" id="company" class="form-control shop-input" name="company" readonly>
+                </div>
+                <div class="m20-b">
+                    <input type="text" id="shopName" class="form-control shop-input" name="shopName" placeholder="请输入店铺名称" required>
+                </div>
+                <div class="m20-b">
+                    <div class="shop-title">请选择营业时间：</div>
+                    <div class="shop-times">
+                        <div class="shop-t" style="margin-bottom: .5rem;" data-num="0">
+                            <div class="clearb">
+                                <select class="form-control shop-select selectime selectstarttime" style="width: 45%;float: left;" name="beguntime[]" onchange="begunT(this)" required>
+                                    <option value="">开始营业</option>
+                                </select>
+                                <span style="float: left;width: 10%;height: 2.5rem;line-height: 2.5rem;text-align: center;"><i class="iconfont icon-hengxian" style="color: #666;"></i></span>
+                                <select class="form-control shop-select selectime selectendtime" style="width: 45%;float: left;" name="overtime[]" onchange="endT(this)" required>
+                                    <option value="">停止营业</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center;font-size: .875rem;"><a onclick="alert('请先选择营业时间')" class="shop-more" style="color: #3d95e5;">点击添加更多营业时段</a></div>
+                </div>
+                <div class="m20-b clearb">
+                    <div class="shop-title">店铺头像：</div>
+                    <div class="shop-upimg" id="thelist" style="float: left;position: relative;">
+                        <i id="upimg" class="iconfont icon-tianjia" onclick="document.getElementById('thumb').click()" style="font-size: 2.5rem;color: #3d95e5;margin: 1.75rem 0 1.1875rem;line-height: initial;"></i>
+                        <p style="color: #666;font-size: .875rem;">店铺头像</p>
+                        <input type="file" name="thumb" id="thumb" class="hide" accept="image/*">
+                        <input type="text" name="thumb2" id="imgUrl" class="hide" value="">
+                    </div>
+                    <div style="display: inline-block;margin-left: .6875rem;">
+                        <p style="font-size: .75rem;color: #666;margin-top: 2.75rem;">大小不超过10M，<br>jpg,png等格式均可</p>
+                    </div>
+                </div>
+                <div class="m20-b">
+                    <input type="number" class="form-control shop-input" id="contact" name="contact" placeholder="请输入手机号码" required>
+                </div>
+                <div class="m20-b">
+                    <textarea id="address" class="form-control shop-input" name="address" rows="3" placeholder="请填写店铺地址" required></textarea>
+                </div>
+                <div class="m20-b">
+                    <textarea class="form-control shop-input" name="shop_tip" rows="3" placeholder="请填写店铺介绍(选填)"></textarea>
+                </div>
+            </div>
+        </div>
+        <div style="margin: 1.25rem;">
+            <input type="submit" class="btn shop-btn" style="width: 100%;" value="下一步">
+        </div>
+    </form>
+</section>
+</body>
+<script type="text/javascript" src="../js/webuploader.js"></script>
+<script src="../js/myjs.js"></script>
+<script>
+    $(function(){
+        /* init webuploader*/
+        var $list=$("#thelist");   //几个初始化全局
+        var thumbnailWidth = 130;   //缩略图高度和宽度（单位是像素）
+        var thumbnailHeight = 130;
+        var uploader = WebUploader.create({
+            auto: true,    // 选完文件后，是否自动上传
+            swf: '/webupload/Uploader.swf',   // swf文件路径
+            server: '../fileupload.php',    // 文件接收服务端
+            pick: '.shop-upimg',  // 选择文件的按钮,可选
+            multiple:false,       //是否开起同时选择多个文件能力
+            noCompressIfLarger: false,    // 如果发现压缩后文件大小比原来还大,则使用原来图片,此属性可能会影响图片自动纠正功能
+            fileNumLimit:1,   //验证文件总数量, 超出则不允许加入队列
+            accept: {        // 只允许选择图片文件
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            },
+            method:'POST'
+        });
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {  // webuploader事件.当选择文件后，文件被加载到文件队列中，触发该事件。等效于 uploader.onFileueued = function(file){...} ，类似js的事件定义。
+            var $li = $(
+                '<div id="' + file.id + '" class="file-item thumbnail" style="margin:-108px 0 0;padding:0;">' +
+                '<img>' +
+                '</div>'
+                ),
+                $img = $li.find('img');
+            $list.append( $li );    // $list为容器jQuery实例
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            uploader.makeThumb( file, function( error, src ) {   //webuploader方法
+                if ( error ) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+                $img.attr( 'src', src );
+            }, thumbnailWidth, thumbnailHeight );
+            uploader.upload();
+        });
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', function( file,response ) {
+            //var imgUrl =  response.data;
+            $("#imgUrl").val(response.data);
+            console.log($("#imgUrl"));
+            $( '#'+file.id ).addClass('upload-state-done');
+        });
+
+        // 文件上传失败，显示上传出错。
+        uploader.on( 'uploadError', function( file ) {
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+            // 避免重复创建
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
+            $error.text('上传失败');
+        });
+    });
+</script>
+<script type="text/javascript">
+    //定位
+    var geolocation = new qq.maps.Geolocation("OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77", "myapp"),
+        timer=[
+            "00:00",
+            "00:30",
+            "01:00",
+            "01:30",
+            "02:00",
+            "02:30",
+            "03:00",
+            "03:30",
+            "04:00",
+            "04:30",
+            "05:00",
+            "05:30",
+            "06:00",
+            "06:30",
+            "07:00",
+            "07:30",
+            "08:00",
+            "08:30",
+            "09:00",
+            "09:30",
+            "10:00",
+            "10:30",
+            "11:00",
+            "11:30",
+            "12:00",
+            "12:30",
+            "13:00",
+            "13:30",
+            "14:00",
+            "14:30",
+            "15:00",
+            "15:30",
+            "16:00",
+            "16:30",
+            "17:00",
+            "17:30",
+            "18:00",
+            "18:30",
+            "19:00",
+            "19:30",
+            "20:00",
+            "20:30",
+            "21:00",
+            "21:30",
+            "22:00",
+            "22:30",
+            "23:00",
+            "23:30"
+        ],
+        obj = strUrl(),
+        atime = [],
+        otime = {},
+        j = 0,
+        obj1 = {},
+        z = 0;
+
+    function showWatchPosition() {
+        geolocation.watchPosition(function(position){   //开始监听位置
+            var f = $("#myform");
+            alert(JSON.stringify(position, null, 4));
+            obj1.lat = position.lat;
+            obj1.lng = position.lng;
+            obj1.city = position.city;
+            obj1.prov = position.province;
+            obj1.addr = position.addr ? position.addr : '';
+            obj1.distr = position.district ? position.district : '';
+            obj1.address = encodeURIComponent(obj1.prov+obj1.city+obj1.distr+obj1.addr);
+            $('#address').val(decodeURIComponent(obj1.address));
+            f.prepend("<input type='hidden' name='area' value='"+obj1.distr+"'>");
+            f.prepend("<input type='hidden' name='city' value='"+obj1.city+"'>");
+            f.prepend("<input type='hidden' name='province' value='"+obj1.prov+"'>");
+            f.prepend("<input type='hidden' name='lat' value='"+obj1.lat+"'>");
+            f.prepend("<input type='hidden' name='lng' value='"+obj1.lng+"'>");
+            geolocation.clearWatch();
+        });
+    }
+
+    for(var i=0;i<timer.length;i++){
+        otime.time = timer[i];
+        otime.index = j;
+        atime.push(otime);
+        otime = {};
+        j += 0.5
+    }
+
+    var beguntime=[];
+    function getCompany(){
+        var url=window.location.search;
+        var arr=[];
+        var obj=new Object();
+        var urlcode=url.slice(1);
+        var arrA=urlcode.split("&");
+        for(var i=0;i<arrA.length;i++){
+            arr.push(arrA[i].split("="));
+            if(i!=arrA.length){
+                $("form").append("<input type='hidden' name='"+arr[i][0]+"' value='"+arr[i][1]+"'>");
+
+            }
+        }
+    }
+
+    var startTime = [], endTime = [];
+    function begunT(s){
+        var tvalue = $(s).val(), n = $(s).parents('.shop-t').attr('data-num');
+        if(tvalue >= 0){
+            startTime[n] = tvalue;
+        }
+
+        console.log(startTime);
+        addSelectTime(s,'.selectendtime');
+    }
+
+    function endT(s){
+        var tvalue = $(s).val(),
+            n = $(s).parents('.shop-t').attr('data-num'),
+            startValue = $(s).siblings('.selectstarttime').val();
+        if(tvalue >= 0 && tvalue != startValue){
+            endTime[n] = tvalue;
+        }else{
+            alert('请选择营业时间，且开始营业与结束营业时间不能相同');
+        }
+        if(tvalue)
+            console.log(endTime);
+        isCheckTime();
+    }
+
+    function addSelectTime(s, className){
+        var n = $(s).parents('.shop-t').attr('data-num');
+        var len = $('.shop-t').length;
+        if($('.shop-t').eq(len-1).attr('data-num') == n){
+            for(var i=0;i<atime.length;i++){
+                $('.shop-t').eq(len-1).find(className).append("<option value='"+atime[i].index+"'>"+atime[i].time+"</option>");
+            }
+        }
+    }
+
+    function isCheckTime(){
+        var t = $('.shop-t');
+        for(var i=0;i<t.length;i++){
+            if(t.eq(i).attr('data-num') == z){
+                if(t.eq(i).find('.selectstarttime').val() && t.eq(i).find('.selectendtime').val() && t.eq(i).find('.selectstarttime').val() != t.eq(i).find('.selectendtime').val()){
+                    $('.shop-more').attr('onclick','addtime()');
+                }
+            }
+        }
+    }
+
+
+    //添加营业时间段
+    function addtime(){
+        $(".shop-times").append(strTime());
+        $('.shop-more').removeAttr('onclick');
+        $('.shop-more').attr('onclick','alert("请先选择营业时间")');
+
+        // if($('.shop-t').eq(z).attr('data-num') == z){
+        for(var i=0;i<atime.length;i++){
+            $('.shop-t').eq(z).find('.selectstarttime').append("<option value='"+atime[i].index+"'>"+atime[i].time+"</option>");
+        }
+        // }
+    }
+
+    //获取地理位置
+    function getLocation(){
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }else{
+            alert("请检查手机是否允许使用位置服务功能");
+        }
+    }
+
+    function showPosition(postion){
+        var lnt=document.getElementById("lat").innerHTML=postion.coords.latitude;
+        var long=document.getElementById("long").innerHTML=postion.coords.longitude;
+        $("form").append("<input type='hidden' name='lat' value='"+lnt+"'>");
+        $("form").append("<input type='hidden' name='lng' value='"+long+"'>");
+        var url="http://api.map.baidu.com/cloudrgc/v1?location="+lnt+","+long+"&geotable_id=135675&coord_type=bd09ll&ak=kTOqql2p7jN9fV1KL1Q8OCMkvvoVjXhj";
+        $("#A").attr("href",url);
+        $.ajax({
+            type:"get",
+            url:url,
+            dataType:"jsonp",
+            success:function(json){
+                alert(JSON.stringify(json));
+                $("#address").val(json.recommended_location_description);
+                alert(JSON.stringify(json.recommended_location_description));
+                $("#myform").append("<input type='hidden' name='province' value='"+json.address_component.province+"'>");
+                $("#myform").append("<input type='hidden' name='city' value='"+json.address_component.city+"'>");
+                $("#myform").append("<input type='hidden' name='area' value='"+json.address_component.district+"'>");
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert("不能获取位置");
+            }
+        });
+    }
+
+    function updata(){
+        var c=$("input[name='company']").val();
+        var stime=$("select[name='beguntime[]']").val();
+        var etime=$("select[name='overtime[]']").val();
+        var lat=$("input[name='lat']").val();
+        var lng=$("input[name='lng']").val();
+        var contact=$("input[name='contact']").val();
+        var shop_tip=$("input[name='shop_tip']").val();
+        var province=$("input[name='province']").val();
+        var city=$("input[name='city']").val();
+        var area=$("input[name='area']").val();
+        var address=$("input[name='address']").val();
+
+        $.post("../BusinessHome.php",{
+            company:c,
+            beguntime:stime,
+            overtime:etime,
+            lng:lng,
+            lat:lat,
+            contact:contact,
+            shop_tip:shop_tip,
+            province:province,
+            city:city,
+            area:area,
+            address:address,
+            areaid:"0",
+        },function(data){
+            alert(data);
+        });
+    }
+
+    $(document).ready(function(){
+        isLogin();
+        showWatchPosition();
+        $('#company').val(decodeURIComponent(obj.company));
+        $('#contact').val(decodeURIComponent(obj.phone));
+        timeList();
+    });
+
+    function submitdata(s){
+        console.log(s);
+        var shoptip = $('input[name="shop_tip"]').val() || '店铺主人很难，什么都没有留下';
+        s.submit();
+        return false;
+    }
+
+    function timeList(){
+        for(var i=0;i<atime.length;i++){
+            $(".selectstarttime").eq(0).append("<option value='"+atime[i].index+"'>"+atime[i].time+"</option>");
+        }
+    }
+
+    function strTime(){
+        z++;
+        var str = '<div class="shop-t" style="margin-bottom: .5rem;" data-num="'+z+'">'+
+            '<div class="clearb">'+
+            '<select class="form-control shop-select selectime selectstarttime" style="width: 45%;float: left;" name="beguntime[]" onchange="begunT($(this))">'+
+            '<option value="">开始营业</option>'+
+            '</select>'+
+            '<span style="float: left;width: 10%;height: 2.5rem;line-height: 2.5rem;text-align: center;"><i class="iconfont icon-hengxian" style="color: #666;"></i></span>'+
+            '<select class="form-control shop-select selectime selectendtime" style="width: 45%;float: left;" name="overtime[]" onchange="endT($(this))">'+
+            '<option value="">停止营业</option>'+
+            '</select>'+
+            '</div>'+
+            '</div>';
+        return str;
+    }
+</script>
+</html>

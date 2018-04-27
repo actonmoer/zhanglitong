@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>智能点餐系统</title>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_rts01uhg6kmrhpvi.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/mobile/js/angular.min.js"></script>
+    <script type="text/javascript" src="/mobile/js/myjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+    <style type="text/css">
+        body{
+            font-family: "MICROSOFT YAHEI";
+        }
+        ul,p{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+
+        .shop-message{
+            padding-left: 1.4rem;
+            padding-bottom: .3rem;
+            margin: 0 .2rem;
+        }
+        .shop-message p{
+            line-height: 20px;
+        }
+        .shop-img{
+            width: 1.2rem;
+            height: 1.2rem;
+            position: absolute;
+            left: .2rem;
+            top: .2rem;
+        }
+        .shop-menu{
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            height: .8rem;
+            box-shadow: 0 .04rem .08rem 0 rgba(51, 51, 51, 0.1);
+        }
+        .shop-menu>div{
+            flex: 1;
+            -webkit-flex: 1;
+        }
+        .shop-menu>div a{
+            color: #888;
+            font-size: .28rem;
+            display: block;
+            height: .8rem;
+            line-height: .8rem;
+            text-align: center;
+        }
+        .shop-menu>div a.on{
+            color: #3d95e5;
+            border-bottom: 1px solid #3d95e5;
+        }
+        .shop-goods-view{
+            display: -webkit-flex;
+            display: flex;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .shop-goods-view-m{
+            width: 25%;
+            overflow-y: auto;
+            background-color: #f2f2f2;
+        }
+        .shop-goods-view-m>ul{
+            overflow-y: auto;
+        }
+        .shop-goods-view-g{
+            /*overflow: hidden;*/
+            width: 75%;
+            /*position: relative;*/
+            /*top: 0;*/
+            overflow-y: auto;
+        }
+        .shop-goods-view-m li{
+
+        }
+        .shop-goods-view-m li.on a{
+            color: #3d95e5;
+            border-left: 3px solid #3d95e5;
+            background-color: #fff;
+        }
+        .shop-goods-view-m a{
+            display: block;
+            font-size: .28rem;
+            padding: .18rem 0;
+            text-align: center;
+            color: #999;
+            word-wrap: break-word;
+        }
+        .shop-goods-view-m a:focus{
+            color: #999;
+            text-decoration: none;
+        }
+        .goods-list-name{
+            font-size: 16px;
+            color: #333;
+            white-space: normal;
+            overflow:hidden;
+            text-overflow: ellipsis;
+        }
+        .goods-list-price{
+            font-size: 16px;
+            color: #f60;
+        }
+        .goods-list-reduce,.goods-list-add{
+            display: inline-block;
+        }
+        .goods-list-add{
+            position: relative;
+            z-index: 1;
+        }
+        .goods-list-reduce{
+            opacity: 0;
+            transform: translate3d(22px, 0, 0);
+            transition: all .5s linear;
+            -webkit-transition: all .5s linear;
+            /*transform: rotate(180deg);*/
+        }
+        .goods-list-reduce.enter{
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+        }
+        .goods-list-reduce>i{
+            transform: rotate(180deg);
+            transition: all .5s linear;
+            -webkit-transition: all .5s linear;
+        }
+        .goods-list-reduce.enter>i{
+            transform: rotate(0deg);
+        }
+        .goods-list-reduce>i,.goods-list-add>i{
+            font-size: .4rem;
+            line-height: initial;
+            color: #3d95e5;
+            display: inline-block;
+        }
+
+        .goods-message{
+            padding-left: 2rem;
+        }
+        .goods-list-number{
+            display: inline-block;
+            font-size: .28rem;
+            width: .46rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity .5s linear;
+            -webkit-transition: opacity .5s linear;
+        }
+        .goods-list-number.enter{
+            opacity: 1;
+        }
+        .goods-list{
+            position: relative;
+            min-height: 1.6rem;
+        }
+        .goods-list-img{
+            width: 1.8rem;
+            height: 1.6rem;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .goods-list-btn{
+            position: relative;
+            text-align: right;
+        }
+        .goods-list-name,.goods-list-price{
+            line-height: 20px;
+        }
+        .shop-goods-scrollm{
+            position: relative;
+        }
+        .shop-goods-title{
+            padding: .08rem .2rem;
+            background-color: #f2f2f2;
+            color: #666;
+            font-size: 12px;
+        }
+        .shop-goods-div{
+            width: 100%;
+        }
+        .shop-goods-scrollg{
+            /*position: absolute;*/
+            /*top: 0;*/
+            /*width: 100%;*/
+            overflow-y: auto;
+        }
+        .goods-list-spec{
+            display: inline-block;
+            padding: .02rem .15rem;
+            border: 1px solid #ebebeb;
+            border-radius: 6px;
+            margin-right: .1rem;
+            color: #666;
+            font-size: .24rem;
+        }
+        .goods-list-spec.on{
+            border-color: #3d95e5;
+            background-color: #3d95e5;
+            color: #fff;
+        }
+        /*菜单列表*/
+        .Cart-menu{
+            position: fixed;
+            left: 0;
+            bottom: 1rem;
+            width: 100%;
+            z-index: 2;
+            display: none;
+        }
+        .Cart-list{
+            position: relative;
+            z-index: 5;
+        }
+        .Cart-list-empty{
+            background-color: #fff;
+        }
+        .Cart-list-empty li{
+            padding: 5px 10px;
+            border-bottom: 1px solid #eceff1;
+        }
+        .Cart-list-empty li div{
+            display: inline-block;
+            font-size: 14px;
+            line-height: 21px;
+            overflow: hidden;
+
+        }
+        .Cart-bg{
+            background-color: rgba(0,0,0,.4);
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 4;
+            width: 100%;
+        }
+        .Cart-list-head{
+            height: 34px;
+            padding: 0 10px;
+            background-color: #eceff1;
+        }
+        .Cart-list-head-L,
+        .Cart-list-head-R{
+            font-size: 14px;line-height: 34px;
+            color: #666;
+        }
+        .Cart-list-head-L span.line{
+            width: 4px;
+            height: 15px;
+            background-color: #3d95e5;
+            display: inline-block;
+            position: relative;
+            top: 2px;
+            margin-right: 6px;
+        }
+        .Cart-show-item-number{
+        }
+        .Cart-show-item-name{
+            width: 50%;
+            color: #333;
+            padding-right: 10px;
+        }
+        .Cart-show-item-price{
+
+            color: #333;
+        }
+        .Cart-show-item-reduce>i,
+        .Cart-show-item-add>i{
+            color: #3d95e5;
+            font-size: 18px;
+        }
+        .Cart-show-item-num{
+            display: inline-block;
+            font-size: 14px;
+            width: 23px;
+            text-align: center;
+            color: #333;
+        }
+
+        /*购物车*/
+        .Cart{
+            border-top: 1px #CCC solid;
+            height: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, .9);
+            display: -webkit-flex;
+            display: flex;
+        }
+        .Cart .icon-gouwuche{
+            display: inline-block;
+            font-size: .72rem;
+            padding: 0 .14rem;
+            color: #a59898;
+            line-height: 1rem;
+        }
+        .Cart-left{
+            width: 50px;
+            position: relative;
+            margin-left: 6px;
+        }
+        .Cart-center{
+            width: 60%;
+        }
+        .Cart-num{
+            display: inline-block;
+            padding: 0 .06rem;
+            font-style: normal;
+            background-color: #ff461d;
+            font-size: .24rem;
+            color: #fff;
+            border-radius: 100%;
+            text-align: center;
+            position: absolute;
+            left: .36rem;
+            top: .04rem;
+        }
+        .Cart-right{
+            width: 40%;
+        }
+        .Cart-btn{
+            display: block;
+            height: 1rem;
+            font-size: 16px;
+            text-align: center;
+            line-height: 1rem;
+            background-color: #3d95e5;
+            color: #fff;
+        }
+        .Cart-btn:focus{
+            color: #fff;
+        }
+
+
+
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            height: auto;
+        }
+        /*重构中间css*/
+        .show-message{
+            position: relative;
+            width: 100%;
+            display: -webkit-flex;
+            display: flex;
+            height: 390px;
+            background-color: #f1f1f1;
+            overflow: hidden;
+        }
+        .show-message .left-nav{
+            width: 25%;
+            height: 390px;
+            overflow: hidden;
+        }
+        .show-message .right-goods{
+            width: 75%;
+            height: 390px;
+            overflow: hidden;
+        }
+
+        .left-nav a{
+            display: block;
+            font-size: .28rem;
+            padding: .18rem 0;
+            color: #999;
+            word-wrap: break-word;
+        }
+
+        .show-nav-list a{
+            display: block;
+            text-align: center;
+            font-size: .28rem;
+            padding: .18rem 0;
+            text-decoration: none;
+        }
+        .show-nav-list a:focus{
+            text-decoration: none;
+        }
+
+        .show-nav-list.active{
+
+            border-left: 3px solid #3d95e5;
+            background-color: #fff;
+        }
+        .show-nav-list.active a{
+            color: #3d95e5;
+        }
+        .goods{
+            padding: .2rem;
+            border-bottom: 1px solid #ebebeb;
+            background-color: #fff;
+        }
+        #scan-takeout{
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="scan-takeout">
+    <header></header>
+    <div id="showDiv">
+        <!--子菜单-->
+        <div class="shop-menu">
+            <div><a href="javascript:;" class="on">智能扫码点餐</a></div>
+        </div>
+        <!--配送菜单商品-->
+        <div class="show-message">
+            <div class="left-nav">
+
+                <div class="swiper-container" id="leftnav">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide "></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="right-goods">
+
+                <div class="swiper-container" id="rightdata">
+                    <div class="swiper-wrapper">
+                        <!--<div class="swiper-slide"></div>-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--显示购物车列别-->
+        <div class="Cart-menu" data-show="0"></div>
+        <!--购物车-->
+        <div class="Cart">
+            <div class="Cart-left" onclick="showCartList()">
+                <i class="iconfont icon-gouwuche" ></i>
+                <i class="Cart-num">0</i>
+            </div>
+            <div class="Cart-center">
+                <div style="padding-left: .4rem;">
+                    <p class="Cart-price" style="font-size: .32rem;line-height: .4rem;margin-top: .12rem;color: #ff461d">￥0.00</p>
+                </div>
+            </div>
+            <div class="Cart-right">
+                <a class="Cart-btn" href="javascript:createOrder();">确定下单</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="/mobile/js/rem.js"></script>
+<script>
+    loading();
+    var obj = strUrl(),
+        swiper = null,
+        arrGoods = [],
+        arrNav = [],
+        swiper1 = null,
+        webulr = 'httP://www.zhanglitong.com',
+        oCart = {},
+        shopName = '';
+
+    $(document).ready(function(){
+        getData();
+        getCartData();
+    });
+
+    function getData(){
+        var ohead = {};
+        $.ajax({
+            url: "/mobile/takeout_restaurant.php",
+            type: "POST",
+            data: {for_ajax:'takeout_restaurant', id:obj.id, check_restaurant:1},
+            dataType: "JSON",
+            success: function(d){
+                var img = '';
+                if(d.thumb.indexOf(webulr) != 0){
+                    img = d.thumb.slice(webulr.length);
+                }
+                ohead.img = img;
+                ohead.shopName = shopName = d.take_out_shop_name;
+                ohead.notice = d.shop_tip;
+                $('header').html(headData(ohead));
+
+                $('#leftnav .swiper-slide').html(leftData(d.cuisine_category));
+                var h = parseFloat($('header').height()) + parseFloat($('.shop-menu').height()) + parseFloat($('.Cart').height());
+                console.log(h);
+                console.log($(window).height());
+                console.log($(window).height() - h);
+                $('.left-nav, .right-goods, .show-message').css('height',$(window).height() - h + 'px');
+                swiper = new Swiper('#leftnav', {
+                    slidesPerView: 'auto',
+                    freeMode: true,
+                    direction: 'vertical',
+                    setWrapperSize: true
+
+//                    direction: 'vertical',
+//                    slidesPerView: 'auto',
+//                    freeMode: true,
+//                    mousewheel: true
+                });
+                cartData();
+                $('#scan-takeout').css('opacity',1);
+                loading('loading');
+            },
+            error: function(d){
+                alert('网络延时，请稍后！');
+            }
+        });
+    }
+
+    //显示头部信息
+    function headData(data){
+        var str = '';
+        str += '<div style="background-color: #3d95e5;position: relative;padding-top: 10px;min-height: 1.6rem;">\n' +
+            '<img id="restaurant_thumb" class="shop-img" src="'+data.img+'">\n' +
+            '<div class="shop-message">\n' +
+            '<p style="font-size: 16px;color: #fff;" class="ng-binding">'+data.shopName+'</p>\n' +
+            '<p style="font-size: 14px;color: #fff;max-height: 38px;overflow: hidden;" class="ng-binding">公告：'+data.notice+'</p>\n' +
+            '</div>\n' +
+            '</div>';
+        return str;
+    }
+
+    //显示左边数据
+    function leftData(data){
+        var str = '', className = '', aNav = {};
+        for(var i=0;i<data.length;i++){
+            className = i == 0 ? 'active' : '';
+            str += '<div class="show-nav-list '+className+'" onclick="selectMenu(this,'+i+')">\n' +
+                '<a>'+data[i].cuisine+'</a>\n' +
+                '</div>';
+
+            aNav.cuisine = data[i].cuisine;
+            aNav.id = data[i].id;
+            arrNav.push(aNav);
+            aNav = {};
+            arrGoods.push(data[i].dishes_data);
+        }
+        $('#rightdata .swiper-wrapper').append(rightData(arrGoods));
+        swiper1 = new Swiper('#rightdata', {
+            direction: 'vertical',
+            slidesPerView: 'auto',
+            freeMode: true,
+            mousewheel: true,
+            on: {
+                slideChangeTransitionEnd: function(){
+                    var s = $('#rightdata .swiper-slide');
+                    for(var i=0;i<s.length;i++){
+                        if(s.eq(i).hasClass('swiper-slide-active')){
+                            $('.swiper-slide .show-nav-list').removeClass('active');
+                            $('.swiper-slide .show-nav-list').eq(i).addClass('active');
+                        }
+                    }
+                }
+            }
+        });
+
+        return str;
+    }
+
+    //显示右边数据
+    function rightData(data){
+        var str = '', goodsAttr = '', goodsPrice = '', img = '';
+        for(var j=0;j<data.length;j++){
+            str += '<div class="swiper-slide" oid="'+arrNav[j].id+'"><div class="shop-goods-title">'+arrNav[j].cuisine+'</div>';
+            for(var i=0;i<data[j].length;i++){
+                img = data[j][i].thumb.indexOf(webulr) != 0 ? data[j][i].thumb.slice(webulr.length) : data[j][i].thumb;
+                goodsPrice = data[j][i].sell_price;
+                str += '<div class="goods" cid="'+data[j][i].id+'">\n' +
+                    '<div class="goods-list">\n' +
+                    '<img class="goods-list-img" alt="商品照片" src="'+img+'">\n' +
+                    '<div class="goods-message">\n' +
+                    '<p class="goods-list-name">'+data[j][i].dishes+'</p>\n';
+
+                if(data[j][i].is_spec == 0){
+                    str +='<p class="goods-list-price">'+parseFloat(goodsPrice)+'元</p>\n';
+                    str += '<div class="goods-list-btn">\n';
+                    str += '<a class="goods-list-reduce" onclick="reduceGoods(this, \''+data[j][i].id+'\', \''+data[j][i].is_spec+'\', \''+data[j][i].cuisine_id+'\')"><i class="iconfont icon-jian"></i></a>\n';
+                    str += '<span class="goods-list-number">0</span>\n' +
+                    '<a class="goods-list-add" onclick="addGoods(\''+data[j][i].id+'\', \''+data[j][i].is_spec+'\', \''+data[j][i].cuisine_id+'\')"><i class="iconfont icon-jia"></i></a>\n' +
+                    '</div>\n';
+                }else{
+                    var goodsAttrSpec = data[j][i].spec_attr[0].spec_name + '|' + data[j][i].spec_attr[0].spec_price;
+                    goodsPrice = data[j][i].spec_attr[0].spec_price;
+                    str +='<p class="goods-list-price">'+parseFloat(goodsPrice)+'元</p>\n';
+                    str += '<div class="clearfix goods-list-attr ng-scope" style="padding-top: 4px;">\n';
+                    for(var k=0;k<data[j][i].spec_attr.length;k++){
+                        var on = k == 0 ? 'on' : '';
+                        str += '<span class="goods-list-spec '+on+'" onclick="selectAttr(this, \''+data[j][i].spec_attr[k].spec_name+'\', \''+data[j][i].spec_attr[k].spec_price+'\')">'+data[j][i].spec_attr[k].spec_name+'</span>\n';
+                    }
+                    str += '</div>';
+                    str += '<div class="goods-list-btn">\n' +
+                    '<span class="goods-list-number">0</span>\n' +
+                    '<a class="goods-list-add" onclick="addGoods(\''+data[j][i].id+'\', \''+data[j][i].is_spec+'\', \''+data[j][i].cuisine_id+'\', \''+goodsAttrSpec+'\')"><i class="iconfont icon-jia"></i></a>\n' +
+                    '</div>\n';
+                }
+                 str += '</div>\n' +
+                '</div>\n' +
+                '</div>';
+            }
+            str += '</div>';
+        }
+        return str;
+    }
+
+    //选择分类
+    function selectMenu(self, i){
+        var t = $(self);
+        swiper1.slideTo(i, 1000, function(){
+            t.addClass('active').siblings().removeClass('active');
+        });
+        //t.addClass('active').siblings().removeClass('active');
+    }
+
+    //增加商品
+    function addGoods(id, spec, c_id, attr){
+        var sAttr = attr || '', ediv = $('#rightdata .swiper-wrapper').children();
+        $.ajax({
+            url: "/mobile/for_ajax.php",
+            type: "POST",
+            data: {for_ajax:"takeout_cart_add", dishes_id:id, goods_number:1, is_spec:spec, spec_attr:sAttr},
+            dataType: "JSON",
+            success: function(d){
+                for(var i=0;i<ediv.length;i++){
+                    if(ediv.eq(i).attr('oid') == c_id){
+                        for(var j=0;j<ediv.eq(i).children().length;j++){
+                            if(ediv.eq(i).children().eq(j).attr('cid') == id){
+                                var n = ediv.eq(i).children().eq(j).find('.goods-list-number');
+                                n.text(d.data.cart_data[id].goods_number);
+                                if(parseInt(n.text()) != 0){
+                                    n.addClass('enter').siblings().addClass('enter');
+                                }else{
+                                    n.removeClass('enter').siblings().removeClass('enter');
+                                }
+                            }
+                        }
+                    }
+                }
+                getCartData();
+            },
+            error: function(){
+                alert('系统错误，请稍后再试!');
+            }
+        });
+    }
+
+    //减少商品
+    function reduceGoods(self, id, spec, c_id){
+        var ediv = $('#rightdata .swiper-wrapper').children();
+        $.ajax({
+            url: "/mobile/for_ajax.php",
+            type: "POST",
+            data: {for_ajax:"takeout_cart_decrease", dishes_id:id, goods_number:1, is_spec:spec},
+            dataType: "JSON",
+            success: function(d){
+                for(var i=0;i<ediv.length;i++){
+                    if(ediv.eq(i).attr('oid') == c_id){
+                        for(var j=0;j<ediv.eq(i).children().length;j++){
+                            if(ediv.eq(i).children().eq(j).attr('cid') == id){
+                                var n = ediv.eq(i).children().eq(j).find('.goods-list-number');
+
+                                if(parseInt(n.text()) != 0){
+                                    $(self).siblings().addClass('enter');
+                                }else{
+                                    $(self).siblings().removeClass('enter');
+                                }
+                                if(n.text() == 1){
+                                    //$('.goods-list-number').text(0);
+                                    n.text(0);
+                                    $(self).removeClass('enter').siblings().removeClass('enter');
+                                }else{
+                                    n.text(d.data.cart_data[id].goods_number);
+                                }
+                            }
+                        }
+                    }
+                }
+                $('.goods-list-number').text(0);
+                cartData(d);
+                getCartData();
+            },
+            error: function(){
+                alert('系统错误，请稍后再试!');
+            }
+        });
+    }
+
+    //选择多属性规格
+    function selectAttr(self, attrname, attrprice){
+        $(self).addClass('on').siblings().removeClass('on');
+        $(self).parent().siblings('.goods-list-price').text(parseFloat(attrprice)+'元');
+        var oid = $(self).parents('.swiper-slide').attr('oid');
+        var cid = $(self).parents('.goods').attr('cid');
+        $(self).parent().siblings('.goods-list-btn').find('.goods-list-add').attr('onclick','addGoods(\''+cid+'\', 1, \''+oid+'\', \''+attrname+'|'+attrprice+'\')');
+        console.log(oid);
+        console.log(cid);
+    }
+
+    //得到用户已经加入购物车的信息
+    function getCartData(){
+        var ediv = $('#rightdata .swiper-wrapper').children();
+        $.ajax({
+            url: "/mobile/for_ajax.php",
+            type: "POST",
+            data: {for_ajax:'takeout_cart_show', takeout_id:obj.id},
+            dataType: "JSON",
+            success: function(d){
+                if(d.success){
+                    oCart = d;
+                    setCartData(d.data);
+                    $('.Cart-menu').html(getCartListData());
+                }
+            },
+            error: function(d){
+                alert('网络延时,请稍后再试!');
+            }
+        });
+    }
+
+    //购物车数据
+    function cartData(data){
+        var d = data || oCart,
+            ediv = $('#rightdata .swiper-wrapper').children();
+        console.log(d);
+        ediv.find('.goods').find('.goods-list-btn').children().removeClass('enter').nextAll('.goods-list-number').text(0);
+        for(var o in d.data.cart_data){
+            console.log(o);
+            for(var i=0;i<ediv.length;i++){
+                for(var j=0;j<ediv.eq(i).children('.goods').length;j++){
+                    if(ediv.eq(i).children('.goods').eq(j).attr('cid') == o){
+                        ediv.eq(i).children('.goods').eq(j).find('.goods-list-number').text(d.data.cart_data[o].goods_number);
+                        ediv.eq(i).children('.goods').eq(j).find('.goods-list-btn').children().addClass('enter');
+                    }
+                }
+            }
+        }
+    }
+
+    //显示购物车数据
+    function setCartData(data){
+        if(data.hasOwnProperty('detail_cash')){
+            $('.Cart-price').text('￥'+parseFloat(data.detail_cash).toFixed(2));
+            $('.Cart-num').text(data.num);
+        }else{
+            $('.Cart-price').text('￥0.00');
+            $('.Cart-num').text(0);
+        }
+        if(data.num > 0){
+            $('.icon-gouwuche').css('color','#3d95e5');
+        }else{
+            $('.icon-gouwuche').css('color','');
+        }
+    }
+
+    //显示购物车数据列表
+    function getCartListData(data){
+        var d = data || oCart;
+        var d1 = d.data.cart_data;
+        var str = '';
+        str += '<div class="Cart-bg" onclick="showCartList()"></div>\n' +
+            '<div class="Cart-list">\n' +
+            '<div class="Cart-list-empty">\n' +
+            '<div class="clearfix Cart-list-head">\n' +
+            '<div class="Cart-list-head-L pull-left"><span class="line"></span>已选商品</div>\n' +
+            '<div class="Cart-list-head-R pull-right" onclick="clearCart()"><i class="iconfont icon-icon_delete"></i>清空</div>\n' +
+            '</div>\n' +
+            '<ul style="max-height: 4rem;overflow: auto;width: 100%;">\n';
+        if(d.data != []){
+            for(var i in d1){
+                if(d1[i].is_spec == 0){
+                    str += '<li class="Cart-show-item">\n' +
+                        '<div class="Cart-show-item-name">'+d1[i].dishes_name+'</div>\n' +
+                        '<div class="clearfix pull-right" style="width: 50%;">\n' +
+                        '<div class="Cart-show-item-price ng-binding ng-scope">￥'+d1[i].detail_cash+'</div>\n' +
+                        '<div class="Cart-show-item-number pull-right">\n' +
+                        '<a class="Cart-show-item-reduce" onclick="addGoods1(\'takeout_cart_decrease\', \''+i+'\',0)"><i class="iconfont icon-jian"></i></a>\n' +
+                        '<span class="Cart-show-item-num">'+d1[i].goods_number+'</span>\n' +
+                        '<a class="Cart-show-item-add" onclick="addGoods1(\'takeout_cart_add\', \''+i+'\',0)"><i class="iconfont icon-jia"></i></a>\n' +
+                        '</div>\n' +
+                        '</div>\n' +
+                        '</li>\n';
+                }else{
+                    for(var j in d1[i].spec_list){
+                        str += '<li class="Cart-show-item">\n';
+                        str += '<div class="Cart-show-item-name">'+d1[i].dishes_name+'('+j+')</div>\n';
+                        str += '<div class="clearfix pull-right" style="width: 50%;">\n' +
+                            '<div class="Cart-show-item-price">￥'+parseFloat(d1[i].spec_list[j].sell_price * d1[i].spec_list[j].goods_number)+'</div>\n' +
+                            '<div class="Cart-show-item-number pull-right">\n' +
+                            '<a class="Cart-show-item-reduce" onclick="reduceGoods1(\'takeout_cart_decrease\', \''+i+'\', 1, \''+d1[i].spec_list[j].spec_name+'\', \''+d1[i].spec_list[j].sell_price+'\')"><i class="iconfont icon-jian"></i></a>\n' +
+                            '<span class="Cart-show-item-num">'+d1[i].spec_list[j].goods_number+'</span>\n' +
+                            '<a class="Cart-show-item-add" onclick="addGoods1(\'takeout_cart_add\', \''+i+'\', 1, \''+d1[i].spec_list[j].spec_name+'|'+d1[i].spec_list[j].sell_price+'\')"><i class="iconfont icon-jia"></i></a>\n' +
+                            '</div>\n' +
+                            '</div>\n' +
+                            '</li>\n';
+                    }
+                }
+            }
+        }
+        str += '</ul>\n' +
+            '</div>\n' +
+            '</div>';
+        return str;
+    }
+
+    function addGoods1(fortakeout, id, attrs, attrspec){
+        var attrsp = attrspec || '';
+        $.ajax({
+            url: "/mobile/for_ajax.php",
+            type: "POST",
+            data: {for_ajax:fortakeout, dishes_id:id, goods_number:1, is_spec:attrs, spec_attr:attrsp},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                oCart = d;
+                cartData(d);
+                setCartData(d.data);
+                $('.Cart-menu').html(getCartListData());
+            }
+        });
+    }
+
+    function reduceGoods1(fortakeout, id, attrs, attrspec, prices){
+        var attrsp = attrspec || '';
+        $.ajax({
+            url: "/mobile/for_ajax.php",
+            type: "POST",
+            data: {for_ajax:fortakeout, dishes_id:id, goods_number:1, is_spec:attrs, spec:attrsp, spec_price:prices},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                oCart = d;
+                cartData(d);
+                setCartData(d.data);
+                $('.Cart-menu').html(getCartListData());
+            }
+        });
+    }
+
+    //显示购物车商品
+    function showCartList(){
+        var s = $('.Cart-menu');
+        if(s.attr('data-show') == 1){
+            s.hide();
+            s.attr('data-show',0);
+        }else{
+            s.show();
+            s.attr('data-show',1);
+        }
+    }
+
+    //情况购物车
+    function clearCart(){
+        $.ajax({
+            url: "/mobile/for_ajax.php",
+            type: "POST",
+            data: {for_ajax:'takeout_cart_clear', takeout_id:obj.id},
+            dataType: "JSON",
+            success: function(d){
+                oCart = d;
+                cartData(d);
+                $('.Cart-menu').html(getCartListData(d));
+                setCartData(d.data);
+            },
+            error: function(){
+                alert('网络延时，请稍后');
+            }
+        });
+    }
+
+    //确定下单
+    function createOrder(){
+        if(oCart.data != []){
+            window.location.href = '/mobile/Pay/TakeoutPay.html?id='+obj.id+'&type=takeout&home='+encodeURI(shopName)+'&desk='+obj.desk;
+        }
+    }
+
+</script>
+</html>

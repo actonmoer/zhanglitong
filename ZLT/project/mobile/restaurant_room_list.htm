@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>包房管理</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	{template "room_head","mobile"}
+</head>
+<body>
+	<div class="headBox">
+		<div class="head-bar-back"><a href="javascript:window.location.href='user_home.php'"><img src="static/room/images/admin/icon-back.png" width="24" height="24"><span>返回</span></a></div>
+		<div class="head-bar-title">包房管理</div>
+		<div class="head-bar-right"><a href="user_home.php?act=edit_room_info"><span>添加包房</span></a></div>
+	</div>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<div class="pdList"> 
+				{loop $data $r}
+				<a class="pdLi" href="user_home.php?act=room_info&id={$r['id']}">
+					<i class="price">￥ {$r['now_price']}</i>
+					<b>{$r['room_name']}</b>
+					<em class="type">使用次数 : {$r['use_count']}</em>
+					<em class="type">容纳人数 : {$r['people_count']}</em>
+					<em class="type">营业时间 : {$r['room_time']}</em>
+					{if $r['room_message']}<em class="txt">{$r['room_message']}</em>{/if}
+				</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<div class="footBox"></div>
+</body>
+<script type="text/javascript">
+</script>
+</html>

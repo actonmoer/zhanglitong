@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_imjju8bu52whr529.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/menu.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/angular.min.js"></script>
+    <script type="text/javascript" src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">菜单管理</div>
+        <div class="h-R">
+            <a href="javascript:;" class="h-R-a" onclick="addMenu(['添加商品','管理分类','配送管理'],returnUrl)">
+                <i class="iconfont icon-zhankai" style="color: #fff;"></i>
+            </a>
+        </div>
+    </div>
+</header>
+
+<section>
+    <!--菜单-->
+    <nav class="menu-nav">
+        <div><a href="javascript:;" class="menu-a on">全部</a></div>
+        <div><a href="javascript:;" class="menu-a">未上架</a></div>
+        <div><a href="javascript:;" class="menu-a">已上架</a></div>
+    </nav>
+    <!--商品信息列表-->
+    <div class="goodsList">
+        <!--  <div class="goodsList-li">
+              <div style="background-color: #fff;">
+              <div style="margin: 0 1.25rem;">
+                  <div class="goodsList-h">
+                      <img src="../img/bg.png" class="goodsList-img" style="width: 3.75rem;height: 3.75rem;" alt="">
+                      <div>
+                          <div class="goodsList-name clearb">
+                              <span class="goodsList-n">商品名</span>
+                              <span class="goodsList-states">未上架</span>
+                          </div>
+                          <div class="goodsList-type">配送分类</div>
+                          <div class="goodsList-number clearb">
+                              <span class="goodsList-money">￥100.00</span>
+                              <span class="goodsList-sales">销量:222</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="goodsList-bor">
+                  <div class="m20-lr" style="padding: 1.125rem 0;">
+                      <div class="goodsList-stime">创建时间：2017-06-20 17:38</div>
+                      <div class="goodsList-mtime">修改时间：2017-06-20 17:38</div>
+                  </div>
+              </div>
+              <div class="goodsList-btn">
+                  <a href="javascript:;">删除</a>
+                  <a href="javascript:;">下架</a>
+                  <a href="javascript:;">修改</a>
+              </div>
+          </div>
+      </div>-->
+    </div>
+</section>
+<script type="text/javascript">
+    //按钮
+    function returnUrl(arrMenu){
+        var arrUrl=["AddGoods.html","ClassifyManager.html","DistributionManagement.html"];
+        for(var i=0;i<arrMenu.length;i++){
+            $(".bg-menu-ul li").eq(i).find("a").attr("href",arrUrl[i]);
+        }
+    }
+    $(document).ready(function(){
+        var state, stateClass, stateBtn, stateColor;
+        $(".menu-a").click(function(){
+            $(this).addClass("on");
+            $(this).parent().siblings().find("a").removeClass("on");
+            if($(this).html() == "未上架"){
+                $("div.goodsList-li").filter(".open1").hide();
+                $("div.goodsList-li").filter(".close1").show();
+            }else if($(this).html() == "已上架"){
+                $("div.goodsList-li").filter(".open1").show();
+                $("div.goodsList-li").filter(".close1").hide();
+            }else{
+                $("div.goodsList-li").show();
+            }
+        });
+
+        $.post("../BusinessHome.php",{action:"s_dishes"},function(data){
+            var d=$.parseJSON(data);
+            var thumbCut;
+            console.log(d);
+            for(var i=0;i<d.data.length;i++){
+                /*if(d.data[i].thumb.indexOf('http://') == -1){
+                    thumbCut = 'https://' + d.data[i].thumb;
+                }else{
+                    thumbCut = 'https://' + d.data[i].thumb.replace('http://','');
+                }*/
+                console.log(d.data[i].thumb);
+                $(".goodsList").append(goodList(d.data[i].dishes, d.data[i].cuisine, d.data[i].thumb, d.data[i].sell_price, d.data[i].isup, d.data[i].use_count, mtime(d.data[i].addtime*1), mtime(d.data[i].edittime*1), d.data[i].id));
+                if($(".goodsList-li").eq(i).attr("isup") == 0){
+                    state = "已上架";
+                    stateClass = "open1";
+                    stateBtn = "下架";
+                    stateColor = "#2acaaa";
+                }else if($(".goodsList-li").eq(i).attr("isup") == 1){
+                    state = "未上架";
+                    stateClass = "close1";
+                    stateBtn = "上架";
+                    stateColor = "";
+                }
+                $(".goodsList-li").eq(i).find(".goodsList-states").html(state);
+                $(".goodsList-li").eq(i).addClass(stateClass);
+                $(".goodsList-li").eq(i).find(".goodsList-btn a").eq(1).html(stateBtn);
+                $(".goodsList-li").eq(i).find(".goodsList-states").css("color",stateColor);
+            }
+        });
+    });
+
+    function goodList(g_name, g_classify, g_thumb, g_money, g_state, g_sales_volume, g_stime, g_etime, g_id){
+        var str='<div class="goodsList-li" isup="'+g_state+'">\n'+
+            '<div style="background-color: #fff;">\n'+
+            '<div style="margin: 0 1.25rem;">\n'+
+            '<div class="goodsList-h">\n'+
+            '<img src="'+g_thumb+'" class="goodsList-img" style="width: 3.75rem;height: 3.75rem;" alt="">'+
+            '<div>\n'+
+            '<div class="goodsList-name clearb">\n'+
+            '<span class="goodsList-n">'+g_name+'</span>\n'+
+            '<span class="goodsList-states">'+g_state+'</span>\n'+
+            '</div>\n'+
+            '<div class="goodsList-type">'+g_classify+'</div>\n'+
+            '<div class="goodsList-number clearb">\n'+
+            '<span class="goodsList-money">￥'+g_money+'</span>\n'+
+            '<span class="goodsList-sales">销量:'+g_sales_volume+'</span>\n'+
+            '</div></div></div></div>\n'+
+            '<div class="goodsList-bor">'+
+            '<div class="m20-lr" style="padding: 1.125rem 0;">'+
+            '<div class="goodsList-stime">创建时间：'+g_stime+'</div>'+
+            '<div class="goodsList-mtime">修改时间：'+g_etime+'</div>'+
+            '</div>'+
+            '</div>'+
+            '<div class="goodsList-btn">'+
+            "<a onclick='delGoods($(this),"+g_id+")'>删除</a>"+
+            '<a onclick="offGoods($(this),'+g_id+')"></a>'+
+            '<a onclick="modifyGoods($(this),'+g_id+')">修改</a>'+
+            '</div>'+
+            '</div>'+
+            '</div>';
+        return str;
+    }
+
+    //时间转换
+    function mtime(timer){
+        var d=new Date(timer*1000);
+        return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes();
+    }
+
+    //删除商品
+    function delGoods(s,id){
+        var sure=confirm("是否删除商品");
+        if(sure){
+            $.post("../BusinessHome.php",{action:"d_dishes",id:id},function(data){
+                var d= $.parseJSON(data);
+                console.log(d);
+                if(d.msg == "ok"){
+                    s.parent().parent().parent().remove();
+                }else if(d.data.length <= 0){
+                    window.location.href="DistributionManagement.html";
+                }
+            });
+        }
+    }
+
+    //是否下架商品
+    function offGoods(s,id){
+        var state=s.parent().siblings().find(".goodsList-states");
+        var isup, isupState, isupColor, isupState1, isupState2;
+        if(state.html() == "已上架"){
+            isup=0;
+        }else if(state.html() == "未上架"){
+            isup=1;
+        }
+        $.ajax({
+            method:"post",
+            url:"../BusinessHome.php",
+            data:{action:"c_dishes",isup:isup,id:id},
+            dataType: "JSON",
+            success:function(data){
+                var d=data;
+                if(d.msg == "ok"){
+                    if(d.status == 0){
+                        isupState = "已上架";
+                        isupColor = "#2acaaa";
+                        isupState1 = "下架";
+                        isupState2 = "上架成功";
+                    }else if(d.status == 1){
+                        isupState = "未上架";
+                        isupColor = "";
+                        isupState1 = "上架";
+                        isupState2 = "下架成功";
+                    }
+                    state.html(isupState);
+                    state.css("color",isupColor);
+                    s.html(isupState1);
+                    alert(isupState2);
+                }
+            }
+        });
+    }
+
+    //修改商品
+    function modifyGoods(s,id){
+        if(id){
+            window.location.href="AddGoods.html?modify="+id;
+        }
+    }
+
+</script>
+</body>
+</html>

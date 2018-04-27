@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_kv927g0p9s51xlxr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/indent.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">订单详情</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div id="indent-details">
+    </div>
+</section>
+<script>
+    $(function(){
+        var obj = strUrl(window.location.search);
+        var id = obj.id;
+        $.post("../BusinessHome.php", {action: "s_order", orderid:id}, function (data) {
+            data=$.parseJSON(data);
+                var status = parseInt(data.status);
+                switch (status){
+                    case 1:
+                        data.status="等待付款";
+                        break;
+                    case 2:
+                        data.status="待接单";
+                        break;
+                    case 3:
+                        data.status="待配送";
+                        break;
+                    case 4:
+                        data.status="配送中";
+                        break;
+                    case 5:
+                        data.status="已完成";
+                        break;
+                    case 6:
+                        data.status="已完成";
+                        break;
+                    case 7:
+                        data.status="退款中";
+                        break;
+                    case 8:
+                        data.status="订单关闭";
+                        break;
+                }
+                $("#indent-details").append(indentDetails(
+                    data.order_id,
+                    data.dishes_name,
+                    data.goods_number,
+                    data.sell_price,
+                    data.fee,
+                    data.favourable_price,
+                    data.amount,
+                    data.buyer_name,
+                    data.buyer_phone,
+                    data.buyer_address,
+                    data.note,
+                    mtime(data.addtime),
+                    data.status,
+                    ifont(data.status),
+                    data.buyer_reason
+                ));
+                for(var i=0;i<data.orderdata.length;i++){
+                    $(".indent-goodsname").prepend('<p><span>'+data.orderdata[i].dishes_name+'&nbsp;x&nbsp;</span><span class="orange">'+data.orderdata[i].goods_number+'份</span><span class="right">￥'+ data.orderdata[i].sell_price * data.orderdata[i].goods_number +'</span></p>')
+                }
+                if(status==1 || status==4){
+                    $("input").remove();
+                }else if(status==3){
+                    $("input").val("立即配送");
+                }else if(status==5 || status==6){
+                    $("input").val("查看评论");
+                }else if(status==7 || status==8){
+                    $(".reason").css("display","block");
+                    if(status==7){
+                        $("input").val("同意退款");
+                    }else if(status==8){
+                        $("input").remove();
+                    }
+                }
+        })
+    });
+    function indentDetails(id,dishes,number,price,fee,FPrice,amount,name,phone,address,note,addtime,status,color1,reason){
+        var details =  '<div class="indent-details">'+
+            '<div class="indent-number clearb">'+
+            '<p><span>订单号：</span><span>'+id.slice(8)+'</span><span class="right state" style="'+color1+'">'+status+'</span></p>'+
+            '</div>'+
+            '<div class="indent-goodsname clearb">'+
+            '<p>' +
+            '<span>配送费￥'+fee+'</span>' +
+            '<span>优惠￥'+FPrice+'</span>' +
+            '<span class="right blue" style="color:#3d95e5;font-size:.875rem;">￥'+amount+'</span>' +
+            '<span class="right" style="color:#333;font-size:.875rem;">总计</span>' +
+            '</p>'+
+            '</div>'+
+            '<div class="indent-address">'+
+            '<p><span>下单人：</span><span>'+name+"，"+phone+'</span></p>'+
+            '<p><span>送货地址：</span><span>'+address+'</span></p>'+
+            '<p><span>备注：</span><span>'+note+'</span></p>'+
+            '<p><span>下单时间：</span><span>'+addtime+'</span></p>'+
+            '<p class="reason" style="display:none;">无效原因：'+reason+'</p>'+
+            '</div>'+
+            '</div>'+
+            '<div style="margin: 1.25rem;">'+
+            '<input type="button" class="btn white-btn" onclick="OrdersDetails($(this),'+id.slice(8)+')" style="width: 100%;" value="立即接单">'+
+            '</div>';
+        return details;
+    }
+    //样式CSS
+    function ifont(str){
+        if(str == "待接单" || str == "等待付款"){
+            return "color:#dc8327;";
+        }else if(str == "待配送"){
+            return "color:#dc8327;";
+        }else if(str == "配送中"){
+            return "color:#4596e5;";
+        }else if(str == "已完成"){
+            return "color:#26c6a2;";
+        }else if(str == "申请退款" || str == "超时关闭"){
+            return "color:#666;";
+        }
+    }
+
+    function OrdersDetails(s,id){
+        if(s.val() == "立即接单"){
+            $.post("../BusinessHome.php",{action:"g_order",orderid:"takeout-"+id},function(data){
+                var d=$.parseJSON(data);
+                if(d.code == 200){
+                    s.parent().siblings(".indent-details").find("span.state").html("待配送");
+                    s.val("立即配送");
+                }
+            })
+        }else if(s.val() == "立即配送"){
+            $.post("../BusinessHome.php",{action:"t_order",orderid:"takeout-"+id},function(data){
+                var d=$.parseJSON(data);
+                if(d.code == 200){
+                    s.parent().siblings(".indent-details").find("span.state").html("配送中").css("color","#4596e5");
+                    $("input").remove();
+                }
+            })
+        }else if(s.val() == "同意退款"){
+            $.post("../BusinessHome.php",{action:"b_order",order_id:"takeout-"+id},function(data){
+            })
+        }else if(s.val() == "查看评论"){
+            $.post("../BusinessHome.php",{action:"s_comment",orderid:"takeout-"+id},function(data){
+            })
+        }
+    }
+</script>
+</body>
+</html>

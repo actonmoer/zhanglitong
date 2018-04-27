@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发票</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/mobile/js/myjs.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_7b7b94cryrjm7vi.css">
+    <link rel="stylesheet" href="/mobile/css/style.css">
+    <style type="text/css">
+        .fp-type,.fp-type1{
+            float: left;
+            height: 1.75rem;
+            line-height: 1.75rem;
+            border: 1px solid #999;
+            border-radius: .25rem;
+            width: 5.0625rem;
+            font-size: .8125rem;
+            text-align: center;
+            margin-right: .9375rem;
+        }
+        .fp-type.on,.fp-type1.on{
+            color: #3d95e5;
+            border-color: #3d95e5;
+        }
+        .fp-input{
+            border-left-width: 0;
+            border-top-width: 0;
+            border-right-width: 0;
+            width: 75%;
+            margin-left: .625rem;
+        }
+        .fp-input:focus{
+            outline: none;
+        }
+    </style>
+</head>
+<body style="background-color: #f1f1f1;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:;" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">发票详情</div>
+        <div class="h-R"><a href="javascript:saveForm();" class="h-R-a">保存</a></div>
+    </div>
+</header>
+<form>
+    <section>
+        <div style="margin-top: .625rem;padding: 0 .625rem;" class="bfff">
+            <p style="font-size: .875rem;color: #444;line-height: 2.125rem;border-bottom: 1px solid #eee;">发票类型</p>
+            <div class="clearfix" style="padding: .9375rem .625rem;">
+                <a href="javascript:;" class="fp-type1 on">普通发票</a>
+                <a href="javascript:;" class="fp-type1">增值税发票</a>
+            </div>
+        </div>
+        <div style="margin-top: .625rem;padding: 0 .625rem;" class="bfff">
+            <p style="font-size: .875rem;color: #444;line-height: 2.125rem;border-bottom: 1px solid #eee;">发票抬头</p>
+            <div class="clearfix" style="padding: .9375rem .625rem;">
+                <a href="javascript:;" class="fp-type on">个人</a>
+                <a href="javascript:;" class="fp-type">单位</a>
+            </div>
+            <div>
+
+                <div class="active">
+                    <label style="color: #444;font-size: .8125rem;width: 100%;padding-bottom: 1rem;">
+                        个人名称<input type="text" class="fp-input" name="invoice_person">
+                    </label>
+                </div>
+
+                <div class="active" style="display: none;">
+                    <label style="color: #444;font-size: .8125rem;width: 100%;padding-bottom: 1rem;">
+                        单位名称<input type="text" class="fp-input" name="invoice_company">
+                    </label>
+                    <label style="color: #444;font-size: .8125rem;width: 100%;padding-bottom: 1rem;">
+                        纳税人识别码<input type="text" class="fp-input" name="invoice_num" style="width: 65%;">
+                    </label>
+                </div>
+
+            </div>
+        </div>
+        <div style="margin-top: .625rem;padding: 0 .625rem;" class="bfff">
+            <p style="font-size: .875rem;color: #444;line-height: 2.125rem;border-bottom: 1px solid #eee;">发票内容</p>
+            <p style="font-size: .875rem;color: #444;line-height: 2.125rem;padding-left:.625rem;">商品明细</p>
+        </div>
+    </section>
+</form>
+
+<script type="text/javascript">
+    var obj = strUrl();
+    $(document).ready(function(){
+        if(!obj.order_id){
+            alert("返回参数有误");
+            location.href = "/mobile";
+        }else{
+            $(".fp-type1").eq(0).attr("href","/mobile/Demo/invoice.html?order_id="+obj.order_id);
+            $(".fp-type1").eq(1).attr("href","/mobile/Demo/invoiceCompany.html?order_id="+obj.order_id);
+        }
+    });
+
+    $(".fp-type").click(function(){
+        var index = $(this).index();
+        $(this).addClass("on").siblings().removeClass("on");
+        $(".active").hide();
+        $(".active").eq(index).show();
+    });
+
+    function saveForm(){
+        var fp = $(".fp-type");
+        var o = {};
+        var invoice_p = $("input[name='invoice_person']").val();
+        var invoice_c = $("input[name='invoice_company']").val();
+        var invoice_n = $("input[name='invoice_num']").val();
+        o.for_ajax = obj.order_id;
+        o.order_id = obj.order_id;
+        for(var i=0;i<fp.length;i++){
+            if(fp.eq(i).hasClass("on")){
+                console.log(fp.eq(i).html());
+                if(fp.eq(i).html() == "个人"){
+                    o.invoice_person = invoice_p;
+                }else{
+                    o.invoice_company = invoice_c;
+                    o.invoice_num = invoice_n;
+                }
+            }
+        }
+        if(invoice_p.trim() || invoice_c.trim() && invoice_n.trim()){
+            $.ajax({
+                url: "/mobile/ajax_reserve.php?for_ajax=set_invitation",
+                type: "POST",
+                data: JSON.stringify(o),
+                dataType: "JSON",
+                success: function(d){
+                    console.log(d);
+                    alert(d.msg);
+                    location.href = d.url;
+                },
+                error: function(){
+                    alert("网络延时,请稍后再试!");
+                }
+            });
+        }else{
+            alert("不能为空");
+        }
+    }
+</script>
+</body>
+</html>

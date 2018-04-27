@@ -1,0 +1,12 @@
+.add-classify {
+    margin-top:1.25rem;
+    background-color:#fff;
+    padding:1.25rem;
+}
+.classify-btn {
+    background-color: #fff;
+    color: #333;
+    font-size: 1rem;
+    height: 3.125rem;
+    box-shadow:.0625rem .0625rem .1875rem #999;
+}

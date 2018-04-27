@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>企业认证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnse94jdj7lrqkt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/approve.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">企业认证</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+
+<section>
+    <nav class="path-nav">
+        <ul class="clearb path-ul">
+            <li>1.填写信息</li>
+            <li><i class="iconfont icon-xiangqian"></i></li>
+            <li><a href="javascript:;" class="path-color">2.提交认证</a></li>
+        </ul>
+    </nav>
+    <div style="text-align: center;padding-top: 2.5rem;"><i class="iconfont icon-dagou" style="line-height: initial;font-size: 3.75rem;color: #3d95e5;"></i></div>
+    <div style="text-align: center;color: #333;font-size: 1rem;margin-top: 1rem;">提交成功</div>
+    <div style="text-align:center;font-size:.625rem;color:#666;margin-top:.625rem;"><p>你的企业认证正在审核中，请耐心等待......</p></div>
+    <div style="margin: 1.25rem;padding-top: 1.25rem;">
+        <input type="submit" class="btn u-btn" style="width: 100%;" onclick="window.location.href='../my.php'" value="回到会员中心">
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        if(document.referrer == ""){
+            $.ajax({
+                url:"../usercenter.php",
+                type:"POST",
+                data:{action:"s_company"},
+                success:function(d){
+                    console.log(d);
+                    d=$.parseJSON(d);
+                    if(d.code == 200){
+                        if(d.status == 2){
+                            window.location.href="CompanyShow.html";
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,112 @@
+掌里通公司服务器一(新一代)资料服务器
+IP：124.172.138.201
+用户：root
+密码：s1!d&s%a(d7fd*s
+连接服务器工具
+SecureCRT&SecureFX_7.0 64位版.rar
+重启服务器/etc/init.d/nginx restart/etc/init.d/mysqld restart/etc/init.d/php-fpm 
+restart
+网站目录：/home/www/destoon6
+mysql数据库
+http://www.zhanglitong.com/phpmyadmin/数据库 
+destoon20170731   
+用户名：root   
+密码：HWrDvAKpre9sPDhF
+	zlt36910000abcPHD
+ UPDATE user SET Password = PASSWORD('zlt36910000abcPHD') WHERE user = 'root';
+mongo数据库
+数据库：             destoon
+用户：               chenguanghui  
+密码：               Snqu2015
+连接mongo数据库
+工具：Robomongo 0.9.0-RC6.rar
+管理后台http://www.zhanglitong.com/admin.php用户名：destoon密码：cnk123snqu
+svn:   svn://124.173.80.208:3690/home/www/svn/repos
+
+新一代后台
+账号：2861872798@qq.com
+密码：wz3311911
+地址：http://www.gzidc.com/member.php?m=MemberIndex&a=login
+
+
+掌里通公司服务器二(阿里云)
+IP:119.23.234.49
+账号:root
+密码:Zlt36910000
+nginx 
+安装路径：/usr/local/nginx 
+配置文件路径：/etc/nginx/nginx.conf 
+日志存放路径：/var/log/nginx 
+网站根目录：/web
+php 
+安装路径：/usr/local/php 
+配置文件路径：/etc/php.ini /usr/local/php/etc/php-fpm.conf
+mysql 
+本地默认的管理用户名：root 密码：www.tjxm.com
+安装路径：/usr/local/mysql 
+数据库文件路径：/mydata/data 
+配置文件路径：/etc/my.cnf
+数据库密码：www.tjxm.com
+phpMyAdmin
+本地默认的管理用户名：root 密码：www.tjxm.com
+数据库的管理地址为：http://119.23.234.49:81/pma
+Vsftpd
+ftp默认路径：/web
+配置文件路径：/etc/vsftpd/vsftpd.conf
+/usr/sbin/nginx  -s reload  重起nignx
+/etc/init.d/php-fpm restart 重启phpfpm
+IP:119.23.234.49 
+账号:root
+密码:Zlt36910000
+mongo数据库
+用户名：snqu
+密码：WsDisFas6dAsd0f
+进入lingx控制台
+mongo --host 119.23.234.49  
+>db.auth('snqu','WsDisFas6dAsd0f')
+>show dbs
+
+掌里通公司服务器三(阿里云)
+IP:119.23.245.118
+账号:root
+密码:zlt!@#$%12345
+     zhanglitong@#abc2018
+
+阿里云后台
+用户名：掌里通智慧城市
+密码：Zlt36910000
+地址：https://account.aliyun.com/login/login.htm
+
+
+微信公众号后台与小程序
+公众号：
+账号：2014281085@qq.com	
+密码：wz3311911
+小程序：
+邮箱：lingdongquan@163.com
+密码: wz3311911
+地址：http://mp.weixin.qq.com
+
+关于app
+科大讯飞和小米：
+账号：371567139@qq.com
+密码：zlt36910000
+账号：13318828658
+密码：ZLT36910000
+极光推送：
+账号：zhanglitong
+密码：zlt36910000zlt
+地址：https://www.jiguang.cn/accounts/login/form
+
+zlt.php
+账号	destoon
+密码	snqu123cnk
+
+
+企动小程序
+账号：zhanglitong
+密码：zlt12345!@#$%
+
+
+
+18613189166

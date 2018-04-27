@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通智慧城市</title>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="掌里通智慧城市">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileImage" content="apple-touch-icon-precomposed.png">
+    <meta name="msapplication-TileColor" content="#007AFF">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_rts01uhg6kmrhpvi.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="bookmark" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/mobile/css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="/mobile/css/style.css">
+    <link rel="stylesheet" href="/mobile/css/index.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/mobile/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="https://apis.map.qq.com/tools/geolocation/min?key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp"></script>
+    <script type="text/javascript" src="/mobile/js/myjs.js"></script>
+    <script src="js/layer.js"></script>
+    <script>
+        //定位
+        var geolocation = new qq.maps.Geolocation();
+        function showWatchPosition() {
+            geolocation.watchPosition(function(position){   //开始监听位置
+                geolocation.clearWatch();
+                document.getElementById("areaSelect").innerHTML = position.city;
+                //alert(JSON.stringify(position));
+                var obj = {};
+                obj.lat = position.lat;
+                obj.lng = position.lng;
+                obj.city = encodeURI(position.city);
+                obj = JSON.stringify(obj);
+                setCookie("userLocation", obj, null, "/");
+            });
+        }
+    </script>
+</head>
+<style type="text/css">
+    #areaSelect{
+        font-size: .875rem;
+        display: block;
+        line-height: 1.875rem;
+        white-space: nowrap
+    }
+
+    /*公告*/
+    .dc-Notice{
+        position:relative;
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        overflow: hidden;
+        background-color: #fff;
+        border-top:1px solid #f1f1f1;
+    }
+    .dc-Notice-d{
+        position: absolute;
+        left:.55rem;
+        font-size: .2rem;
+        padding: 0 .25rem;
+        color: #999;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+    .dc-Notice i{
+        position:absolute;
+        left:0;
+        font-size:14px;
+        color: #e82727;
+        margin-right: .2rem;
+        z-index:2;
+        width: 10%;
+        background: #fff;
+        text-align: center;
+    }
+    .dc-Notice-d a{
+        color: #666;
+        font-size: 14px;
+    }
+</style>
+<body style="background-color: #f1f1f1;">
+<!--头部-->
+<header style="height: 1.875rem;">
+    <div style="height: 1.875rem;background-color: #f1f1f1;">
+        <div class="h-L text-center">
+            <a id="areaSelect" href="/mobile/index/city.html">正在定位中...</a>
+        </div>
+        <div class="h-C">
+            <div class="h-sousou" style="margin-top: .1875rem;">
+                <a href="javascript:;" class="h-sousou-a">
+                    <i class="icon-sousuo iconfont i-sousou"></i>
+                </a>
+                <input type="search" onclick="window.location.href='/mobile/Search/search.html'" class="form-control h-sousou-input" placeholder="搜索">
+            </div>
+        </div>
+        <div class="h-R"></div>
+    </div>
+</header>
+
+<section style="padding-bottom: 80px;">
+    <!--轮播图-->
+    <div class="swiper-container" id="swiper1" style="height: 150px;">
+        <!--城市概况-->
+        <div style="position: absolute;left: 0;top: 0;z-index: 2;margin: .3125rem;">
+            <a href="javascript:;" style="color: #fff;font-size: .8125rem;">城市概况</a>
+        </div>
+        <!--时间-->
+        <div style="position: absolute;left: 0;bottom: 0;z-index: 2;margin: .3125rem;">
+            <div id="timer" style="color: #fff;font-size: .75rem;"></div>
+        </div>
+        <!--天气情况-->
+        <div style="position: absolute;right: 0;top: 0;z-index: 2;margin: .3125rem;">
+            <div id="weather" style="color: #fff;font-size: .75rem;"></div>
+        </div>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img height="150" style="width: 100%;" src="/mobile/img/lb01.png" alt=""></div>
+            <div class="swiper-slide"><img height="150" style="width: 100%;" src="/mobile/img/lb02.png" alt=""></div>
+            <div class="swiper-slide"><img height="150" style="width: 100%;" src="/mobile/img/lb03.png" alt=""></div>
+            <div class="swiper-slide"><img height="150" style="width: 100%;" src="/mobile/img/lb04.png" alt=""></div>
+        </div>
+        <div class="swiper-pagination" style="bottom: 5px;"></div>
+    </div>
+    <!--菜单栏-->
+    <div class="menu-swiper-item">
+        <a href="/mobile/takeout_test.php"><img src="/mobile/img/dw.png" alt=""><p>外卖服务</p></a>
+        <a href="/resver_app/#/"><img src="/mobile/img/yuding.png" alt=""><p>餐饮预定</p></a>
+        <a href="/mall/lotterywap.php"><img src="/mobile/img/choujiang.png" alt=""><p>每日抽奖</p></a>
+        <a href="/mobile/Video/video.html"><img src="/mobile/img/zhibo.png" alt=""><p>欢乐直播</p></a>
+        <a href="javascript:alert('正在开发中');"><img src="/mobile/img/chongzhi.png" alt=""><p>生活缴费</p></a>
+        <a href="http://m.kuaidi100.com/"><img src="/mobile/img/wuliu.png" alt=""><p>查寄快递</p></a>
+        <a href="/mobile/index.php?moduleid=4&username=zltzs&action=mall&homepage=1"><img src="/mobile/static/images3/cz.jpg" alt=""><p>会员专享</p></a>
+        <a href="http://map.qq.com/m/nearby/search/searchBar=false&mapButton=2&lat=23.40026&lng=113.20692&refer=MobileQQBrowser&key=JHYBZ-RWI34-A7ZUX-XN57C-TH7PK-7EFQL&addressbar=hide&backToList=true"><img src="/mobile/img/guanjia.png" alt=""><p>附近</p></a>
+        <a href="/sitemap/category.php?mid=16"><img src="/mobile/img/shangdian.png" alt=""><p>移动超市</p></a>
+        <a href="/mobile/bianmin.php"><img src="/mobile/img/more.png" alt=""><p>更多</p></a>
+    </div>
+    <!--公告-->
+    <div id="notice"></div>
+    <!--需求服务-->
+    <div>
+        <div class="index-title"><i class="index-line"></i><span>城市实体</span><a class="more" href="/mobile/index.php?moduleid=4">更多>></a></div>
+        <div id="subnav" style="margin-top: 1px;">
+            <div class="index-service">
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=331">
+                        <img src="/mobile/img/government.png" alt="政府机关">
+                        <p style="color: #333;font-size: .875rem;">政府机关</p>
+                        <p style="color: #333;font-size: .75rem;line-height: .625rem;">organ</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=177">
+                        <img src="/mobile/img/qiyezaixian.png" alt="商务服务">
+                        <p style="color: #333;font-size: .875rem;">商务服务</p>
+                        <p style="color: #333;font-size: .75rem;line-height: .625rem;">business</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=259">
+                        <img src="/mobile/img/jiaoyu.png" alt="培训教育">
+                        <p style="color: #333;font-size: .875rem;">培训教育</p>
+                        <p style="color: #333;font-size: .75rem;line-height: .625rem;">education</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="index-service" style="margin-top: 1px;">
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=151" style="height: 4.5rem;">
+                        <img src="/mobile/img/foot.png" alt="住宿餐饮">
+                        <p style="color: #333;font-size: .875rem;">住宿餐饮</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=241" style="height: 4.5rem;">
+                        <img src="/mobile/img/lvyou.png" alt="居民服务">
+                        <p style="color: #333;font-size: .875rem;">居民服务</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=320" style="height: 4.5rem;">
+                        <img src="/mobile/img/yule.png" alt="娱乐休闲">
+                        <p style="color: #333;font-size: .875rem;">娱乐休闲</p>
+                    </a>
+                </div>
+                <div class="index-service-item">
+                    <a href="/mobile/index.php?moduleid=4&catid=342" style="height: 4.5rem;">
+                        <img src="/mobile/img/shequ.png" alt="团体组织">
+                        <p style="color: #333;font-size: .875rem;">团体组织</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div>
+     <div class="index-title"><i class="index-line"></i><span>城市实体</span></div>
+     <div class="index-service">
+     <div onclick="window.location.href='/mobile/index.php?moduleid=4&catid=331'">
+     <div class="index-service-L"><img src="/mobile/img/government.png" alt=""></div>
+     <div class="index-service-R" style="margin-top: .625rem;padding-left: .625rem;">
+     <p style="color: #333;font-size: .875rem;margin-bottom: .1875rem;">政府机关</p>
+     <p style="color: #333;font-size: .75rem;">organ</p>
+     </div>
+     </div>
+     <div onclick="window.location.href='/mobile/index.php?moduleid=4&catid=259'">
+     <div class="index-service-L"><img src="/mobile/img/jiaoyu.png" alt=""></div>
+     <div class="index-service-R" style="margin-top: .625rem;padding-left: .625rem;">
+     <p style="color: #333;font-size: .875rem;margin-bottom: .1875rem;">培训教育</p>
+     <p style="color: #333;font-size: .75rem;">education</p>
+     </div>
+     </div>
+     <div onclick="window.location.href='/mobile/index.php?moduleid=4'">
+     <div class="index-service-L"><img src="/mobile/img/qiyezaixian.png" alt=""></div>
+     <div class="index-service-R" style="margin-top: .625rem;padding-left: .625rem;">
+     <p style="color: #333;font-size: .875rem;margin-bottom: .1875rem;">企业在线</p>
+     <p style="color: #333;font-size: .75rem;">online</p>
+     </div>
+     </div>
+     <div onclick="window.location.href='/mobile/index.php?moduleid=4&catid=178'">
+     <div class="index-service-L"><img src="/mobile/img/fuwu.png" alt=""></div>
+     <div class="index-service-R" style="margin-top: .625rem;padding-left: .625rem;">
+     <p style="color: #333;font-size: .875rem;margin-bottom: .1875rem;">商务服务</p>
+     <p style="color: #333;font-size: .75rem;">business</p>
+     </div>
+     </div>
+     </div>
+     </div>
+     休闲娱乐
+     <div>
+     <div class="index-title"><i class="index-line"></i><span>掌里通生活</span></div>
+     <div class="swiper-container" id="swiper2">
+     <div class="swiper-wrapper">
+     <div class="index-entertainment">
+     <div>
+     <a href="/mobile/index.php?moduleid=4&catid=156" style="display: block;">
+     <img src="/mobile/img/foot.png" alt="">
+     <p>餐饮美食</p>
+     </a>
+     </div>
+     <div>
+     <a href="/mobile/index.php?moduleid=4&catid=320">
+     <img src="/mobile/img/lvyou.png" alt="">
+     <p>旅游景点</p>
+     </a>
+     </div>
+     <div>
+     <a href="/mobile/index.php?moduleid=4&catid=320">
+     <img src="/mobile/img/yule.png" alt="">
+     <p>娱乐休闲</p>
+     </a>
+     </div>
+     <div>
+     <a href="javascript:alert('正在开发中');">
+     <img src="/mobile/img/shequ.png" alt="">
+     <p>社区团队</p>
+     </a>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>-->
+    <!--综合-->
+    <div>
+        <div class="index-title"><i class="index-line"></i><span>综合</span></div>
+        <div class="index-comprehensive">
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=21&catid=3645">新闻资讯</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=9">人才对接</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=4">在线实体</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=17">特惠商城</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/Video/video.html">直播视频</a></div>
+            <div class="index-comprehensive-item"><a href="/sitemap/category.php?mid=16">商城超市</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=8&catid=3839">组织活动</a></div>
+            <div class="index-comprehensive-item"><a href="javascript:alert('正在开发中');">商业联盟</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=5">提供服务</a></div>
+            <div class="index-comprehensive-item"><a href="/mobile/index.php?moduleid=6">需要帮助</a></div>
+        </div>
+    </div>
+    <!--政务在线-->
+    <div class="index-governmentAffairs">
+        <div><a href="https://wap.gdbs.gov.cn/gdbsWX/mobileH/jsp/itemGuide/itemGuide.jsp?divisionCode=440000&divisionName=%E5%B9%BF%E4%B8%9C%E7%9C%81&wxbszn=zfbfwc&src=zfbfwc&app_id=2016011101081756&source=alipay_wallet&scope=auth_base&auth_code=925db775d68d4b7f84ed4ccba5c0ZB82&from=singlemessage" style="color: #666;">政务在线</a></div>
+        <div><a href="http://www.cheyooh.com/html/wz/" style="color: #666;">车主服务</a></div>
+        <div><a href="https://common.diditaxi.com.cn/general/webEntry?channel=1262#/" style="color: #666;">交通出行</a></div>
+        <div>办证大厅</div>
+        <div><a href="http://uc.wy.guahao.com/" style="color: #666;">线上医疗</a></div>
+        <div><a href="/mobile/index/lifeOther.html" style="color: #666;">其他</a></div>
+    </div>
+    <!--推荐信息-->
+    <style type="text/css">
+        .entity-list{
+            padding: .625rem;
+            background-color: #fff;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        .entity-list>a{
+            display: block;
+            position: relative;
+        }
+        .entity-name{
+            font-size: 1rem;
+            color: #333;
+        }
+        .entity-introduce{
+            font-size: .875rem;
+            color: #666;
+        }
+        .entity-address{
+            font-size: .875rem;
+            color: #999;
+        }
+        .entity-img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3.75rem;
+            height: 3.75rem;
+        }
+        .entity-mes{
+            padding-left: 4.375rem;
+        }
+        .entity-name,
+        .entity-introduce,
+        .entity-address{
+            line-height: 1.25rem;
+            white-space: nowrap;
+            text-overflow:ellipsis;
+            overflow:hidden;
+        }
+    </style>
+    <div id="Gyoulike">
+
+    </div>
+</section>
+<style type="text/css">
+    footer i.iconfont{
+        line-height: initial;
+        font-size: 1.375rem;
+    }
+</style>
+<script type="text/javascript">
+    var gId,
+        content,
+        weburl = 'http://www.zhanglitong.com';
+    $(document).ready(function(){
+        guessYourLike();
+        //getMessage();
+        //aid();
+        $("body").append(footNav());  //渲染底部导航栏
+        footState(0);  //底部导航活跃状态
+        if(getCookie("userLocation")){
+            var o = JSON.parse(getCookie("userLocation"));
+            document.getElementById("areaSelect").innerHTML = decodeURI(o.city);
+        }else{
+            showWatchPosition();
+        }
+        var mySwiper = new Swiper ('#swiper1', {
+            autoplay: 3000,
+            pagination: '.swiper-pagination'
+        });
+
+        //天气
+        // $.ajax({
+        //     url: "http://wthrcdn.etouch.cn/weather_mini",
+        //     type: "get",
+        //     data: {city:"广州"},
+        //     dataType: "JSONP",
+        //     success: function(d){
+        //         $("#timer").html(d.data.forecast[0].low+"~"+d.data.forecast[0].high);
+        //         $("#weather").html(d.data.forecast[0].type);
+        //     }
+        // });
+    });
+    //猜你喜欢
+    function guessYourLike(){
+        var n = parseInt(10*Math.random());
+        if(n == 6){
+            n = 10;
+        }
+        //6商城
+        $.ajax({
+            url: "/mobile/rand.php",
+            type: "POST",
+            data: {new_moduleid:n},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                gId = d.id;
+
+                if(d.msg == "实体"){
+                    $("#Gyoulike").append(shiti(d.data));
+                }else if(d.msg == "新闻"){
+                    $("#Gyoulike").append(xinwen(d.data));
+                }else if(d.msg == "特惠"){
+                    $("#Gyoulike").append(tehui(d.data));
+                }else if(d.msg == "特价"){
+                    getCookie("userLocation");
+                    var o = JSON.parse(getCookie("userLocation"));
+                    $("#Gyoulike").append(tejia(d.data, o.lat, o.lng));
+                }else if(d.msg == "视频"){
+                    $("#Gyoulike").append(shiping(d.data));
+                }else if(d.msg == "活动"){
+                    $("#Gyoulike").append(huodong(d.data));
+                }else if(d.msg == "供应"){
+                    $("#Gyoulike").append(gongying(d.data));
+                }else if(d.msg == "需求"){
+                    $("#Gyoulike").append(xuqiu(d.data));
+                }else if(d.msg == "招聘"){
+                    $("#Gyoulike").append(zhaoping(d.data));
+                }
+            },
+            error: function(d){
+                console.log(d);
+                //alert("网络延时，请稍后再试!");
+            }
+        });
+    }
+
+    function getMessage(callBack){
+        var id = getCookie("cpk_userid");
+        $.ajax({
+            url: "/mobile/message_readed.php",
+            type: "POST",
+            data: {userid:id},
+            dataType: "JSON",
+            success: function(d){
+                if(d.code == 200){
+                    if(d.data){
+                        $("#userCenter").append("<i class='tips'></i>");
+                    }
+                }
+            },
+            error: function(d){}
+        });
+    }
+
+    function aid(){
+        var o = JSON.parse(getCookie("userLocation"));
+        $.ajax({
+            url: "/mobile/set_city.php",
+            type: "POST",
+            data: {areaid:o.cityId},
+            success: function(d){},
+            error: function(){
+                alert("网络错误");
+            }
+        });
+    }
+
+    /*公告*/
+    $(function() {
+        $.ajax({
+            url:"./announce_roll.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{action:"announce"},
+            success:function(data){
+                console.log(data);
+                if(data.code = 200){
+                    var d = data.data;
+                    for(var i=0;i<d.length;i++){
+                        var contentOrigin = d[i].content;
+                        content = contentOrigin.replace(/<[^>]*?>(.*?)/gi,' ');
+                        content = content.replace(/(.*?)<\/[^>]*?>/gi,' ');
+                        content = content.replace(/&nbsp;/gi,' ');
+
+                        if(d[0].groupid == 0){
+                            notice(content,contentOrigin);
+                            return;
+                        }else{
+                            if(gId == 6 && d[i].groupid == 6){
+                                notice(content,contentOrigin);
+                                return;
+                            }else{
+                                notice(content,contentOrigin);
+                                return;
+                            }
+                        }
+                    }
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后!");
+            }
+        });
+    });
+
+    function notice (content,contentOrigin){
+        var notice = '';
+        notice += '<div class="dc-Notice">';
+        notice += '<i class="iconfont icon-icon1"></i>';
+        notice += '<div class="dc-Notice-d">';
+        notice += '<a href="javascript:;">'+ content +'</a>';
+        notice += '</div></div>';
+        $("#notice").prepend(notice);
+        //字体滚动
+        var num = 0;
+        function goLeft() {
+            //750是根据你给的尺寸，可变的
+            if (num == -900) {
+                num = 0;
+            }
+            num -= 1;
+            $(".dc-Notice-d").css({
+                left: num
+            })
+        }
+        //设置滚动速度
+        var timer = setInterval(goLeft, 40);
+        //设置鼠标经过时滚动停止
+        $(".dc-Notice").hover(function() {
+                clearInterval(timer);
+            },
+            function() {
+                timer = setInterval(goLeft, 40);
+            });
+        /*公告弹出窗*/
+        $(".dc-Notice").click(function(){
+            layer.open({
+                content: contentOrigin,
+                btn: '我知道了'
+            });
+            $('.layui-m-layercont').css({'padding':'20px 10px','line-height':'20px','text-align':'left'});
+        });
+    }
+
+    //实体
+    function shiti(data){
+        var str = "";
+        str += '<div class="entity">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>实体</span><a href="#" class="more">更多>></a></div>\n';
+        for(var i=0;i<data.length;i++){
+            if(!data[i].thumb){
+                thumb = "/file/upload/201509/20/154613541.jpg";
+            }else{
+                if(data[i].thumb.indexOf(weburl) != -1){
+                    thumb = data[i].thumb.slice(weburl.length);
+                }else{
+                    thumb = data[i].thumb;
+                }
+            }
+            str += '<div class="entity-list">\n';
+            str += '<a href="/mobile/index.php?moduleid=4&username='+data[i].username+'">\n';
+            str += '<img class="entity-img" src="'+thumb+'" alt="">\n';
+            str += '<div class="entity-mes">\n';
+            str += '<div class="entity-name">'+data[i].company+'</div>\n';
+            str += '<div class="entity-introduce">'+data[i].business+'</div>\n';
+            str += '<div class="entity-address">'+data[i].address+'</div>\n';
+            str += '</div>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+        }
+        str += '</div>';
+        return str;
+    }
+    //新闻
+    function xinwen(data){
+        var str = "";
+        str += '<div class="index-news">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>新闻</span><a href="/mobile/index.php?moduleid=21&catid=3645" class="more">更多&gt;&gt;</a></div>\n';
+        for(var i=0;i<data.length;i++){
+            str += '<div class="index-news-item"><a href="/mobile/index.php?moduleid='+data[i].moduleid+'&itemid='+data[i].itemid+'"><span>'+data[i].title+'</span><i class="iconfont icon-right" style="font-size: .875rem;height:inherit;float: right;"></i><span>'+mtime1(data[i].addtime)+'</span>';
+            str += '</a></div>';
+        }
+        str += '</div>';
+        return str;
+    }
+    //特惠
+    function tehui(data){
+        var str = "" ,thumb = "";
+        str += '<div class="entity">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>特惠</span><a href="/mobile/index.php?moduleid=17" class="more">更多>></a></div>\n';
+        for(var i=0;i<data.length;i++){
+            if(!data[i].thumb){
+                thumb = "/file/upload/201509/20/154613541.jpg";
+            }else{
+                if(data[i].thumb.indexOf(weburl) != -1){
+                    thumb = data[i].thumb.slice(weburl.length);
+                }else{
+                    thumb = data[i].thumb;
+                }
+            }
+            str += '<div class="entity-list">\n';
+            str += '<a href="/mobile/index.php?moduleid='+data[i].moduleid+'&itemid='+data[i].itemid+'">\n';
+            str += '<img class="entity-img" src="'+thumb+'" alt="">\n';
+            str += '<div class="entity-mes">\n';
+            str += '<div class="entity-name">'+data[i].title+'</div>\n';
+            str += '<div class="entity-introduce"><span style="font-size: .75rem;color: red;">'+data[i].price+'</span><span style="color: #999;text-decoration: line-through;margin-left: .625rem;font-size: .75rem;">'+data[i].marketprice+'</span></div>\n';
+            str += '<div class="entity-address">'+data[i].company+'</div>\n';
+            str += '</div>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+        }
+        str += '</div>';
+        return str;
+    }
+    //特价
+    function tejia(data, lat, lng){
+        var str = "" ,thumb = "";
+        str += '<div class="entity">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>特价</span><a href="/mobile/goodsList/goodsList.html?goods=Special&lat=23.129163&lng=113.264435" class="more">更多>></a></div>\n';
+        for(var i=0;i<data.length;i++){
+            if(!data[i].thumb){
+                thumb = "/file/upload/201509/20/154613541.jpg";
+            }else{
+                if(data[i].thumb.indexOf(weburl) != -1){
+                    thumb = data[i].thumb.slice(weburl.length);
+                }else{
+                    thumb = data[i].thumb;
+                }
+            }
+            str += '<div class="entity-list">\n';
+            str += '<a href="/mobile/takeout.php?act=restaurant&id='+data[i].takeout_id+'&lat='+lat+'&lng='+lng+'">\n';
+            str += '<img class="entity-img" src="'+thumb+'" alt="">\n';
+            str += '<div class="entity-mes">\n';
+            str += '<div class="entity-name">'+data[i].dishes+'</div>\n';
+            str += '<div class="entity-introduce"><span style="color: #999;text-decoration: line-through;">原价：'+data[i].sell_price/data[i].dishes_discount+'</span><span style="margin-left: .625rem;">折扣价：'+data[i].dishes_discount+'</span></div>\n';
+            str += '<div class="entity-address">售价：'+data[i].sell_price+'</div>\n';
+            str += '</div>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+        }
+        str += '</div>';
+        return str;
+    }
+    //视频
+    function shiping(data){
+        var str = "" ,thumb = "";
+        str += '<div class="entity">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>视频</span><a href="/mobile/Video/video.html?moduleid=14" class="more">更多>></a></div>\n';
+        for(var i=0;i<data.length;i++){
+            if(!data[i].thumb){
+                thumb = "/file/upload/201509/20/154613541.jpg";
+            }else{
+                if(data[i].thumb.indexOf(weburl) != -1){
+                    thumb = data[i].thumb.slice(weburl.length);
+                }else{
+                    thumb = data[i].thumb;
+                }
+            }
+            str += '<div class="entity-list">\n';
+            str += '<a href="/mobile/Video/videoDetail.html?moduleid='+data[i].moduleid+'&itemid='+data[i].itemid+'">\n';
+            str += '<img class="entity-img" src="'+thumb+'" alt="">\n';
+            str += '<div class="entity-mes">\n';
+            str += '<div class="entity-name">'+data[i].title+'</div>\n';
+            str += '<div class="entity-introduce"><span style="font-size: .75rem;">'+data[i].hits+'次播放</span></div>\n';
+            str += '<div class="entity-address" style="font-size: .75rem;">'+mtime(data[i].addtime)+'</div>\n';
+            str += '</div>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+        }
+        str += '</div>';
+        return str;
+    }
+    //活动
+    function huodong(data){
+        var str = "";
+        str += '<div class="entity">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>活动</span><a href="/mobile/index.php?moduleid=8" class="more">更多>></a></div>\n';
+        for(var i=0;i<data.length;i++){
+            str += '<div class="entity-list">\n';
+            str += '<a href="/mobile/index.php?moduleid='+data[i].moduleid+'&itemid='+data[i].itemid+'">\n';
+            str += '<div class="entity-mes" style="padding-left: 0;">\n';
+            str += '<div class="entity-name">'+data[i].title+'</div>\n';
+            str += '<div class="entity-introduce"><span style="font-size: .75rem;">'+mtime1(data[i].fromtime)+'&nbsp;-&nbsp;'+mtime1(data[i].totime)+'</span></div>\n';
+            str += '<div class="entity-address" style="font-size: .75rem;">主办方:'+data[i].sponsor+'</div>\n';
+            str += '</div>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+        }
+        str += '</div>';
+        return str;
+    }
+    //供应
+    function gongying(data){
+        var str = "" ,thumb = "";
+        str += '<div class="entity">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>供应</span><a href="/mobile/index.php?moduleid=5" class="more">更多>></a></div>\n';
+        for(var i=0;i<data.length;i++){
+            if(!data[i].thumb){
+                thumb = "/file/upload/201509/20/154613541.jpg";
+            }else{
+                if(data[i].thumb.indexOf(weburl) != -1){
+                    thumb = data[i].thumb.slice(weburl.length);
+                }else{
+                    thumb = data[i].thumb;
+                }
+            }
+            str += '<div class="entity-list">\n';
+            str += '<a href="/mobile/index.php?moduleid='+data[i].moduleid+'&itemid='+data[i].itemid+'">\n';
+            str += '<img class="entity-img" src="'+thumb+'" alt="">\n';
+            str += '<div class="entity-mes">\n';
+            str += '<div class="entity-name">'+data[i].title+'</div>\n';
+            str += '<div class="entity-address" style="font-size: .75rem;">'+mtime(data[i].addtime)+'</div>\n';
+            str += '<div class="entity-introduce"><span style="font-size: .75rem;">'+data[i].company+'</span></div>\n';
+            str += '</div>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+        }
+        str += '</div>';
+        return str;
+    }
+    //需求
+    function xuqiu(data){
+        var str = "" ,thumb = "";
+        str += '<div class="entity">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>需求</span><a href="/mobile/index.php?moduleid=6" class="more">更多>></a></div>\n';
+        for(var i=0;i<data.length;i++){
+            if(!data[i].thumb){
+                thumb = "/file/upload/201509/20/154613541.jpg";
+            }else{
+                if(data[i].thumb.indexOf(weburl) != -1){
+                    thumb = data[i].thumb.slice(weburl.length);
+                }else{
+                    thumb = data[i].thumb;
+                }
+            }
+            str += '<div class="entity-list">\n';
+            str += '<a href="/mobile/index.php?moduleid='+data[i].moduleid+'&itemid='+data[i].itemid+'">\n';
+            str += '<img class="entity-img" src="'+thumb+'" alt="">\n';
+            str += '<div class="entity-mes">\n';
+            str += '<div class="entity-name">'+data[i].title+'</div>\n';
+            str += '<div class="entity-address" style="font-size: .75rem;">'+mtime(data[i].addtime)+'</div>\n';
+            str += '<div class="entity-introduce"><span style="font-size: .75rem;">'+data[i].company+'</span></div>\n';
+            str += '</div>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+        }
+        str += '</div>';
+        return str;
+    }
+    //招聘
+    function zhaoping(data){
+        var str = "";
+        str += '<div class="entity">\n';
+        str += '<div class="index-title" style="border-bottom: 1px solid #f1f1f1;"><i class="index-line"></i><span>招聘</span><a href="/mobile/index.php?moduleid=9" class="more">更多>></a></div>\n';
+        for(var i=0;i<data.length;i++){
+            str += '<div class="entity-list">\n';
+            str += '<a href="/mobile/index.php?moduleid='+data[i].moduleid+'&itemid='+data[i].itemid+'">\n';
+            str += '<div class="entity-mes" style="padding-left: 0;">\n';
+            str += '<div class="entity-name">'+data[i].title+'</div>\n';
+            if(data[i].minsalary == 0 && data[i].maxsalary == 0){
+                str += '<div class="entity-introduce"><span style="font-size: .75rem;color: #FF6600;">薪资面议</span></div>\n';
+            }else{
+                str += '<div class="entity-introduce"><span style="font-size: .75rem;color: #FF6600;">薪资：'+data[i].minsalary+'&nbsp;-&nbsp;'+data[i].maxsalary+'元/月</span></div>\n';
+            }
+
+            str += '<div class="entity-address" style="font-size: .75rem;">主办方:'+data[i].company+'</div>\n';
+            str += '</div>\n';
+            str += '</a>\n';
+            str += '</div>\n';
+        }
+        str += '</div>';
+        return str;
+    }
+</script>
+</body>
+</html>

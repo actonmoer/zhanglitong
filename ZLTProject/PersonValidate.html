@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人身份验证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/webuploader.min.js"></script>
+    <script type="text/javascript" src="js/global.js"></script>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+</head>
+<body>
+<header>
+    <div class="header">
+        <div class="h-left"><a href="javascript:HistoryURL();" style="font-size: .8125rem;"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>返回</a></div>
+        <div class="h-center" style="font-size: 1rem;">实名认证</div>
+        <div class="h-right"><a href="javascript:;" style="font-size: 1rem;">我的</a></div>
+    </div>
+</header>
+<section>
+    <form class="myform">
+        <div style="padding: 0 5%;">
+            <div style="margin-top: 1.4375rem;">
+                <label style="font-size: 0.875rem;font-weight: normal;width: 25%;"><span style="color: red;">*</span>真实姓名</label>
+                <input type="text" class="form-control" style="display: inline-block;width: 73%;" placeholder="真实姓名">
+            </div>
+            <div style="margin-top: .9375rem;">
+                <label style="font-size: 0.875rem;font-weight: normal;width: 25%;"><span style="color: red;">*</span>身份证号</label>
+                <input type="text" class="form-control" style="display: inline-block;width: 73%;" placeholder="身份证号">
+            </div>
+            <div style="margin-top: .9375rem;">
+                <label style="font-size: 0.875rem;font-weight: normal;width: 25%;"><span style="color: red;">*</span>上传证照</label>
+                <div class="pull-right" style="width: 73%;">
+                    <input type="file" style="display: none;" id="fileup" accept="image/png,image/gif">
+                    <div class="myform-i" onclick="document.getElementById('fileup').click()">
+                        <a href="javascript:;" ></a>
+                    </div>
+                    <div class="text-center" style="color: #666;font-size: .75rem;line-height: 2.375rem;">+添加身份证正面</div>
+                </div>
+                <div class="pull-right" style="width: 73%;">
+                    <div class="myform-i">
+                        <a href="javascript:;" style="background-position: -126px -258px;"></a>
+                    </div>
+                    <div class="text-center" style="color: #666;font-size: .75rem;line-height: 2.375rem;">+添加身份证背面</div>
+                </div>
+            </div>
+            <div class="clearfix" style="clear: both;">
+                <p style="font-size: 0.75rem;color: #333;line-height: 1.25rem;">备注:</p>
+                <p style="font-size: 0.75rem;color: #666;line-height: 1.25rem;">1、请上传有效的证件（身份证正/反面），以便网站核实</p>
+                <p style="font-size: 0.75rem;color: #666;line-height: 1.25rem;">2、证件上的姓名必须与填写的真实姓名一致</p>
+            </div>
+            <div class="clearfix" style="text-align: center;padding: 1.25rem 0 0.6875rem;">
+                <button type="button" class="btn btn-default" style="margin: 0 10px;">确定</button>
+                <button type="button" class="btn btn-default" style="margin: 0 10px;">返回</button>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>

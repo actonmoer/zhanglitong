@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_rts01uhg6kmrhpvi.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <script src="../js/layer.js"></script>
+    <style>
+        .total-turnover{
+            width:100%;
+            height:100%;
+            color:#666;
+        }
+        .total{
+            background:#fff url(../img/turnover.jpg);
+            background-size:cover;
+            text-align:center;
+            color:#fff;
+            height:5.75rem;
+        }
+        .total p:nth-child(1){
+            font-size:1.125rem;
+            padding:1.25rem 0 1rem;
+        }
+        .total p:nth-child(2),
+        .total p:nth-child(3){
+            font-size:1.875rem;
+        }
+        .turnover-nav{
+            background-color:#fff;
+            height:2.25rem;
+            line-height:2.25rem;
+            width:100%;
+            display:table;
+            margin:.625rem 0 0;
+        }
+        .turnover-nav span{
+            display:inline-block;
+            background:#fff;
+            text-align:center;
+            font-size:.875rem;
+        }
+        .turnover-nav span:nth-child(1),
+        .turnover-nav span:nth-child(2){
+            width:38%;
+            border-right:1px solid #f1f1f1;
+        }
+        .turnover-nav span:nth-child(3){
+            width:24%;
+        }
+        .turnover-nav span:nth-child(3) i{
+            margin-left:.25rem;
+        }
+        .active{
+            color:#3d95e5;
+        }
+        .part-turnover{
+            background-color:#fff;
+            color:#666;
+        }
+        .type-turnover{
+            width:100%;
+            display:table;
+        }
+        .type-turnover span{
+            display:inline-block;
+            width:50%;
+            height:2.25rem;
+            line-height:2.25rem;
+            text-align:center;
+            border-bottom:1px solid #f1f1f1;
+            font-size:.9375rem;
+        }
+        .type-turnover span:nth-child(1){
+            border-right:1px solid #f1f1f1;
+        }
+        .status-turnover{
+            position:relative;
+            width:100%;
+            height:2.5rem;
+        }
+        .status-item{
+            position:absolute;
+            top:0;
+            width:33.33%;
+            line-height:1.125rem;
+            text-align:center;
+            font-size:.875rem;
+            background-color:#fff;
+            padding:0 .5rem;
+        }
+        .status-item:nth-child(1){
+            left:0;
+            border-right:1px solid #f1f1f1;
+            background-color:#3d95e5;
+            color:#fff;
+        }
+        .status-item:nth-child(2){
+            left:33.33%;
+            border-right:1px solid #f1f1f1;
+        }
+        .status-item:nth-child(3){
+            left:66.66%;
+        }
+        .status-item span{
+            display:block;
+            line-height:1.25rem;
+        }
+        .order-list{
+            margin:1rem .75rem;
+        }
+        .order-item{
+            padding:0 .625rem;
+            color:#444;
+            background-color:#fff;
+            margin:0 0 .625rem;
+            border-radius:.25rem;
+        }
+        .order-item p:nth-child(1){
+            position:relative;
+            line-height:2.0625rem;
+            font-size:.875rem;
+            border-bottom:2px solid #f1f1f1;
+            margin:0 0 .4375rem;
+        }
+        .order-item p:nth-child(1) span:nth-child(2){
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 12px;
+            color:#3d95e5;
+        }
+        .order-item p:nth-child(2),
+        .order-item p:nth-child(3){
+            line-height:1.625rem;
+            font-size:.8125rem;
+        }
+        .order-item p:nth-child(2) span:nth-child(2){
+            float:right;
+            color:#e53d3d;
+        }
+        .order-item p:nth-child(4){
+            line-height:1.625rem;
+            font-size:.75rem;
+        }
+        .order-item p:nth-child(5){
+            line-height:2.0625rem;
+            font-size:.75rem;
+        }
+        .order-item p:nth-child(5) span:nth-child(2){
+            float:right;
+        }
+
+        form input{
+            height:30px;
+            line-height:30px;
+            margin:10px 0;
+            border-radius:4px;
+            background:#fff;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">营业额</div>
+        <div class="h-R" style="font-size:.75rem;color:#fff;"></div>
+    </div>
+</header>
+<section>
+    <div class="total-turnover">
+        <div class="turnover-nav">
+            <span class="active">月营业额</span>
+            <span>日营业额</span>
+            <span>刷选<i class="iconfont icon-n-foot2"></i></span>
+        </div>
+        <div class="total">
+            <p>营业额</p>
+            <p class="sells">0.00</p>
+        </div>
+    </div>
+    <div class="part-turnover">
+        <div class="type-turnover">
+            <span class="active">远程下单</span>
+            <span>到店消费</span>
+        </div>
+        <!--远程下单-->
+        <div class="status-turnover remote_money">
+            <div class="status-item">
+                <span>应收(元)</span>
+                <span class="remote_receivable">10.00</span>
+            </div>
+            <div class="status-item">
+                <span>已收(元)</span>
+                <span class="remote_received">10.00</span>
+            </div>
+            <div class="status-item">
+                <span>未收(元)</span>
+                <span class="remote_uncollected">10.00</span>
+            </div>
+        </div>
+        <!--到店消费-->
+        <div class="status-turnover arrival_money" style="display:none;">
+            <div class="status-item">
+                <span>应收(元)</span>
+                <span class="arrival_receivable">0.00</span>
+            </div>
+            <div class="status-item">
+                <span>已收(元)</span>
+                <span class="arrival_received">0.00</span>
+            </div>
+            <div class="status-item">
+                <span>未收(元)</span>
+                <span class="arrival_uncollected">0.00</span>
+            </div>
+        </div>
+    </div>
+    <div class="order-list"></div>
+</section>
+<script>
+    var isEnd = false,
+        page = 1,
+        action = {'action':'month', 'page':page};
+    $(function(){
+        dateAjax('month');
+    });
+
+    /*日，月数据获取*/
+    function dateAjax(date){
+        $.ajax({
+            url:'../profit.php',
+            type:'post',
+            dataType:'json',
+            data:action,
+            success:function(data){
+                var d = data.data,
+                    remote = d.remote_money,
+                    arrival = d.arrival_money;
+                $('.sells').text(d.turnover);
+                $('.remote_receivable').text(remote.remote_receivable);
+                $('.remote_received').text(remote.remote_received);
+                $('.remote_uncollected').text(remote.remote_uncollected);
+                $('.arrival_receivable').text(arrival.arrival_receivable);
+                $('.arrival_received').text(arrival.arrival_received);
+                $('.arrival_uncollected').text(arrival.arrival_uncollected);
+
+                /*调用orderList函数*/
+                $('.order-list').append(orderList(data));
+                action.page++;
+            },
+            error:function(){
+                console.log("网络出错，请稍后再试！");
+            }
+        });
+    }
+
+    /*远程，到店切换*/
+    $('.type-turnover span').click(function(){
+        var index = $(this).index();
+        if(index == 0){
+            $(this).addClass('active').siblings('span').removeClass('active');
+            $('.remote_money').show();
+            $('.arrival_money').hide();
+        }else if(index == 1){
+            $(this).addClass('active').siblings('span').removeClass('active');
+            $('.remote_money').hide();
+            $('.arrival_money').show();
+        }
+    });
+
+    /*日，月营业额切换*/
+    $('.turnover-nav span').click(function(){
+        var count = $(this).index();
+        if(count == 0){
+            change(this,'month');
+        }else if(count == 1){
+            change(this,'day');
+        }else{
+            var that = this;
+            layer.open({
+                content: '<form><p>开始时间：</p><input type="date" name="bTime" required></br><p>结束时间：</p><input type="date" name="eTime" required></form>'
+                ,btn: ['确定', '取消']
+                ,yes: function(index){
+                    filterTime($('input[name="bTime"]').val(),$('input[name="eTime"]').val(),that);
+                    layer.close(index);
+                }
+            });
+        }
+    });
+
+    function change(t,type,bTime,eTime){
+        $('.order-list').html('');
+        page = 1;
+        if(arguments[2] == undefined && arguments[3] == undefined){
+            action = {'action':type, 'page':page};
+        }else{
+            action = {'action':'select','page':page,'begin_time':bTime,'end_time':eTime};
+        }
+        dateAjax(type);
+        $(t).addClass('active').siblings('span').removeClass('active');
+    }
+
+    /*渲染订单列表*/
+    function orderList(d){
+        var item = '', orderId, statusNum, status, buyName, bank, balance, remark, addTime, cash, order = d.order;
+
+        /*判断还有没有数据*/
+        if(order.length == 0){
+            isEnd = true;
+            layer.open({
+                content: '没有数据了！'
+                ,btn: '我知道了'
+            });
+            return false;
+        }else{
+            isEnd = false;
+        }
+
+        for(var i=0;i<order.length;i++){
+            /*判断支付方式*/
+            if(order[i].bank == ''){
+                bank = '余额支付';
+            }else if(order[i].bank == 'weixin'){
+                bank = '微信支付';
+            }else{
+                bank = '支付宝支付';
+            }
+
+            /*判断预定还是外卖订单*/
+            if(order[i].order_id.indexOf('go_takeout') != -1){
+                orderId = order[i].order_id.split('-')[1];
+                buyName = order[i].buyer_name;
+                balance = order[i].amount;
+                remark = order[i].note;
+                addTime = mtime(order[i].addtime);
+                cash = ' ';
+                statusNum = +order[i].status;
+
+                /*判定状态*/
+                switch(statusNum)
+                {
+                    case 1:
+                        status = '等待付款';
+                        break;
+                    case 5:
+                        status = '订单完成';
+                        break;
+                    default:
+                        status = '订单关闭';
+                }
+            }else if(order[i].order_id.indexOf('reserve_resraurant') != -1){
+                orderId = order[i].order_id.split('-')[1];
+                buyName = order[i].contact_name;
+                balance = order[i].owe_balance;
+                remark = order[i].remark;
+                addTime = mtime(order[i].addtime);
+                cash = '预定金：' + order[i].cash;
+                statusNum = +order[i].status;
+
+                /*判定状态*/
+                switch(statusNum)
+                {
+                    case 1:
+                        status = '待支付';
+                        break;
+                    case 2:
+                        status = '支付成功';
+                        break;
+                    case 3:
+                        status = '进行中';
+                        break;
+                    case 4:
+                        status = '订单关闭';
+                        break;
+                    case 5:
+                        status = '退款中';
+                        break;
+                    case 6:
+                        status = '已确认，未评价';
+                        break;
+                    case 7:
+                        status = '订单完成';
+                        break;
+                    case 8:
+                        status = '退款成功';
+                        break;
+                    default:
+                        status = '商家不同意退款';
+                }
+            }else{
+                orderId = order[i].order_id.split('-')[1];
+                buyName = order[i].buyer_name;
+                balance = order[i].amount;
+                remark = order[i].note;
+                addTime = mtime(order[i].addtime);
+                cash = ' ';
+                statusNum = +order[i].status;
+
+                /*判定状态*/
+                switch(statusNum)
+                {
+                    case 1:
+                        status = '等待付款';
+                        break;
+                    case 2:
+                        status = '待接单';
+                        break;
+                    case 3:
+                        status = '待配送';
+                        break;
+                    case 4:
+                        status = '配送中';
+                        break;
+                    case 5:
+                        status = '已完成';
+                        break;
+                    case 6:
+                        status = '已完成';
+                        break;
+                    case 7:
+                        status = '申请退款';
+                        break;
+                    default:
+                        status = '订单关闭';
+                }
+            }
+
+            item += '<div class="order-item" onclick="orderDetail(\''+order[i].order_id+'\',\''+order[i].company+'\')">';
+            item += '<p><span>订单号：'+orderId+'</span><span>'+status+'</span></p>';
+            item += '<p><span>下单人：'+buyName+'</span><span>'+bank+'</span></p>';
+            item += '<p><span>订单价：'+balance+'</span></p>';
+            item += '<p><span>备注：'+remark+'</span></p>';
+            item += '<p><span>下单时间：'+addTime+'</span><span>'+cash+'</span></p>';
+            item += '</div>';
+        }
+        return item;
+    }
+
+    /*上拉加载*/
+    $(document).scroll(function(){
+        var WHeight = $(window).height(),
+            DHeight = $(document).height(),
+            scroll = $(document).scrollTop();
+        if(!isEnd){
+            if(scroll + WHeight >= DHeight){
+                $.ajax({
+                    url:'../profit.php',
+                    type:'post',
+                    dataType:'json',
+                    data:action,
+                    success:function(data){
+                        action.page++;
+
+                        /*调用orderList函数*/
+                        $('.order-list').append(orderList(data));
+                    }
+                });
+            }
+        }else{
+            console.log("没有数据了！");
+        }
+    });
+
+    /*筛选时间*/
+    function filterTime(bTime,eTime,t){
+        var begin_time = Date.parse(bTime)/1000 - 28800,
+            end_time = Date.parse(eTime)/1000 + 57600;
+        if(begin_time && end_time){
+            change(t,'select',begin_time,end_time);
+        }else{
+            layer.open({
+                content: '请输入时间段！'
+                ,btn: '我知道了'
+            });
+        }
+    }
+
+    /*跳转订单详情*/
+    function orderDetail(orderId,company){
+        var shopName = encodeURIComponent(company);
+        window.location.href = '../Turnover/orderDetail.html?takeout='+ orderId;
+    }
+</script>
+</body>
+</html>

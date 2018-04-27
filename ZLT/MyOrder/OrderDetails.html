@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_snmy6t0a192g9zfr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/order.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="/mobile/MyOrder/Order.html" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">我的订单</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section class="m20-t">
+    <div class="bfff">
+        <div class="p20-lr" style="border-bottom:1px solid #f2f2f2;">
+            <div class="clearb" style="height: 3.25rem;">
+                <p class="fl order-number"></p>
+                <p class="fr order-state"></p>
+            </div>
+        </div>
+        <div class="p20-lr" style="border-bottom:1px solid #f2f2f2;">
+            <div class="clearb" style="height:2.5rem;">
+                <div class="fl" style="padding:.625rem 0;">
+                    <i class="iconfont icon-shangpu" style="font-size:1.125rem;line-height:initial;"></i>
+                    <!--<img src="../img/bg.png" style="width:1.25rem;height:1.25rem;border-radius:100%;margin-right: .3125rem;" alt="店铺头像">-->
+                    <span style="color:#333;font-size:.875rem;" id="shopName"></span>
+                </div>
+                <i class="iconfont icon-right fr" style="line-height: initial;padding:.75rem 0;font-size:.875rem;color:#888;"></i>
+            </div>
+        </div>
+        <div></div>
+        <div class="p20-lr" style="border-bottom:1px solid #f2f2f2;">
+            <ul class="order-item"></ul>
+        </div>
+        <div class="p20-lr" style="border-bottom:1px solid #f2f2f2;padding:.8125rem 1.25rem;">
+            <div class="clearb order-discount-msg">
+                <span class="fl" style="font-size:.75rem;color:#666;">配送费</span>
+                <span class="fr order-discount-Distribution" style="font-size:.75rem;color:#666;">￥0.00</span>
+            </div>
+            <div class="clearb order-discount-msg">
+                <span class="fl" style="font-size:.75rem;color:#666;">优惠金额</span>
+                <span class="fr order-discount-discount" style="font-size:.75rem;color:#666;">￥0.00</span>
+            </div>
+            <div class="clearb order-discount-msg">
+                <span class="fl" style="font-size:.875rem;color:#333;">总计</span>
+                <span class="fr order-discount-total" style="font-size:.875rem;color:#f0790f;">￥0.00</span>
+            </div>
+        </div>
+        <div class="order-contact-way">
+            <a class="order-contact-a"><i class="iconfont icon-dianhua" style="line-height:initial;font-size: 1.125rem;margin-right: .5rem;"></i>联系卖家</a>
+        </div>
+    </div>
+    <!--备注信息-->
+    <div id="orderRemarks" class="bfff m20-t">
+        <div class="m20-lr order-msg">
+            <p class="order-remarks"></p>
+            <p class="order-time1"></p>
+        </div>
+    </div>
+    <div id="textarea" class="bfff m20-t p20" style="display: none;">
+        <textarea class="form-control" id="Reason" rows="3" placeholder="请输入退款理由，不少于4个字"></textarea>
+    </div>
+    <div class="order-btn-d" style="margin: 1.25rem;">
+        <!--<input type="button" class="btn order-btn" style="margin-bottom:.625rem;" value="再来一单">-->
+        <!--<input type="button" class="btn order-btn order-btn2" value="评价">-->
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var orderId1,orderId2;
+        var obj=strUrl();
+        var state,colorFont,stateBtn;
+        console.log(obj);
+        if(obj.takeout){
+            AjaxOrder("takeout",obj.takeout);
+        }else if(obj.mall){
+            AjaxOrder("mall",obj.mall);
+        }
+        function AjaxOrder(orderType,orderId){
+            $.ajax({
+                url:"../usercenter.php",
+                method:"POST",
+                data:{action:"smy_order",namestatus:orderType,order_id:orderId},
+                success:function(data){
+                    data=$.parseJSON(data);
+                    console.log(data);
+                    if(orderType == "takeout"){
+                        orderId1=obj.takeout.slice(8);
+                        switch(parseInt(data.data.status)){
+                            case 1:
+                                state="待付款";
+                                stateBtn='<input type="button" onclick="window.location.href=\'../Pay/ShoppingPay.html?oid='+obj.takeout+'&state='+orderType+'\'" class="btn order-btn" style="margin-bottom:.625rem;" value="立即支付">';
+                                break;
+                            case 2:
+                                state="支付成功";
+                                colorFont="#2acaaa";
+                                stateBtn='<input type="button" class="btn order-btn" onclick="Refund()" style="margin-bottom:.625rem;" value="申请退款">';
+                                break;
+                            case 3:
+                                //商家接单
+                                state="商家接单";
+                                break;
+                            case 4:
+                                //卖家发货
+                                state="待收货";
+                                stateBtn='<input type="button" class="btn order-btn" onclick="window.location.href=\'../takeout.php?act=restaurant&id=\'+data.restaurant_id+\'\'" style="margin-bottom:.625rem;" value="再来一单"><input type="button" class="btn order-btn order-btn2" onclick="orderComplete()" value="确认收货">';
+                                break;
+                            case 5:
+                                //已经确
+                                state="待评价";
+                                stateBtn='<input type="button" class="btn order-btn" onclick="window.location.href=\'../takeout.php?act=restaurant&id='+data.restaurant_id+'\'" style="margin-bottom:.625rem;" value="再来一单"><input type="button" class="btn order-btn order-btn2" value="评价">';
+                                break;
+                            case 6:
+                                //订单完成
+                                state="订单完成";
+                                colorFont="#2acaaa";
+                                stateBtn='<input type="button" class="btn order-btn" style="margin-bottom:.625rem;" value="再来一单">';
+                                break;
+                            case 7:
+                                state="退款中";
+                                break;
+                            case 8:
+                                //订单关闭
+                                colorFont="#888";
+                                state="已退款";
+                                break;
+                        }
+                    }else if(orderType == "mall"){
+                        orderId2=obj.mall;
+                        switch(parseInt(data.data.status)){
+                            case 1:
+                                state="待付款";
+                                stateBtn='<input type="button" class="btn order-btn" style="margin-bottom:.625rem;" value="立即支付">';
+                                break;
+                            case 2:
+                                state="待发货";
+                                break;
+                            case 3:
+                                state="待收货";
+                                break;
+                            case 4:
+                                state="交易完成";
+                                colorFont="#2acaaa";
+                                stateBtn='<input type="button" class="btn order-btn" style="margin-bottom:.625rem;" value="再来一单">';
+                                break;
+                            case 5:
+                                state="申请退款";
+                                break;
+                            case 6:
+                                state="已退款";
+                                break;
+                            case 7:
+                                state="货到付款";
+                                break;
+                            case 8:
+                                state="买家关闭订单";
+                                break;
+                            case 9:
+                                state="卖家关闭订单";
+                                break;
+                        }
+                    }
+                    if(data.code == 200){
+                        var orderId = orderId1 || orderId2;
+                        $(".order-number").html("订单号："+orderId);
+                        $(".order-state").html(state).css("color",colorFont);
+                        $(".order-discount-Distribution").html("￥"+data.data.fee);
+                        $(".order-discount-discount").html("￥"+data.data.favourable_price);
+                        $(".order-remarks").html(data.data.note != "" ? "备注："+data.data.note : "备注：无");
+                        $(".order-time1").html("下单时间："+mtime(data.data.addtime));
+                        $(".order-discount-total").html("￥"+data.data.actual_payment);
+                        $(".order-contact-a").attr("href","tel:"+data.data.phone);
+                        $("#shopName").html(decodeURI(obj.shopName));
+                        $(".order-btn-d").html(stateBtn);
+                        for(var i=0;i<data.data.orderdata.length;i++){
+                            $(".order-item").append('<li class="clearb order-item-li"><span class="fl" style="font-size:.875rem;color:#666;">'+data.data.orderdata[i].dishes_name+'<b style="font-size: 1rem;margin-left: .5rem;color: #f0790f;">x'+data.data.orderdata[i].goods_number+'</b></span><span class="fr" style="font-size:.875rem;color:#666;">￥'+(data.data.orderdata[i].sell_price * data.data.orderdata[i].goods_number)+'</span></li>')
+                        }
+                        if(strUrl().apply == "refund"){
+                            $("#orderRemarks").remove();
+                            $("#textarea").show();
+                        }else{
+                            $("#textarea").remove();
+                        }
+                    }
+                }
+            });
+        }
+    });
+
+    //退款
+    function Refund(){
+        if(strUrl().apply == "refund"){
+            var Reason=$("#Reason").val();
+            if(Reason != "" && Reason.length > 4){
+                $.post("../usercenter.php",{action:"backout_order",order_id:strUrl().takeout,namestatus:strUrl().state,buyer_reason:Reason},function(d){
+                    console.log(d);
+                    d=$.parseJSON(d);
+                    if(d.code == 200){
+                        alert("申请退款成功，请等待商家确认退款");
+                        window.location.href="Order.html";
+                    }
+                });
+            }else{
+                alert("请输入退款理由，不少于4个字");
+            }
+        }else{
+//                takeout=takeout-201708031724251&shopName=luyangjian
+            window.location.href="OrderDetails.html?takeout="+strUrl().takeout+"&shopName="+strUrl().shopName+"&state="+strUrl().state+"&apply=refund";
+        }
+    }
+
+    //收货
+    function orderComplete(){
+        var obj = strUrl();
+        var status = "";
+        var orderId = obj.takeout || obj.mall;
+        if(orderId){
+            if(obj.takeout){
+                status = "takeout";
+            }else if(obj.mall){
+                status = "mall";
+            }
+            $.ajax({
+                type:"POST",
+                url:"../usercenter.php",
+                data:{action:"order_ok",order_id:orderId,namestatus:status},
+                dataType: "JSON",
+                success: function(d){
+                    console.log(d);
+                    if(d.code == 200){
+                        window.location.reload();
+                    }
+                },
+                error: function(){}
+            });
+        }
+
+    }
+</script>
+</html>

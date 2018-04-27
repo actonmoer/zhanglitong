@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<title>修改信息</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<meta name="renderer" content="webkit">
+
+	{template "room_head","mobile"}
+
+	<script type="text/javascript" src="<?php echo DT_STATIC;?>file/script/config.js"></script>
+
+	<script type="text/javascript" src="<?php echo DT_STATIC;?>file/script/common.js"></script>
+
+
+
+	<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+
+	<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=2c06279dcbbc3f2f5a2cf9093e0090a3&plugin=AMap.Geocoder"></script>
+
+	<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_330648_2vxyeo24dmuf2yb9.css">
+
+	<style>
+
+		.bodyBox{
+
+			top:58px;
+
+		}
+
+		.showLi span{
+
+			margin-left:95px;
+
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+	<div class="headBox">
+
+		<div class="head-bar-back">
+
+			<a href="javascript:window.history.back();">
+
+				<i class="iconfont icon-left"></i>
+
+			</a>
+
+		</div>
+
+		<div class="head-bar-title">修改信息</div>
+
+		<div class="head-bar-right"><a onclick="$('#ds_form').submit();"><span>保存</span></a></div>
+
+	</div>
+
+
+
+	<div class="bodyBox clear">
+
+		<div class="catsBox" style="margin-top: 0;">
+
+			<form action="?act=info_edit" id="ds_form" method="post" enctype="multipart/form-data">
+
+			<div class="showList showForm">
+
+				
+
+				<div class="showLi autoShowLi">
+
+					<b>总房间数：</b>
+
+					<span><input type="text" name="room_count" value="{$item['room_count']}"></span>
+
+					<!--<i style="color:red">只能填整数</i>-->
+
+				</div>
+
+                
+
+				<!--<div class="showLi autoShowLi">
+
+					<b>总订房数</b>
+
+					<span><input type="text" name="rooming_count" value="{$item['rooming_count']}"></span>
+
+					&lt;!&ndash;<i style="color:red">只能填整数</i>&ndash;&gt;
+
+				</div>-->
+
+				
+
+				<div class="showLi autoShowLi" style="border-bottom: 10px solid #eee;">
+
+					<b>总订房数：</b>
+
+					<span><input type="text" name="rooming_count" value="{$item['rooming_count']}"></span>
+
+					<!--<i style="color:red">只能填整数</i>-->
+
+				</div>
+
+				
+
+				<div class="showLi autoShowLi">
+
+					<b>总评论数：</b>
+
+					<span><input type="text" name="comment_count" value="{$item['comment_count']}"></span>
+
+					<!--<i style="color:red">只能填整数</i>-->
+
+				</div>
+
+				
+
+				<div class="showLi autoShowLi">
+
+					<b>总月销量：</b>
+
+					<span><input type="text" name="month_sells" value="{$item['month_sells']}"></span>
+
+					<!--<i style="color:red">只能填整数</i>-->
+
+				</div>
+
+
+
+				<div class="showLi autoShowLi">
+
+					<b>预定天数：</b>
+
+					<span><input type="text" name="reserve_days" value="{$item['reserve_days']}"></span>
+
+					<!--<i style="color:red">只能填整数</i>-->
+
+				</div>
+				<div class="showLi autoShowLi">
+					
+					<b>限定小时：</b>
+
+					<span><input type="text" name="limit_time_slot" value="{$item['limit_time_slot']}"></span>
+
+					<!--<i style="color:red">只能填整数</i>-->
+
+				</div>
+				
+
+				<div class="showLi autoShowLi" style="border-bottom: 10px solid #eee;">
+
+					<b>预定金额：</b>
+
+					<span><input type="text" name="reserve_price" value="{$item['reserve_price']}"></span>
+
+					<!--<i style="color:red">只能填整数</i>-->
+
+				</div>
+
+
+
+				<div class="showLi">
+
+					<b>营业中</b>
+
+					<span>
+
+					    <input type="radio" style="height:22px;" name="business" value="1" <?php if($item['business']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <input type="radio" style="height:22px;" name="business" value="0" <?php if(!$item['business']) echo 'checked';?>/> 否
+
+					</span>
+
+				</div>
+
+				
+
+				
+
+				<div class="showLi">
+
+					<b>是否特惠</b>
+
+					<span>
+
+					    <input type="radio" style="height:22px;" name="is_discount" value="1" <?php if($item['is_discount']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <input type="radio" style="height:22px;" name="is_discount" value="0" <?php if(!$item['is_discount']) echo 'checked';?>/> 否
+
+					</span>
+
+				</div>
+
+				
+
+				<div class="showLi">
+
+					<b>是否赠送</b>
+
+					<span>
+
+					    <input type="radio" style="height:22px;" name="is_give" value="1" <?php if($item['is_give']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <input type="radio" style="height:22px;" name="is_give" value="0" <?php if(!$item['is_give']) echo 'checked';?>/> 否
+
+					</span>
+
+				</div>
+
+				
+
+				<div class="showLi">
+
+					<b>是否停车场</b>
+
+					<span>
+
+					    <input type="radio" style="height:22px;" name="is_park" value="1" <?php if($item['is_park']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <input type="radio" style="height:22px;" name="is_park" value="0" <?php if(!$item['is_park']) echo 'checked';?>/> 否
+
+					</span>
+
+				</div>
+
+				
+
+				
+
+				<div class="showLi">
+
+					<b>是否能刷卡</b>
+
+					<span>
+
+					    <input type="radio" style="height:22px;" name="is_swipe" value="1" <?php if($item['is_swipe']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <input type="radio" style="height:22px;" name="is_swipe" value="0" <?php if(!$item['is_swipe']) echo 'checked';?>/> 否
+
+					</span>
+
+				</div>
+
+				
+
+				
+
+				<div class="showLi" style="border-bottom: 10px solid #eee;">
+
+					<b>是否wifi</b>
+
+					<span>
+
+					    <input type="radio" style="height:22px;" name="is_wifi" value="1" <?php if($item['is_wifi']) echo 'checked';?>/> 是&nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <input type="radio" style="height:22px;" name="is_wifi" value="0" <?php if(!$item['is_wifi']) echo 'checked';?>/> 否
+
+					</span>
+
+				</div>
+
+				<div class="showLi autoShowLi">
+
+					<b>详细地址：</b>
+
+					<span><textarea id="address" rows="3" cols="100%" placeholder="请输入你的详细地址！"></textarea></span>
+
+				</div>
+
+				
+
+				<div class="showLi" style="position:relative;">
+
+                     <b>定位地址：</b>
+
+					<span style="margin-left:15px;text-align:left;">
+
+					<small>经:</small><input type="text" name="lng" id="addlng" style="width:25%;" value="<?php echo $item['lng'];?>">
+
+					<small>纬:</small><input type="text" name="lat" id="addlat" style="width:25%;" value="<?php echo $item['lat'];?>">
+
+					 <!--<input type="button" value="获取定位" style="width:20%;float:right;background:#fff;color:#3d95e5" onclick="getLngAndLat()">-->
+
+					</span>
+
+					<input type="button" value="定位" style="position:absolute;top:8px;right:5px;width:25px;float:right;background:#fff;color:#3d95e5" onclick="getLngAndLat()">
+
+
+
+				</div>
+
+				<div class="showLi" style="background:#eee;">
+
+					<b style="color:#999;">定位说明：</b>
+
+					<span style="color:#999;border:none;font-size:12px;text-align:left;">经纬度决定自身商家的位置，确保填写地址的准确性，填写后点击获取，成功的话就能获取经纬度值，失败的话请检查地址是否填写正确</span>
+
+				</div>
+
+				
+
+				
+
+				
+
+			</div>
+
+			</form>
+
+		</div>
+
+	</div>
+
+
+
+	<div class="footBox"></div>
+
+	
+
+<script type="text/javascript">
+
+	var lng,lat;
+
+    var map, geolocation;
+
+    var map = new AMap.Map("container", {
+
+        resizeEnable: true
+
+    });
+
+    //加载地图，调用浏览器定位服务
+
+    // map = new AMap.Map('container', {
+
+    //     resizeEnable: true
+
+    // });
+
+    function geocoder(address) {
+
+        var geocoder = new AMap.Geocoder({
+
+            radius: 1000 //范围，默认：500
+
+        });
+
+        //地理编码,返回地理编码结果
+
+        geocoder.getLocation(address, function(status, result) {
+
+            if (status === 'complete' && result.info === 'OK') {
+
+            	if(address){
+
+            		geocoder_CallBack(result);
+
+            	}
+
+            }
+
+        });
+
+    }
+
+	
+
+    function geocoder_CallBack(data,type) {
+
+        var resultStr = "";
+
+        var geocode = data.geocodes;
+
+        addressStreet_lng = geocode['0'].location.getLng(); 
+
+        addressStreet_lat = geocode['0'].location.getLat();
+
+        $("#addlng").val(addressStreet_lng);
+
+        $("#addlat").val(addressStreet_lat);
+
+        
+
+    }
+
+	
+
+	
+
+	
+
+	
+
+	function getLngAndLat(){	
+
+		var address=$('#address').val();
+
+			if( address!='' ){
+
+				geocoder(address);
+
+			}
+
+	}
+
+	
+
+	</script>
+
+</body>
+
+</html>

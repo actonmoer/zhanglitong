@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>充值</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_6ej3pm25ln154s4i.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/recharge.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">充值记录</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div class="recharge-details details clearb">
+        <!--<div>
+            <p><span>充值金额</span><span>+108.00</span></p>
+            <p><span>充值成功</span><span>手续费：￥1.00</span></p>
+        </div>
+        <div class="clearb">
+            <p><span>交易编号</span><span>20170614152417001</span></p>
+            <p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型</span><span>充值</span></p>
+            <p><span>交易时间</span><span>2017-06-14&nbsp;15:24:10</span></p>
+            <p><span>充值方式</span><span>充值卡充值</span></p>
+            <p><span>充值卡号</span><span>2154215421542154</span></p>
+            <p><span>账户余额</span><span>￥1200.00</span></p>
+        </div>-->
+    </div>
+</section>
+<script>
+    $(function(){
+        var obj = strUrl(window.location.search);
+        var itemid = obj.itemid;
+        isLogin();
+        $.ajax({
+            url:"../usercenter.php",
+            type:"POST",
+            dataType:"JSON",
+            data:{"action":"show_one_recharge",itemid:itemid},
+            success:function(data){
+                console.log(data);
+                var d = data.data;
+                var bank,way,note;
+                if(d.bank == "card"){
+                    bank = "充值卡充值";
+                    way = "充值卡号";
+                    note = d.note;
+                }else{
+                    bank = "在线充值";
+                    way = "支付方式";
+                    if(d.bank == "alipay"){
+                        note = "支付宝";
+                    }else{
+                        note = "微信";
+                    }
+                }
+                $(".recharge-details").append(rechargeDetails(d.amount,d.itemid,mtime(d.receivetime),mtime(d.sendtime),bank,way,note,d.money));
+
+                if(d.status == 0){
+                    $(".status").html("等待支付").addClass("orange");
+                    $(".change").prepend("+");
+                }else if(d.status == 1 || d.status == 2){
+                    $(".status").html("充值失败").addClass("gray");
+                    $(".change").prepend("-");
+                }else{
+                    $(".status").html("充值成功").addClass("green");
+                    $(".change").prepend("+");
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后!");
+            }
+        });
+    });
+
+    function rechargeDetails(amount,itemid,receivetime,sendtime,bank,way,note,money){
+        var detail = '<div>'+
+            '<p><span>充值金额</span><span class="change">'+amount+'</span></p>'+
+            '<p><span class="status"></span><span></span></p>'+
+            '</div>'+
+            '<div class="clearb">'+
+            '<p><span>交易编号</span><span>'+itemid+'</span></p>'+
+            '<p><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型</span><span>充值</span></p>'+
+            '<p><span>下单时间</span><span>'+receivetime+'</span></p>'+
+            '<p><span>支付时间</span><span>'+sendtime+'</span></p>'+
+            '<p><span>充值方式</span><span>'+bank+'</span></p>'+
+            '<p><span>'+way+'</span><span>'+note+'</span></p>'+
+            '<p><span>账户余额</span><span>￥'+money+'</span></p>'+
+            '</div>';
+        return detail;
+     }
+</script>
+</body>
+</html>

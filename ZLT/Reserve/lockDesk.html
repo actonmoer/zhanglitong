@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>锁定餐桌</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_647z71yyqj4qjjor.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Account.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <style>
+        form{
+            background:#fff;
+            font-size:.875rem;
+            overflow:hidden;
+        }
+        form>div{
+            height:38px;
+            line-height:38px;
+            border-bottom:1px solid #eee;
+            padding:0 .875rem 0 1.875rem;
+        }
+        .form-group div input{
+            border:none;
+        }
+       /* .line-border{
+            width:100%;
+            border:5px solid #eee;
+        }*/
+    </style>
+</head>
+<body style="background-color: #f1f1f1;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">锁定餐桌</div>
+        <div class="h-R" style="font-size:.875rem;color:#fff;" onclick="$('#ds_form').submit();">保存</div>
+    </div>
+</header>
+<section>
+    <form class="form-horizontal" action="?act=book_desk_add" id="ds_form" method="post" enctype="multipart/form-data">
+        <div class="form-group" style="margin-bottom:0;">
+            <label for="inputEmail3" class="col-xs-6 control-label">餐桌名</label>
+            <div class="col-xs-6">
+                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+            <label for="inputPassword3" class="col-xs-6 control-label">联系人</label>
+            <div class="col-xs-6">
+                <input type="password" class="form-control" name="name" id="inputPassword3" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+            <label for="inputPassword3" class="col-xs-6 control-label">联系电话</label>
+            <div class="col-xs-6">
+                <input type="password" class="form-control" name="mobile" id="inputPassword3" placeholder="Password">
+            </div>
+        </div>
+        <!--<p class="line-border"></p>-->
+        <div class="form-group" style="margin-bottom:0;">
+            <label for="inputPassword3" class="col-xs-6 control-label">预订时间</label>
+            <div class="col-xs-6">
+                <input type="password" class="form-control" name="timer" id="inputPassword3" placeholder="Password">
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>

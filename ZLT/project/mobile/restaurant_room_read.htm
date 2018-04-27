@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>包房详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,minmum-scale=1,maxmum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="renderer" content="webkit">
+	{template "room_head","mobile"}
+</head>
+<body class="bottomBody">
+	<div class="headBox">
+		<div class="head-bar-back"><a href="javascript:window.location.href='user_home.php?act=room_manager'"><img src="static/room/images/admin/icon-back.png" width="24" height="24"><span>返回</span></a></div>
+		<div class="head-bar-title">包房详情</div>
+	</div>
+
+	<div class="bodyBox clear">
+		<div class="catsBox" style="margin-top: 0;">
+			<div class="swiper-container showThumb" id="showThumb_1">
+				<div class="swiper-wrapper">
+					<?php if ($data['thumb_banner1']) { ?>
+						<div class="swiper-slide"><span><img src="{$data['thumb_banner1']}" alt="商家缩略图"></span></div>
+					<?php } ?>
+					<?php if ($data['thumb_banner2']) { ?>
+						<div class="swiper-slide"><span><img src="{$data['thumb_banner2']}" alt="商家缩略图"></span></div>
+					<?php } ?>
+					<?php if ($data['thumb_banner3']) { ?>
+						<div class="swiper-slide"><span><img src="{$data['thumb_banner3']}" alt="商家缩略图"></span></div>
+					<?php } ?>
+				</div>
+			</div>
+			<script> 
+				var mySwiper = new Swiper('#showThumb_1', {
+					slidesPerView: 'auto',
+					freeMode: true,
+					spaceBetween: 5
+				})
+			</script>
+			<div class="showList"> 
+				<div class="showLi">
+					<b>包房名字</b>
+					<span><?php echo $data['room_name'];?></span>
+				</div>
+				<div class="showLi">
+					<b>市场价</b>
+					<span style="color: #FF8000;">￥ {$data['sell_price']}</span>
+				</div>
+				<div class="showLi">
+					<b>店面价</b>
+					<span style="color: #FF8000;">￥ {$data['now_price']}</span>
+				</div>
+				<div class="showLi">
+					<b>被定次数</b>
+					<span>{$data['use_count']}</span>
+				</div>
+				<div class="showLi">
+					<b>容纳人数</b>
+					<span>{$data['people_count']}</span>
+				</div>
+				<div class="showLi">
+					<b>营业时间</b>
+					<span>
+					{$yingye_time}</span>
+				</div>
+				<div class="showLi showLi_txt">
+					<b>被定时间</b>
+					<span>
+						{if $room_scheduled_time_old}
+						{loop $room_scheduled_time_old $rr}
+							{$rr['room_scheduled_time']} {$rr['morning']}&nbsp;{$rr['noon']}&nbsp;{$rr['night']}
+							<br>
+						{/loop}
+						{else}暂无{/if}
+						</span>
+				</div>
+				<div class="showLi showLi_txt">
+					<b>包间信息</b>
+					<span>{$data['room_message']}</span>
+				</div>
+				<div class="showLi">
+					<b style="float: none;width: auto;">包房点菜二维码</b>
+					<img src="{$data['qrcode']}" alt="" style="display: block;margin: 0 auto;max-width: 100%">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footBox">
+		<a class="three edit" href="user_home.php?act=edit_room_info&id={$data['id']}">编辑</a>
+		<a class="three delete" href="javascript:del_room({$data['id']});">删除</a>
+		<a class="three empty" href="user_home.php?act=clear_history&room_id={$data['id']}">置空历史包房</a>
+	</div>
+	<script type="text/javascript">
+		function del_room(room_id)
+		{
+			$.ajax({
+				data:{"for_ajax":"room_del","id":room_id},
+				url:"for_ajax_restaurant.php",
+				type:"post",
+				dataType:"json",
+				success:function(data) {
+					if (data.success) {
+						window.location.href="user_home.php?act=room_manager";
+					} else {
+						alertMsg(data.message);
+					}
+				}
+			})
+		}
+	</script>
+</body>
+</html>

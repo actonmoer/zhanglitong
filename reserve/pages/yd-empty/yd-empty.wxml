@@ -1,0 +1,8 @@
+<empty>
+  <view class='tip'>
+    <view class='empty-img'>
+      <image src='/images/empty.png'></image>
+    </view>
+    <text class='empty-text'>空成森林了~~</text>
+  </view>
+</empty>

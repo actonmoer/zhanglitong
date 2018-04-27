@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_y2id7r60v7eewmi.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Account.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+    <style>
+        nav ul {
+            height: 2.125rem;
+            line-height: 2.125rem;
+            width: 100%;
+            background: #fff;
+            font-size: .875rem;
+            box-shadow: 0 0.125rem 0.25rem 0 rgba(51, 51, 51, 0.1);
+        }
+
+        nav ul li {
+            display: inline-block;
+            width: 32%;
+            text-align: center;
+        }
+
+        .goods-box {
+            margin-top: .625rem;
+        }
+
+        .goods-item {
+            position: relative;
+            padding: .625rem .875rem;
+            border: 1px solid #eee;
+            background: #fff;
+        }
+
+        .img-box {
+            width: 3.75rem;
+            height: 3.75rem;
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content-box {
+            position: absolute;
+            top: .625rem;
+            left: 5.25rem;
+            width:11rem;
+            font-size: .875rem;
+            color: #666;
+            letter-spacing: 1px;
+        }
+        .content-box p:nth-child(1) {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .content-box p:nth-child(2) {
+            margin: .4375rem 0;
+            font-size: .625rem;
+        }
+
+        .state-box {
+            position: absolute;
+            top: .625rem;
+            right: .875rem;
+            padding: 0 .625rem;
+            text-align: center;
+        }
+
+        .stock {
+            display: inline-block;
+            border: 1px solid #3d95e5;
+            padding: 1px;
+            font-size: .625rem;
+            border-radius: .25rem;
+            margin-left: .375rem;
+            color: #3d95e5;
+            text-align: center;
+            width: 40px;
+        }
+
+        .blue {
+            color: #3d95e5;
+        }
+
+        .red {
+            color: #e12626;
+        }
+
+        /*赠送*/
+        .give {
+            display: none;
+            background-color: #fff;
+            padding: 30px 20px;
+        }
+
+        .give label {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            margin-bottom: 10px;
+        }
+
+        .give label input {
+            outline: none;
+        }
+
+        .give-btn {
+            background: #3d95e5;
+            border: none;
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            color: #fff;
+            margin-left: 100px;
+        }
+
+        .give-goods{
+            display:inline-block;
+            position:absolute;
+            top:3.125rem;
+            right:1rem;
+            font-size:.625rem;
+            padding:4px 8px;
+            background:#ccc;
+            color:#fff;
+            border-radius:4px;
+        }
+        .give-goods-active{
+            background:#3d95e5;
+        }
+
+        .search{
+            position:relative;
+            width:100%;
+            height:35px;
+            padding:0 1.25rem 5px;
+            box-sizing: border-box;
+            background-color:#3d95e5;
+        }
+        .search input{
+            width:100%;
+            height:30px;
+            border:none;
+            border-radius:15px;
+            outline: none;
+            font-size:.875rem;
+            padding:0 35px 0 20px;
+        }
+        .search i {
+            display:inline-block;
+            position:absolute;
+            right:1.5rem;
+            top:0;
+            width:28px;
+            height:28px;
+            border-radius:50%;
+            background-color:#ccc;
+            padding-top: .4rem;
+            text-align: center;
+        }
+        .head{
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left"
+                                                                                      style="color: #fff;"></i></a>
+        </div>
+        <div class="h-C">商品管理</div>
+        <div class="h-R" style="color:#fff;font-size:.875rem;margin-right:1.25rem;"></div>
+    </div>
+</header>
+<section>
+    <div class="search">
+        <input type="text" placeholder="请输入需要搜索的菜名！">
+        <i style="font-size:1.4rem;" class="iconfont icon-sousuo1111"></i>
+    </div>
+    <nav>
+        <ul class="state-ul">
+            <li class="blue">全部</li>
+            <li>上架商品</li>
+            <li>下架商品</li>
+            <!--<li>赠送商品</li>-->
+        </ul>
+    </nav>
+    <div class="goods-box">
+        
+    </div>
+</section>
+<script>
+    $.ajax({
+        url: "https://www.zhanglitong.com/member/my.php?mid=16&action=zlt_biantai_ajax",
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $(".goods-box").append(goodsItem(data[i].photo, data[i].name, data[i].price, data[i].stock, data[i].status, data[i].itemid, data[i].is_present));
+                var item = $(".goods-item").eq(i).find(".status"),
+                    status = item.html();
+                if (status == 3) {
+                    item.html("下架").addClass("red");
+                    $(".goods-item").eq(i).addClass("up");
+                } else {
+                    item.html("上架").addClass("blue");
+                    $(".goods-item").eq(i).addClass("down");
+                    $(".goods-item").eq(i).find('.give-goods').remove();
+                }
+
+                if($('.goods-item').eq(i).attr('data-isPresent') == 1){
+                    $('.goods-item').eq(i).find('.give-goods').addClass('give-goods-active')
+                }
+            }
+            /*更新库存*/
+            $(".stock").blur(function () {
+                var stock_value = $(this).val();
+                var itemid = $(this).data("itemid");
+                $.post('https://www.zhanglitong.com/member/my.php?mid=16&action=zlt_stock', {
+                    stock: stock_value,
+                    itemid: itemid
+                }, function (data) {
+                    if (data.code == "200") {
+                        alert("数据更新成功");
+                    } else {
+                        alert("数据更新失败");
+                    }
+                }, "json")
+            })
+        }
+    });
+
+    /*渲染页面*/
+    function goodsItem(photo, name, price, stock, status, itemid, is_present) {
+        var goods = '<div class="goods-item" data-isPresent="'+ is_present+'">' +
+            '<div class="img-box">' +
+            '<img src="' + photo + '" alt="">' +
+            '</div>' +
+            '<div class="content-box">' +
+            '<p>' + name + '</p>' +
+            '<p>¥' + price + '</p>' +
+            '<p>' +
+            '<span>库存</span>' +
+            '<input type="text" data-itemid="' + itemid + '" class="stock" value="' + stock + '">' +
+            '</p>' +
+            '</div>' +
+            '<div class="state-box" onclick="updataStatus(' + status + ',' + itemid + ')">' +
+            '<span class="status">' + status + '</span>' +
+            '</div>' +
+            '<span class="give-goods" onclick="giveFoods(' + itemid + ',' + is_present + ')">赠送</span>' +
+            '</div>';
+        return goods;
+    }
+
+    /*上下架*/
+    function updataStatus(status, itemid) {
+        $.post('https://www.zhanglitong.com/member/my.php?mid=16&action=zlt_status', {
+            status: status,
+            itemid: itemid
+        }, function (data) {
+            window.location.reload();
+        }, "json")
+    }
+
+    /*切换上下架商品*/
+    $(".state-ul").children("li").click(function () {
+        var index = $(this).index();
+        if (index == 0) {
+            $("li").eq(index).addClass("blue").siblings().removeClass("blue");
+            $(".down,.up").show();
+        } else if (index == 1) {
+            $("li").eq(index).addClass("blue").siblings().removeClass("blue");
+            $(".up").show();
+            $(".down,.give").hide();
+        } else if (index == 2) {
+            $("li").eq(index).addClass("blue").siblings().removeClass("blue");
+            $(".down").show();
+            $(".up,.give").hide();
+        } else {
+            $("li").eq(index).addClass("blue").siblings().removeClass("blue");
+            $(".down,.up").hide();
+            $(".give").show();
+        }
+    })
+
+    function giveFoods(itemid, is_present) {
+        $.ajax({
+            url: "https://www.zhanglitong.com/member/my.php?mid=16&action=zlt_biantai_ajax",
+            type: "post",
+            data: {
+                itemid: itemid ,
+                'is_present': is_present
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data)
+                if (data.code == 200) {
+                    alert('设置成功！');
+                    $('.give-goods').addClass('give-goods-active');
+                    window.location.href = 'https://www.zhanglitong.com/mobile/backstatge/goodsManage.html';
+               }
+            }
+        });
+    }
+
+   /*搜索菜*/
+   $('.search i').click(function() {
+       var keyword = $('.search input').val();
+       $.ajax({
+           url: "https://www.zhanglitong.com/member/my.php?mid=16&action=zlt_biantai_ajax",
+           type: "POST",
+           data:{keyword:keyword},
+           dataType: "json",
+           success: function (data) {
+               $(".goods-box").html('');
+               for (var i = 0; i < data.length; i++) {
+                   $(".goods-box").append(goodsItem(data[i].photo, data[i].name, data[i].price, data[i].stock, data[i].status, data[i].itemid, data[i].is_present));
+               }
+
+           }
+       });
+   })
+</script>
+</body>
+</html>

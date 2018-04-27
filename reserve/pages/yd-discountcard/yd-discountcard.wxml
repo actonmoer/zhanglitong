@@ -1,0 +1,48 @@
+<!-- <view class='yd-card' bindtap='shareCard' data-money='50'>
+  <image src='https://www.zhanglitong.com/mobile/share/img/50.png'></image>
+  <view class='yd-font'>充30当50用</view>
+</view> -->
+
+<view class='yd-card' bindtap='shareCard' data-money='260'>
+  <image src='https://www.zhanglitong.com/mobile/share/img/260.png'></image>
+  <view class='yd-font'>充200当260用</view>
+</view>
+
+<view class='yd-card' bindtap='shareCard' data-money='500'>
+  <image src='https://www.zhanglitong.com/mobile/share/img/500.jpg'></image>
+  <view class='yd-font'>充400当500用</view>
+</view>
+
+<view class='yd-card' bindtap='shareCard' data-money='1000'>
+  <image src='https://www.zhanglitong.com/mobile/share/img/1000.jpg'></image>
+  <view class='yd-font'>充850当1000用</view>
+</view>
+
+<button class='yd-btn' open-type="share">分享给朋友，拿奖励</button>
+
+<view class='yd-explain' bindtap='openTip'>
+  <view>使用</view>
+  <view>说明</view>
+</view>
+
+<!--一卡通说明  -->
+<view wx:if='{{isShow}}'>
+  <view class='yd-bj' catchtap='ydclose'></view>
+  <view class='yd-tips'>
+    <view class='yd-tips-title'>一卡通</view>
+    <view class='yd-tips-content'>
+      <view>掌里通“智慧餐饮预定系统”上线试运营，为提高知名度及使用率，特推出钜惠活动。</view>
+      <view>充值
+        <text>400</text>元享
+        <text>500</text>元。</view>
+      <view>充值
+        <text>850</text>元享
+        <text>1000</text>元。</view>
+      <view>充值金额即时到账，不可提现，无期限，掌里通平台所有商家均可使用，每人每种类型的卡只能充值一次。每种卡发行数量仅限
+        <text>10000</text>张！先充先得</view>
+    </view>
+  </view>
+  <view class='yd-close' bindtap='ydclose'>
+    <icon type='cancel' color='#fff' size='40'></icon>
+  </view>
+</view>

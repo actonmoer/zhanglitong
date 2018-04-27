@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>充值</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_6ej3pm25ln154s4i.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/recharge.css">
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">充值</div>
+        <div class="h-R" style="font-size:.75rem;color:#fff;">充值记录</div>
+    </div>
+</header>
+<section>
+    <nav>
+        <div class="nav-on"><a href="javascript:;" class="nav-a on">在线充值</a></div>
+        <div class="nav-on"><a href="javascript:;" class="nav-a">充值卡充值</a></div>
+    </nav>
+    <!--在线充值-->
+    <form style="display:none">
+        <div class="recharge">
+            <div class="recharge-money clearb">
+                <span>充值金额</span>
+                <div>
+                    <input type="text" class="money-input form-control " placeholder="￥请输入充值金额" required="">
+                </div>
+            </div>
+            <div class="recharge-way clearb">
+                <p><span>选择支付方式：</span></p>
+                <p><span></span><span>中国农业银行（尾号985）</span><span class="right">手续费￥0.00</span></p>
+                <p><span>支付宝</span><span class="right">手续费￥0.00</span></p>
+                <p><span>微信支付</span><span class="right">手续费￥0.00</span></p>
+            </div>
+        </div>
+            <div style="margin: 1.25rem;">
+                <input type="button" class="btn white-btn" style="width: 100%;" value="下一步">
+            </div>
+    </form>
+    <!--充值卡充值-->
+    <form>
+        <div class="recharge recharge-card">
+            <div class="m20-b">
+                <input type="text" class="form-control number-input" placeholder="请输入充值卡卡号" required="">
+            </div>
+            <div class="m20-b">
+                <input type="text" class="form-control password-input" placeholder="请输入充值卡密码" required="">
+            </div>
+        </div>
+        <div style="margin: 1.25rem;">
+            <input type="button" class="btn white-btn" style="width: 100%;" value="充&nbsp;&nbsp;值" onclick="submitform()">
+        </div>
+    </form>
+</section>
+
+</body>
+</html>

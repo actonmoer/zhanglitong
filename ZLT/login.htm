@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员登录_掌里通智慧城市</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="/mobile/js/jquery.min.js"></script>
+</head>
+<body>
+<div style="background-image: url('images/bg.jpg');background-size:cover;height: 100%;position: fixed;width: 100%;"></div>
+<div style="position: relative;z-index: 1;">
+    <header class="hnav text-center">
+        <div class="h-left pull-left">
+			<a href="javascript:window.history.go(-1);"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span><span>返回</span></a>
+        </div>
+        <div class="h-title">
+            <span>会员登录</span>
+        </div>
+        <div class="h-right pull-right">
+            <a href="/mobile/register.htm?action=post&regid=5">注册</a>
+        </div>
+    </header>
+    <div class="t-logo">
+        <div class="t-logo-box" style="background: url('images/loginlogo.gif') no-repeat center; "></div>
+    </div>
+    <div class="m-form" id="loginForm">
+        <form name="myform" action="login.php" method="post" id="form-login">
+            <input type="hidden" name="action" value="test">
+            <input type="hidden" name="forward" value="{$forward}"/>
+			<input type="hidden" name="auth" value="{$auth}"/>
+			<input type="hidden" name="ok" value="1"/>
+            <input type="hidden" name="callback" value="{$callback}"/>
+            <div class="m-form-bg">
+                <div style="border-bottom: 1px solid #dadada;">
+                    <input type="text" class="m-form-inp form-control" autocomplete="off" style="height: 50px;" name="username" id="login-username" value="" placeholder="用户名/Email/已认证手机">
+                </div>
+                <div>
+                    <input type="password" class="m-form-inp form-control" autocomplete="off" style="height: 49px;" name="password" id="login-password" placeholder="请填写密码">
+                </div>
+            </div>
+            <div class="errorMsg" style="height: .23rem;">
+                <span style="color: red;display: none;" id="errorMsg">错误信息</span>
+            </div>
+            <div class="m-form-btn">
+                <input type="submit" id="submitF" class="btn btn-orange" value="登录">
+            </div>
+            <div class="m-form-btn" style="margin-top: .15rem;"  >
+                <input type="button" class="btn btn-white" onClick="window.location.href='/mobile/register.htm?action=post&regid=5';" value="注册">
+            </div>
+            <div id="wxlogin"></div>
+            <!--<div class="m-form-btn" style="margin-top: .15rem;"  >-->
+                <!--<input type="button" class="btn btn-white" onClick="window.location.href='/login.php';" value="微信一键登录">-->
+            <!--</div>-->
+            <div class="m-form-subnav text-right" style="margin-top: 11px;">
+                <a href="FindPassWord/LoginPassWord-step01.html" style="color: #fff;">忘记密码</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="/mobile/js/myjs.js"></script>
+<script type="text/javascript">
+	$(function(){
+        $(window).resize(function(){
+            var t=$(".m-form-inp").eq(0).offset().top;
+            $("body").scrollTop(t-70);
+        });
+        if(isWeiXin()){
+            $('#wxlogin').html('<div class="m-form-btn" style="margin-top: .15rem;"  ><input type="button" class="btn btn-white" onClick="window.location.href=\'/login.php\';" value="微信一键登录"></div>');
+        }
+	});
+    function submitForm(){
+        var tVal=$("input[name='username']").val();
+        var pVal=$("input[name='password']").val();
+        var eMsg=$("#errorMsg");
+        var reg=/^1[3|4|5|7|8]\d{5,9}$/;
+        if(tVal != "" && pVal != ""){
+            if(reg.test(tVal) && tVal.length==11){
+                eMsg.hide();
+            }else{
+                eMsg.text("手机格式有误").show();
+				return false;
+            }
+        }else{
+            eMsg.text("帐号或密码不能为空！").show();
+			return false;
+        }
+    };
+</script>
+</body>
+</html>

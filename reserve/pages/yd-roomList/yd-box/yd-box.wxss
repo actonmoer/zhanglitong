@@ -1,0 +1,81 @@
+
+.yd-room-btn1>view:nth-of-type(2){
+  background: #4fc08d;
+  color: #fff;
+}
+.yd-room-btn1>view{
+  width: 50%;
+  text-align: center;
+  line-height: 100rpx;
+  background: #fff;
+  color: #4fc08d;
+  font-size: 30rpx;
+}
+
+.yd-room-message{
+  width: 100%;
+  display: flex;
+  background: #fff;
+  padding: 20rpx 20rpx 0 20rpx;
+}
+.yd-room-message>view{
+  width: 50%;
+  font-size: 26rpx;
+}
+.yd-room-p{
+  font-size: 28rpx;
+}
+.yd-room-p:nth-of-type(1){
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  padding: 15rpx 0;
+}
+.yd-room-btn1{
+  width: 100%;
+  height: 100rpx;
+  display: flex;
+}
+.yd-bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .5);
+  width: 100%;
+  z-index: 10;
+}
+.yd-room-detail{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+}
+.yd-room-name1{
+  position: relative;
+  background-color: #fff;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 28rpx;
+}
+.yd-close{
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+}
+.yd-lb-img{
+  width: 100%;
+  height:100%;
+}
+.yd-room-name{
+  font-size: 32rpx;
+  color: #333;
+}
+.yd-room-tips{
+  font-size: 24rpx;
+  color: #999;
+}
+.yd-room-a{
+  padding: 20rpx;
+  position: relative;
+}

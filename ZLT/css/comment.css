@@ -1,0 +1,127 @@
+.comment-manage {
+    padding:1rem 1.25rem 0;
+    background-color:#fff;
+    border-bottom:1px solid #f2f2f2;
+}
+.comment-img {
+    float:left;
+    width:3.125rem;
+    height:3.125rem;
+    background-color:#333;
+    border-radius:50%;
+}
+.comment-content>p {
+    padding-left:4.0625rem;
+    font-size:.875rem;
+    color:#666666;
+}
+.comment-name {
+    color:#333;
+    padding:.625rem 0 .875rem;
+}
+.comment-name span:first-child {
+    color:#333333;
+}
+.comment-star span:last-child {
+    font-size:.75rem;
+    margin-left:.625rem;
+}
+.comment-star span i {
+    color:#d3d3d3;
+}
+.comment-details {
+    padding:1.25rem 0 .625rem;
+    line-height:1.25rem;
+}
+.comment-btn {
+    height: 3.125rem;
+    text-align: right;
+}
+.comment-btn a {
+    color: #3d95e5;
+    font-size: .875rem;
+    display: inline-block;
+    border: 1px solid #3d95e5;
+    border-radius: .25rem;
+    padding: .375rem .9375rem;
+    margin:.625rem 0 0 .375rem;
+}
+.merchant-reply-gray {
+    background-color:#f2f2f2;
+    margin-bottom:.625rem;
+    padding:1.25rem .75rem;
+    font-size:.875rem;
+    color:#666666;
+    line-height:1.25rem;
+}
+.merchant-reply-gray p:first-child span:first-child{
+    color:#333333;
+}
+.merchant-reply-gray p:last-child span{
+    color:#3d95e5;
+}
+.right {
+    font-size:.75rem;
+    float:right;
+}
+
+.reply-time{
+    font-size:.75rem;
+    color:#666;
+    text-align:center;
+    padding:1.25rem 0;
+}
+.reply-time span:first-child {
+    padding-right:.625rem;
+}
+.merchant-reply {
+    padding:0 1.25rem;
+}
+.merchant-reply p {
+    max-width: 230px;
+    float: right;
+    background-color:#fff;
+    margin-right:.625rem;
+    padding:.875rem 1rem;
+    line-height:1.25rem;
+    font-size:.875rem;
+}
+.merchant-reply .comment-img {
+    float:right;
+    width:2.5rem;
+    height:2.5rem;
+}
+.comment-input {
+    position:fixed;
+    bottom:0;
+    height:3.125rem;
+    width:100%;
+    background-color:#fff;
+    border-top:1px solid #d3d3d3;
+    margin-top:5rem;
+    padding:0 1.25rem;
+}
+.comment-input div input,.comment-input a {
+    font-size:.875rem;
+    height:2.5rem;
+    line-height:2.5rem;
+    margin-top:.3125rem;
+}
+.comment-input div {
+    margin-right:4.375rem;
+}
+.comment-input div input {
+    border:none;
+    border-bottom:1px solid #d3d3d3;
+    width:100%;
+}
+.comment-input a {
+    position:absolute;
+    top:0;
+    right:1.25rem;
+    background-color:#d3d3d3;
+    color:#666;
+    width:3.75rem;
+    border-radius:.25rem;
+    text-align:center;
+}

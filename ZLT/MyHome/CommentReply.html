@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回复评论</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_6ej3pm25ln154s4i.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/comment.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+    <style type="text/css">
+        .comment-img>img{
+            width: 100%;
+            border-radius: 100%;
+        }
+        .comment-details>span{
+            word-wrap:break-word ;
+        }
+        .comment-input a.on{
+            background-color: #3d95e5;
+            color: #fff;
+        }
+    </style>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.go(-1);" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">回复评论</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <div class="comment-manage">
+        <div class="comment-content clearb">
+            <div class="comment-img comment-img1"></div>
+            <p class="comment-name"><span class="userName">会员名称</span><span class="right timer">17:15</span></p>
+            <p class="comment-star"><span><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i><i class="iconfont icon-xing"></i></span><span style="display: none;">30分钟</span></p>
+            <p class="comment-details"><span></span></p>
+            <p class="comment-btn"><a href="javascript:;">举报</a></p>
+        </div>
+    </div>
+    <!--商家回复-->
+    <div class="businessReply">
+        <!--<div class="reply-time"><span></span></div>-->
+        <!--<div class="merchant-reply clearb">-->
+            <!--<div class="comment-img comment-img2"></div>-->
+            <!--<p class="comment-reply"></p>-->
+        <!--</div>-->
+    </div>
+
+
+
+
+</section>
+</body>
+<script type="text/javascript">
+    var obj=strUrl();
+    $(document).ready(function(){
+        $.ajax({
+            url: "../BusinessHome.php",
+            type: "POST",
+            data: {action:"s_one_comment",id:obj.id},
+            dataType: "JSON",
+            success: function(d){
+                console.log(d);
+                if(d.code == 200){
+                    $(".userName").html(d.msg.buyername);
+                    $(".comment-img1").html("<img src='/api/avatar/show.php?username="+d.msg.buyername+"&size=large'>")
+                    $(".timer").html(mtime(d.msg.seller_ctime));
+                    for(var i=0;i<d.msg.seller_star;i++){
+                        $(".comment-star").find("i").eq(i).css("color","#f0ce0f");
+                    }
+                    $(".comment-details span").html(d.msg.seller_comment);
+                    if(d.msg.seller_reply){
+                        $(".businessReply").html(businessReply());
+                        $(".reply-time span").html(mtime(d.msg.seller_rtime));
+                        $(".comment-img2").html("<img src='/api/avatar/show.php?username="+d.msg.sellername+"&size=large'>");
+                        $(".comment-reply").html(d.msg.seller_reply);
+                    }else{
+                        $(".merchant-reply").remove();
+                        $("section").append("<div class=\"comment-input clearb\"><div><input type=\"text\" id='sReply' onkeyup='busReplyUp(this)' placeholder=\"请输入回复的信息\" ></div><a onclick=\"reply()\">发送</a></div>");
+                    }
+                }
+            },
+            error: function(d){
+                alert("网络延时，请稍后再试");
+            }
+        });
+    });
+
+    function reply(){
+        var sValue = $("#sReply").val();
+        if(sValue && sValue.length > 4){
+            $.ajax({
+                url: "../BusinessHome.php",
+                type: "POST",
+                data:{action:"r_comment", id:obj.id, content:sValue},
+                dataType: "JSON",
+                success: function(d){
+                    console.log(d);
+                    if(d.code == 200){
+                        $(".businessReply").html(businessReply());
+                        $(".reply-time span").html(mtime());
+                        $(".comment-img2").html("<img src='/api/avatar/show.php?username="+getCookie("cpk_username")+"&size=large'>");
+                        $(".comment-reply").html(sValue);
+                        $(".comment-input").remove();
+                    }
+                },
+                error: function(d){
+                    alert("网络延时，请稍后再试");
+                }
+            });
+        }else{
+            alert("内容不能空,且不能小于4个字符");
+        }
+    }
+
+    //商家回复
+    function businessReply(){
+        var str='<div class="reply-time"><span></span></div>\n'+
+                '<div class="merchant-reply clearb">\n'+
+                '<div class="comment-img comment-img2"></div>\n'+
+                '<p class="comment-reply"></p>\n'+
+                '</div>';
+        return str;
+    }
+    //判断用户是否输入
+    function busReplyUp(s){
+        if($(s).val() && $(s).val().length > 4){
+            $(".comment-input a").addClass("on");
+        }else{
+            $(".comment-input a").removeClass("on");
+        }
+    }
+</script>
+</html>

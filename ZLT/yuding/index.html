@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智慧餐饮系统</title>
+    <meta name="keywords" content="智慧点餐系统,智慧餐饮系统,微信点餐,网络点餐,餐饮预定,智慧点餐预定系统,点餐软件">
+    <meta name="description" content="掌里通智慧城市">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="screen-orientation"content="portrait">
+    <meta name="x5-orientation"content="portrait">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_4oixxx5owgb65hfr.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <script type="text/javascript" src="js/rem.js"></script>
+    <script type="text/javascript" src="https://www.zhanglitong.com/mobile/js/jquery.min.js"></script>
+    <style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color:#000;
+            margin: 0;
+            padding: 0;
+        }
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+    </style>
+    <style type="text/css">
+        body,html{
+            font-family: "Helvetica";
+        }
+        p,h1,h2,h3{
+            margin: 0;
+            padding: 0;
+        }
+        header{
+            height: 44px;
+            background-color: rgba(1,1,1,.4);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1;
+        }
+        .yd-logo{
+            float: left;
+            margin-top:5px;
+            margin-right: 11px;
+        }
+        .yd-font{
+            float: left;
+            margin-top: 5px;
+        }
+        .yd-font p{
+            color: #fff;
+            font-size: 13px;
+            clear: both;
+        }
+        .yu-head-l{
+            float: left;
+            margin-left: 16px;
+        }
+        .yd-menu{
+            width: 19px;
+            float: right;
+            margin: 14px 19px 0 0;
+        }
+        .yd-menu span{
+            width: 100%;
+            display: block;
+            height: 2px;
+            margin-bottom: 4px;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+
+        .yd-btn:focus{
+            color: #fff;
+            text-decoration: none;
+        }
+        .yu-head-r{
+            float: right;
+        }
+
+        .slide-img01{
+            background: url("img/bg1.jpg") no-repeat center 0;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            overflow: hidden;
+        }
+        .slide-img01 h3,
+        .slide-img01 p,
+        .slide-img01 div span{
+            color: #fff;
+        }
+        .slide-img01 div span{
+            float: left;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .slide-img01 h3{
+            font-size: 23px;
+            line-height: 45px;
+        }
+        .slide-img01 p{
+            font-size: 17px;
+            margin-bottom: 8px;
+
+        }
+        .slide-img02 {
+            -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+            -webkit-align-items: stretch;
+            align-items: stretch;
+            color: #fff;
+            overflow: hidden;
+            background-size: cover;
+        }
+        .yd-more{
+            padding: 6px 18px;
+            color: #5ba2e4;
+            font-size: 14px;
+            display: inline-block;
+            border: 1px solid #5ba2e4;
+        }
+        .yd-xiala{
+            position: fixed;
+            left: 50%;
+            bottom: 15px;
+            z-index: 2;
+            color: #fff;
+            margin-left: -8px;
+        }
+        .slide-img03{
+            -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+            -webkit-align-items: stretch;
+            align-items: stretch;
+            overflow: hidden;
+        }
+        .yd-xiala{
+            -webkit-animation: moveD 1s infinite;
+            -o-animation: moveD 1s infinite;
+            animation: moveD 1s infinite;
+        }
+
+        @keyframes moveD
+        {
+            from {transform: translate(0,15px)}
+            to {transform: translate(0,0)}
+        }
+
+        @-webkit-keyframes moveD
+        {
+            from {-webkit-transform: translate(0,15px)}
+            to {-webkit-transform: translate(0,0)}
+        }
+
+        .list-unstyled li{
+            line-height: 37px;
+            font-size: 16px;
+        }
+        .yd-nav{
+            background-color: #fff;
+            width: 100%;
+            position: fixed;
+            left: 100%;
+            top: 0;
+            bottom: 0;
+            z-index: 3;
+            -webkit-transition: left .5s;
+            -moz-transition: left .5s;
+            -ms-transition: left .5s;
+            -o-transition: left .5s;
+            transition: left .5s;
+        }
+        .yd-nav ul{
+            padding-top: 60px;
+            padding-left: 30px;
+        }
+        .yd-close{
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 20px;
+        }
+        .slide-relative{
+            position: relative;
+        }
+        .yd-btn-more{
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            margin-left: -47px;
+        }
+        #yd-img{
+            text-align: left;
+            width: 100%;
+        }
+        #yd-img img{
+            width: 20%;
+        }
+        .swiper-slide-yuimg img{
+            width: 73%;
+            margin-top: 50px;
+        }
+        #swiper-container2 .swiper-slide,
+        #swiper-container3 .swiper-slide{
+            -ms-flex-align: stretch;
+            -webkit-align-items: stretch;
+            align-items: stretch;
+        }
+        .swiper-slide-yuimg{
+
+        }
+        .swiper-slide h3{
+            font-size: .35rem;
+        }
+        .swiper-slide .sub-title{
+            font-size: .16rem;
+            color: #ccc;
+        }
+        .yd-company-content{
+            font-size: .2rem;
+            text-indent: 2em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            padding:0 .2rem;
+        }
+
+        /*二维码*/
+        .QRcode{
+            width:200px;
+            height:200px;
+            background-color:#ccc;
+            margin:.5rem auto;
+        }
+        .QRcode img{
+            width:100%;
+            height:100%
+        }
+        article{
+            padding:0 .15rem .45rem;
+            text-align:left;
+        }
+        article p{
+            font-size:12px;
+            color:#999;
+            line-height:18px;
+            display: -webkit-box;
+            overflow:hidden;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp:4;
+        }
+        article h4{
+            font-size: 14px;
+            text-align:center;
+        }
+        .swiper-button-next, .swiper-button-prev{
+            width:40px;
+            height:25px;
+        }
+        /*第二，第三屏*/
+        .content2,
+        .content3{
+            background-color:#fff;
+            color:#999;
+            margin:.3rem .25rem;
+            border-radius:5px;
+            box-shadow:3px 5px 5px #999;
+            letter-spacing: 1px;
+        }
+        .content2-p{
+            line-height:.5rem;
+        }
+        .content3{
+            padding: 0 0 .2rem;
+        }
+        .content5-p{
+            margin: 10px 20px 0;
+            padding:20px 0;
+            height:260px;
+            overflow:hidden;
+            border-radius:5px;
+        }
+        .content5-p p{
+            border-bottom:1px solid #f1f1f1;
+            letter-spacing:1px;
+            padding:5px;
+            background:#fff;
+            color:#666;
+        }
+        .content5-p p span {
+            display:block;
+        }
+        .content5-p p span:nth-child(1) {
+            text-align:left;
+            font-size:12px;
+        }
+        .content5-p p span:nth-child(2) {
+            text-align:left;
+            font-size:15px;
+            line-height:30px;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .bg-2{
+            background:rgba(0,0,0,.9) url("img/002.jpg") no-repeat center top;
+            background-size: cover;
+        }
+        .bg-2 div h3,
+        .bg-3 div h3{
+            color:#000;
+        }
+        .bg-2 div .sub-title,
+        .bg-3 div .sub-title{
+            color:#999;
+        }
+        .bg-3{
+            background:rgba(0,0,0,.9) url("img/003.jpg") no-repeat center 0;
+            background-size: cover;
+        }
+        .bg-8{
+            background-color:rgba(0,0,0,.9)
+        }
+    </style>
+    <!--头部css-->
+    <style>
+        header{
+            height: .88rem;
+            background-color: rgba(1,1,1,.4);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1;
+        }
+        .yu-head-l{
+            margin-left: .33rem;
+            float: left;
+        }
+        .yd-logo{
+            margin: .11rem .23rem 0 0;
+            float: left;
+        }
+        .yd-logo img{
+            width: .62rem;
+            height: .66rem;
+        }
+        .yd-font{
+            float: left;
+            margin-top: .13rem;
+        }
+        .yd-font p{
+            font-size: .26rem;
+            color: #fff;
+        }
+        .yd-font-p1{
+            letter-spacing: .02rem;
+        }
+        .yd-font-p2{
+            margin-top: -.1rem;
+        }
+        .yu-head-r{
+            float: right;
+        }
+        .yd-head-r a{
+            float: right;
+            display: inline-block;
+            width: 1.25rem;
+            height: .5rem;
+            line-height: .5rem;
+            text-align: center;
+            color: #fff;
+            font-size: .22rem;
+            border: 1px solid #fff;
+            border-radius: .04rem;
+            margin: .19rem .72rem 0 0;
+        }
+        .yd-head-r a:focus,.yu-head-r a:hover{
+            text-decoration: none;
+            color: #fff;
+        }
+        .yd-menu{
+            width: .38rem;
+            float: right;
+            margin: .29rem .36rem 0 0;
+        }
+        .yd-menu span{
+            width: 100%;
+            display: block;
+            height: .05rem;
+            margin-bottom: .08rem;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body style="overflow: hidden;">
+<div class="swiper-container" id="swiper-container1">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide slide-img01 slide-relative" data-hash="slide1">
+            <div style="height:100%;width:100%;padding-top:55%;background: rgba(0,0,0,.3);">
+                <h3 class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s" style="font-size: .46rem;">给餐饮商家</h3>
+                <p class="ani" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">吸引客户&nbsp;&nbsp;拓展客户&nbsp;&nbsp;留住客户</p>
+                <div class="clearfix ani" swiper-animate-effect="bounceIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.9s">
+                    <p>降低成本&nbsp;&nbsp;提高效率&nbsp;&nbsp;方便决策运营管理</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide slide-img02 slide-relative bg-2" data-hash="slide2">
+            <div style="width: 100%;margin-top: 1.36rem;">
+                <h3 class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">功能介绍</h3>
+                <p class="sub-title ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">PRODUCT PRESENTATION</p>
+                <!--<div style="padding: 10px 0;" class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s"><img src="img/03.png" alt="" style="width: 100%;"></div>-->
+                <div class="content2" style="padding: 0 15px;">
+                    <div class="text-left ani" style="border-bottom: 1px solid #3d95e5;font-size:16px;color:#000;margin-bottom: 10px;line-height: 36px;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="0.9s">智慧餐饮管理系统</div>
+                    <div class="text-left ani" style="font-size: 14px;color:#666;padding-bottom:.2rem;" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="1.2s">
+                        <p class="content2-p">1：支持到店扫码点菜</p>
+                        <p class="content2-p">2：支持远程订房，订桌点菜</p>
+                        <p class="content2-p">3：一键呼叫服务员</p>
+                        <p class="content2-p">4：即时出单到后厨</p>
+                        <p class="content2-p">5：一键结账</p>
+                        <p class="content2-p">6：随时随地查看餐厅运营情况</p>
+                        <p class="content2-p">7：自动拓展食客</p>
+                        <p class="content2-p">8：无需投入硬件设施</p>
+                    </div>
+                    <div style="margin-top: 28px;" class="ani yd-btn-more" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="1.5s">
+                        <a href="productIntroduce.html" class="yd-more">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide slide-img02 slide-relative bg-3" data-hash="slide3">
+            <div style="width: 100%;margin-top: 1.36rem;">
+                <h3 class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">公司简介</h3>
+                <p class="sub-title ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">COMPANY PROFILE</p>
+                <div class="content3">
+                    <div style="padding: 0 0 10px;" class="ani" swiper-animate-effect="fadeInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s"><img src="img/02.jpg" alt="" style="width: 100%;border-top-left-radius:5px;border-top-right-radius:5px;"></div>
+                    <div class="text-left ani yd-company-content" swiper-animate-effect="fadeInRight" swiper-animate-duration="0.5s" swiper-animate-delay="0.9s">广州掌里通网络科技有限公司于2014年成立，坐落在美丽的花城——广州市花都区。地理位置优越，交通便利，公司办公地点位于花都区政府旁的高档写字楼内，办公环境优美。公司拥有先进的移动技术理念，丰富的互联网行业经验，以及对市场的敏锐洞察力，在首席执行官（CEO）凌腾云先生的带领下，经过近三年的磨砺和打拼，公司已发展成为一家在行业内颇具规模、极具影响力的互联网公司。公司拥有完善的组织架构、管理体系，同时拥有互联网专业技术人才组成的多达三十余人的技术团队、近百人的营销经验丰富的市场拓展团队。公司未来的发展目标是：三年内让掌里通平台在全国范围内遍地开花，让全国人民都能享受到智慧城市为人类带来的工作和生活的极大便利。</div>
+                    <div class="ani yd-btn-more" style="margin-top: 28px;" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="1.2s">
+                        <a href="companyIntroduce.html" class="yd-more">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide slide-img03 slide-relative" data-hash="slide4">
+            <div style="width: 100%;margin-top: 1.36rem;">
+                <h3 class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">成功案例</h3>
+                <p class="sub-title ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">SUCCESSFUL CASE</p>
+
+                <!--<div style="margin: 20px 28px 0;background-color: #f2f2f2;" class="ani" swiper-animate-effect="lightSpeedIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">-->
+                    <!--<a href="http://www.zhanglitong.com/resver_app/#/roomList?param=%7B%22id%22%3A%22340%22,%22type%22%3A0,%22reserve_price%22%3A%22100.00%22%7D" style="display: block">-->
+                        <!--<div><img src="http://www.zhanglitong.com/file/upload/201710/28/101841497255.jpg" alt="" style="width: 100%;height: 220px;"></div>-->
+                        <!--<div style="padding: 10px;">-->
+                            <!--<div class="text-left" style="font-size: 16px;color: #000;">长安制造Live</div>-->
+                        <!--</div>-->
+                    <!--</a>-->
+                <!--</div>-->
+
+                <div class="swiper-container" id="swiper-container3" style="height: auto;">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide new-swiper-slide">
+                            <div style="padding: 24px 15px 0;width: 100%;">
+                                <div style="background-color: #f2f2f2;width: 100%;" class="ani" swiper-animate-effect="lightSpeedIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">
+                                    <a href="http://www.zhanglitong.com/resver_app/#/roomList?param=%7B%22id%22%3A%22358%22,%22type%22%3A0,%22reserve_price%22%3A%2280.00%22%7D" style="display: block">
+                                        <div><img src="http://www.zhanglitong.com/file/upload/201712/11/084320243261.jpg" alt="" style="width: 100%;height: 220px;"></div>
+                                        <div>
+                                            <div class="text-left" style="font-size: 16px;color: #000;">
+                                                <article>
+                                                    <h4>广州市有米知粥餐饮有限公司</h4>
+                                                    <p> 除了精致可口的粤菜，本店的豪放派烤全羊、养生类灵芝鸡还有各色美食，
+                                                        满足你的味蕾，还有特色包间、KTV包房，一站式餐饮娱乐，是您宴席、请客的不二场所！
+                                                    </p>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide new-swiper-slide">
+                            <div style="padding: 24px 15px 0;width: 100%;">
+                                <div style="background-color: #f2f2f2;width: 100%;" class="ani" swiper-animate-effect="lightSpeedIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">
+                                    <a href="http://www.zhanglitong.com/resver_app/#/roomList?param=%7B%22id%22%3A%22360%22,%22type%22%3A0,%22reserve_price%22%3A%2280.00%22%7D" style="display: block">
+                                        <div><img src="http://www.zhanglitong.com/file/upload/201605/12/010616412003.png" alt="" style="width: 100%;height: 220px;"></div>
+                                        <div>
+                                            <div class="text-left" style="font-size: 16px;color: #000;">
+                                                <article>
+                                                    <h4>竹缘山庄</h4>
+                                                    <p> 竹缘山庄位于建设北路与平步大道交汇处，南菱汽车城对面加油站旁。正是采菊东篱下，悠然见南山。山庄采用天然的竹木材料建造而成，造型古朴，最适合您放下繁琐的工作，约上三五知己，好好放松一下心情。山庄内萦绕着郁郁葱葱的绿色植物，随处能发现自然和绿色的魅力。您在这里可以吃到味道地道的农家菜。</p>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide new-swiper-slide">
+                            <div style="padding: 24px 15px 0;width: 100%;">
+                                <div style="background-color: #f2f2f2;width: 100%;" class="ani" swiper-animate-effect="lightSpeedIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">
+                                    <a href="http://www.zhanglitong.com/resver_app/#/roomList?param=%7B%22id%22%3A%22342%22,%22type%22%3A0,%22reserve_price%22%3A%2280.00%22%7D" style="display: block">
+                                        <div><img src="http://www.zhanglitong.com/file/upload/201711/01/171930487269.jpg" alt="" style="width: 100%;height: 220px;"></div>
+                                        <div>
+                                            <div class="text-left" style="font-size: 16px;color: #000;">
+                                                <article>
+                                                    <h4>味正汤浓</h4>
+                                                    <p>火锅是以锅为器具，以热源烧锅，以水或汤烧开，来涮煮食物的烹调方式。其特色为边煮边吃，吃的时候食物仍热气腾腾，汤物合一。火锅现吃现烫，辣咸鲜，油而不腻，暴汗淋漓，酣畅之极，解郁除湿，今发展为鸳鸯锅，麻辣清淡各别，各取所需，老少咸宜，至冬之佳品。</p>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide new-swiper-slide">
+                            <div style="padding: 24px 15px 0;width: 100%;">
+                                <div style="background-color: #f2f2f2;width: 100%;" class="ani" swiper-animate-effect="lightSpeedIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">
+                                    <a href="http://www.zhanglitong.com/resver_app/#/roomList?param=%7B%22id%22%3A%22348%22,%22type%22%3A0,%22reserve_price%22%3A%2280.00%22%7D" style="display: block">
+                                        <div><img src="http://www.zhanglitong.com/file/upload/201712/04/114909827370.jpg" alt="" style="width: 100%;height: 220px;"></div>
+                                        <div>
+                                            <div class="text-left" style="font-size: 16px;color: #000;">
+                                                <article>
+                                                    <h4>品味食府</h4>
+                                                    <p> 品味食府特色招牌烤全羊，烤全羊是目前肉制品饮食中最健康最环保最绿色的美食了，烤全羊外表金黄油亮，外部肉焦黄发脆，内部肉绵软鲜嫩，羊肉味清香扑鼻，颇为适口，别具一格。品味食府还有各种小炒、小食、凉拌、铁板等等，色香味俱全，欢迎品尝。</p>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide new-swiper-slide">
+                            <div style="padding: 24px 15px 0;width: 100%;">
+                                <div style="background-color: #f2f2f2;width: 100%;" class="ani" swiper-animate-effect="lightSpeedIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">
+                                    <a href="http://www.zhanglitong.com/resver_app/#/roomList?param=%7B%22id%22%3A%22339%22,%22type%22%3A0,%22reserve_price%22%3A%2280.00%22%7D" style="display: block">
+                                        <div><img src="http://www.zhanglitong.com/file/upload/201710/31/150807837263.jpg" alt="" style="width: 100%;height: 220px;"></div>
+                                        <div>
+                                            <div class="text-left" style="font-size: 16px;color: #000;">
+                                                <article>
+                                                    <h4>新宝叔农庄</h4>
+                                                    <p>新宝叔农庄内进行餐饮、棋牌、聊天等项目，只以餐饮休闲为主。本类型农庄规模小但顺应了吃农家饭、看农家景的需求。标准为10菜一汤，供中晚两餐，原料为农庄自产的蔬菜、瓜果、自然放养的各种家禽动物、农庄自制的土特产品等。</p>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide new-swiper-slide">
+                            <div style="padding: 24px 15px 0;width: 100%;">
+                                <div style="background-color: #f2f2f2;width: 100%;" class="ani" swiper-animate-effect="lightSpeedIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">
+                                    <a href="http://www.zhanglitong.com/resver_app/#/roomList?param=%7B%22id%22%3A%22332%22,%22type%22%3A0,%22reserve_price%22%3A%2280.00%22%7D" style="display: block">
+                                        <div><img src="http://www.zhanglitong.com/file/upload/201703/14/093417644716.jpg" alt="" style="width: 100%;height: 220px;"></div>
+                                        <div>
+                                            <div class="text-left" style="font-size: 16px;color: #000;">
+                                                <article>
+                                                    <h4>湘西私房菜</h4>
+                                                    <p>湘菜，又叫湖南菜，是中国历史悠久的一种地方菜，早在汉朝就已经形成菜系。是汉族饮食文化八大菜系之一。
+                                                        以湘江流域、洞庭湖区和湘西山区三种地方风味为主。湘菜制作精细，用料上比较广泛，口味多变，品种繁多;
+                                                        色泽上油重色浓，讲求实惠;品味上注重酸辣、香鲜、软嫩;制法上以煨、炖、腊、蒸、炒诸法见称。
+                                                    </p>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next swiper-button-white" data-n="0"></div>
+                    <div class="swiper-button-prev swiper-button-white" data-n="0"></div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide slide-img03 slide-relative bg-5" data-hash="slide5">
+            <div style="width: 100%;margin-top: 1.36rem;">
+                <h3 class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">新闻资讯</h3>
+                <p class="sub-title ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">SUCCESSFUL CASE</p>
+                <div class="content5-p ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">
+                   <!-- <p>
+                        <span>2017-12-02</span>
+                        <span>新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻</span>
+                    </p>-->
+                    <!--<div class="text-left" style="font-size: 13px;color: #666;margin-bottom: 8px;">2017-11-30</div>
+                    <div class="text-left" style="font-size: 16px;color: #666;margin-bottom: 4px;">掌里通智慧手机点餐系统被各大新闻媒体盯上了！</div>
+                    &lt;!&ndash;<div class="text-left" style="font-size: 13px;color: #999;">在过去的近二十年中，柏涛公司伴随着中国的人居<br>住区的发展，是名副其实的实践者和见证者...</div>&ndash;&gt;
+                    <div style="padding: 10px 0;"><img src="img/01.jpg" alt="" style="width: 100%;"></div>-->
+                </div>
+                <div style="margin-top: 28px;" class="ani yd-btn-more" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="0.9s">
+                    <a href="news.html" class="yd-more">了解更多</a>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide slide-img03 slide-relative" data-hash="slide6">
+            <div style="width: 100%;margin-top: 1.36rem;">
+                <h3 class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">视频演示</h3>
+                <p class="sub-title ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">SUCCESSFUL CASE</p>
+                <div style="margin: .3rem .2rem;padding-bottom: 24px;">
+                    <iframe style="width: 100%;" frameborder="0" src="http://v.qq.com/iframe/player.html?vid=u0399wdqp8d&auto=0" allowfullscreen></iframe>
+                    <!--<iframe style="width: 100%;" frameborder="0" src="https://v.qq.com/iframe/player.html?vid=v0386h7i5o9&tiny=0&auto=0" allowfullscreen></iframe>-->
+                </div>
+                <div class="ani" style="margin:0 .2rem;" swiper-animate-effect="fadeInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="0.6s">
+                    <article>
+                        <h4>掌里通智慧城市</h4>
+                        <p>
+                            2016年，掌里通智慧城市平台申请了包括智慧商机在线管理系统、智慧餐饮管理系统、智慧商业供求信息对接平台在内的八项计算机软件著作权并且获得审批！今天，广州市花都区电视台的记者们带着广大用户对掌里通智慧城市平台八项计算机技术专利的“求知欲”来到了广州掌里通网络科技有限公司，对掌里通公司总裁凌腾云先生进行采访。
+                        </p>
+                    </article>
+                </div>
+                <div style="margin-top: 28px;" class="ani yd-btn-more" swiper-animate-effect="fadeInUp" swiper-animate-duration="0.5s" swiper-animate-delay="0.9s">
+                    <a href="http://www.zhanglitong.com/mobile/Video/video.html" class="yd-more">了解更多</a>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide slide-img03 slide-relative" data-hash="slide7">
+            <div style="width: 100%;margin-top: 1.36rem;">
+                <h3>荣获资质</h3>
+                <p class="sub-title ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">Aptitude</p>
+
+                <div class="swiper-container" id="swiper-container2" style="height: auto;">
+                    <div class="swiper-wrapper swiper-slide-yuimg">
+                        <div class="swiper-slide new-swiper-slide">
+                            <div>
+                                <img src="img/1.jpg" alt="资质证书">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div>
+                                <img src="img/2.jpg" alt="资质证书">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div>
+                                <img src="img/3.jpg" alt="资质证书">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div>
+                                <img src="img/4.jpg" alt="资质证书">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div>
+                                <img src="img/5.jpg" alt="资质证书">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div>
+                                <img src="img/6.jpg" alt="资质证书">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div>
+                                <img src="img/7.jpg" alt="资质证书">
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div>
+                                <img src="img/8.jpg" alt="资质证书">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next swiper-button-black"></div>
+                    <div class="swiper-button-prev swiper-button-black"></div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide slide-img02 slide-relative bg-8" style="background-color: rgba(0,0,0,.9);" data-hash="slide8">
+            <div style="width: 100%;margin-top: 1.36rem;">
+                <h3 class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">联系我们</h3>
+                <p class="sub-title ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0.3s">CONTACT US</p>
+                <p style="padding: 20px 0;">官方热线：020--36910000(转888)</p>
+                <div style="font-size: 12px;">版权所有：(c)2015-2025 掌里通智慧城市 SYSTEM All Rights Reserved 粤ICP备15012240号</div>
+                <figure class="QRcode">
+                    <img src="./img/QRcode.jpg" alt="二维码">
+                </figure>
+            </div>
+        </div >
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+</div>
+<!--头部-->
+<header>
+    <div class="yu-head-l clearfix" onclick="window.location.href='/'">
+        <div class="yd-logo">
+            <img src="img/logo.png" alt="">
+        </div>
+        <div class="yd-font">
+            <p class="yd-font-p1">掌里通智慧城市</p>
+            <p class="yd-font-p2">zhanglitong.com</p>
+        </div>
+    </div>
+    <div class="yd-head-r">
+        <div class="yd-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <a href="require.html" class="yd-btn">使用要求</a>
+    </div>
+</header>
+
+
+<!--右侧菜单栏-->
+<div class="yd-nav">
+    <a class="yd-close" href="javascript:;"><i class="iconfont icon-guanbi1" style="font-size: 20px;"></i></a>
+    <ul class="list-unstyled">
+        <li>首页</li>
+        <li>功能介绍</li>
+        <li>公司简介</li>
+        <li>成功案例</li>
+        <li>新闻资讯</li>
+        <li>视频演示</li>
+        <li>荣获资质</li>
+        <li>联系我们</li>
+    </ul>
+</div>
+
+<div class="yd-xiala"><i class="iconfont icon-shangla"></i></div>
+<script type="text/javascript" src="js/swiper.min.js"></script>
+<script type="text/javascript" src="js/swiper.animate1.0.2.min.js"></script>
+
+<script>
+    var swiper = new Swiper('#swiper-container1', {
+        direction: 'vertical',
+        hashNavigation: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        onInit: function(swiper){
+            swiperAnimateCache(swiper);
+            swiperAnimate(swiper);
+        },
+        onSlideChangeStart: function(){
+            swiperAnimate(swiper);
+        }
+    });
+
+    var swiper1 = new Swiper('#swiper-container2', {
+        // onInit: function(swiper){
+        //     console.log(swiper.activeIndex);
+        //     swiperAnimateCache(swiper);
+        //     swiperAnimate(swiper);
+        // }
+    });
+
+    var swiper2 = new Swiper('#swiper-container3', {});
+
+    var RWidth = $(window).width();
+    window.addEventListener('resize', function(){
+        var w = $(window).width();
+        if(w > 750){
+            window.location.href = 'http://www.zhanglitong.com/index.html';
+        }else{
+            window.location.href = 'http://y.zhanglitong.com';
+        }
+    }, false);
+
+    $(document).ready(function(){
+
+        $(".yd-menu").click(function(){
+            $(".yd-nav").css({
+                "left":"0"
+            });
+        });
+        $(".yd-close").click(function(){
+            $(".yd-nav").css({
+                "left":"100%"
+            });
+        });
+
+        $('.list-unstyled li').click(function(){
+            var index = $(this).index();
+            swiper.slideTo(index, 1000, function(swiper){
+                console.log(swiper);
+            });//切换到第一个slide，速度为1秒
+            $(".yd-nav").css({"left":"100%"});
+        });
+
+        $(".swiper-button-next").click(function(){
+            if(this.getAttribute("data-n") == 0){
+                swiper2.slideNext();
+            }else{
+                swiper1.slideNext();
+            }
+        });
+        $(".swiper-button-prev,#swiper-container3").click(function(){
+            if(this.getAttribute("data-n") == 0){
+                swiper2.slidePrev();
+            }else{
+                swiper1.slidePrev();
+            }
+        });
+
+        $(function(){
+            $.ajax({
+                url:'https://www.zhanglitong.com/mobile/introduction.php',
+                type:'post',
+                dataType:'json',
+                data:{action:'introduction'},
+                success:function(data){
+                    console.log(data);
+                    var d = data.data;
+                    console.log(d);
+                    for(var i=0;i<d.length;i++){
+                        var timestamp = d[i].addtime;
+                        var newDate = new Date();
+                        newDate.setTime(timestamp * 1000);
+                        var addtime = newDate.toJSON().split('T')[0];
+                        $('.content5-p').append('<p onclick="news('+d[i].itemid+')"><span>'+addtime+'</span><span>'+d[i].title+'</span> </p>');
+                    }
+                }
+            });
+        })
+    });
+
+    function news(itemid){
+        window.location.href = 'http://www.zhanglitong.com/mobile/index.php?moduleid=21&itemid=' + itemid;
+    }
+</script>
+</body>
+</html>

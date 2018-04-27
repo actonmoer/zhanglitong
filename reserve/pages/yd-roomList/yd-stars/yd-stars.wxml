@@ -1,0 +1,5 @@
+<stars>
+  <view class='yd-stars clearfix'>
+    <view class='{{item ? "active" : "item"}}' wx:for='{{arrstars}}' wx:key='item'></view>
+  </view>
+</stars>

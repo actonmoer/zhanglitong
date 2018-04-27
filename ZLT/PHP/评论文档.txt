@@ -1,0 +1,24 @@
+//验证订单
+传值：post
+url: usercenter.php
+需要传的值：action:show_comment，order_id(订单id)，
+namestatus（区别订单（mall or takeout）
+
+//订单评论
+传值：post
+url: usercenter.php
+需要传的值：action:buyer_comment，restaurant_id(店铺id)，
+seller(卖家名字 或id)，buyer(买家名字或ID)，seller_star(0-5)，
+seller_comment(评论的内容)，namestatus（区别订单（mall or takeout）
+
+//显示评论
+传值：post
+url: BusinessHome.php
+需要传的值：action:s_comment
+
+
+//订单回复
+传值：post
+url: BusinessHome.php
+需要传的值：action:r_comment，id（评论ID） ，content（回复内容）
+

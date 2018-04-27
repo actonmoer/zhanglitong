@@ -1,0 +1,4 @@
+/* pages/yd-video/yd-video.wxss */
+#myVideo{
+  width: 100%;
+}

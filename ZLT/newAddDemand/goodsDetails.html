@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width">
+    <title>商品详情</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_q2o1gog3ovcmcxr.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="../css/style.css">
+    <style type="text/css">
+        .goods-img>img{
+            width: 100%;height: 9.375rem;
+        }
+        h4.goods-title{
+            font-size: .9375rem;font-weight: bold;color: #333;margin: 0;padding: .5rem 0;
+        }
+        .goods-introduce{
+            font-size: .75rem;word-break:break-all;color: #999;line-height: 1.4375rem;padding-bottom: .625rem;letter-spacing: .0625rem;
+        }
+        .goods-btn{
+            padding: .625rem 0;
+        }
+        .goods-btn>a{
+            display: inline-block;
+            height: 1.5rem;
+            line-height: 1.5rem;
+            text-align: center;
+            background-color: #ccc;
+            font-size: .8125rem;
+            padding: 0 1rem;
+            margin: 0 .5rem;
+            border-radius: .25rem;
+        }
+        .goods-btn>a.on{
+            background-color: #3d95e5;
+            color: #fff;
+        }
+        .goods-set-meal{
+
+        }
+        .goods-set-meal-item{
+            height: 1.4375rem;line-height: 1.4375rem;
+        }
+        .goods-set-meal-item span{
+            line-height: 1.4375rem;
+            font-size: .625rem;
+            color: #666;
+        }
+        .goods-set-meal-item span:nth-child(1){
+            padding-left: .625rem;
+        }
+        .goods-set-meal-item span:nth-child(2){
+            padding-right: .625rem;
+        }
+        .goods-set-meal-item:nth-of-type(odd){
+            background-color: #f1f1f1;
+        }
+        .goods-set-meal-item:nth-of-type(even){
+            background-color: #fff;
+        }
+        .goods-Addbtn{
+            position: fixed;
+            bottom: .625rem;
+            width: 100%;
+        }
+        .goods-Addbtn>a{
+            width: 15.25rem;height: 2.375rem;line-height: 2.375rem;background-color: #5982f7;display: block;  margin: 0 auto;  color: #fff;
+        }
+    </style>
+</head>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<body style="background-color: #f1f1f1;" ng-app="goodsDetails">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:HistoryURL();"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">商品详情</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section ng-controller="goodsDetailsController">
+    <!--图片-->
+    <div class="goods-img">
+        <img ng-src="{{goodsAttr.thumb}}" src="/mobile/img/lb01.png">
+    </div>
+    <!--介绍详情-->
+    <div style="padding: 0 .8125rem;background-color: #fff;min-height: 6.25rem;">
+        <h4 class="goods-title">{{goodsAttr.dishes}}<span style="font-size: .875rem;" class="pull-right" style="color: #5982f7;">￥{{goodsAttr.sell_price | number:2}}</span></h4>
+        <div class="goods-introduce" ng-if="!goodsAttr.description">主人很懒，什么都没有写 </div>
+        <div class="goods-introduce" ng-if="goodsAttr.description">{{goodsAttr.description}}</div>
+    </div>
+    <!--按钮-->
+    <div class="goods-btn text-center">
+        <a href="javascript:;" ng-repeat="ga in goodsAttr.spec_data" ng-click="clickAttr($index)" ng-class="{on:isActive == $index}">{{ga.spec}}</a>
+    </div>
+    <!--套餐详情-->
+    <div style="padding: 0 .8125rem .5rem;background-color: #fff;min-height: 6.25rem;" ng-if="goodsAttr.is_spec == 1">
+        <h4 class="goods-title">{{goodsAttr.spec_data[isActive].spec}}</h4>
+        <div class="goods-set-meal">
+            <div class="goods-set-meal-item" ng-repeat="ga1 in goodsAttr.spec_data[isActive].mes">
+                <span class="pull-left">{{ga1[0]}}</span>
+                <span class="pull-right">{{ga1[1]}}</span>
+            </div>
+        </div>
+    </div>
+    <!--加入购物车按钮-->
+    <div class="text-center goods-Addbtn">
+        <a ng-click="addCart(goodsAttr.id, goodsAttr.is_spec, goodsAttr.takeout_id, goodsAttr.spec_attr, isActive)" class="text-center">加入购物车</a>
+    </div>
+</section>
+</body>
+
+<script type="text/javascript" src="/mobile/js/myjs.js"></script>
+<script type="text/javascript">
+    var obj = strUrl();
+    var app = angular.module('goodsDetails', []);
+    app.controller('goodsDetailsController', function($scope, $http) {
+        $scope.isActive = 0;
+        $http({
+            method: 'POST',
+            url: '/mobile/takeout_dishes_descript.php',
+            data: {id:obj.id},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest:function(obj){
+                var str = [];
+                for (var p in obj) {
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            }
+        }).then(function successCallback(response) {
+            console.log(response);
+            if(response.status == 200){
+                $scope.goodsAttr = response.data.data;
+            }
+        }, function errorCallback(response) {
+            // 请求失败执行代码
+        });
+
+        $scope.clickAttr=function(i){
+            $scope.isActive = i;
+            angular.forEach($scope.goodsAttr.spec_data, function(value, index){
+                if(i == index){
+                    $scope.goodsAttr.sell_price = value.price;
+                }
+            });
+        };
+
+        $scope.addCart=function(id, is_spec, takeout_id, spec_attr, isActive){
+            var attrM = "";
+            if(is_spec == 1){
+                var arr = [];
+                attrM = spec_attr.split(",")[isActive];
+            }
+            var obj1 = {dishes_id:obj.id,for_ajax:"takeout_cart_add",goods_number:1,is_spec:is_spec,spec_attr:attrM};
+            $http({
+                method: 'POST',
+                url: '/mobile/for_ajax.php',
+                data: obj1,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest:function(obj){
+                    var str = [];
+                    for(var p in obj){str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));}
+                    return str.join("&");
+                }
+            }).then(function successCallback(d) {
+                console.log(d);
+                if(d.status == 200 && d.data.success){
+                    $scope.cartShow(takeout_id);
+                }
+            }, function errorCallback(d) {
+                // 请求失败执行代码
+                HistoryURL();
+            });
+        };
+
+        $scope.cartShow=function(takeout_id){
+            $http({
+                method: 'POST',
+                url: '/mobile/for_ajax.php',
+                data:{for_ajax:"takeout_cart_show",takeout_id:takeout_id},
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest:function(obj){
+                    var str = [];
+                    for(var p in obj){str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));}
+                    return str.join("&");
+                }
+            }).then(function successCallback(d) {
+                console.log(d);
+                if(d.status == 200 && d.data.success){
+                    alert("成功添加购物车");
+                    window.location.href = "/mobile/takeout.php?act=restaurant&id="+takeout_id+"&lat="+obj.lat+"&lng="+obj.lng;
+                }
+            }, function errorCallback(d) {
+                // 请求失败执行代码
+                HistoryURL();
+            });
+        };
+    });
+</script>
+</html>

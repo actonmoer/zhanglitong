@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员注册_掌里通智慧城市</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
+<header class="h-nav text-center">
+    <div class="h-left pull-left">
+        <span class="glyphicon glyphicon-menu-left" style="color: #333;" aria-hidden="true"></span>
+        <span>返回</span>
+    </div>
+    <div class="h-title">
+        <span>会员注册</span>
+    </div>
+    <div class="h-right pull-right">
+        <span>取消</span>
+    </div>
+</header>
+<div style="margin-top: 101px;">
+    <div style="margin: 0 33px;">
+        <form class="r-form" method="post" id="dformpost">
+            <input type="hidden" name="action" value="post">
+            <input type="hidden" name="regid" value="5">
+            <div class="r-bor" style="margin-bottom: 15px;">
+                <input type="number" class="r-form-input form-control" name="mobile" id="mobile" placeholder="请填写真实的手机号码">
+            </div>
+            <div class="r-bor" style="margin-bottom: 15px;">
+                <input type="password" class="r-form-input form-control" name="password" id="password" placeholder="设置6－20个字符的密码">
+            </div>
+            <div class="clearfix">
+                <div class="r-bor pull-left" style="width: 60%;">
+                    <input type="text" class="r-form-input form-control" name="auth" id="auth" maxlength="6" placeholder="请输入手机验证码">
+                </div>
+                <div class="r-bor pull-right" style="text-align: center;line-height: 34px;width: 35%;font-size: 0;overflow: hidden;"><a href="javascript:;" id="SMS" class="SMS" onclick="getSMS(this)">获取验证码</a></div>
+            </div>
+            <p style="color: #666;font-size: 12px;height: 24px;line-height: 24px;">
+                <span id="eMsg" style="display: none;color: red;">以上全部为必填项</span>
+            </p>
+            <div class="checkbox" style="margin: 4px 0 33px;font-size: 0;">
+                <label style="color: #da251d;font-size: .14rem;">
+                    <input type="checkbox" id="xuanz" checked> 已阅读并同意注册协议
+                </label>
+            </div>
+            <div class="r-btn">
+                <input type="button" class="btn btn-disabled" value="注册" onclick="submitRegister()">
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+//    $(function(){
+//        $(":text").blur(function(){
+//            if($(this).val().length>0){
+//                $(":button").addClass("btn-orange").removeClass("btn-disabled");
+//            }else{
+//                //$(this).focus();
+//            }
+//        });
+//    });
+
+    //短信倒计时
+    function getSMS(v){
+        var s=59;
+        var reg=/^1[3|4|5|7|8]\d{5,9}$/;
+        var mPhone=$("input[name='mobile']").val();
+        var erorrM=$("#eMsg");
+        if(reg.test(mPhone)){
+            if(v.innerHTML == "获取验证码" || v.innerHTML == "重新获取"){
+                v.innerHTML=s;
+                this.timer=setInterval(function(){
+                    s--;
+                    v.innerHTML=s;
+                    if(s == 0){
+                        clearInterval(this.timer);
+                        v.innerHTML="重新获取";
+                    }
+                },1000);
+            }
+            //发短信接口
+            $(":button").addClass("btn-orange").removeClass("btn-disabled");
+        }else{
+            erorrM.text("手机号码格式有误").show();
+        }
+    };
+
+    //注册
+//    function submitRegister(){
+//        var mPhone=$("input[name='mobile']").val();
+//        var mPass=$("input[name='password']").val();
+//		var data = $("#dformpost").serialize();
+//		console.log(data);
+//        var erorrM=$("#eMsg");
+//        if(mPhone != "" && mPass != ""){
+//            $.ajax({
+//                type:"post",
+//                url:"for_register.php",
+//				dataType:"json",
+//                data:{"action":"post","data":data},
+//                success:function(msg){
+//                    //alert("提交成功");
+//                }
+//            });
+//        }else{
+//            erorrM.text("手机号码或密码不能为空");
+//        }
+//    };
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!-- 悬浮按钮 -->
+<nav>
+  <view class='fix-nav fix-n'>
+    <!-- <view class='fix-nav-x fix-n {{fixStatic ? "fix-static" : ""}}'>
+      <image src='https://www.zhanglitong.com/smallprogram/img/choujiang.png'></image>
+    </view> -->
+    <view class='fix-nav-y fix-n {{fixStatic ? "fix-static" : ""}}' bindtap='clickReturn'>
+      <image src='https://www.zhanglitong.com/smallprogram/img/return.png'></image>
+    </view>
+    <view class='fix-nav-z fix-n {{fixStatic ? "fix-static" : ""}}' catchtap='clickUrl'>
+      <image src='https://www.zhanglitong.com/smallprogram/img/chongzhika.png'></image>
+    </view>
+    <view class='fix-nav-add fix-n {{fixStatic ? "fix-static" : ""}}' bindtap='navclick'></view>
+  </view>
+</nav>

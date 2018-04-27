@@ -1,0 +1,114 @@
+<view class="home-container">
+  <!-- 搜索 -->
+  <view class="search-box">
+    <view class="area">
+      <picker mode="region" bindchange="bindRegionChange" value="{{region}}">
+        {{region[2]}}
+      </picker>
+      <text class="triangle"></text>
+    </view>
+    <view class="search">
+      <input class="input-empty" bindfocus="linkSearch" placeholder="搜索商家，商品" />
+      <icon class="search-icon" type="search" size="12" />
+    </view>
+  </view>
+  <!-- 轮播 -->
+  <view>
+    <swiper class='carousel' indicator-dots='true' indicator-color='rgba(255,255,255,1)' indicator-active-color='#4fc08d' circular="true" autoplay='true' interval='4000'>
+      <swiper-item>
+        <image class='carousel-img' src='/images/banle01.jpg' />
+      </swiper-item>
+      <swiper-item>
+        <image class='carousel-img' src='/images/banle02.jpg' />
+      </swiper-item>
+      <swiper-item>
+        <image class='carousel-img' src='/images/banle03.jpg' />
+      </swiper-item>
+      <!-- <swiper-item>
+        <image class='carousel-img' src='/images/04@2x.png' />
+      </swiper-item> -->
+    </swiper>
+  </view>
+  <!-- 外卖，预订导航 -->
+  <!-- <view class='nav'>
+    <view class='nav-item' bindtap='showurl'>
+      <view style='text-align:right;'>
+        <image class='nav-img' src='https://www.zhanglitong.com/smallprogram/img/food.png'></image>
+      </view>
+      <view class='nav-content'>
+        <text>餐饮</text>
+        <text>预定</text>
+      </view>
+    </view>
+    <view class='nav-item'>
+      <view style='text-align:right;'>
+          <image class='nav-img' src='https://www.zhanglitong.com/smallprogram/img/takeout.png'></image>
+      </view>
+      <view class='nav-content'>
+        <text>外卖</text>
+        <text>配送</text>
+      </view>
+    </view>
+  </view> -->
+  <!-- 商家列表 -->
+  <view class='seller-list'>
+    <!--导航  -->
+    <view style='height:72rpx;margin-bottom:10rpx;'>
+      <view class='seller-title-view {{ !isEntity ? "seller-title-view-toTop" : " " }}'>
+        <view class='{{isActive[1] == 1 ? "active" : "none"}}' bindtap='clickActive' data-index='1'>
+          <picker bindchange="bindDishes" value="{{dishesIndex}}" range="{{dishes}}" range-key="catname">
+            <view class="picker">
+              {{dishes[dishesIndex].catname}}
+              <text class="triangle triangle-second"></text>
+            </view>
+          </picker>
+        </view>
+        <view class='{{isActive[0] == 1 ? "active" : "none"}}' data-index='0' bindtap='clickActive'>
+          <picker value="{{allTypeIndex}}" range="{{allType}}" bindchange="bindChangeAllType">
+            <view class="picker">
+              {{allType[allTypeIndex]}}
+              <text class="triangle triangle-first"></text>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+    <!-- <text class='title'>预订商家</text> -->
+    <!-- 单个商家 -->
+    <view class='seller-item' wx:for="{{abusiness}}" wx:key="company" bindtap='businessDetail' data-id='{{item.id}}' data-reserveprice="{{item.reserve_price}}">
+      <view class='img-box'>
+        <image class='seller-img' src='{{item.thumb}}'></image>
+      </view>
+      <view class='seller-detail'>
+        <view class='title-box'>
+          <text class='seller-title'>{{item.company}}</text>
+          <text class='distance'>{{item.distance1}}</text>
+        </view>
+        <view class='star-box'>
+          <image class='star-item' src='/images/star-light.png'></image>
+          <image class='star-item' src='/images/star-light.png'></image>
+          <image class='star-item' src='/images/star-light.png'></image>
+          <image class='star-item' src='/images/star-light.png'></image>
+          <image class='star-item' src='/images/star-light.png'></image>
+        </view>
+        <view class='seller-state'>
+          <text class='state'>{{item.rooms_now == 1 ? '有' : '无'}}空房/{{item.desks_now == 1 ? '有' : '无'}}空桌</text>
+        </view>
+        <view class="give" wx:if="{{ item.is_present == 1 && item.title != null}}">预定成功，送{{item.title}}</view>
+        <view class='seller-time'>
+          <text class='time'>营业时间：{{item.servicetime}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 没商家的时候引用 -->
+    <view class='empty-shop' wx:if='{{abusiness.length <= 0}}'>
+      <empty></empty>
+      <text class='back' catchtap='backIndex'>回到首页</text>
+    </view>
+  </view>
+
+  <!-- 悬浮按钮 -->
+  <!-- <nav innername='navname' bind:myevent="abc"></nav> -->
+</view>

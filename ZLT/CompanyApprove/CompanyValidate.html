@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>企业认证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnse94jdj7lrqkt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/approve.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">企业认证</div>
+        <div class="h-R" style="font-size:.875rem;color:#fff;">我的</div>
+    </div>
+</header>
+<section>
+    <nav class="path-nav">
+        <ul class="clearb path-ul">
+            <li><a href="javascript:;" class="path-color">1.填写信息</a></li>
+            <li><i class="iconfont icon-xiangqian"></i></li>
+            <li>2.提交认证</li>
+        </ul>
+    </nav>
+    <form id="approveForm" onsubmit="return formsubmit()">
+        <div class="personal-message bfff">
+            <div class="m20-lr" style="padding: 1.25rem 0 .1rem;">
+                <div class="m20-b">
+                    <input type="text" class="form-control name-input" name="company" placeholder="请输入公司名称" required>
+                </div>
+                <!--<div class="m20-b">-->
+                    <!--<select class="form-control shop-select" name="catid" style="height: 2.5rem;color: #666;" required>-->
+                        <!--<option>请输入公司所属行业</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+                <div class="m20-b clearb">
+                    <div class="upload-papers"><p>上传证照：</p></div>
+                    <div class="papers" style="float: left;">
+                        <i class="iconfont icon-tianjia" onclick="document.getElementsByName('thumb')[0].click()" style="font-size: 2.5rem;color: #3d95e5;margin: 1.75rem 0 1.1875rem;line-height: initial;"></i>
+                        <p style="color: #666;font-size: .875rem;">营业执照</p>
+                        <input type="file" name="thumb" class="hide" onchange="upImg($(this))" accept="image/*">
+                    </div>
+                    <div class="papers" style="float: right;">
+                        <i class="iconfont icon-tianjia" onclick="document.getElementsByName('thumb1')[0].click()" style="font-size: 2.5rem;color: #3d95e5;margin: 1.75rem 0 1.1875rem;line-height: initial;"></i>
+                        <p style="color: #666;font-size: .875rem;">行业认证</p>
+                        <input type="file" name="thumb1" class="hide" onchange="upImg1($(this))" accept="image/*">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tip">
+            <p>注：</p>
+            <p>1、请上传公司有效证件（营业执照、组织机构代码证、税务登记证）的电子版本，以便网站核实认证</p>
+            <p>2、证件上的公司名称必须与填写的公司名称一致</p>
+            <p>3、行业认证请根据所选行业，上传相关行业许可证</p>
+        </div>
+        <div style="margin: 0 1.25rem 1.25rem;">
+            <input type="submit" class="btn u-btn" style="width: 100%;" value="提交认证">
+        </div>
+    </form>
+
+
+</section>
+<script>
+    //请求状态
+    $(document).ready(function(){
+        $.ajax({
+            type:"post",
+            url:"../usercenter.php",
+            data:{action:"check_company"},
+            success:function(data){
+                console.log(data);
+                var data=$.parseJSON(data);
+                if(data.code == -200){
+                    alert(data.msg);
+                    window.location.href="http://www.zhanglitong.com/mobile/my.php";
+                }
+            }
+        });
+    });
+
+    //表单提交
+    function formsubmit(){
+        var c_name=$("input[name='company']").val();
+        var c_img=$("#thumb").val();
+        var c_img1=$("#thumb1").val();
+        if(c_img != ""){
+            $.ajax({
+                type:"post",
+                url:"../usercenter.php",
+                dataType:"json",
+                data:{action:"enterprise_certification",company:c_name,thumb:c_img,thumb1:c_img1},
+                success:function(data){
+                    console.log(data);
+                    if(data.msg == "ok"){
+                        window.location.href="CompanyValidateComplete.html";
+                    }
+                }
+            });
+        }
+        return false;
+    }
+
+    //上传图片
+    function upImg(s){
+        $.ajax({
+            url: '../imagenew.php',
+            type: 'POST',
+            cache: false,
+
+
+            data:new FormData($("#approveForm")[0]),
+            processData: false,
+            contentType: false
+        }).done(function(res) {
+            var d=$.parseJSON(res);
+            if(d.code == 200){
+                s.parent().html("<img src='"+d.thumb+"' style='width: 8.125rem;height: 8.125rem;'>");
+                $("#approveForm").append("<input type='hidden' id='"+s[0].name+"' value='"+d.thumb+"'>");
+            }
+        }).fail(function(res) {
+            alert("发生未知错误");
+        });
+    }
+
+    //上传图片
+    function upImg1(s){
+        $.ajax({
+            url: '../imagenew2.php',
+            type: 'POST',
+            cache: false,
+            data:new FormData($("#approveForm")[0]),
+            processData: false,
+            contentType: false
+        }).done(function(res) {
+            var d=$.parseJSON(res);
+            if(d.code == 200){
+                s.parent().html("<img src='"+d.thumb1+"' style='width: 8.125rem;height: 8.125rem;'>");
+                $("#approveForm").append("<input type='hidden' id='"+s[0].name+"' value='"+d.thumb1+"'>");
+            }else{
+                alert("图片上传有误");
+            }
+
+        }).fail(function(res) {
+            alert("发生未知错误");
+        });
+    }
+</script>
+</body>
+</html>

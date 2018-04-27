@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付方式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular-aria.min.js"></script>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/fonts/glyphicons-halflings-regular.woff2">
+    <style type="text/css">
+        .bor{
+            border: 2px solid #e7e7e7;
+            height: 46px;
+            border-radius: 4px;
+        }
+        ul{
+            list-style: none;
+        }
+        .inputm{
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            border: 0 none;
+            margin-top: 5px;
+            outline: none;
+        }
+        header{
+            height: 37px;
+        }
+        .header{
+            position: fixed;
+            top:0;
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            height: 37px;
+            -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            z-index: 10;
+        }
+        .h-left{
+            width: 17%;
+            text-align: right;
+        }
+        .h-left a,.h-right a,.h-center{
+            display: block;
+            line-height: 37px;
+            color: #333;
+        }
+        .h-right{
+            text-align: left;
+            width:18%;
+        }
+        .h-center{
+            width: 65%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body id="bodya" style="background-color: #f7f7f7;">
+<header>
+    <div class="header">
+        <div class="h-left"><a href="javascript:HistoryURL();" style="font-size: 13px;"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>返回</a></div>
+        <div class="h-center" style="font-size: 16px;">实名认证</div>
+        <div class="h-right"><a href="javascript:;" style="font-size: 13px;">我的</a></div>
+    </div>
+</header>
+<form action="charge.php?action=payforseller" id="myform" method="post" onsubmit="return checkFrom()">
+    <input type="hidden" name="money" value="" />
+    <input type="hidden" name="bank" value="" />
+    <input type="hidden" name="payid" value="" />
+    <div style="background-color: #fff;padding:20px 15px 10px;">
+        <div class="bor">
+            <!--<span class="pull-left" style="line-height: 44px;padding-left: 10px;font-size: 18px;">消费金额：</span>-->
+            <!--<span id="money" class="pull-right" style="line-height: 44px;padding-right: 10px;font-size: 20px;min-width: 50px;max-width: 150px;text-align: center;outline: none;white-space:nowrap; overflow: hidden;" onblur="getDiscount()" onfocus="getfocus(this)"><input-->
+            <!--type="text" style="border: 0 none;"></span>-->
+            <!--<span class="pull-right" style="line-height: 44px;font-size: 20px;">￥</span>-->
+            <input type="text" autocomplete="off" placeholder="请输入付款金额" onkeyup="getMoney(this)" onblur="getDiscount()" class="inputm" name="m" id="m">
+        </div>
+        <div id="ActualPay" style="padding-left: 10px;color: red;font-size: 16px;margin-top: 5px;display: none;">实付金额：<span style="font-size: 16px;">10.00</span></div>
+    </div>
+    <div style="margin-top: 10px;background-color: #fff;height: 50px;">
+        <div style="margin: 0 15px;">
+            <span class="pull-left" style="font-size: 16px;line-height:50px;">收款人：</span>
+            <span id="company" class="pull-right" style="font-size: 16px;line-height:50px;max-width: 150px;white-space: nowrap;text-overflow:ellipsis;overflow: hidden;">XX餐饮店</span>
+        </div>
+    </div>
+    <div style="line-height: 35px;font-size: 14px;padding-left: 16px;color: #666;">支付方式</div>
+    <div>
+        <style type="text/css">
+            .cell,.cell-access{position:relative;display:-webkit-box;display:-webkit-flex;display:flex;min-height:5rem;background:#fff;padding:0 1.8rem;-webkit-box-align:center;-webkit-align-items:center;align-items:center}
+            .cell-icon,.cell-icon img{width:2rem;height:2rem}
+            .cell-left{-webkit-box-flex:1;-webkit-flex:1;flex:1;margin:0;padding-right:1rem;color:#555}
+            .cell-ellipsis{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+            .checkbox{height:4rem;position:relative;display:-webkit-inline-box;display:-webkit-inline-flex;display:inline-flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center}
+            .checkbox input[type=checkbox],.checkbox input[type=radio]{position:absolute;top:0;left:0;margin:0;opacity:0;z-index:9;width:100%;height:100%;-webkit-appearance:none}
+            .checkbox-icon,.checkbox-icon-round{position:relative;display:block;width:20px;height:20px;background:#fff;-webkit-transition:background .1s;transition:background .1s;border:1px solid #ddd}
+            .checkbox-icon-round:after,.checkbox-icon:after{position:absolute;content:"";top:3px;right:6px;width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;-webkit-transform:rotate(45deg) scale(0);transform:rotate(45deg) scale(0);-webkit-transition:-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:transform .2s cubic-bezier(.18,.89,.32,1.28) .1s;transition:transform .2s cubic-bezier(.18,.89,.32,1.28) .1s,-webkit-transform .2s cubic-bezier(.18,.89,.32,1.28) .1s}
+            .checkbox-icon-round{border-radius: 50%;}
+            .cell-icon{text-align:center;margin-right:1.6rem}
+            input:checked+.checkbox-icon,input:checked+.checkbox-icon-round{background:#00cab7;border-color:#00cab7;background-clip:padding-box}input:checked+.checkbox-icon-round:after,input:checked+.checkbox-icon:after{-webkit-transform:rotate(45deg) scale(1);transform:rotate(45deg) scale(1)}
+
+            .icon-clock,.icon-error,.icon-help,.icon-info,.icon-success{display:block;position:relative;width:32px;height:32px;border-radius:100%;border:1px solid #fff}.icon-success:after{position:absolute;content:'';top:20%;right:40%;width:25%;height:50%;-webkit-transform:rotate(45deg);transform:rotate(45deg);border:solid #fff;border-width:0 1px 1px 0}.icon-error:after,.icon-error:before{position:absolute;content:'';top:50%;left:0;width:100%;height:1px;background:#fff}.icon-error:before{-webkit-transform:rotate(45deg) scaleX(.6);transform:rotate(45deg) scaleX(.6)}.icon-error:after{-webkit-transform:rotate(-45deg) scaleX(.6);transform:rotate(-45deg) scaleX(.6)}.icon-help:after,.icon-info:after{top:50%;left:50%;font-size:14px;font-style:normal;position:absolute;-webkit-transform:translate3d(-50%,-50%,0);transform:translate3d(-50%,-50%,0)}.icon-help{width:20px;height:20px;border-color:#67789e}.icon-help:after{content:'?';color:#67789e;font-weight:300}.icon-help:active{background:#f2f2f2}.icon-info{width:16px;height:16px;margin-right:.5rem;display:inline-block;border-color:#fa6b4e;vertical-align:middle}.icon-info:after{content:'!';font-size:12px;font-weight:400}.cell-box{margin:1.5rem 0;position:relative}.cell-box:after,.cell-box:before{width:100%;height:1px;background-color:#e5e5e5;content:" ";left:0;position:absolute}.cell-box:before{top:-1px}.cell-box:after{bottom:-1px}@media (-webkit-min-device-pixel-ratio:2){.cell-box:after,.cell-box:before{-webkit-transform:scaleY(.5);transform:scaleY(.5);-webkit-transform-origin:0 0;transform-origin:0 0}.cell-box:before{-webkit-transform-origin:0 bottom;transform-origin:0 bottom}.cell-box:after{-webkit-transform-origin:0 top;transform-origin:0 top}}
+            .cell-access:not(:first-child),.cell:not(:first-child){position:relative}.cell-access:not(:first-child):after,.cell:not(:first-child):after{width:100%;height:1px;background-color:#e5e5e5;top:-1px;content:" ";left:0;position:absolute}@media (-webkit-min-device-pixel-ratio:2){.cell-access:not(:first-child):after,.cell:not(:first-child):after{-webkit-transform:scaleY(.5);transform:scaleY(.5);-webkit-transform-origin:0 0;transform-origin:0 0}}.cell-access:active{background:#eee}
+            .cell-left-disabled{color:#999}.cell-right{text-align:right;color:#888}.cell-label{width:8.6rem;color:#666;display:inline-block}
+            .cell-arrow{position:relative;color:#888;text-align:right;padding-right:1.5rem}.cell-arrow:after{position:absolute;content:'';top:50%;right:2px;width:6px;height:6px;margin-top:-3px;-webkit-transform:rotate(45deg);transform:rotate(45deg);border-top:2px solid #ccc;border-right:2px solid #ccc}
+            .cell-info{color:#5f739a;font-size:1.3rem;padding:0 1.5rem;line-height:4rem;margin-bottom:-1.2rem}.cell-msg{display:none;color:#fa6b4e;font-size:1.4rem;background-color:#fff;padding:0 1rem .6rem 10.1rem}.cell-msg span{vertical-align:middle}.form-label,.form-select{font-weight:700;min-width:8.6rem;color:#5b5b6a;font-size:1.6rem;word-spacing:1.2rem}.form-input{-webkit-box-flex:1;-webkit-flex:1;flex:1;width:0;border:none;display:block;color:#5b5b6a}.form-input::-webkit-input-placeholder{color:#bbb;font-weight:400}.form-clear{display:none}.form-clear .icon-error{position:absolute;top:50%;left:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border-color:#b2bcd3}.form-clear .icon-error:after,.form-clear .icon-error:before{background:#b2bcd3}.form-help .icon-help{position:absolute;top:50%;left:50%;margin:-10px 0 0 -10px}.form-clear,.form-help{position:relative;min-width:5rem;height:4rem;margin-right:-1.5rem}.form-select{position:relative}.form-select select{border:0;width:100%;-webkit-appearance:none;background-color:transparent;word-spacing:1rem}.form-select:after{position:absolute;content:'';top:50%;right:2.2rem;width:8px;height:8px;margin-top:-5px;border:solid #ccc;border-width:2px 2px 0 0;-webkit-transform:rotate(135deg);transform:rotate(135deg)}.nav{position:relative;background:#fafafa;border-bottom:1px solid hsla(0,0%,67%,.28)}.nav-title{color:#292929;font-size:1.6rem;font-weight:700;text-align:center;line-height:4.2rem}.nav-back{position:absolute;top:0;left:0;width:5rem;height:100%;z-index:1}.nav-back:active{background:#eee}.nav-back:before{position:absolute;content:'';top:50%;left:18px;width:12px;height:12px;margin-top:-6px;border:solid #00bdae;border-width:2px 0 0 2px;-webkit-transform:rotate(315deg);transform:rotate(315deg)}.btn-line{margin:2rem 0;padding:0 1.8rem}.btn-line .btn{width:100%}.btn-disabled{border-color:#ffd595}.btn-disabled,.btn-disabled:active{color:hsla(0,0%,100%,.8);background:#ffd595}.btn-group{display:-webkit-box;display:-webkit-flex;display:flex;padding:0 1.5rem}.btn-group .btn{display:block;-webkit-box-flex:1;-webkit-flex:1;flex:1}.btn-group .btn:not(:last-child){margin-right:1.5rem}.sms-btn{padding:0;color:#999;min-width:8rem;background:#fff;font-size:1.2rem;margin-left:1rem;border-color:#999;line-height:2.6rem}.sms-btn:active{color:#999;background:#eee}.toast-message{position:fixed;width:100%;top:45%;z-index:100;text-align:center}.toast-message span{display:inline-block;max-width:80%;border-radius:5px;padding:.8rem 1.8rem;background:rgba(0,0,0,.7);-webkit-animation:toast-fade both .3s;animation:toast-fade both .3s}.toast-mask{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99;background:transparent}.toast-box .icon-error,.toast-box .icon-success{margin:0 auto 1.2rem}.modal{position:fixed;display:none;top:0;left:0;width:100%;height:100%;z-index:100;background:rgba(0,0,0,.3)}.modal .btn{width:100%;border:none;border-radius:0;background:transparent;color:#00cab7;border-top:1px solid #ddd}.modal .btn:active{background:#f2f2f2}.modal .btn-group{padding:0}.modal .btn-group .btn{margin:0}.modal .btn-group .btn:not(:last-child){border-right:1px solid #ddd}.modal-box{position:absolute;top:50%;left:50%;width:90%;max-width:480px;overflow:hidden;border-radius:3px;background-color:#fff;-webkit-transform:translate3d(-50%,-55%,0);transform:translate3d(-50%,-55%,0);box-shadow:0 1px 3px rgba(0,0,0,.2)}.modal-title{font-weight:700;text-align:center;margin:15px 0 -5px;color:#333}.modal-body{margin:25px 0;padding:0 20px;line-height:1.5;overflow-y:auto;max-height:200px;text-align:center;color:#7a7a7a}.modal-img{width:100%;margin-top:.5rem}
+            .checkbox-disabled input[type=checkbox],.checkbox-disabled input[type=radio]{display:none}.checkbox-disabled span.checkbox-icon{background:#f2f2f2;border-color:#ddd;display:none}.checkbox-disabled span.checkbox-icon:after{border-color:#ddd}.…
+        </style>
+        <!--余额-->
+        <div>
+            <div>
+                <div class="in-pay-type cell-access">
+                    <div class="cell-icon">
+                        <img src="http://www.zhanglitong.com/member/static/takeout/img/unionpaynew.png" alt="余额支付">
+                    </div>
+                    <div class="cell-left">
+                        <div class="in-pay-title cell-ellipsis">余额支付 </div>
+                        <div class="in-pay-info cell-ellipsis">
+                            <span class="in-amount-info">用账户余额支付</span>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" name="bank" value="zhanglitong">
+                        <span class="checkbox-icon-round"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--微信-->
+        <div>
+            <div>
+                <div class="in-pay-type cell-access">
+                    <div class="cell-icon">
+                        <img src="http://www.zhanglitong.com/member/static/takeout/img/weixin2-2.png" alt="微信支付">
+                    </div>
+                    <div class="cell-left">
+                        <div class="in-pay-title cell-ellipsis">微信支付 </div>
+                        <div class="in-pay-info cell-ellipsis">
+                            <span class="in-amount-info">推荐安装微信6.0.2及以上版本</span>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" name="bank" value="weixin">
+                        <span class="checkbox-icon-round"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--支付宝-->
+        <div>
+            <div>
+                <div class="in-pay-type cell-access">
+                    <div class="cell-icon">
+                        <img src="http://www.zhanglitong.com/member/static/takeout/img/alipay2-2.png" alt="支付宝支付">
+                    </div>
+                    <div class="cell-left">
+                        <div class="in-pay-title cell-ellipsis">支付宝支付 </div>
+                        <div class="in-pay-info cell-ellipsis">
+                            <span class="in-amount-info">推荐有支付宝账户的用户使用</span>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" name="bank" value="alipay">
+                        <span class="checkbox-icon-round"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="pass" style="padding: 10px 25px;background-color: #fff;margin-top: 10px;display: none;">
+            <input type="password" class="form-control" name="password" placeholder="请输入支付密码">
+        </div>
+    </div>
+    <div style="margin: 10px 15px 0;"><input type="submit" id="submitBtn" class="btn btn-success" style="width: 100%;" value="立即支付"></div>
+</form>
+<script type="text/javascript">
+    var iValue;
+    //提交表单数据
+    function checkFrom(){
+        var sbtn=document.getElementById("submitBtn");
+        var money=document.getElementById("m");
+        var pWay=document.getElementsByName("bank")[0];
+        var pWord=document.getElementsByName("password")[0];
+        if(money.value < 0 || money.value == ""){
+            alert("请输入金额");
+            return false;
+        }
+        if(pWay.value == ""){
+            alert("选择支付方式");
+            return false;
+        }else if(pWay.value == "zhanglitong"){
+            if(pWord.value == ""){
+                alert("请输入密码");
+                return false;
+            }
+        }
+        sbtn.submit();
+    };
+
+    //获得金额
+    function getMoney(s){
+        console.log(s.value);
+        var m=document.getElementsByTagName("input");
+        for(var i=0;i<m.length;i++){
+            if(m[i].name == "money" && m[i].type == "hidden"){
+                m[i].value = s.value;
+            }
+        }
+    }
+
+    var payType;
+    //随机数
+    function randomNumber(){
+        var d=new Date().getTime();
+        return d;
+    }
+
+    window.onload=function(){
+        var url=window.location.search;
+        var arr=[];
+        var urlcode=url.slice(1);
+        var arrA=urlcode.split("&");
+        for(var i=0;i<arrA.length;i++){
+            var a=arrA[i].split("=");
+            arr.push(arrA[i].split("="));
+            if(i!=arrA.length){
+                console.log(arr[i][0],arr[i][1]);
+                var inphide=document.createElement("input");
+                inphide.type="hidden";
+                inphide.name += arr[i][0];
+                inphide.value += arr[i][1];
+                document.getElementById("myform").appendChild(inphide);
+            }
+        }
+        document.getElementById("company").innerHTML = decodeURI(document.getElementsByName("company")[0].value);
+        //选择支付方式
+        var p=document.getElementsByClassName("in-pay-type");
+        for(var i=0;i<p.length;i++) {
+            p[i].index = i;
+            p[i].onclick = function () {
+                var b = p[this.index].getElementsByClassName("checkbox")[0].getElementsByTagName("input")[0];
+                b.checked = true;
+                var m=document.getElementsByTagName("input");
+                for(var i=0;i<m.length;i++){
+                    if(m[i].name == "bank" && m[i].type == "hidden"){
+                        m[i].value = b.value;
+                    }
+                    if(m[i].name == "payid" && m[i].type == "hidden"){
+                        if(m[i].value == ""){
+                            m[i].value = "pay-"+randomNumber();
+                        }
+                    }
+                }
+                iValue=b.value;
+                if(iValue == "zhanglitong"){
+                    document.getElementById("pass").style.display="block";
+                }else{
+                    document.getElementById("pass").style.display="none";
+                }
+                return iValue;
+            };
+        }
+    };
+
+    function getDiscount(){
+        var money=$("#m").value;
+        var t=$("input[name='touser']").value;
+        if($("#m").value != 0 && $("#m").value != ""){
+            $.post("charge.php?action=paymoney",{money:money,touser:t},function(data){
+                $("#ActualPay").show();
+                $("#ActualPay span").text(data);
+            });
+        }
+    }
+    function HistoryURL(){
+        if(document.referrer == ""){
+            window.location.href="./";
+        }else{
+            window.location.href=document.referrer;
+        }
+    }
+</script>
+</body>
+</html>

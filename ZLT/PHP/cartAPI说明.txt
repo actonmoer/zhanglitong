@@ -1,0 +1,82 @@
+路径：new_cart.php
+传值方式：post
+访问文件： 'code'=>-200,'msg'=>'not_login'：未登录
+参数：action{
+.....................................
+(1)add_cart  :创建购物车{
+   请求参数：array
+    例：array=array('shop_id'=>'86',
+                    'namestatus'=>"takeout",
+                    'goods_message'=>array(array('goods_id'=>"2283",
+                                                       'num'=>"3",
+                                                       'spec_attr'=>"        加辣")));
+    
+    返回参数：'code'=>-200,'msg'=>'err','data'=>'购物车创建失败！'
+              'code'=>200,'msg'=>'ok','data'=>'创建购物车成功！'
+
+}
+.....................................
+(2)show_cart :展示购物车{
+ 请求参数：无
+    返回参数：'code'=>200,'msg'=>'ok','data'=>'创建购物车成功！'
+}
+......................................
+(3)del_cart  :清空购物车{
+请求参数：无
+    返回参数：'code'=>200,'msg'=>'ok','data'=>'创建购物车成功！'
+	      'code'=>-200,'msg'=>'err','data'=>'清空购物车失败！'
+}
+.....................................
+(4)add_goods :添加商品{
+请求参数：array
+    例：array=array('shop_id'=>'86',
+                    'namestatus'=>"takeout",
+                    'goods_message'=>array(array('goods_id'=>"2283",
+                                                       'num'=>"3",
+                                                       'spec_attr'=>"加辣")));
+    
+    返回参数：'code'=>-200,'msg'=>'err','data'=>'购物车创建失败！'
+              'code'=>200,'msg'=>'ok','data'=>'创建购物车成功！'
+              'code'=>-201,'msg'=>'err','data'=>'商品已存在于购物车中'
+              
+}
+......................................
+(5)edit_goods:修改商品{
+请求参数：array(注：num,spec_attr为需修改的变量)
+    例：array=array('shop_id'=>'86',
+                    'namestatus'=>"takeout",
+                    'goods_message'=>array(array('goods_id' =>"2283",
+                                                 'num'      =>"3",
+                                                 'spec_attr'=>"加辣")));
+
+    
+    返回参数：'code'=>-201,'msg'=>'err','data'=>'购物车中不存在该商品'
+              'code'=>200, 'msg'=>'ok', 'data'=>'修改成功！'
+              'code'=>-201,'msg'=>'err','data'=>'修改失败！'
+              
+}
+......................................
+(6)del_goods :删除商品{
+请求参数：array   
+例：array=array('shop_id'   => '86',
+                'namestatus'=> 'takeout',
+                'goods_id'  => 2283 )
+
+    
+    返回参数：'code'=>-201,'msg'=>'err','data'=>'购物车中不存在该商品'
+              'code'=>200,'msg'=>'ok','data'=>'删除成功！'
+              'code'=>-201,'msg'=>'err','data'=>'删除失败！'
+              
+}
+
+
+
+}
+
+
+
+
+
+
+
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>站内信件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_k73qtma3ig5mte29.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/mail.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">站内信件</div>
+        <div class="h-R" style="text-align:right;font-size:.875rem;color:#fff;margin-right:1.25rem;">删除</div>
+    </div>
+</header>
+<section>
+    <div class="mail-detail">
+    </div>
+</section>
+<script>
+    $(function(){
+        var obj = strUrl(window.location.search);
+        var id = obj.id;
+        $.post("../bobotest.php",{action:"show_detail_message",itemid:id},
+            function(data){
+                var d = data.data;
+                var sender = d.fromuser;
+                if (sender == ""){
+                    var sender = "系统信使";
+                }
+                $(".mail-detail").append(mailDetail(d.title,sender,mtime(d.addtime),d.content));
+            },"json");
+        $(".h-R").click(function(){
+            delMail(id);
+        });
+    });
+    function mailDetail(title,sender,addtime,content){
+        var mail = '<div class="mail-title">'+
+                   '<p><span>'+title+'</span></p>'+
+                   '<p><span>发件人：</span><span>'+sender+'</span></p>'+
+                   '<p><span>时间：</span><span>'+addtime+'</span></p>'+
+                   '</div>'+
+                   '<div class="mail-content">'+
+                   '<p>'+content+'</p>'+
+                   '</div>';
+        return mail;
+    }
+    function delMail(id){
+        $.post("../bobotest.php",{action:"del_message",itemid:id},
+            function(data){
+                var d=$.parseJSON(data);
+                if(d.code == 200){
+                    alert("删除成功！");
+                    window.location.href = "mailList.html";
+                }
+            });
+    }
+</script>
+</body>
+</html>

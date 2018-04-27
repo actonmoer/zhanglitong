@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>充值</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_6ej3pm25ln154s4i.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/recharge.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">充值</div>
+        <div class="h-R" style="text-align:left;margin-right:1.25rem;font-size:.875rem;color:#fff;" onclick="window.location.href='rechargeList.html'">充值记录</div>
+    </div>
+</header>
+<section>
+    <nav>
+        <div class="nav-on" onclick="payWay($(this))"><a href="javascript:;" class="nav-a on">在线充值</a></div>
+        <div class="nav-on" onclick="payWay($(this))"><a href="javascript:;" class="nav-a">充值卡充值</a></div>
+    </nav>
+    <!--在线充值-->
+    <form style="display:block" method="post" action="../../member/charge.php?action=pay_charge">
+        <div class="recharge">
+            <div class="recharge-money clearb">
+                <!--<span>充值金额</span>-->
+                <div>
+                    <input type="number" name="money" class="money-input form-control " placeholder="￥请输入充值金额" required>
+                </div>
+            </div>
+            <div class="recharge-way clearb">
+                <div class="checkBox"><span>选择支付方式：</span></div>
+                <div class="pay-container" id="apliay">
+                    <div class="pay-type">
+                        <p>
+                            <span>支付宝支付</span>
+                            <!--<span>手续费￥0.00</span>-->
+                        </p>
+                    </div>
+                    <div class="pay-checked">
+                        <label>
+                            <input type="radio" name="bank" class="hide" value="alipay" checked>
+                            <span><i></i></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="pay-container">
+                    <div class="pay-type">
+                        <p>
+                            <span>微信支付</span>
+                            <!--<span>手续费￥0.00</span>-->
+                        </p>
+                    </div>
+                    <div class="pay-checked">
+                        <label>
+                            <input type="radio" name="bank" class="hide" value="weixin" >
+                            <span><i></i></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div style="margin: 1.25rem;">
+                <input type="submit" class="btn white-btn" style="width: 100%;" value="下一步">
+            </div>
+    </form>
+    <!--充值卡充值-->
+    <form style="display:none;" method="post" action="../../member/charge.php">
+        <input type="hidden" name="action" value="new_card">
+        <div class="recharge recharge-card">
+            <div class="m20-b">
+                <input type="text" name="number" class="form-control number-input" placeholder="请输入充值卡卡号" required="">
+            </div>
+            <div class="m20-b">
+                <input type="password" name="password" autocomplete="new-password" class="form-control password-input" placeholder="请输入充值卡密码" required="">
+            </div>
+        </div>
+        <div style="margin: 1.25rem;">
+            <input type="submit" class="btn white-btn" style="width: 100%;" value="充&nbsp;&nbsp;值">
+        </div>
+    </form>
+</section>
+<script>
+    $(function(){
+        isLogin();
+        if(isWeiXin()){
+            $("#apliay").remove();
+            $(':radio[name="bank"]').eq(0).attr("checked",true);
+        }
+        /*if(getCookie("payWay") == 1){
+            $(".nav-on").find("a").removeClass("on");
+            $(".nav-on").eq(getCookie("payWay")).children("a").addClass("on");
+            $("section>form").eq(getCookie("payWay")).show().siblings("form").hide();
+            delCookie("payWay","/mobile/AccountRecharge");
+        }*/
+    });
+    //选择充值方式
+    function payWay(t){
+        var index=t.index();
+        t.children("a").addClass("on");
+        t.siblings().children("a").removeClass("on");
+        $("section>form").eq(index).show().siblings("form").hide();
+//        setCookie("payWay",index);
+    }
+</script>
+</body>
+</html>

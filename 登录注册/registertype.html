@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员注册_掌里通智慧城市</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
+<header class="h-nav text-center">
+    <div class="h-left pull-left">
+        <span class="glyphicon glyphicon-menu-left" style="color: #333;" aria-hidden="true"></span>
+        <span>返回</span>
+    </div>
+    <div class="h-title">
+        <span>会员注册</span>
+    </div>
+    <div class="h-right pull-right">
+        <span>取消</span>
+    </div>
+</header>
+<div style="margin-top: 108px;">
+    <div style="margin: 0 32px;">
+        <p style="margin-bottom: .24rem;font-size: .14px;">请选择会员类型:</p>
+        <div class="r-type">
+            <div class="r-type-div">
+                <a href="?action=detail&itemid=6" class="r-type-p"></a>
+                <p style="font-size: .14px;">商企单位</p>
+            </div>
+            <div class="r-type-div">
+                <a href="?action=detail&itemid=5" class="r-type-c"></a>
+                <p style="font-size: .14px;">个人会员</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".r-type-div").click(function(){
+        var i=$(this).index();
+        $(this).css("color","#f0790f").siblings().css("color","");
+        if(i){
+            $(this).find("a").css("backgroundPositionX","-252px");
+        }else{
+            $(this).find("a").css("backgroundPositionX","-84px");
+        }
+        $(this).siblings().find("a").css("backgroundPositionX","");
+    });
+</script>
+</body>
+</html>

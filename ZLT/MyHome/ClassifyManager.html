@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_d2wz0409k2rqw7b9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../MenuManagement/css/classify-manage.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">分类管理</div>
+        <div class="h-R">
+            <a href="javascript:;" class="h-L-a"><i class="iconfont icon-zhankai" style="color: #fff;" onclick="addMenu(['添加分类','配送管理'],addM)"></i></a>
+            <!--<a href="#" class="h-L-a" style="display:inline-block;"><i class="iconfont icon-sousuo" style="color: #fff;font-size:1.25rem;"></i></a>-->
+            <!--<a href="AddClassify.html" class="h-L-a" style="display:inline-block;"><i class="iconfont icon-add1" style="color: #fff;font-size:1.25rem;"></i></a>-->
+        </div>
+    </div>
+</header>
+<section id="menuList">
+    <!--<div class="classify clearb">-->
+        <!--<div class="classify-detail">-->
+            <!--<p>10元快餐</p>-->
+            <!--<p><span>2017-06-14</span><span>15:24</span></p>-->
+        <!--</div>-->
+        <!--<div class="classify-status clearb">-->
+            <!--<input type="submit" class="btn" name="classify-revise" value="修改">-->
+            <!--<input type="submit" class="btn" name="classify-del" value="删除">-->
+        <!--</div>-->
+    <!--</div>-->
+</section>
+
+</body>
+
+<script type="text/javascript">
+    function str(Menuname,ymd,hm,mid){
+        var str="<div class='classify clearb'>\n"+
+                "<div class='classify-detail'>\n"+
+                "<p class='Menuname'>"+Menuname+"</p>\n"+
+                "<p><span>"+ymd+"</span><span>"+hm+"</span></p>\n"+
+                "</div>"+
+                "<div class='classify-status clearb'>"+
+                "<input type='button' class='btn' name='classify-revise' onclick='modifymenu($(this),"+mid+")' value='修改'>"+
+                "<input type='button' class='btn' name='classify-del' onclick='delmenu($(this),"+mid+")' value='删除'>"+
+                "</div></div>";
+        return str;
+    }
+    $(document).ready(function(){
+        $.post("../BusinessHome.php",{action:"show_cuisine"},function(data){
+            console.log(data);
+            var d=$.parseJSON(data);
+            console.log(d);
+            if(d.data.length >= 1){
+                for(var i=0;i<d.data.length;i++){
+                    $("#menuList").prepend(str(d.data[i].cuisine,new Date(d.data[i].edittime*1000).getFullYear()+"-"+Num((new Date(d.data[i].edittime*1000).getMonth()+1))+"-"+Num(new Date(d.data[i].edittime*1000).getDate()),Num(new Date(d.data[i].edittime*1000).getHours())+":"+Num(new Date(d.data[i].edittime*1000).getMinutes()),d.data[i].id));
+                }
+            }else{
+                window.location.href="AddClassify.html";
+            }
+
+        });
+    });
+
+    //小于10前面补0
+    function Num(n){
+        return n<10 ? "0"+n : n;
+    }
+
+    //修改菜单
+    function modifymenu(s,id){
+        var name=s.parent().siblings().find(".Menuname").html();
+        window.location.href="AddClassify.html?id="+id+"&menuname="+encodeURI(name)+"&state=modifymenu";
+    }
+
+    //删除菜单
+    function delmenu(s,id){
+        console.log(id);
+        $.post("../BusinessHome.php",{action:"del_cuisine",id:id},function(data){
+            console.log(data);
+            var d=$.parseJSON(data);
+            if(d.msg == "ok"){
+                s.parent().parent().remove();
+                if($("#menuList").children().length <=0){
+                    window.location.href="AddClassify.html";
+                }
+            }
+        });
+    }
+
+    function addM(arrMenu){
+        var url=["AddClassify.html","DistributionManagement.html"];
+        for(var i=0;i<arrMenu.length;i++){
+            $(".bg-menu-ul li").eq(i).find("a").attr("href",url[i]);
+        }
+    }
+</script>
+</html>

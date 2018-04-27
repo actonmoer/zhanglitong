@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>掌里通智慧城市-账户详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_330648_d2wz0409k2rqw7b9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <!--<div class="head">-->
+        <!--<div class="h-L"><a href="Hig" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>-->
+        <!--<div class="h-C">账户详情</div>-->
+        <!--<div class="h-R"></div>-->
+    <!--</div>-->
+</header>
+<section style="display: none;">
+    <div class="m20-t bfff">
+        <ul class="user-msg">
+            <li class="m20-l">
+                <div class="m20-r">
+                    <div class="clearb" style="padding:1.25rem 0;">
+                        <span class="u-msg-span">手机号</span>
+                        <span class="u-msg-span fr" id="phone"></span>
+                    </div>
+                </div>
+            </li>
+            <li class="m20-l">
+                <div class="m20-r">
+                    <div class="clearb" style="padding:1.25rem 0;">
+                        <span class="u-msg-span">微信号</span>
+                        <span class="u-msg-span fr">未绑定</span>
+                    </div>
+                </div>
+            </li>
+            <li class="m20-l">
+                <div class="m20-r">
+                    <div class="clearb" style="padding:1.25rem 0;">
+                        <span class="u-msg-span">邮箱</span>
+                        <span class="u-msg-span fr">未绑定</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="m20-t bfff">
+        <ul class="user-msg" id="verification">
+            <li class="m20-l">
+                <div class="m20-r">
+                    <div class="clearb" style="padding:1.25rem 0;">
+                        <span class="u-msg-span">实名认证</span>
+                        <span class="u-msg-span fr" id="verificationName"></span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    var id = "";
+    $(document).ready(function(){
+        var obj=strUrl();
+        $.ajax({
+            url: "../ZLT/head.html",
+            type: "GET",
+            success: function(d){
+                $("header").html(d);
+                $(".h-L-a").html("<i class='iconfont icon-left' style='color: #fff;'></i>");
+                $(".h-C").html("账户详情");
+                $("section").show();
+            },
+            error: function(d){
+                alert("网络延时，请稍后再试");
+                HistoryURL();
+            }
+        });
+        checkUser(function(groupid){
+            $.ajax({
+                url: "../usercenter.php",
+                type: "POST",
+                data: {action:"set_account"},
+                dataType: "JSON",
+                success: function(d){
+                    console.log(d);
+                    $(".h-L-a").attr("href","javascript:HistoryURL();");
+                    $("#phone").html(d.data.mobile);
+                    if(groupid != 5){
+                        var value1, url1, styleColor;
+                        if(d.data.vcompany == 0){
+                            value1 = "未验证";
+                            styleColor = "color: #c1c1c1";
+                        }else{
+                            value1 = "已验证，请查看";
+                            styleColor = "color: #2acaaa";
+                        }
+                        $("#verification").append("<li class='m20-l'><div class='m20-r'><div class='clearb' onclick='isTrueCompany("+d.data.vcompany+")' style='padding:1.25rem 0;'><span class='u-msg-span'>企业验证</span><span class='u-msg-span fr' style='"+styleColor+"'>"+value1+"</span></div></div></li>");
+                    }
+                    if(d.data.vtruename == 1){
+                        $("#verificationName").html("已验证，请查看").css("color","#2acaaa").parent().attr("onclick","isTrueName("+d.data.vtruename+")");
+                    }else{
+                        $("#verificationName").html("未验证").css("color","#c1c1c1").parent().attr("onclick","isTrueName("+d.data.vtruename+")");
+                    }
+                },
+                error: function(){
+                    alert("网络延时，请稍后再试");
+                    HistoryURL();
+                }
+            });
+        });
+
+    });
+    //检测用户类型
+    function checkUser(successFun){
+        $.ajax({
+            url: "/mobile/usercenter.php",
+            type: "POST",
+            data: {action:"myhome"},
+            dataType: "JSON",
+            success: function(d){
+                id = d.data.groupid;
+                if(typeof successFun == "function"){
+                    successFun(id);
+                }
+            },
+            error: function(){
+                alert("网络延时，请稍后再试!");
+                HistoryURL();
+            }
+        });
+    }
+    //跳转
+    function isTrueName(id){
+        var url;
+        if(id == 1){
+            url = "TruenameShow";
+        }else{
+            url = "TruenameValidate";
+        }
+        window.location.href="/mobile/Authentication/"+url+".html";
+    }
+
+    function isTrueCompany(s){
+        var s = parseInt(s),url = "";
+        if(s == 1){
+            url = "/mobile/Authentication/CompanyShow.html";
+        }else{
+            url = "/mobile/Authentication/CompanyValidate.html";
+        }
+        window.location.href = url;
+    }
+</script>
+</html>

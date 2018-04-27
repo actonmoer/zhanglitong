@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_pwtbcrs29tjll3di.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/business.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C"></div>
+        <div class="h-R"></div>
+    </div>
+</header>
+
+<section>
+    <div style="text-align: center;padding-top: 2.5rem;"><i class="iconfont icon-dagou" style="line-height: initial;font-size: 3.75rem;color: #3d95e5;"></i></div>
+    <div class="s-tips" style="text-align: center;color: #333;font-size: 1rem;margin-top: 1rem;">成功找回密码</div>
+    <div style="margin: 1.25rem;padding-top: 1.25rem;">
+        <input type="button" id="btn" class="btn shop-btn" style="width: 100%;" value="跳回登录">
+    </div>
+</section>
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var url=window.location.search;
+        if(url.indexOf("Pay") != -1){
+            $("title,.h-C").html("找回支付密码");
+            $(".s-tips").html("成功找回支付密码");
+            $("#btn").val("返回用户中心");
+            $("#btn").click(function(){
+                window.location.href='/mobile/User/usercenter.html';
+            });
+        }else if(url.indexOf("Login") != -1){
+            $("title,.h-C").html("找回登录密码");
+            $(".s-tips").html("成功找回登录密码");
+            $("#btn").val("跳回登录");
+            $("#btn").click(function(){
+                window.location.href='../login.php';
+            });
+        }
+    });
+</script>
+</html>

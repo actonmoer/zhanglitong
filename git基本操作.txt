@@ -1,0 +1,13 @@
+﻿1.git init	//初始化git
+2.git clone (git远程URL) (本地路径)	//拷贝远程git的文件
+3.git branch 		//查看本地分支
+4.git branch -a		//查看远程git分支
+5.git branch (名)	//本地创建分支
+6.git add (文件名称) 或者 .(代表全部文件)
+9.git status	//检查修改的文件名
+7.git commit -m 提交到存储库
+8.git push origin (本地分支名):(远程分支名)	//本地修改文件提交到远程分支上
+9.git pull origin (远程分支名)		//同步
+
+10.git log 命令用于显示提交日志信息
+11.git reset --hard （版本号） //版本号commit，用git log获取commit

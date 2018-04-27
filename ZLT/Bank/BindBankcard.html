@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>银行卡</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_5yyxj232dbqbmx6r.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bankcard.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../js/myjs.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.back();" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">绑定银行卡</div>
+        <div class="h-R"></div>
+    </div>
+</header>
+<section>
+    <form onsubmit="return bankcardForm()">
+        <div class="m20-t bfff p20-b">
+            <div class="m20-lr">
+                <div class="clearb p20-t m20-b">
+                    <span style="font-size: .875rem;color: #666;">账户类型：</span>
+                    <label class="is-label" style="font-size: .875rem;color: #666;margin-right: 1.625rem;"><input type="radio" class="hide" name="BankType" value="1" checked><span class="s-bor"><i class=""></i></span>对私账号</label>
+                    <label class="is-label" style="font-size: .875rem;color: #666;"><input type="radio" class="hide" name="BankType" value="2"><span class="s-bor"><i class=""></i></span>对公账号</label>
+                </div>
+                <div class="m20-b">
+                    <input type="text" id="name" class="form-control bank-cardholder" name="name" placeholder="请输入持卡人姓名" readonly required>
+                </div>
+                <div class="m20-b">
+                    <select id="bank" class="form-control bank-open b-bank-select" name="bank" style="height: 2.5rem;" required>
+                        <option value="">请选择开户银行</option>
+                        <option value="招商银行">招商银行</option>
+                        <option value="中国工商银行">中国工商银行</option>
+                        <option value="中国农业银行">中国农业银行</option>
+                        <option value="中国建设银行">中国建设银行</option>
+                        <option value="中国交通银行">中国交通银行</option>
+                        <option value="中国银行">中国银行</option>
+                        <option value="邮政储蓄">邮政储蓄</option>
+                    </select>
+                </div>
+                <div class="m20-b">
+                    <input type="number" id="account" class="form-control bank-number" name="account" placeholder="请输入银行卡号" required>
+                </div>
+                <div style="position:relative;">
+                    <input type="password" class="form-control bank-number" minlength="6" maxlength="6" name="password" placeholder="请输入支付密码" required>
+                    <!--<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true">找回支付密码</span>-->
+                    <span class="find-password"><a href="../FindPassWord/PayPassWord-step01.html">找回支付密码</a></span>
+                </div>
+            </div>
+        </div>
+        <div style="margin: 1.25rem;">
+            <input type="submit" class="btn white-btn" style="width: 100%;" value="确定绑定">
+        </div>
+    </form>
+</section>
+<script>
+    $(document).ready(function(){
+        var url=window.location.search;
+        var obj=strUrl(url);
+        console.log(strUrl(url));
+        $.ajax({
+            method:"POST",
+            url:"../usercenter.php",
+            data:{action:"s_truename"},
+            success:function(data){
+                console.log(data);
+                data=$.parseJSON(data);
+                $("#name").val(data.name);
+                if(obj.modify){
+                    if(decodeURI(obj.modify) != data.name){
+                        alert("违法操作");
+                        window.location.href="BindBankcard.html?modify="+encodeURI(data.name);
+                    }
+                }
+            }
+        });
+        if(url.indexOf("modify") != -1){
+            $(".h-C").html("修改银行卡");
+            $.ajax({
+                method:"POST",
+                url:"../usercenter.php",
+                data:{action:"show_bank"},
+                success:function(data){
+                    data=$.parseJSON(data);
+                    console.log(data);
+                    $("#bank").html("<option value='"+data.data.bank+"'>"+data.data.bank+"</option>");
+                    $("#account").val(data.data.account);
+                    $(".is-label").eq(parseInt(data.data.banktype)).find("input").attr("checked",true);
+                    $(".is-label").eq(parseInt(data.data.banktype)).siblings(".is-label").hide();
+                }
+            });
+        }else{
+            $.ajax({
+                method:"POST",
+                url:"../usercenter.php",
+                data:{action:"s_truename"},
+                success:function(data){
+                    console.log(data);
+                    data=$.parseJSON(data);
+                    if(data.code == 200){
+                        if(data.status == 3){
+                            $.ajax({
+                                method:"POST",
+                                url:"../usercenter.php",
+                                data:{action:"show_bank"},
+                                success:function(data){
+                                    console.log(data);
+                                    data=$.parseJSON(data);
+                                    if(data.code == 200 && data.data == 0){
+                                        window.location.href="BindBankcard.html";
+                                    }
+                                }
+                            });
+                            //window.location.href="BindBankcard.html";
+                        }else if(data.status == 2){
+                            alert("您的实名正在审核中，审核通过后才可添加银行卡");
+                        }else{
+                            alert("请您先实名验证，验证通过后才可以添加银行卡");
+                            window.location.href="BindBankcard.html";
+                        }
+                    }
+                }
+            });
+        }
+
+
+    });
+
+//    $(function(){
+//        $.ajax({
+//            type:"post",
+//            url:"../usercenter.php",
+//            dataType:"json",
+//            data:{"action":"bind_bank_card"},
+//            success:function(data){
+//                console.log(data);
+//            }
+//        });
+//    });
+
+    function bankcardForm(){
+        var BankType=$("select[name='BankType']").val();
+        var bank=$("select[name='bank']").val();
+        var account=$("input[name='account']").val();
+        var name=$("input[name='name']").val();
+        var password=$("input[name='password']").val();
+        $.post("../usercenter.php",{
+            action:"bind_bank_card",
+            banktype:BankType,
+            bank:bank,
+            account:account,
+            name:name,
+            password:password
+        },function(data){
+            console.log(data);
+            var d=$.parseJSON(data);
+            if(d.code == 200){
+                window.location.href="ShowBankcard.html";
+            }
+        });
+        return false;
+    }
+</script>
+</body>
+</html>

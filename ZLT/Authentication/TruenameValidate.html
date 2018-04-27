@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实名认证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnse94jdj7lrqkt9.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/approve.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+<header>
+    <div class="head">
+        <div class="h-L"><a href="javascript:window.history.go(-1);" class="h-L-a"><i class="iconfont icon-left" style="color: #fff;"></i></a></div>
+        <div class="h-C">实名认证</div>
+        <div class="h-R" style="font-size:.875rem;color:#fff;">
+            <a href="/mobile/User/usercenter.html" style="color: #fff;">我的</a>
+        </div>
+    </div>
+</header>
+<section>
+    <nav class="path-nav">
+        <ul class="clearb path-ul">
+            <li><a href="javascript:;" class="path-color">1.填写信息</a></li>
+            <li><i class="iconfont icon-xiangqian"></i></li>
+            <li>2.提交认证</li>
+        </ul>
+    </nav>
+    <form id="approveFrom" action="" method="post" onsubmit="return formsubmit()">
+        <div class="personal-message bfff">
+            <div class="m20-lr" style="padding: 1.25rem 0 .1rem;">
+                <div class="m20-b">
+                    <input type="text" name="realName" class="form-control name-input" placeholder="请输入真实姓名" required>
+                </div>
+                <div class="m20-b">
+                    <input type="text" name="cardNo" class="form-control name-input" maxlength="18" placeholder="请输入身份证号码" required>
+                </div>
+                <!--<div class="m20-b clearb">-->
+                    <!--<div class="papers" style="float: left;">-->
+                        <!--<i class="iconfont icon-tianjia" onclick="document.getElementsByName('thumb')[0].click()" style="font-size: 2.5rem;color: #3d95e5;margin: 1.75rem 0 1.1875rem;line-height: initial;"></i>-->
+                        <!--<p style="color: #666;font-size: .875rem;">请上传证件正面</p>-->
+                        <!--<input type="file" name="thumb" class="hide" onchange="upImg($(this))" accept="image/*">-->
+                    <!--</div>-->
+                    <!--<div class="papers" style="float: right;">-->
+                        <!--<i class="iconfont icon-tianjia" onclick="document.getElementsByName('thumb1')[0].click()" style="font-size: 2.5rem;color: #3d95e5;margin: 1.75rem 0 1.1875rem;line-height: initial;"></i>-->
+                        <!--<p style="color: #666;font-size: .875rem;">请上传证件反面</p>-->
+                        <!--<input type="file" name="thumb1" class="hide" onchange="upImg1($(this))" accept="image/*">-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="tip">
+            <!--<p>注：</p>-->
+            <!--<p>1、请上传个人有效证件的电子版本，以便网站核实认证</p>-->
+            <!--<p>2、证件上的姓名必须与填写的真实姓名一致</p>-->
+            <!--<p>3、证件照片正反面必须各上传一张</p>-->
+        </div>
+        <div style="margin: 0 1.25rem 1.25rem;">
+            <input type="button" onclick="isTrueName()" class="btn approve-btn" style="width: 100%;background-color:#fff;" value="提交认证">
+        </div>
+    </form>
+
+</section>
+<script>
+    $(document).ready(function(){
+        checkTrueName();
+    });
+
+    //检测是否已实名验证
+    function checkTrueName(){
+        $.ajax({
+            type:"post",
+            url:"../usercenter.php",
+            data:{action:"check_truename"},
+            dataType: "JSON",
+            success:function(data){
+                if(data.code == 200){
+                    alert("已实名验证");
+                    window.location.href="/mobile/Authentication/TruenameShow.html";
+                }
+            }
+        });
+    }
+
+    function formsubmit(){
+        var c_name=$("input[name='truename']").val();
+        var c_img=$("#thumb").val();
+        var c_img1=$("#thumb1").val();
+        if(c_img != ""){
+            $.ajax({
+                type:"post",
+                url:"../usercenter.php",
+                dataType:"json",
+                data:{action:"truename_certification",truename:c_name,thumb:c_img,thumb1:c_img1},
+                success:function(data){
+                    console.log(data);
+                    if(data.msg == "ok"){
+                        window.location.href="TruenameValidateComplete.html";
+                    }
+                }
+            });
+        }
+        return false;
+    }
+
+    //验证身份
+    function isTrueName(){
+        var tName = $("input[name='realName']").val();
+        var tId = $("input[name='cardNo']").val();
+        if(tName && tId){
+            $.ajax({
+                url: "/mobile/identity.php",
+                type: "POST",
+                data: {realName:tName, cardNo:tId},
+                dataType: "JSON",
+                success: function(d){
+                    if(d.code == 200){
+                        alert(d.msg);
+//                        window.location.href='/mobile/User/usercenter.html';
+                        window.location.href="/mobile/User/usercenter.html";
+                    }else{
+                        alert(d.msg);
+                    }
+                }
+            });
+        }
+    }
+
+    //上传图片
+    function upImg(s){
+        console.log(s[0].name);
+        $.ajax({
+            url: '../imagenew.php',
+            type: 'POST',
+            cache: false,
+            data:new FormData($("#approveFrom")[0]),
+            processData: false,
+            contentType: false
+        }).done(function(res) {
+            var d=$.parseJSON(res);
+            if(d.code == 200){
+                s.parent().html("<img src='"+d.thumb+"' style='width: 8.125rem;height: 8.125rem;'>");
+                $("#approveFrom").append("<input type='hidden' id='"+s[0].name+"' value='"+d.thumb+"'>");
+            }
+        }).fail(function(res) {
+            alert("发生未知错误");
+        });
+    }
+
+    //上传图片
+    function upImg1(s){
+        console.log(s[0].name);
+        $.ajax({
+            url: '../imagenew2.php',
+            type: 'POST',
+            cache: false,
+            data:new FormData($("#approveFrom")[0]),
+            processData: false,
+            contentType: false
+        }).done(function(res) {
+            var d=$.parseJSON(res);
+            if(d.code == 200){
+                s.parent().html("<img src='"+d.thumb1+"' style='width: 8.125rem;height: 8.125rem;'>");
+                $("#approveFrom").append("<input type='hidden' id='"+s[0].name+"' value='"+d.thumb1+"'>");
+            }
+        }).fail(function(res) {
+            alert("发生未知错误");
+        });
+    }
+</script>
+</body>
+</html>
